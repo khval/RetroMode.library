@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE library SYSTEM "library.dtd">
+<library name="retromode" basename="retromodeBase" openname="retromode.library">
+	<include>exec/types.h</include>
+	<include>libraries/retromode.h</include>
+	<interface name="main" version="1.0" struct="retromodeIFace" prefix="_retromode_" asmprefix="Iretromode" global="Iretromode">
+		<method name="Obtain" result="ULONG"/>
+		<method name="Release" result="ULONG"/>
+		<method name="Expunge" result="void" status="unimplemented"/>
+		<method name="Clone" result="struct Interface *" status="unimplemented"/>
+		<method name="alloc_retoVideo" result="struct retroVideo *">
+			<arg name="window" type="struct Window *"/>
+		</method>
+		<method name="free_retroVideo" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="clear_retroVideo" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="draw_retroVideo" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="dma_retroVideo" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="set_retroVideoColor" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="RGB" type="struct retroRGB *"/>
+			<arg name="color" type="int"/>
+			<arg name="from" type="int"/>
+			<arg name="to" type="int"/>
+		</method>
+		<method name="applyCopper" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="retroOpenScreen" result="struct retroScreen *">
+			<arg name="width" type="int"/>
+			<arg name="height" type="int"/>
+		</method>
+		<method name="retroCloseScreen" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+		</method>
+		<method name="retroApplyScreen" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="offsetx" type="int"/>
+			<arg name="oppsety" type="int"/>
+			<arg name="videomode" type="int"/>				
+		</method>
+		<method name="retroBAR" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroScreenColor" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="color" type="int"/>
+			<arg name="r" type="nsigned char"/>
+			<arg name="g" type="nsigned char"/>
+			<arg name="b" type="nsigned char"/>
+		</method>
+	</interface>
+</library>
