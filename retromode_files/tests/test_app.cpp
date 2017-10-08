@@ -27,7 +27,7 @@ struct Library * GraphicsBase = NULL;
 struct GraphicsIFace *IGraphics = NULL;
 
 struct Library * RetroModeBase = NULL;
-struct retroModeIFace *IRetroMode = NULL;
+struct RetroModeIFace *IRetroMode = NULL;
 
 struct Library * LayersBase = NULL;
 struct LayersIFace *ILayers = NULL;

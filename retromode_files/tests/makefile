@@ -3,7 +3,7 @@ VER=-DVER=6
 
 def=		-D__USE_INLINE__
 
-files =	test_app.exe test_loop.exe
+files =	test_app.exe test_loop.exe scroll_text.exe
 
 all:		$(files)
 
