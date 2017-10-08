@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE library SYSTEM "library.dtd">
-<library name="retromode" basename="retromodeBase" openname="retromode.library">
+<library name="retromode" basename="RetroModeBase" openname="retromode.library">
 	<include>exec/types.h</include>
 	<include>libraries/retromode.h</include>
-	<interface name="main" version="1.0" struct="retromodeIFace" prefix="_retromode_" asmprefix="Iretromode" global="Iretromode">
+	<interface name="main" version="1.0" struct="retromodeIFace" prefix="_retromode_" asmprefix="IRetroMode" global="IRetroMode">
 		<method name="Obtain" result="ULONG"/>
 		<method name="Release" result="ULONG"/>
 		<method name="Expunge" result="void" status="unimplemented"/>
@@ -58,9 +58,27 @@
 		<method name="retroScreenColor" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="color" type="int"/>
-			<arg name="r" type="nsigned char"/>
-			<arg name="g" type="nsigned char"/>
-			<arg name="b" type="nsigned char"/>
+			<arg name="r" type="unsigned char"/>
+			<arg name="g" type="unsigned char"/>
+			<arg name="b" type="unsigned char"/>
+		</method>
+		<method name="retroOrBlit" result="void">
+			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="width" type="int"/>
+			<arg name="heigh" type="int"/>
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+		</method>
+		<method name="retroAndClear" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="and_mask" type="unsigned char"/>
 		</method>
 	</interface>
 </library>

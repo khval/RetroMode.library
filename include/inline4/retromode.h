@@ -26,17 +26,18 @@
 #include <interfaces/retromode.h>
 
 /* Inline macros for Interface "main" */
-#define alloc_retoVideo(window) Iretromode->alloc_retoVideo((window)) 
-#define free_retroVideo(video) Iretromode->free_retroVideo((video)) 
-#define clear_retroVideo(video) Iretromode->clear_retroVideo((video)) 
-#define draw_retroVideo(video) Iretromode->draw_retroVideo((video)) 
-#define dma_retroVideo(video) Iretromode->dma_retroVideo((video)) 
-#define set_retroVideoColor(video, RGB, color, from, to) Iretromode->set_retroVideoColor((video), (RGB), (color), (from), (to)) 
-#define applyCopper(video) Iretromode->applyCopper((video)) 
-#define retroOpenScreen(width, height) Iretromode->retroOpenScreen((width), (height)) 
-#define retroCloseScreen(screen) Iretromode->retroCloseScreen((screen)) 
-#define retroApplyScreen(screen, video, offsetx, oppsety, videomode) Iretromode->retroApplyScreen((screen), (video), (offsetx), (oppsety), (videomode)) 
-#define retroBAR(screen, x0, y0, x1, y1, color) Iretromode->retroBAR((screen), (x0), (y0), (x1), (y1), (color)) 
-#define retroScreenColor(screen, color, r, g, b) Iretromode->retroScreenColor((screen), (color), (r), (g), (b)) 
-
+#define alloc_retoVideo(window) IRetroMode->alloc_retoVideo((window)) 
+#define free_retroVideo(video) IRetroMode->free_retroVideo((video)) 
+#define clear_retroVideo(video) IRetroMode->clear_retroVideo((video)) 
+#define draw_retroVideo(video) IRetroMode->draw_retroVideo((video)) 
+#define dma_retroVideo(video) IRetroMode->dma_retroVideo((video)) 
+#define set_retroVideoColor(video, RGB, color, from, to) IRetroMode->set_retroVideoColor((video), (RGB), (color), (from), (to)) 
+#define applyCopper(video) IRetroMode->applyCopper((video)) 
+#define retroOpenScreen(width, height) IRetroMode->retroOpenScreen((width), (height)) 
+#define retroCloseScreen(screen) IRetroMode->retroCloseScreen((screen)) 
+#define retroApplyScreen(screen, video, offsetx, oppsety, videomode) IRetroMode->retroApplyScreen((screen), (video), (offsetx), (oppsety), (videomode)) 
+#define retroBAR(screen, x0, y0, x1, y1, color) IRetroMode->retroBAR((screen), (x0), (y0), (x1), (y1), (color)) 
+#define retroAndClear(screen, x0, y0, x1, y1, and_mask) IRetroMode->retroAndClear((screen), (x0), (y0), (x1), (y1), (and_mask)) 
+#define retroScreenColor(screen, color, r, g, b) IRetroMode->retroScreenColor((screen), (color), (r), (g), (b)) 
+#define retroOrBlit(bitmap,fromX,fromY,width,height,screen,toX,toY) IRetroMode->retroOrBlit( (bitmap), (fromX), (fromY), (width), (height), (screen), (toX), (toY));
 #endif /* INLINE4_RETROMODE_H */

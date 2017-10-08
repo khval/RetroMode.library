@@ -52,10 +52,9 @@
 *
 */
 
-void _retromode_retroCloseScreen(struct retromodeIFace *Self,
-       struct retroScreen * screen)
+void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen * screen)
 {
-	struct RetroLibrary *libBase = (struct _Library *) Self -> Data.LibBase;
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 
 	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 

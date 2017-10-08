@@ -49,7 +49,7 @@
 *
 */
 
-ULONG _retromode_Release(struct retromodeIFace *Self)
+ULONG _retromode_Release(struct RetroModeIFace *Self)
 {
     return Self -> Data.RefCount--;
 }

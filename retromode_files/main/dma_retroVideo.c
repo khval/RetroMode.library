@@ -52,10 +52,10 @@
 *
 */
 
-void _retromode_dma_retroVideo(struct retromodeIFace *Self,
+void _retromode_dma_retroVideo(struct RetroModeIFace *Self,
        struct retroVideo * video)
 {
-	struct RetroLibrary *libBase = (struct _Library *) Self -> Data.LibBase;
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 
 	// move gfx from system mem to video mem.
 

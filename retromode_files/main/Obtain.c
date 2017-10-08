@@ -51,7 +51,7 @@
 *
 */
 
-ULONG _retromode_Obtain(struct retromodeIFace *Self)
+ULONG _retromode_Obtain(struct RetroModeIFace *Self)
 {
     return Self -> Data.RefCount++;
 }

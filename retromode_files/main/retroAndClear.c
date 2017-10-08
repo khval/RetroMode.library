@@ -28,24 +28,27 @@
 *      retroBAR -- Description
 *
 *   SYNOPSIS
-*      void retroBAR(struct retroScreen * screen, int x0, int y0, int x1, 
-*          int y1, unsigned char color);
+*      void retroAndClear(struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char and_mask);
 *
 *   FUNCTION
 *	This is 8bit function do not use with 32bit screens!!!
 *
 *   INPUTS
-*       screen - 
-*       x0 - 
-*       y0 - 
-*       x1 - 
-*       y1 - 
-*       color - 
+*       screen - screen to clear parts of
+*       x0 - start pos x
+*       y0 - start pos y
+*       x1 - end pos x
+*       y1 - end pos y
+*       and_mask - bits to keep.
 *
 *   RESULT
 *       This function does not return a result
 *
 *   EXAMPLE
+*
+*	retroAndClear(screen, 0, 0,320, 200, ~(1<<2));	//	Removes bit 2, from color value
+*
+*	retroAndClear(screen, 0, 0,320, 200, (1<<2));	//	Keep only bit 2, clear other bits from color value
 *
 *   NOTES
 *
@@ -57,13 +60,13 @@
 *
 */
 
-void _retromode_retroBAR(struct retromodeIFace *Self,
+void _retromode_retroAndClear(struct retromodeIFace *Self,
        struct retroScreen * screen,
        int x0,
        int y0,
        int x1,
        int y1,
-       unsigned char color)
+       unsigned char and_mask)
 {
 	int x,y;
 
@@ -76,7 +79,7 @@ void _retromode_retroBAR(struct retromodeIFace *Self,
 	{
 		for(x=x0;x<=x1;x++)
 		{
-			screen -> Memory[ (screen -> width * y) + x ] = color;
+			screen -> Memory[ (screen -> width * y) + x ] &= and_mask;
 		}
 	}
 }

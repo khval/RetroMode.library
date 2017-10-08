@@ -39,7 +39,7 @@ main_SRCS = main/Obtain.c main/Release.c main/alloc_retoVideo.c \
     main/free_retroVideo.c main/clear_retroVideo.c main/draw_retroVideo.c \
     main/dma_retroVideo.c main/set_retroVideoColor.c main/applyCopper.c \
     main/retroOpenScreen.c main/retroCloseScreen.c main/retroApplyScreen.c \
-    main/retroBAR.c main/retroScreenColor.c 
+    main/retroBAR.c main/retroScreenColor.c main/retroOrBlit.c main/retroAndClear.c 
 
 # -------------------------------------------------------------
 # Nothing should need changing below this line
@@ -60,4 +60,4 @@ revision:
 	bumprev $(VERSION) $(TARGET)
 
 install:
-	copy retromode.library libs:
+	execute install_script

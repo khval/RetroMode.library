@@ -53,7 +53,7 @@
 *
 */
 
-struct retroScreen * _retromode_retroOpenScreen(struct retromodeIFace *Self,
+struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
        int width,
        int height)
 {

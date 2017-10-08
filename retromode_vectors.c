@@ -21,6 +21,8 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroApplyScreen,
     _retromode_retroBAR,
     _retromode_retroScreenColor,
+    _retromode_retroOrBlit,
+    _retromode_retroAndClear,
     (APTR)-1
 };
 

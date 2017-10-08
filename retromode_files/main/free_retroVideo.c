@@ -53,10 +53,9 @@
 *
 */
 
-void _retromode_free_retroVideo(struct retromodeIFace *Self,
-       struct retroVideo * video)
+void _retromode_free_retroVideo(struct RetroModeIFace *Self, struct retroVideo * video)
 {
-	struct RetroLibrary *libBase = (struct _Library *) Self -> Data.LibBase;
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int c;
 
 	libBase -> IExec -> DebugPrintF("video->rp.BitMap: %08x\n",video->rp.BitMap);

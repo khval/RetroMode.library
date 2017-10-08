@@ -66,10 +66,10 @@ void config_scanline(
 }
 
 
-struct retroVideo * _retromode_alloc_retoVideo(struct retromodeIFace *Self,
+struct retroVideo * _retromode_alloc_retoVideo(struct RetroModeIFace *Self,
        struct Window * window)
 {
-	struct RetroLibrary *libBase = (struct _Library *) Self -> Data.LibBase;
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroVideo *new_video ;
 	struct retroRGB RGB000;
 

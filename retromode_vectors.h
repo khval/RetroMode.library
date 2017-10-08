@@ -25,7 +25,9 @@ extern void                 VARARGS68K _retromode_dma_retroVideo(struct retromod
 extern void                 VARARGS68K _retromode_set_retroVideoColor(struct retromodeIFace *, struct retroVideo * video, struct retroRGB * RGB, int color, int from, int to);
 extern void                 VARARGS68K _retromode_applyCopper(struct retromodeIFace *, struct retroVideo * video);
 extern struct retroScreen * VARARGS68K _retromode_retroOpenScreen(struct retromodeIFace *, int width, int height);
-extern void                 VARARGS68K _retromode_retroCloseScreen(struct retromodeIFace *, struct retroVideo * screen);
+extern void                 VARARGS68K _retromode_retroCloseScreen(struct retromodeIFace *, struct retroScreen * screen);
 extern void                 VARARGS68K _retromode_retroApplyScreen(struct retromodeIFace *, struct retroScreen * screen, struct retroVideo * video, int offsetx, int oppsety, int videomode);
 extern void                 VARARGS68K _retromode_retroBAR(struct retromodeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char color);
-extern void                 VARARGS68K _retromode_retroScreenColor(struct retromodeIFace *, struct retroScreen * screen, int color, nsigned char r, nsigned char g, nsigned char b);
+extern void                 VARARGS68K _retromode_retroScreenColor(struct retromodeIFace *, struct retroScreen * screen, int color, unsigned char r, unsigned char g, unsigned char b);
+extern void                 VARARGS68K _retromode_retroOrBlit(struct retromodeIFace *, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen *screen, int toX, int toY );
+extern void                 VARARGS68K _retromode_retroAndClear(struct retromodeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char and_mask);

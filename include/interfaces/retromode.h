@@ -27,26 +27,28 @@ namespace AmigaOS {
 extern "C" {
 #endif
 
-struct retromodeIFace
+struct RetroModeIFace
 {
 	struct InterfaceData Data;
 
-	ULONG APICALL (*Obtain)(struct retromodeIFace *Self);
-	ULONG APICALL (*Release)(struct retromodeIFace *Self);
-	void APICALL (*Expunge)(struct retromodeIFace *Self);
-	struct Interface * APICALL (*Clone)(struct retromodeIFace *Self);
-	struct retroVideo * APICALL (*alloc_retoVideo)(struct retromodeIFace *Self, struct Window * window);
-	void APICALL (*free_retroVideo)(struct retromodeIFace *Self, struct retroVideo * video);
-	void APICALL (*clear_retroVideo)(struct retromodeIFace *Self, struct retroVideo * video);
-	void APICALL (*draw_retroVideo)(struct retromodeIFace *Self, struct retroVideo * video);
-	void APICALL (*dma_retroVideo)(struct retromodeIFace *Self, struct retroVideo * video);
-	void APICALL (*set_retroVideoColor)(struct retromodeIFace *Self, struct retroVideo * video, struct retroRGB * RGB, int color, int from, int to);
-	void APICALL (*applyCopper)(struct retromodeIFace *Self, struct retroVideo * video);
-	struct retroScreen * APICALL (*retroOpenScreen)(struct retromodeIFace *Self, int width, int height);
-	void APICALL (*retroCloseScreen)(struct retromodeIFace *Self, struct retroScreen * screen);
-	void APICALL (*retroApplyScreen)(struct retromodeIFace *Self, struct retroScreen * screen, struct retroVideo * video, int offsetx, int oppsety, int videomode);
-	void APICALL (*retroBAR)(struct retromodeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char color);
-	void APICALL (*retroScreenColor)(struct retromodeIFace *Self, struct retroScreen * screen, int color, unsigned char r, unsigned char g, unsigned char b);
+	ULONG APICALL (*Obtain)(struct RetroModeIFace *Self);
+	ULONG APICALL (*Release)(struct RetroModeIFace *Self);
+	void APICALL (*Expunge)(struct RetroModeIFace *Self);
+	struct Interface * APICALL (*Clone)(struct RetroModeIFace *Self);
+	struct retroVideo * APICALL (*alloc_retoVideo)(struct RetroModeIFace *Self, struct Window * window);
+	void APICALL (*free_retroVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*clear_retroVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*draw_retroVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*dma_retroVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*set_retroVideoColor)(struct RetroModeIFace *Self, struct retroVideo * video, struct retroRGB * RGB, int color, int from, int to);
+	void APICALL (*applyCopper)(struct RetroModeIFace *Self, struct retroVideo * video);
+	struct retroScreen * APICALL (*retroOpenScreen)(struct RetroModeIFace *Self, int width, int height);
+	void APICALL (*retroCloseScreen)(struct RetroModeIFace *Self, struct retroScreen * screen);
+	void APICALL (*retroApplyScreen)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroVideo * video, int offsetx, int oppsety, int videomode);
+	void APICALL (*retroBAR)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char color);
+	void APICALL (*retroScreenColor)(struct RetroModeIFace *Self, struct retroScreen * screen, int color, unsigned char r, unsigned char g, unsigned char b);
+	void APICALL (*retroOrBlit) (struct RetroModeIFace *Self, struct BitMap *bitmap,int fromX,int fromY,int width,int height,struct retroScreen * screen,int toX,int toY);
+	void APICALL (*retroAndClear)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char and_mask);
 };
 
 #ifdef __cplusplus

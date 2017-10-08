@@ -59,7 +59,7 @@
 *
 */
 
-extern void _retromode_set_retroVideoColor(struct retromodeIFace *Self,
+extern void _retromode_set_retroVideoColor(struct RetroModeIFace *Self,
        struct retroVideo * video,
        struct retroRGB * RGB,
        int color,
@@ -157,7 +157,7 @@ void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buf
 }
 
 
-void _retromode_retroApplyScreen(struct retromodeIFace *Self,
+void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        struct retroVideo * video,
        int offsetx,
