@@ -6,7 +6,7 @@
 **
 **	Prototype/inline/pragma header file combo
 **
-**	Copyright (c) 2010 LiveForIt Software.
+**	Copyright (c) 2010 Hyperion Entertainment CVBA.
 **	MIT License
 */
 
@@ -21,9 +21,9 @@
 
 #ifndef __NOLIBBASE__
  #ifndef __USE_BASETYPE__
-  extern struct Library * retromodeBase;
+  extern struct Library * RetroModeBase;
  #else
-  extern struct Library * retromodeBase;
+  extern struct Library * RetroModeBase;
  #endif /* __USE_BASETYPE__ */
 #endif /* __NOLIBBASE__ */
 
@@ -38,7 +38,7 @@
   #define CLIB_RETROMODE_PROTOS_H 1
  #endif /* CLIB_RETROMODE_PROTOS_H */
  #ifndef __NOGLOBALIFACE__
-  extern struct retromodeIFace *Iretromode;
+  extern struct RetroModeIFace *IRetroMode;
  #endif /* __NOGLOBALIFACE__ */
 #else /* __amigaos4__ */
  #ifndef CLIB_RETROMODE_PROTOS_H

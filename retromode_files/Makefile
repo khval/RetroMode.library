@@ -20,8 +20,6 @@ OPTIMIZE = -O3
 DEBUG    = # -gstabs -DDEBUG
 CFLAGS   = -Wall $(OPTIMIZE) $(DEBUG) -I../include -I./
 
-
-
 # Flags passed to gcc during linking
 LINK = 
 
@@ -39,7 +37,12 @@ main_SRCS = main/Obtain.c main/Release.c main/alloc_retoVideo.c \
     main/free_retroVideo.c main/clear_retroVideo.c main/draw_retroVideo.c \
     main/dma_retroVideo.c main/set_retroVideoColor.c main/applyCopper.c \
     main/retroOpenScreen.c main/retroCloseScreen.c main/retroApplyScreen.c \
-    main/retroBAR.c main/retroScreenColor.c main/retroOrBlit.c main/retroAndClear.c 
+    main/retroPixel.c main/retroPoint.c main/retroBAR.c main/retroOrBAR.c \
+    main/retroXorBAR.c main/retroBox.c main/retroOrBox.c main/retroXorBox.c \
+    main/retroCircle.c main/retroOrCircle.c main/retroXorCircle.c \
+    main/retroScreenColor.c main/retroOrBlit.c main/retroAndClear.c \
+    main/retroModeBadVideoSync.c main/AfterEffectScanline.c \
+    main/AfterEffectAdjustRGB.c 
 
 # -------------------------------------------------------------
 # Nothing should need changing below this line

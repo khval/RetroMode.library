@@ -1,5 +1,5 @@
 /* :ts=4
- *  $VER: retroBAR.c $Revision$ (03-Oct-2017)
+ *  $VER: retroBox.c $Revision$ (11-Oct-2017)
  *
  *  This file is part of retromode.
  *
@@ -22,17 +22,16 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
-/****** retromode/main/retroBAR ******************************************
+/****** retromode/main/retroBox ******************************************
 *
 *   NAME
-*      retroBAR -- Description
+*      retroBox -- Description
 *
 *   SYNOPSIS
-*      void retroBAR(struct retroScreen * screen, int x0, int y0, int x1, 
+*      void retroBox(struct retroScreen * screen, int x0, int y0, int x1, 
 *          int y1, unsigned char color);
 *
 *   FUNCTION
-*	This is 8bit function do not use with 32bit screens!!!
 *
 *   INPUTS
 *       screen - 
@@ -57,7 +56,7 @@
 *
 */
 
-void _retromode_retroBAR(struct retromodeIFace *Self,
+void _retromode_retroBox(struct retromodeIFace *Self,
        struct retroScreen * screen,
        int x0,
        int y0,
@@ -65,25 +64,5 @@ void _retromode_retroBAR(struct retromodeIFace *Self,
        int y1,
        unsigned char color)
 {
-	int x,y;
-	unsigned char *memory;
-
-	if (x0<0) x0 = 0;
-	if (y0<0) y0 = 0;
-	if (x1>screen->width-1) x1 = screen->width -1;
-	if (y1>screen->height-1) y1 = screen->height-1;
-
-	memory = screen -> Memory + ( screen -> width * y0 );
-
-	for(y=y0;y<=y1;y++)
-	{
-
-		for(x=x0;x<=x1;x++)
-		{
-			screen -> Memory[ x ] |= color;
-		}
-
-		memory += screen -> width;
-	}
 }
 

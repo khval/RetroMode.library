@@ -69,7 +69,6 @@ extern void _retromode_set_retroVideoColor(struct RetroModeIFace *Self,
 void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
-	int beamX = 0;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
 	struct retroRGB *palette = line -> palette;
@@ -85,12 +84,19 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 
 	// beam emulates 8 bits per chunk.
 
-	video_buffer_line += (line -> beamStart >> 3);
-	beamX =line -> beamStart >> 3;
+	if (line -> beamStart > 0)
+	{
+		// move des on postive
+		video_buffer_line += line -> beamStart ;
+	}
+	else
+	{
+		// move src on nagative
+		data -= line -> beamStart ;		// - & - is +
+	}
+	draw_pixels = line -> pixels - abs(line -> beamStart);
 
-	draw_pixels = line -> pixels - (line -> beamStart >> 3);
-
-	if (draw_pixels * 2 > line -> videoWidth ) draw_pixels = (line -> videoWidth / 2) - (line -> beamStart >> 3);
+	if (draw_pixels  > line -> videoWidth ) draw_pixels = line -> videoWidth - line -> beamStart ;
 
 
 	for (x=0; x < draw_pixels; x++)
@@ -121,7 +127,6 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
-	int beamX = 0;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
 	struct retroRGB *palette = line -> palette;
@@ -137,12 +142,19 @@ void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buf
 
 	// beam emulates 8 bits per chunk.
 
-	video_buffer_line += (line -> beamStart >> 3);
-	beamX =line -> beamStart >> 3;
+	if (line -> beamStart > 0)
+	{
+		// move des on postive
+		video_buffer_line += line -> beamStart ;
+	}
+	else
+	{
+		// move src on nagative
+		data -= line -> beamStart ;		// - & - is +
+	}
+	draw_pixels = line -> pixels - abs(line -> beamStart);
 
-	draw_pixels = line -> pixels - (line -> beamStart >> 3);
-
-	if (draw_pixels > line -> videoWidth ) draw_pixels = (line -> videoWidth / 2) - (line -> beamStart >> 3);
+	if (draw_pixels  > line -> videoWidth ) draw_pixels = line -> videoWidth - line -> beamStart ;
 
 	for (x=0; x < draw_pixels; x++)
 	{

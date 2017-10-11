@@ -1,5 +1,5 @@
 /* :ts=4
- *  $VER: retroBAR.c $Revision$ (03-Oct-2017)
+ *  $VER: retroOrBAR.c $Revision$ (11-Oct-2017)
  *
  *  This file is part of retromode.
  *
@@ -22,17 +22,16 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
-/****** retromode/main/retroBAR ******************************************
+/****** retromode/main/retroOrBAR ******************************************
 *
 *   NAME
-*      retroBAR -- Description
+*      retroOrBAR -- Description
 *
 *   SYNOPSIS
-*      void retroBAR(struct retroScreen * screen, int x0, int y0, int x1, 
-*          int y1, unsigned char color);
+*      void retroOrBAR(struct retroScreen * screen, int x0, int y0, int x1, 
+*          int y1, unsigned char or_mask);
 *
 *   FUNCTION
-*	This is 8bit function do not use with 32bit screens!!!
 *
 *   INPUTS
 *       screen - 
@@ -40,7 +39,7 @@
 *       y0 - 
 *       x1 - 
 *       y1 - 
-*       color - 
+*       or_mask - 
 *
 *   RESULT
 *       This function does not return a result
@@ -57,16 +56,16 @@
 *
 */
 
-void _retromode_retroBAR(struct retromodeIFace *Self,
+void _retromode_retroOrBAR(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int x0,
        int y0,
        int x1,
        int y1,
-       unsigned char color)
+       unsigned char or_mask)
 {
 	int x,y;
-	unsigned char *memory;
+	unsigned char *Memory;
 
 	if (x0<0) x0 = 0;
 	if (y0<0) y0 = 0;

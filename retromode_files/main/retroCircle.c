@@ -1,5 +1,5 @@
 /* :ts=4
- *  $VER: retroBAR.c $Revision$ (03-Oct-2017)
+ *  $VER: retroCircle.c $Revision$ (11-Oct-2017)
  *
  *  This file is part of retromode.
  *
@@ -22,24 +22,22 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
-/****** retromode/main/retroBAR ******************************************
+/****** retromode/main/retroCircle ******************************************
 *
 *   NAME
-*      retroBAR -- Description
+*      retroCircle -- Description
 *
 *   SYNOPSIS
-*      void retroBAR(struct retroScreen * screen, int x0, int y0, int x1, 
-*          int y1, unsigned char color);
+*      void retroCircle(struct retroScreen * screen, int x, int y, int r, 
+*          unsigned char color);
 *
 *   FUNCTION
-*	This is 8bit function do not use with 32bit screens!!!
 *
 *   INPUTS
 *       screen - 
-*       x0 - 
-*       y0 - 
-*       x1 - 
-*       y1 - 
+*       x - 
+*       y - 
+*       r - 
 *       color - 
 *
 *   RESULT
@@ -57,30 +55,43 @@
 *
 */
 
-void _retromode_retroBAR(struct retromodeIFace *Self,
+void _retromode_retroCircle(struct retromodeIFace *Self,
        struct retroScreen * screen,
-       int x0,
-       int y0,
-       int x1,
-       int y1,
+       int cx,
+       int cy,
+       int r,
        unsigned char color)
 {
+	int x0,y0,x1,y1;
+	int xx;
+	int rr;
+	int r2 = r * r;
 	int x,y;
 	unsigned char *memory;
 
-	if (x0<0) x0 = 0;
-	if (y0<0) y0 = 0;
-	if (x1>screen->width-1) x1 = screen->width -1;
+	y0 = cy-r;
+	y1 = cy+r;
+
+	if (y0<0) y0=0;
 	if (y1>screen->height-1) y1 = screen->height-1;
 
-	memory = screen -> Memory + ( screen -> width * y0 );
+	memory = screen -> Memory + (screen -> width * y0);
 
-	for(y=y0;y<=y1;y++)
+	for (y=y0;y<=y1;y++)
 	{
+		_y = y - cy; 
 
-		for(x=x0;x<=x1;x++)
+		xx = sqrt( r2 - (_y*_y));
+
+		x0 = x -xx;
+		x1 = x +xx;
+
+		if (x0<0) x0 = 0;
+		if (x1>screen->width-1) x1 = screen -> width-1;
+
+		for (x = x0; x <= x1; x++)
 		{
-			screen -> Memory[ x ] |= color;
+			memory[ x ] = color;
 		}
 
 		memory += screen -> width;

@@ -3,7 +3,7 @@
 <library name="retromode" basename="RetroModeBase" openname="retromode.library">
 	<include>exec/types.h</include>
 	<include>libraries/retromode.h</include>
-	<interface name="main" version="1.0" struct="retromodeIFace" prefix="_retromode_" asmprefix="IRetroMode" global="IRetroMode">
+	<interface name="main" version="1.0" struct="RetroModeIFace" prefix="_retromode_" asmprefix="IRetroMode" global="IRetroMode">
 		<method name="Obtain" result="ULONG"/>
 		<method name="Release" result="ULONG"/>
 		<method name="Expunge" result="void" status="unimplemented"/>
@@ -47,6 +47,17 @@
 			<arg name="oppsety" type="int"/>
 			<arg name="videomode" type="int"/>				
 		</method>
+		<method name="retroPixel" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroPoint" result="unsigned char">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+		</method>		
 		<method name="retroBAR" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x0" type="int"/>
@@ -54,6 +65,67 @@
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>
 			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroOrBAR" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="or_mask" type="unsigned char"/>
+		</method>
+		<method name="retroXorBAR" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="xor_mask" type="unsigned char"/>
+		</method>
+		<method name="retroBox" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroOrBox" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="or_mask" type="unsigned char"/>
+		</method>
+		<method name="retroXorBox" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="xor_mask" type="unsigned char"/>
+		</method>
+		<method name="retroCircle" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="r" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroOrCircle" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="r" type="int"/>
+			<arg name="or_mask" type="unsigned char"/>
+		</method>
+		<method name="retroXorCircle" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="r" type="int"/>
+			<arg name="xor_mask" type="unsigned char"/>
 		</method>
 		<method name="retroScreenColor" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
@@ -79,6 +151,20 @@
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>
 			<arg name="and_mask" type="unsigned char"/>
+		</method>
+		<method name="retroModeBadVideoSync" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="sync_offset" type="double"/>
+			<arg name="incRad" type="double"/>
+		</method>
+		<method name="AfterEffectScanline" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="AfterEffectAdjustRGB" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="red_shift" type="unsigned int"/>
+			<arg name="green_shift" type="unsigned int"/>
+			<arg name="blue_shift" type="unsigned int"/>
 		</method>
 	</interface>
 </library>

@@ -1,5 +1,5 @@
 /* :ts=4
- *  $VER: retroBAR.c $Revision$ (03-Oct-2017)
+ *  $VER: retroXorBAR.c $Revision$ (11-Oct-2017)
  *
  *  This file is part of retromode.
  *
@@ -22,17 +22,16 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
-/****** retromode/main/retroBAR ******************************************
+/****** retromode/main/retroXorBAR ******************************************
 *
 *   NAME
-*      retroBAR -- Description
+*      retroXorBAR -- Description
 *
 *   SYNOPSIS
-*      void retroBAR(struct retroScreen * screen, int x0, int y0, int x1, 
-*          int y1, unsigned char color);
+*      void retroXorBAR(struct retroScreen * screen, int x0, int y0, int x1, 
+*          int y1, unsigned char xor_mask);
 *
 *   FUNCTION
-*	This is 8bit function do not use with 32bit screens!!!
 *
 *   INPUTS
 *       screen - 
@@ -40,7 +39,7 @@
 *       y0 - 
 *       x1 - 
 *       y1 - 
-*       color - 
+*       xor_mask - 
 *
 *   RESULT
 *       This function does not return a result
@@ -57,13 +56,13 @@
 *
 */
 
-void _retromode_retroBAR(struct retromodeIFace *Self,
+void _retromode_retroXorBAR(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int x0,
        int y0,
        int x1,
        int y1,
-       unsigned char color)
+       unsigned char xor_mask)
 {
 	int x,y;
 	unsigned char *memory;
@@ -80,7 +79,7 @@ void _retromode_retroBAR(struct retromodeIFace *Self,
 
 		for(x=x0;x<=x1;x++)
 		{
-			screen -> Memory[ x ] |= color;
+			screen -> Memory[ x ] ^= color;
 		}
 
 		memory += screen -> width;
