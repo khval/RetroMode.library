@@ -441,7 +441,7 @@ int main()
 
 			applyCopper(video);
 
-			retroModeBadVideoSync( video, start_sync, 0.15f, 4.0f );
+//			retroModeBadVideoSync( video, start_sync, 0.15f, 4.0f );
 			start_sync += 0.1f;
 
 			if (start_sync>2*M_PI) start_sync =0.0f;
@@ -449,8 +449,8 @@ int main()
 
 			clear_retroVideo( video );
 			draw_retroVideo( video );
-			scanlineAfterEffect( video );
-			rgbadjustAfterEffect( video , 8, 0 , 4);
+//			AfterEffectScanline( video );
+//			AfterEffectAdjustRGB( video , 8, 0 , 4);
 			dma_retroVideo(video);
 
 			WaitTOF();
