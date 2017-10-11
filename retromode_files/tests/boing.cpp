@@ -359,6 +359,9 @@ int main()
 			retroScreenColor( screen, 6, 0, 0, 0 );
 			retroScreenColor( screen, 7, 255, 0, 0 );
 
+//			retroCircle( screen, 50, 40, 25, 1 );
+//			retroOrCircle( screen, 70, 50, 25, 2 );
+
 			retroBoingOutline( screen,  50,  40,  25+4, 3, 1 );
 			retroBoing( screen, 50, 40, 25, 1 );
 
@@ -391,8 +394,8 @@ int main()
 			retroScreenColor( screen3, 1, 255, 0, 0 );
 			retroScreenColor( screen3, 2, 0, 0, 255 );
 
-			retroBAR( screen3,10,10,50, 50, 1 );
-			retroBAR( screen3,20,20,60, 60, 2 );
+//			retroBAR( screen3,10,10,50, 50, 1 );
+//			retroBAR( screen3,20,20,60, 60, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0, retroLowres );

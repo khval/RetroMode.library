@@ -156,6 +156,7 @@
 			<arg name="video" type="struct retroVideo *"/>
 			<arg name="sync_offset" type="double"/>
 			<arg name="incRad" type="double"/>
+			<arg name="r" type="double"/>
 		</method>
 		<method name="AfterEffectScanline" result="void">
 			<arg name="video" type="struct retroVideo *"/>

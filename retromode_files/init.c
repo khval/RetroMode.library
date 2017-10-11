@@ -26,6 +26,11 @@
 #include "retromode.library_rev.h"
 STATIC CONST UBYTE USED verstag[] = VERSTAG;
 
+#ifdef use_newlib
+struct Library *newlibBase;
+struct Interface *INewlib;
+#endif
+
 #include "libbase.h"
 
 /*
@@ -112,6 +117,11 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
 		libBase->IDOS = NULL;
 		libBase->DOSBase = NULL;
 
+#ifdef use_newlib
+		if (INewlib) IExec->DropInterface( (struct Interface *) INewlib);
+		if (newlibBase) IExec->CloseLibrary( newlibBase );
+#endif
+
 	}
 	else
 	{
@@ -141,6 +151,15 @@ STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct
        Libraries:*/
 
 	libBase -> IExec = IExec;
+
+#ifdef use_newlib
+	newlibBase = IExec->OpenLibrary("newlib.library", 53L);
+	if (newlibBase)
+	{
+		INewlib = IExec->GetInterface(libBase->DOSBase,"main", 1, NULL);
+		if (INewlib) return NULL;
+	} else return NULL; 
+#endif
 
 	libBase->DOSBase = IExec->OpenLibrary("dos.library", 53L);
 	if (libBase->DOSBase)

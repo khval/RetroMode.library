@@ -54,9 +54,10 @@
 */
 
 void _retromode_retroModeBadVideoSync(struct retromodeIFace *Self,
-       struct retroVideo * video,
-       double sync_offset,
-       double incRad)
+	struct retroVideo * video,
+	double sync_offset,
+	double incRad,
+	double r)
 {
 	double a;
 	int scanline;

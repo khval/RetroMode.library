@@ -21,6 +21,7 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
+#include <math.h>
 
 /****** retromode/main/retroOrCircle ******************************************
 *
@@ -57,16 +58,15 @@
 
 void _retromode_retroOrCircle(struct RetroModeIFace *Self,
        struct retroScreen * screen,
-       int x,
-       int y,
+       int cx,
+       int cy,
        int r,
        unsigned char or_mask)
 {
 	int x0,y0,x1,y1;
 	int xx;
-	int rr;
 	int r2 = r * r;
-	int x,y;
+	int x,y,_y;
 	unsigned char *memory;
 
 	y0 = cy-r;
@@ -83,15 +83,15 @@ void _retromode_retroOrCircle(struct RetroModeIFace *Self,
 
 		xx = sqrt( r2 - (_y*_y));
 
-		x0 = x -xx;
-		x1 = x +xx;
+		x0 = cx -xx;
+		x1 = cx +xx;
 
 		if (x0<0) x0 = 0;
 		if (x1>screen->width-1) x1 = screen -> width-1;
 
 		for (x = x0; x <= x1; x++)
 		{
-			memory[ x ] |= color;
+			memory[ x ] |= or_mask;
 		}
 
 		memory += screen -> width;

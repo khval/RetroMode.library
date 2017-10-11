@@ -21,6 +21,9 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
+#include <math.h>
+
+#include "libbase.h"
 
 /****** retromode/main/retroCircle ******************************************
 *
@@ -55,14 +58,15 @@
 *
 */
 
-void _retromode_retroCircle(struct retromodeIFace *Self,
+void _retromode_retroCircle(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int cx,
        int cy,
        int r,
        unsigned char color)
 {
-	int x0,y0,x1,y1;
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
+	int x0,y0,x1,y1,_y;
 	int xx;
 	int rr;
 	int r2 = r * r;
@@ -77,14 +81,16 @@ void _retromode_retroCircle(struct retromodeIFace *Self,
 
 	memory = screen -> Memory + (screen -> width * y0);
 
+	libBase -> IDOS -> Printf("%08lx% - %ld, %ld\n", memory, y0, y1);
+
 	for (y=y0;y<=y1;y++)
 	{
 		_y = y - cy; 
 
 		xx = sqrt( r2 - (_y*_y));
 
-		x0 = x -xx;
-		x1 = x +xx;
+		x0 = cx -xx;
+		x1 = cx +xx;
 
 		if (x0<0) x0 = 0;
 		if (x1>screen->width-1) x1 = screen -> width-1;

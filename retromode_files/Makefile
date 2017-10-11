@@ -27,7 +27,7 @@ LINK =
 TARGET = retromode.library
 
 # Additional linker libraries
-LIBS = 
+LIBS = -lm -mcrt=clib2
 
 # Version of the library to build
 VERSION = 1
