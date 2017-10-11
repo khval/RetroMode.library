@@ -65,7 +65,7 @@ void _retromode_retroOrBAR(struct RetroModeIFace *Self,
        unsigned char or_mask)
 {
 	int x,y;
-	unsigned char *Memory;
+	unsigned char *memory;
 
 	if (x0<0) x0 = 0;
 	if (y0<0) y0 = 0;
@@ -76,12 +76,10 @@ void _retromode_retroOrBAR(struct RetroModeIFace *Self,
 
 	for(y=y0;y<=y1;y++)
 	{
-
 		for(x=x0;x<=x1;x++)
 		{
-			screen -> Memory[ x ] |= color;
+			memory[ x ] |= or_mask;
 		}
-
 		memory += screen -> width;
 	}
 }

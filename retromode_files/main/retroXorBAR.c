@@ -79,7 +79,7 @@ void _retromode_retroXorBAR(struct RetroModeIFace *Self,
 
 		for(x=x0;x<=x1;x++)
 		{
-			screen -> Memory[ x ] ^= color;
+			memory[ x ] ^= xor_mask;
 		}
 
 		memory += screen -> width;

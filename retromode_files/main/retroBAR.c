@@ -22,6 +22,8 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
+#include "libbase.h"
+
 /****** retromode/main/retroBAR ******************************************
 *
 *   NAME
@@ -57,7 +59,7 @@
 *
 */
 
-void _retromode_retroBAR(struct retromodeIFace *Self,
+void _retromode_retroBAR(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int x0,
        int y0,
@@ -65,6 +67,7 @@ void _retromode_retroBAR(struct retromodeIFace *Self,
        int y1,
        unsigned char color)
 {
+//	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int x,y;
 	unsigned char *memory;
 
@@ -77,10 +80,10 @@ void _retromode_retroBAR(struct retromodeIFace *Self,
 
 	for(y=y0;y<=y1;y++)
 	{
-
+//		libBase -> IDOS -> Printf("%08lx% - %ld, %ld, %ld\n", memory, y0, y1, y);
 		for(x=x0;x<=x1;x++)
 		{
-			screen -> Memory[ x ] |= color;
+			memory[ x ] = color;
 		}
 
 		memory += screen -> width;
