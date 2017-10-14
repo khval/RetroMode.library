@@ -22,6 +22,8 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
+#include <math.h>
+
 /****** retromode/main/retroModeBadVideoSync ******************************************
 *
 *   NAME
@@ -53,7 +55,7 @@
 *
 */
 
-void _retromode_retroModeBadVideoSync(struct retromodeIFace *Self,
+void _retromode_retroModeBadVideoSync(struct RetroModeIFace *Self,
 	struct retroVideo * video,
 	double sync_offset,
 	double incRad,
