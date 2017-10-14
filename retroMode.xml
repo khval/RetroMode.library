@@ -167,5 +167,43 @@
 			<arg name="green_shift" type="unsigned int"/>
 			<arg name="blue_shift" type="unsigned int"/>
 		</method>
+		<method name="retroTriangle" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="x3" type="int"/>
+			<arg name="y3" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroOrTriangle" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="x3" type="int"/>
+			<arg name="y3" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroXorTriangle" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="x3" type="int"/>
+			<arg name="y3" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroLine" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
 	</interface>
 </library>
