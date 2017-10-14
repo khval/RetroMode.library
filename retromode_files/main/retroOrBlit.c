@@ -71,6 +71,8 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 	uint32	BitMapBytesPerRow;
 	uint32	BitMapWidth;
 	uint32	BitMapHeight;
+	unsigned char	*src_memory;
+	unsigned char	*des_memory;
 
 	BitMapWidth = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
 	BitMapHeight = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_HEIGHT );
@@ -109,12 +111,15 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 
 		for(y=0;y<height;y++)
 		{
+			src_memory = BitMapMemory + (BitMapBytesPerRow * fromY);
+			des_memory = screen -> Memory + (screen -> width * toY);
+
 			fromX = _fromX;
 			toX = _toX;
 
 			for(x=0;x<width;x++)
 			{
-				screen -> Memory[ (screen -> width * toY) + toX ] |= BitMapMemory[ (BitMapBytesPerRow * fromY) +fromX ];
+				des_memory[ toX ] |= src_memory[ fromX ];
 
 				fromX++;
 				toX++;
