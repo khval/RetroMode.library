@@ -6,7 +6,7 @@
 **
 **	Prototype/inline/pragma header file combo
 **
-**	Copyright (c) 2010 Hyperion Entertainment CVBA.
+**	Copyright (c) 2010 LiveForIt Software.
 **	MIT License
 */
 
