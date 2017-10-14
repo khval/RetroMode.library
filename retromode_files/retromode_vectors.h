@@ -44,3 +44,7 @@ extern void                 VARARGS68K _retromode_retroAndClear(struct RetroMode
 extern void                 VARARGS68K _retromode_retroModeBadVideoSync(struct RetroModeIFace *, struct retroVideo * video, double sync_offset, double incRad);
 extern void                 VARARGS68K _retromode_AfterEffectScanline(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_AfterEffectAdjustRGB(struct RetroModeIFace *, struct retroVideo * video, unsigned int red_shift, unsigned int green_shift, unsigned int blue_shift);
+extern void                 VARARGS68K _retromode_retroTriangle(struct RetroModeIFace *, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
+extern void                 VARARGS68K _retromode_retroOrTriangle(struct RetroModeIFace *, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
+extern void                 VARARGS68K _retromode_retroXorTriangle(struct RetroModeIFace *, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
+extern void                 VARARGS68K _retromode_retroLine(struct RetroModeIFace *, struct retroScreen * screen, int x1, int y1, int x2, int y2, unsigned char color);

@@ -42,7 +42,8 @@ main_SRCS = main/Obtain.c main/Release.c main/alloc_retoVideo.c \
     main/retroCircle.c main/retroOrCircle.c main/retroXorCircle.c \
     main/retroScreenColor.c main/retroOrBlit.c main/retroAndClear.c \
     main/retroModeBadVideoSync.c main/AfterEffectScanline.c \
-    main/AfterEffectAdjustRGB.c 
+    main/AfterEffectAdjustRGB.c main/retroTriangle.c main/retroOrTriangle.c \
+    main/retroXorTriangle.c main/retroLine.c 
 
 # -------------------------------------------------------------
 # Nothing should need changing below this line

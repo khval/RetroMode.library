@@ -2,19 +2,11 @@
 #ifndef retroMode_h
 #define retroMode_h
 
-
-#ifdef amigaos4
-
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/intuition.h>
 #include <proto/graphics.h>
 
-#else
-
-#include "os4_emu.h"
-
-#endif
 
 //------------ video -------------
 
@@ -57,6 +49,10 @@ struct retroVideo
 	struct RastPort rp;
 };
 
+struct p 
+{ 
+	double x ; double y ;
+};
 
 void draw_lowred_emulate_color_changes( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buffer  );

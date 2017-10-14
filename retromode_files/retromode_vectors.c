@@ -36,6 +36,10 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroModeBadVideoSync,
     _retromode_AfterEffectScanline,
     _retromode_AfterEffectAdjustRGB,
+    _retromode_retroTriangle,
+    _retromode_retroOrTriangle,
+    _retromode_retroXorTriangle,
+    _retromode_retroLine,
     (APTR)-1
 };
 

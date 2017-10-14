@@ -53,5 +53,9 @@
 #define retroModeBadVideoSync(video, sync_offset, incRad) IRetroMode->retroModeBadVideoSync((video), (sync_offset), (incRad)) 
 #define AfterEffectScanline(video) IRetroMode->AfterEffectScanline((video)) 
 #define AfterEffectAdjustRGB(video, red_shift, green_shift, blue_shift) IRetroMode->AfterEffectAdjustRGB((video), (red_shift), (green_shift), (blue_shift)) 
+#define retroTriangle(screen, x1, y1, x2, y2, x3, y3, color) IRetroMode->retroTriangle((screen), (x1), (y1), (x2), (y2), (x3), (y3), (color)) 
+#define retroOrTriangle(screen, x1, y1, x2, y2, x3, y3, color) IRetroMode->retroOrTriangle((screen), (x1), (y1), (x2), (y2), (x3), (y3), (color)) 
+#define retroXorTriangle(screen, x1, y1, x2, y2, x3, y3, color) IRetroMode->retroXorTriangle((screen), (x1), (y1), (x2), (y2), (x3), (y3), (color)) 
+#define retroLine(screen, x1, y1, x2, y2, color) IRetroMode->retroLine((screen), (x1), (y1), (x2), (y2), (color)) 
 
 #endif /* INLINE4_RETROMODE_H */

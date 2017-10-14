@@ -62,6 +62,10 @@ struct RetroModeIFace
 	void APICALL (*retroModeBadVideoSync)(struct RetroModeIFace *Self, struct retroVideo * video, double sync_offset, double incRad);
 	void APICALL (*AfterEffectScanline)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*AfterEffectAdjustRGB)(struct RetroModeIFace *Self, struct retroVideo * video, unsigned int red_shift, unsigned int green_shift, unsigned int blue_shift);
+	void APICALL (*retroTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
+	void APICALL (*retroOrTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
+	void APICALL (*retroXorTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
+	void APICALL (*retroLine)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, unsigned char color);
 };
 
 #ifdef __cplusplus

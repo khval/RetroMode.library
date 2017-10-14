@@ -60,7 +60,7 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroScreen *screen;
 
-	libBase -> IDOS -> Printf("%s:%ld - START\n",__FUNCTION__,__LINE__ );
+//	libBase -> IDOS -> Printf("%s:%ld - START\n",__FUNCTION__,__LINE__ );
 
 	screen = (struct retroScreen *) libBase -> IExec -> AllocVecTags( 
 						sizeof(struct retroScreen),  
@@ -80,22 +80,10 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		// if fail
 		if (screen -> Memory == NULL)
 		{
-
-			libBase -> IDOS -> Printf("WTF: No screen memory\n");
-
 			Self -> retroCloseScreen( screen );
 			return NULL;
 		}
 	}
-	libBase -> IDOS -> Printf("sizeof(struct retroScreen) %ld\n",  sizeof(struct retroScreen));
-
-
-	libBase -> IDOS -> Printf("size %ld,%ld\n",  screen->width,  screen->height);
-
-	libBase -> IDOS -> Printf("screen %08lx\n",screen );
-	libBase -> IDOS -> Printf("screen -> Memory %08lx\n",screen -> Memory );
-
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__ );
 
 	return screen;
 }
