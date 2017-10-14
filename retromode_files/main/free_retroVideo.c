@@ -58,7 +58,7 @@ void _retromode_free_retroVideo(struct RetroModeIFace *Self, struct retroVideo *
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int c;
 
-	libBase -> IExec -> DebugPrintF("video->rp.BitMap: %08x\n",video->rp.BitMap);
+//	libBase -> IExec -> DebugPrintF("video->rp.BitMap: %08x\n",video->rp.BitMap);
 
 	if (video->rp.BitMap)
 	{
@@ -77,7 +77,7 @@ void _retromode_free_retroVideo(struct RetroModeIFace *Self, struct retroVideo *
 		}
 	}
 
-	libBase -> IExec -> DebugPrintF("video->Memory: %08x\n",video->Memory);
+//	libBase -> IExec -> DebugPrintF("video->Memory: %08x\n",video->Memory);
 
 	if (video->Memory)
 	{
