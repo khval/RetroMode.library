@@ -74,6 +74,9 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 	unsigned char	*src_memory;
 	unsigned char	*des_memory;
 
+	unsigned char	*inner_src_memory;
+	unsigned char	*inner_des_memory;
+
 	BitMapWidth = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
 	BitMapHeight = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_HEIGHT );
 
@@ -96,8 +99,6 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 
 	if (lock)
 	{
-		int _fromX,_toX;
-
 		// handel negative clipping I think.
 
 		if (fromX<0)	{ toX-=fromX; width+=fromX; fromX = 0;}		// - & - is +
@@ -106,27 +107,21 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 		if (toX<0)	{ fromX-=toX; width+=toX; toX = 0; }		// - & - is +
 		if (toY<0)	{ fromY-=toY; height+=toY; toY = 0; }		// - & - is +
 
-		_fromX = fromX;
-		_toX = toX;
+		src_memory = BitMapMemory + (BitMapBytesPerRow * fromY) + fromX;
+		des_memory = screen -> Memory + (screen -> width * toY) + toX;
 
 		for(y=0;y<height;y++)
 		{
-			src_memory = BitMapMemory + (BitMapBytesPerRow * fromY);
-			des_memory = screen -> Memory + (screen -> width * toY);
-
-			fromX = _fromX;
-			toX = _toX;
+			inner_src_memory = src_memory;
+			inner_des_memory = des_memory;
 
 			for(x=0;x<width;x++)
 			{
-				des_memory[ toX ] |= src_memory[ fromX ];
-
-				fromX++;
-				toX++;
+				*inner_des_memory++ = *inner_src_memory++;
 			}
-	
-			fromY++;
-			toY++;
+
+			src_memory += BitMapBytesPerRow;
+			des_memory += screen -> width;
 		}
 		libBase -> IGraphics -> UnlockBitMap( lock );
 	}
