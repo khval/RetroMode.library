@@ -3,15 +3,16 @@
 #include <math.h>
 #include <string.h>
 
+#ifdef amigaos4
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/intuition.h>
 #include <proto/graphics.h>
 #include <proto/layers.h>
 #include <proto/retroMode.h>
-
-
-#include "../libbase.h"
+#else
+#include "os4_emu.h"
+#endif
 
 int scrolled_x;
 int scroll_speed = 2;
@@ -185,37 +186,6 @@ bool open_window( int window_width, int window_height )
 	return (My_Window != NULL) ;
 }
 
-void _retromode_retroOrBlit(struct RetroModeIFace *Self,unsigned char *BitMapMemory, uint32 BitMapBytesPerRow, struct BitMap *bitmap,int fromX,int fromY,int height,struct retroScreen * screen,int toX,int toY)
-{
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	int y;
-	APTR lock;
-
-	uint32	BitMapWidth;
-	uint32	BitMapHeight;
-	unsigned char	*src_memory;
-	unsigned char	*des_memory;
-
-	BitMapWidth = GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
-	BitMapHeight = GetBitMapAttr( bitmap, BMA_HEIGHT );
-
-	height = toY - fromY + 1;
-
-	if (fromY+height>BitMapHeight) height = BitMapHeight - fromY;
-	if (toY+height>screen -> height) height = screen -> height - toY;
-
-	src_memory = BitMapMemory + (BitMapBytesPerRow * fromY) + fromX;
-	des_memory = screen -> Memory + (screen -> width * toY) + toX;
-
-	for(y=0;y<height;y++)
-	{
-		*des_memory |= *src_memory;
-		src_memory += BitMapBytesPerRow;
-		des_memory += screen -> width;
-	}
-}
-
-
 
 bool init()
 {
@@ -249,11 +219,72 @@ void closedown()
 }
 
 
+void retroBoingOutline( struct retroScreen *screen, int rx, int ry, int r, int t, unsigned char color )
+{
+	int x0,y0,x1,y1;
+	int xx;
+	int rr;
+	int r2 = r * r;
+	int x,y;
+
+	x0 = rx -r;
+	y0 = ry-r;
+	x1 = rx+r;
+	y1 = ry+r;
+
+	for (y=-r;y<=r;y++)
+	{
+		xx = sqrt( r2 - (y*y));
+
+		for (x = -xx; x<xx;x++)
+		{
+			rr = sqrt( (x*x) + (y*y) );
+
+			if (rr<=r)
+			{
+				retroPixel( screen, x + rx, y + ry, rr<r-t ? 2 : color );
+			}
+		}
+	}
+}
+
+void retroBoing( struct retroScreen *screen, int rx, int ry, int r, unsigned char color )
+{
+	int x0,y0,x1,y1;
+	int xx;
+	int rr;
+	int r2 = r * r;
+	int width, height;
+	int bx,by;
+	int x,y;
+
+	x0 = rx -r;
+	y0 = ry-r;
+	x1 = rx+r;
+	y1 = ry+r;
+
+	height = y1-y0+1;
+
+	for (y=-r;y<=r;y++)
+	{
+		xx = sqrt( r2 - (y*y));
+		width = xx*2+1;
+
+		by = ((y + r) * 6 / height) & 1;
+
+		for (x = -xx; x<xx;x++)
+		{
+			bx = ((x + xx) * 6 / width) & 1;
+
+			retroPixel( screen, x + rx, y + ry, (bx + by) & 1 ? color : 3 );
+		}
+	}
+}
+
+
 int main()
 {
 	struct retroScreen *screen = NULL;
-	struct retroScreen *screen2 = NULL;
-	struct retroScreen *screen3 = NULL;
 	struct RastPort scroll_rp;
 
 	struct IntuiMessage *msg;
@@ -261,14 +292,12 @@ int main()
 
 	retroRGB color;
 	double p = 0;
-	APTR lock;
-	ULONG BitMapBytesPerRow;
-	unsigned char *BitMapMemory;
+	double start_sync;
+	double g = 0.0f;
 
 
 	if (init())		// libs open her.
 	{
-
 
 		InitRastPort(&scroll_rp);
 		scroll_rp.BitMap = AllocBitMapTags( 320, 200, 256, 
@@ -311,8 +340,6 @@ int main()
 		//  end rain
 
 		screen = retroOpenScreen(320,200);
-		screen2 = retroOpenScreen(640,200);
-		screen3 = retroOpenScreen(640,200);
 
 
 		if (screen)
@@ -320,48 +347,18 @@ int main()
 			int x;
 
 			retroScreenColor( screen, 0, 255, 100, 50 );
-			retroScreenColor( screen, 1, 255, 0, 0 );
-			retroScreenColor( screen, 2, 0, 0, 255 );
+			retroScreenColor( screen, 1, 255, 255, 255 );
+			retroScreenColor( screen, 2, 0, 0, 0 );
+			retroScreenColor( screen, 3, 255, 0, 0 );
 
-			for (x=0;x<10;x++)
-			{
-				retroBAR( screen,10 + (x*100),10,50+ (x*100), 50, 1 );
-				retroBAR( screen,30 + (x*100),20,70+ (x*100), 60, 2 );
-			}
+			retroScreenColor( screen, 4, 0, 0, 0 );
+			retroScreenColor( screen, 5, 255, 255, 255 );
+			retroScreenColor( screen, 6, 0, 0, 0 );
+			retroScreenColor( screen, 7, 255, 0, 0 );
+
 		}
 
-		if (screen2)
-		{
-			int x;
-
-			retroScreenColor( screen2, 0, 0, 0, 100 );
-			retroScreenColor( screen2, 1, 255, 0, 0 );
-			retroScreenColor( screen2, 2, 0, 0, 255 );
-
-			retroScreenColor( screen2, 4, 255, 255, 255 );
-			retroScreenColor( screen2, 5, 100, 0, 0 );
-			retroScreenColor( screen2, 6, 0, 0, 100 );
-
-			for (x=0;x<10;x++)
-			{
-				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
-				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
-			}
-		}
-
-		if (screen3)
-		{
-			retroScreenColor( screen3, 0, 0, 0, 100 );
-			retroScreenColor( screen3, 1, 255, 0, 0 );
-			retroScreenColor( screen3, 2, 0, 0, 255 );
-
-			retroBAR( screen3,10,10,50, 50, 1 );
-			retroBAR( screen3,20,20,60, 60, 2 );
-		}
-
-		if (screen)	retroApplyScreen( screen2, video, 0, 0, retroLowres );
-		if (screen2)	retroApplyScreen( screen2, video, 0, 150, retroHires );
-		if (screen3)	retroApplyScreen( screen2, video, 0, 300, retroHires | retroInterlaced );
+		if (screen)	retroApplyScreen( screen, video, 0, 0,retroLowres_pixeld );
 
 		while (running)
 		{
@@ -386,53 +383,25 @@ int main()
 				scrolled_x = 0;
 			}
 
-			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
+//			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
+			retroAndClear( screen, 50,50,150,150, ~2 );
 
-			retroAndClear( screen2, 0,0,screen2->width,screen2->height, ~4 );
+			retroLine( screen, 100,100,100 + (cos(g)*50) ,100 +(-sin(g)*50) ,1 );
+			retroLine( screen, 100,100,100 + (cos(g+0.5f)*50) ,100 +(-sin(g+0.5f)*50) ,0 );
+			g+=0.01;
 
-			p = 0;
-
-
-			retroOrBlit( scroll_rp.BitMap, 0,0,320,15, screen2, 0 , 0);
-/*
-			lock = LockBitMapTags( scroll_rp.BitMap, LBM_BytesPerRow, &BitMapBytesPerRow,	LBM_BaseAddress, &BitMapMemory,	TAG_END);
-			if (lock)
-			{
-				int x,y;
-
-
-
-				for (x=0;x<320;x++)
-				{
-//					y = sin(p)*10.0f+20.0f;
-
-y= 20;
-					_retromode_retroOrBlit( (struct RetroModeIFace* ) IRetroMode, BitMapMemory, BitMapBytesPerRow, scroll_rp.BitMap, x,0,15, screen2, x , y);
-
-					p+=0.05f;
-				}
-
-				UnlockBitMap( lock );
-			 }
-*/
-
-//			applyCopper(video);
-			retroDrawVideo(video);
+			retroClearVideo( video );
+			retroDrawVideo( video );
+			AfterEffectScanline( video );
+			AfterEffectAdjustRGB( video , 8, 0 , 4);
 			retroDmaVideo(video);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
-//			Delay(1);
+
 		}
 
-		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
 		if (screen) retroCloseScreen(screen);
-
-		Printf("screen %08lx, Memory %08lx\n", screen2, screen2->Memory);
-		if (screen2) retroCloseScreen(screen2);
-
-		Printf("screen %08lx, Memory %08lx\n", screen3, screen3->Memory);
-		if (screen3) retroCloseScreen(screen3);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 

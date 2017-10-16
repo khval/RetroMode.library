@@ -196,7 +196,7 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = alloc_retoVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
 
 	return TRUE;
 }
@@ -340,7 +340,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		clear_retroVideo(video);
+		retroClearVideo(video);
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
@@ -458,30 +458,25 @@ int main()
 
 			retroOrTriangle(screen,90,100,180,120,140,150,16);
 
-//			retroXorTriangle(screen,110,100,200,120,160,150,8);
-
 			retroXorCircle(screen,110,100,30,16);
 
-			applyCopper(video);
 			start_sync += 0.1f;
-
 			if (start_sync>2*M_PI) start_sync =0.0f;
 
-			clear_retroVideo( video );
-			draw_retroVideo( video );
+			retroClearVideo( video );
+			retroDrawVideo( video );
 
-			dma_retroVideo(video);
+			retroDmaVideo(video);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
 		}
 
-		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
 		if (screen) retroCloseScreen(screen);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
-		free_retroVideo(video);
+		retroFreeVideo(video);
 	}
 
 

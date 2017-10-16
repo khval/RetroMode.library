@@ -3,7 +3,7 @@ VER=-DVER=6
 
 def=		-D__USE_INLINE__
 
-files =	test_app.exe test_loop.exe scroll_text.exe boing.exe xor_color_fun.exe triangles.exe boxs.exe
+files =	test_app.exe scroll_text.exe boing.exe xor_color_fun.exe triangles.exe boxs.exe lines.exe
 
 all:		$(files)
 

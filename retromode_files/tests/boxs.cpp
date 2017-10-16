@@ -196,7 +196,7 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = alloc_retoVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
 
 	return TRUE;
 }
@@ -363,7 +363,6 @@ int main()
 
  	struct greate_ball_of_fire ball[balls];
 
-
 	if (init())		// libs open her.
 	{
 
@@ -383,7 +382,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		clear_retroVideo(video);
+		retroClearVideo(video);
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
@@ -414,8 +413,6 @@ int main()
 		//  end rain
 
 		screen = retroOpenScreen(320,200);
-
-
 
 		if (screen)
 		{
@@ -505,17 +502,12 @@ int main()
 
 			retroXorCircle( screen, 75+50,75+50, 25,4);
 
-
-//			applyCopper(video);
-//			start_sync += 0.1f;
-//			if (start_sync>2*M_PI) start_sync =0.0f;
-
-			clear_retroVideo( video );
-			draw_retroVideo( video );
+			retroClearVideo( video );
+			retroDrawVideo( video );
 
 			AfterEffectScanline( video);
 
-			dma_retroVideo(video);
+			retroDmaVideo(video);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
@@ -525,7 +517,7 @@ int main()
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
-		free_retroVideo(video);
+		retroFreeVideo(video);
 	}
 
 

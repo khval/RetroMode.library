@@ -191,7 +191,7 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = alloc_retoVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
 
 	return TRUE;
 }
@@ -259,7 +259,7 @@ int main()
 	if (init())
 	{
 
-		clear_retroVideo(video);
+		retroClearVideo(video);
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
@@ -338,24 +338,18 @@ int main()
 
 			video -> rainbow[0].offset ++;
 
-			applyCopper(video);
-			draw_retroVideo(video);
-			dma_retroVideo(video);
+			retroDrawVideo(video);
+			retroDmaVideo(video);
 
 			BackFill_Func(NULL, NULL );
 			Delay(1);
 		}
 
-		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
 		if (screen) retroCloseScreen(screen);
-
-		Printf("screen %08lx, Memory %08lx\n", screen2, screen2->Memory);
 		if (screen2) retroCloseScreen(screen2);
-
-		Printf("screen %08lx, Memory %08lx\n", screen3, screen3->Memory);
 		if (screen3) retroCloseScreen(screen3);
 
-		free_retroVideo(video);
+		retroFreeVideo(video);
 	}
 
 #ifdef amigaos4
