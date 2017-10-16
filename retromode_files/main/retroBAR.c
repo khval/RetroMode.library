@@ -67,9 +67,13 @@ void _retromode_retroBAR(struct RetroModeIFace *Self,
        int y1,
        unsigned char color)
 {
-//	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int x,y;
 	unsigned char *memory;
+
+	unsigned char *from;
+	unsigned char *to;
+	unsigned char *ptr;
+	unsigned int bytesPerRow = screen -> width;
 
 	if (x0<0) x0 = 0;
 	if (y0<0) y0 = 0;
@@ -78,15 +82,18 @@ void _retromode_retroBAR(struct RetroModeIFace *Self,
 
 	memory = screen -> Memory + ( screen -> width * y0 );
 
+	from = memory + x0;
+	to = memory + x1;
+
 	for(y=y0;y<=y1;y++)
 	{
-//		libBase -> IDOS -> Printf("%08lx% - %ld, %ld, %ld\n", memory, y0, y1, y);
-		for(x=x0;x<=x1;x++)
+		for(ptr=from;ptr<=to;ptr++)
 		{
-			memory[ x ] = color;
+			*ptr = color;
 		}
 
-		memory += screen -> width;
+		from += bytesPerRow;
+		to += bytesPerRow;
 	}
 }
 
