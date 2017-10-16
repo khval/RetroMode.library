@@ -1,2 +1,3 @@
-copy retromode.library libs:
 copy /include/#? sdk:Include/include_h/ all
+
+copy retromode.library libs:
