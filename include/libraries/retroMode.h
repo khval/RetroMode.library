@@ -25,6 +25,7 @@ struct retroRainbow
 	int offset;		// rainbow
 	int verticalOffset;	// rainbow (vertical offset)
 	int height;	// height of copper
+	int drawpos;
 };
 
 struct retroScanline
@@ -33,8 +34,20 @@ struct retroScanline
 	int pixels;
 	int videoWidth;
 	unsigned char *data;
-	struct retroRGB palette[256];
+	struct retroRGB *palette;
 	void (*mode) ( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+};
+
+struct retroFlash
+{
+	int delay;		
+	struct retroRGB rgb;
+};
+
+struct retroFlashTable
+{
+	int colors;
+	struct retroFlash	*table;
 };
 
 struct retroVideo
@@ -71,7 +84,8 @@ struct retroScreen
 };
 
 #define retroLowres 1
-#define retroHires 2
-#define retroInterlaced 4
+#define retroLowres_pixeld 2
+#define retroHires 4
+#define retroInterlaced 8
 
 #endif

@@ -59,12 +59,66 @@
 *
 */
 
-extern void _retromode_set_retroVideoColor(struct RetroModeIFace *Self,
+extern void _retromode_retroSetVideoColor(struct RetroModeIFace *Self,
        struct retroVideo * video,
        struct retroRGB * RGB,
        int color,
        int from,
        int to);
+
+void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+{
+	int x;
+	unsigned short lr,lg,lb;
+	unsigned short r,g,b;
+	struct retroRGB *palette = line -> palette;
+	unsigned char *data = line -> data;
+	unsigned int *video_buffer_line = video_buffer;
+	unsigned char color;
+	int videoWidth;
+	unsigned int rgb;
+	int draw_pixels;
+
+	lr = 0;
+	lg = 0;
+	lb = 0;
+
+	// beam emulates 8 bits per chunk.
+
+	if (line -> beamStart > 0)
+	{
+		// move des on postive
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
+	}
+	else
+	{
+		// move src on nagative
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  line -> videoWidth / 2;	// displayable video width;
+	}
+
+	draw_pixels = line -> pixels - abs(line -> beamStart);
+
+	// lowres has only half the number of pixels.
+
+	if ( draw_pixels > videoWidth ) draw_pixels = videoWidth ;
+
+	for (x=0; x < draw_pixels; x++)
+	{
+		color = *data++;
+
+		r = palette[color].r;
+		g =palette[color].g;
+		b =palette[color].b;
+
+		rgb = 0xFF000000 | (r << 16) | (g << 8) | b;
+
+		*video_buffer_line ++ = rgb;
+		*video_buffer_line ++ = rgb;
+	}
+}
+
 
 void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
@@ -205,11 +259,19 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 
 			if (videomode & retroLowres )
 			{
+				video -> scanlines[ dest_y ].palette = screen -> palette;
 				video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
+			}
+
+			if (videomode & retroLowres_pixeld )
+			{
+				video -> scanlines[ dest_y ].palette = screen -> palette;
+				video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
 			}
 
 			if (videomode & retroHires )
 			{
+				video -> scanlines[ dest_y ].palette = screen -> palette;
 				video -> scanlines[ dest_y ].mode = draw_hires;
 			}
 
@@ -220,6 +282,7 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 		{
 			if ((dest_y > -1) && (dest_y<video->height))
 			{
+				video -> scanlines[ dest_y ].palette = NULL;
 				video -> scanlines[ dest_y ].beamStart = 0;
 				video -> scanlines[ dest_y ].pixels = 0;
 				video -> scanlines[ dest_y ].data = NULL;
@@ -241,12 +304,15 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 	if (scan_line_from < 0) scan_line_from = 0;
 	if (scan_line_from > video -> height) scan_line_from = video -> height;
 	if (scan_line_to > video -> height) scan_line_to = video -> height;
-	if (scan_line_to<scan_line_from) scan_line_to = scan_line_from;
+	if (scan_line_to < scan_line_from) scan_line_to = scan_line_from;
 
+	
+
+/*
 	for ( color=0; color<256; color++)
 	{
-		 Self -> set_retroVideoColor( video, screen -> palette +color,  color, scan_line_from , scan_line_to );
+		 Self -> retroSetVideoColor( video, screen -> palette +color,  color, scan_line_from , scan_line_to );
 	}
-
+*/
 }
 
