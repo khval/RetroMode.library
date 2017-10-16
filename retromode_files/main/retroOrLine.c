@@ -1,5 +1,5 @@
 /* :ts=4
- *  $VER: retroLine.c $Revision$ (14-Oct-2017)
+ *  $VER: retroBAR.c $Revision$ (03-Oct-2017)
  *
  *  This file is part of retromode.
  *
@@ -22,15 +22,13 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
-#include <libbase.h>
-
-/****** retromode/main/retroLine ******************************************
+/****** retromode/main/retroOrLine ******************************************
 *
 *   NAME
-*      retroLine -- Description
+*      retroOrLine -- Description
 *
 *   SYNOPSIS
-*      void retroLine(struct retroScreen * screen, int x1, int y1, int x2, 
+*      void retroOrLine(struct retroScreen * screen, int x1, int y1, int x2, 
 *          int y2, unsigned char color);
 *
 *   FUNCTION
@@ -58,7 +56,7 @@
 *
 */
 
-void _retromode_retroLine(struct RetroModeIFace *Self,
+void _retromode_retroOrLine(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int x1,
        int y1,
@@ -124,7 +122,7 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 			_y2 = y + a;
 
 			for (_y = y; _y<_y2;_y++)
-				if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
+				if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] |= color;
 
 			memory+=dirx;
 			y+=a;
