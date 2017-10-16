@@ -8,30 +8,27 @@
 		<method name="Release" result="ULONG"/>
 		<method name="Expunge" result="void" status="unimplemented"/>
 		<method name="Clone" result="struct Interface *" status="unimplemented"/>
-		<method name="alloc_retoVideo" result="struct retroVideo *">
+		<method name="retroAllocVideo" result="struct retroVideo *">
 			<arg name="window" type="struct Window *"/>
 		</method>
-		<method name="free_retroVideo" result="void">
+		<method name="retroFreeVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 		</method>
-		<method name="clear_retroVideo" result="void">
+		<method name="retroClearVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 		</method>
-		<method name="draw_retroVideo" result="void">
+		<method name="retroDrawVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 		</method>
-		<method name="dma_retroVideo" result="void">
+		<method name="retroDmaVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 		</method>
-		<method name="set_retroVideoColor" result="void">
+		<method name="retroSetVideoColor" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 			<arg name="RGB" type="struct retroRGB *"/>
 			<arg name="color" type="int"/>
 			<arg name="from" type="int"/>
 			<arg name="to" type="int"/>
-		</method>
-		<method name="applyCopper" result="void">
-			<arg name="video" type="struct retroVideo *"/>
 		</method>
 		<method name="retroOpenScreen" result="struct retroScreen *">
 			<arg name="width" type="int"/>
@@ -57,7 +54,22 @@
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
-		</method>		
+		</method>
+		<method name="retroFlash" result="struct retroFlashTable *">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="color" type="unsigned char"/>
+			<arg name="data" type="char *"/>
+		</method>
+		<method name="retroCycleColorsUp" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="from_color" type="unsigned char"/>
+			<arg name="to_color" type="unsigned char"/>
+		</method>
+		<method name="retroCycleColorsDown" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="from_color" type="unsigned char"/>
+			<arg name="to_color" type="unsigned char"/>
+		</method>
 		<method name="retroBAR" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x0" type="int"/>
@@ -106,11 +118,27 @@
 			<arg name="y1" type="int"/>
 			<arg name="xor_mask" type="unsigned char"/>
 		</method>
+		<method name="RetroShift" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="bits" type="unsigned char"/>
+		</method>
 		<method name="retroCircle" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="r" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroEclipse" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="r1" type="int"/>
+			<arg name="r2" type="int"/>		
 			<arg name="color" type="unsigned char"/>
 		</method>
 		<method name="retroOrCircle" result="void">
@@ -198,6 +226,22 @@
 			<arg name="color" type="unsigned char"/>
 		</method>
 		<method name="retroLine" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroOrLine" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroXorLine" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>

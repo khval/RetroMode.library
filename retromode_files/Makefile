@@ -33,17 +33,19 @@ LIBS = -lm -mcrt=clib2
 VERSION = 1
 
 # "main" Interface Source Files
-main_SRCS = main/Obtain.c main/Release.c main/alloc_retoVideo.c \
-    main/free_retroVideo.c main/clear_retroVideo.c main/draw_retroVideo.c \
-    main/dma_retroVideo.c main/set_retroVideoColor.c main/applyCopper.c \
+main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
+    main/retroFreeVideo.c main/retroClearVideo.c main/retroDrawVideo.c \
+    main/retroDmaVideo.c main/retroSetVideoColor.c main/retroApplyCopper.c \
     main/retroOpenScreen.c main/retroCloseScreen.c main/retroApplyScreen.c \
-    main/retroPixel.c main/retroPoint.c main/retroBAR.c main/retroOrBAR.c \
-    main/retroXorBAR.c main/retroBox.c main/retroOrBox.c main/retroXorBox.c \
-    main/retroCircle.c main/retroOrCircle.c main/retroXorCircle.c \
-    main/retroScreenColor.c main/retroOrBlit.c main/retroAndClear.c \
-    main/retroModeBadVideoSync.c main/AfterEffectScanline.c \
-    main/AfterEffectAdjustRGB.c main/retroTriangle.c main/retroOrTriangle.c \
-    main/retroXorTriangle.c main/retroLine.c 
+    main/retroPixel.c main/retroPoint.c main/retroFlash.c \
+    main/retroCycleColorsUp.c main/retroCycleColorsDown.c main/retroBAR.c \
+    main/retroOrBAR.c main/retroXorBAR.c main/retroBox.c main/retroOrBox.c \
+    main/retroXorBox.c main/RetroShift.c main/retroCircle.c main/retroEclipse.c \
+    main/retroOrCircle.c main/retroXorCircle.c main/retroScreenColor.c \
+    main/retroOrBlit.c main/retroAndClear.c main/retroModeBadVideoSync.c \
+    main/AfterEffectScanline.c main/AfterEffectAdjustRGB.c main/retroTriangle.c \
+    main/retroOrTriangle.c main/retroXorTriangle.c main/retroLine.c \
+    main/retroOrLine.c main/retroXorLine.c 
 
 # -------------------------------------------------------------
 # Nothing should need changing below this line
