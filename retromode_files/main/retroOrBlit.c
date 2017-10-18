@@ -117,7 +117,7 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 
 			for(x=0;x<width;x++)
 			{
-				*inner_des_memory++ = *inner_src_memory++;
+				*inner_des_memory++ |= *inner_src_memory++;
 			}
 
 			src_memory += BitMapBytesPerRow;
