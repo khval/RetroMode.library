@@ -162,7 +162,57 @@
 			<arg name="g" type="unsigned char"/>
 			<arg name="b" type="unsigned char"/>
 		</method>
-		<method name="retroOrBlit" result="void">
+		<method name="retroScreenBlit" result="void">
+			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="width" type="int"/>
+			<arg name="heigh" type="int"/>
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+		</method>
+		<method name="retroOrScreenBlit" result="void">
+			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="width" type="int"/>
+			<arg name="heigh" type="int"/>
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+		</method>
+		<method name="retroXorScreenBlit" result="void">
+			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="width" type="int"/>
+			<arg name="heigh" type="int"/>
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+		</method>
+		<method name="retroBitmapBlit" result="void">
+			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="width" type="int"/>
+			<arg name="heigh" type="int"/>
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+		</method>
+		<method name="retroOrBitmapBlit" result="void">
+			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="width" type="int"/>
+			<arg name="heigh" type="int"/>
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+		</method>
+		<method name="retroXorBitmapBlit" result="void">
 			<arg name="bitmap" type="struct BitMap *"/>
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
@@ -213,7 +263,7 @@
 			<arg name="y2" type="int"/>
 			<arg name="x3" type="int"/>
 			<arg name="y3" type="int"/>
-			<arg name="color" type="unsigned char"/>
+			<arg name="or_color" type="unsigned char"/>
 		</method>
 		<method name="retroXorTriangle" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
@@ -223,7 +273,7 @@
 			<arg name="y2" type="int"/>
 			<arg name="x3" type="int"/>
 			<arg name="y3" type="int"/>
-			<arg name="color" type="unsigned char"/>
+			<arg name="xor_color" type="unsigned char"/>
 		</method>
 		<method name="retroLine" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
