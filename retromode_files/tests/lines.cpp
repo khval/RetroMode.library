@@ -287,6 +287,8 @@ int main()
 	struct retroScreen *screen = NULL;
 	struct RastPort scroll_rp;
 
+	struct retroFlashTable	*flash = NULL;
+
 	struct IntuiMessage *msg;
 	bool running = true;
 
@@ -294,7 +296,6 @@ int main()
 	double p = 0;
 	double start_sync;
 	double g = 0.0f;
-
 
 	if (init())		// libs open her.
 	{
@@ -318,8 +319,8 @@ int main()
 		// end set rainbow
 
 		// start rainbow
-		video -> rainbow[0].verticalOffset = 100;	
-		video -> rainbow[0].height = 300;
+		video -> rainbow[0].verticalOffset = 50;	
+		video -> rainbow[0].height = 100;
 		// end rainbow
 
 		// start rain
@@ -356,9 +357,34 @@ int main()
 			retroScreenColor( screen, 6, 0, 0, 0 );
 			retroScreenColor( screen, 7, 255, 0, 0 );
 
+			retroScreenColor( screen, 8, 50, 0, 0 );
+			retroScreenColor( screen, 9, 100, 0, 0 );
+			retroScreenColor( screen, 10, 150, 0, 0 );
+			retroScreenColor( screen, 11, 200, 0, 0 );
+			retroScreenColor( screen, 12, 0, 0, 0 );
+
+			retroScreenColor( screen, 13, 0,50, 0 );
+			retroScreenColor( screen, 14, 0,100, 0 );
+			retroScreenColor( screen, 15, 0,150, 0 );
+			retroScreenColor( screen, 16, 0,200, 0 );
+			retroScreenColor( screen, 17, 0, 0, 0 );
+
+
+			flash = retroFlash(screen, 2, "(100,5),(200,5),(300,5),(400,5),(500,5),(600,5)(700,5),(800,5),(900,5),(A00,5),(B00,5),(A00,5),(900,5),(800,5),(700,5),(600,5),(500,5)(400,5),(300,5),(200,5)");
+
+			retroBAR(screen, 10,10,100,100,2 );
+
+			for (x=0;x<5;x++)
+			{
+				retroBAR(screen, 150+(x*10),10,160+(x*10),20,8+x );
+				retroBAR(screen, 150+(x*10),22,160+(x*10),32,13+x );
+			}
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0,retroLowres_pixeld );
+
+
+		printf("colors %d, index %d\n", flash -> colors, flash -> index );
 
 		while (running)
 		{
@@ -387,21 +413,50 @@ int main()
 			retroAndClear( screen, 50,50,150,150, ~2 );
 
 			retroLine( screen, 100,100,100 + (cos(g)*50) ,100 +(-sin(g)*50) ,1 );
-			retroLine( screen, 100,100,100 + (cos(g+0.5f)*50) ,100 +(-sin(g+0.5f)*50) ,0 );
+			retroLine( screen, 100,100,100 + (cos(g+0.5f)*55) ,100 +(-sin(g+0.5f)*55) ,0 );
 			g+=0.01;
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
 			AfterEffectScanline( video );
-			AfterEffectAdjustRGB( video , 8, 0 , 4);
+//			AfterEffectAdjustRGB( video , 8, 0 , 4);
 			retroDmaVideo(video);
+
+
+			if (flash)
+			{
+				if (flash -> colors>0)
+				{
+					flash -> countDelay ++;
+
+					if (flash -> countDelay > flash -> table[ flash -> index ].delay)
+					{
+						retroCycleColorsUp(screen,8,12);
+						retroCycleColorsDown(screen,13,17);
+
+						flash -> countDelay = 0;
+						flash -> index = (flash -> index + 1) % flash -> colors;
+						screen -> rowPalette[ flash -> color & 255 ] = flash -> table[ flash -> index ].rgb ;						
+					}
+				}
+			}
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
 
+
 		}
 
-		if (screen) retroCloseScreen(screen);
+		if (screen)
+		{
+			 retroCloseScreen(screen);
+
+			if (flash)
+			{
+				if (flash -> table) FreeVec(flash->table);
+				FreeVec(flash);
+			}
+		}
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
