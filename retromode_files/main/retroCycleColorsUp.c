@@ -4,7 +4,7 @@
  *  This file is part of retromode.
  *
  *  Copyright (c) 2017 LiveForIt Software.
- *  MIT License
+ *  MIT License.
  *
  * $Id$
  *
@@ -61,10 +61,10 @@ void _retromode_retroCycleColorsUp(struct RetroModeIFace *Self,
 	struct retroRGB temp;
 	int color;
 
-	temp = screen -> palette[to_color];
+	temp = screen -> rowPalette[to_color];
 
-	for (color = to_color; color > from_color; color ++ ) screen->palette[color] = screen->palette[color-1];
-	screen -> palette[ from_color ] = temp;
+	for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
+	screen -> rowPalette[ from_color ] = temp;
 	
 }
 

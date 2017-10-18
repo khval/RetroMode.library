@@ -34,7 +34,8 @@ struct retroScanline
 	int pixels;
 	int videoWidth;
 	unsigned char *data;
-	struct retroRGB *palette;
+	struct retroRGB *orgPalette;
+	struct retroRGB *rowPalette;
 	void (*mode) ( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 };
 
@@ -46,7 +47,10 @@ struct retroFlash
 
 struct retroFlashTable
 {
+	int color;
 	int colors;
+	int index;
+	int countDelay;		// counts up to delay, increments index.
 	struct retroFlash	*table;
 };
 
@@ -80,7 +84,8 @@ struct retroScreen
 	int width;
 	int height;
 	unsigned char *Memory;
-	struct retroRGB palette[256];
+	struct retroRGB orgPalette[256];
+	struct retroRGB rowPalette[256];
 };
 
 #define retroLowres 1

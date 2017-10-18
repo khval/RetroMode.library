@@ -71,7 +71,7 @@ void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned
 	int x;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
-	struct retroRGB *palette = line -> palette;
+	struct retroRGB *palette = line -> rowPalette;
 	unsigned char *data = line -> data;
 	unsigned int *video_buffer_line = video_buffer;
 	unsigned char color;
@@ -125,7 +125,7 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 	int x;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
-	struct retroRGB *palette = line -> palette;
+	struct retroRGB *palette = line -> rowPalette;
 	unsigned char *data = line -> data;
 	unsigned int *video_buffer_line = video_buffer;
 	unsigned char color;
@@ -188,7 +188,7 @@ void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buf
 	int x;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
-	struct retroRGB *palette = line -> palette;
+	struct retroRGB *palette = line -> rowPalette;
 	unsigned char *data = line -> data;
 	unsigned int *video_buffer_line = video_buffer;
 	unsigned char color;
@@ -257,21 +257,21 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> width * y);
 			video -> scanlines[ dest_y ].mode = NULL;
 
+			video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
+			video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
+
 			if (videomode & retroLowres )
 			{
-				video -> scanlines[ dest_y ].palette = screen -> palette;
 				video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
 			}
 
 			if (videomode & retroLowres_pixeld )
 			{
-				video -> scanlines[ dest_y ].palette = screen -> palette;
 				video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
 			}
 
 			if (videomode & retroHires )
 			{
-				video -> scanlines[ dest_y ].palette = screen -> palette;
 				video -> scanlines[ dest_y ].mode = draw_hires;
 			}
 
@@ -282,7 +282,8 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 		{
 			if ((dest_y > -1) && (dest_y<video->height))
 			{
-				video -> scanlines[ dest_y ].palette = NULL;
+				video -> scanlines[ dest_y ].orgPalette = NULL;
+				video -> scanlines[ dest_y ].rowPalette = NULL;
 				video -> scanlines[ dest_y ].beamStart = 0;
 				video -> scanlines[ dest_y ].pixels = 0;
 				video -> scanlines[ dest_y ].data = NULL;

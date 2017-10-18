@@ -62,8 +62,12 @@ void _retromode_retroScreenColor(struct retromodeIFace *Self,
        unsigned char g,
        unsigned char b)
 {
-	screen -> palette[color].r = r;
-	screen -> palette[color].g = g;
-	screen -> palette[color].b = b;
+	screen -> orgPalette[color].r = r;
+	screen -> orgPalette[color].g = g;
+	screen -> orgPalette[color].b = b;
+
+	screen -> rowPalette[color].r = r;
+	screen -> rowPalette[color].g = g;
+	screen -> rowPalette[color].b = b;
 }
 

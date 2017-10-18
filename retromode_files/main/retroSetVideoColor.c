@@ -68,7 +68,7 @@ void _retromode_retroSetVideoColor(struct RetroModeIFace *Self,
 
 	for (beamY = from; beamY< to; beamY++)
 	{
-		video -> scanlines[beamY].palette[color] = *RGB;
+		video -> scanlines[beamY].rowPalette[color] = *RGB;
 	}
 }
 
