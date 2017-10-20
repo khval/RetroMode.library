@@ -19,8 +19,6 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroClearVideo
 	    FPTR IRetroMode_retroDrawVideo
 	    FPTR IRetroMode_retroDmaVideo
-	    FPTR IRetroMode_retroSetVideoColor
-	    FPTR IRetroMode_retroApplyCopper
 	    FPTR IRetroMode_retroOpenScreen
 	    FPTR IRetroMode_retroCloseScreen
 	    FPTR IRetroMode_retroApplyScreen
@@ -35,13 +33,18 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroBox
 	    FPTR IRetroMode_retroOrBox
 	    FPTR IRetroMode_retroXorBox
-	    FPTR IRetroMode_RetroShift
+	    FPTR IRetroMode_retroShift
 	    FPTR IRetroMode_retroCircle
 	    FPTR IRetroMode_retroEclipse
 	    FPTR IRetroMode_retroOrCircle
 	    FPTR IRetroMode_retroXorCircle
 	    FPTR IRetroMode_retroScreenColor
-	    FPTR IRetroMode_retroOrBlit
+	    FPTR IRetroMode_retroScreenBlit
+	    FPTR IRetroMode_retroOrScreenBlit
+	    FPTR IRetroMode_retroXorScreenBlit
+	    FPTR IRetroMode_retroBitmapBlit
+	    FPTR IRetroMode_retroOrBitmapBlit
+	    FPTR IRetroMode_retroXorBitmapBlit
 	    FPTR IRetroMode_retroAndClear
 	    FPTR IRetroMode_retroModeBadVideoSync
 	    FPTR IRetroMode_AfterEffectScanline
@@ -52,6 +55,9 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroLine
 	    FPTR IRetroMode_retroOrLine
 	    FPTR IRetroMode_retroXorLine
+	    FPTR IRetroMode_retroAllocFrame
+	    FPTR IRetroMode_retroFreeFrame
+	    FPTR IRetroMode_retroDrawFrame
 	LABEL RetroModeIFace_SIZE
 
 #endif

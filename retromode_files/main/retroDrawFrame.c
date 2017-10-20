@@ -1,10 +1,10 @@
 /* :ts=4
- *  $VER: retroApplyCopper.c $Revision$ (16-Oct-2017)
+ *  $VER: retroDrawFrame.c $Revision$ (19-Oct-2017)
  *
  *  This file is part of retromode.
  *
  *  Copyright (c) 2017 LiveForIt Software.
- *  MIT License.
+ *  MIT License
  *
  * $Id$
  *
@@ -22,20 +22,22 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 
-#include "libbase.h"
-
-/****** retromode/main/retroApplyCopper ******************************************
+/****** retromode/main/retroDrawFrame ******************************************
 *
 *   NAME
-*      retroApplyCopper -- Description
+*      retroDrawFrame -- Description
 *
 *   SYNOPSIS
-*      void retroApplyCopper(struct retroVideo * video);
+*      void retroDrawFrame(struct retroFrame * frame, 
+*          struct retroScreen * screen, int X, int Y);
 *
 *   FUNCTION
 *
 *   INPUTS
-*       video - 
+*       frame - 
+*       screen - 
+*       X - 
+*       Y - 
 *
 *   RESULT
 *       This function does not return a result
@@ -52,9 +54,12 @@
 *
 */
 
-void _retromode_retroApplyCopper(struct RetroModeIFace *Self,
-       struct retroVideo * video)
+void _retromode_retroDrawFrame(struct RetroModeIFace *Self,
+       struct retroFrame * frame,
+       struct retroScreen * screen,
+       int X,
+       int Y)
 {
-//  retroApplyCopper(video);
+
 }
 

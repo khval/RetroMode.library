@@ -40,8 +40,6 @@ struct RetroModeIFace
 	void APICALL (*retroClearVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*retroDrawVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*retroDmaVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
-	void APICALL (*retroSetVideoColor)(struct RetroModeIFace *Self, struct retroVideo * video, struct retroRGB * RGB, int color, int from, int to);
-	void APICALL (*retroApplyCopper)(struct RetroModeIFace *Self, struct retroVideo * video);
 	struct retroScreen * APICALL (*retroOpenScreen)(struct RetroModeIFace *Self, int width, int height);
 	void APICALL (*retroCloseScreen)(struct RetroModeIFace *Self, struct retroScreen * screen);
 	void APICALL (*retroApplyScreen)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroVideo * video, int offsetx, int oppsety, int videomode);
@@ -56,23 +54,31 @@ struct RetroModeIFace
 	void APICALL (*retroBox)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char color);
 	void APICALL (*retroOrBox)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char or_mask);
 	void APICALL (*retroXorBox)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char xor_mask);
-	void APICALL (*RetroShift)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char bits);
+	void APICALL (*retroShift)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char bits);
 	void APICALL (*retroCircle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int r, unsigned char color);
 	void APICALL (*retroEclipse)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int r1, int r2, unsigned char color);
 	void APICALL (*retroOrCircle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int r, unsigned char or_mask);
 	void APICALL (*retroXorCircle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int r, unsigned char xor_mask);
 	void APICALL (*retroScreenColor)(struct RetroModeIFace *Self, struct retroScreen * screen, int color, unsigned char r, unsigned char g, unsigned char b);
-	void APICALL (*retroOrBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int heigh, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroScreenBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int heigh, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroOrScreenBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int heigh, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroXorScreenBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int heigh, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int heigh, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroOrBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int heigh, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroXorBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int heigh, struct retroScreen * screen, int toX, int toY);
 	void APICALL (*retroAndClear)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char and_mask);
 	void APICALL (*retroModeBadVideoSync)(struct RetroModeIFace *Self, struct retroVideo * video, double sync_offset, double incRad, double r);
 	void APICALL (*AfterEffectScanline)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*AfterEffectAdjustRGB)(struct RetroModeIFace *Self, struct retroVideo * video, unsigned int red_shift, unsigned int green_shift, unsigned int blue_shift);
 	void APICALL (*retroTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
-	void APICALL (*retroOrTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
-	void APICALL (*retroXorTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char color);
+	void APICALL (*retroOrTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char or_color);
+	void APICALL (*retroXorTriangle)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int x3, int y3, unsigned char xor_color);
 	void APICALL (*retroLine)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, unsigned char color);
 	void APICALL (*retroOrLine)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, unsigned char color);
 	void APICALL (*retroXorLine)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, unsigned char color);
+	struct retroFrame * APICALL (*retroAllocFrame)(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, int hotspotX, int hotspotY);
+	void APICALL (*retroFreeFrame)(struct RetroModeIFace *Self, struct retroFrame * frame);
+	void APICALL (*retroDrawFrame)(struct RetroModeIFace *Self, struct retroFrame * frame, struct retroScreen * screen, int X, int Y);
 };
 
 #ifdef __cplusplus

@@ -88,6 +88,17 @@ struct retroScreen
 	struct retroRGB rowPalette[256];
 };
 
+struct retroFrame
+{
+	struct retroScreen *screen;
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+	int hotspotX;
+	int hotspotY;
+};
+
 #define retroLowres 1
 #define retroLowres_pixeld 2
 #define retroHires 4

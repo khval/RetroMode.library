@@ -1,10 +1,10 @@
 /* :ts=4
- *  $VER: retroApplyCopper.c $Revision$ (16-Oct-2017)
+ *  $VER: retroFreeFrame.c $Revision$ (19-Oct-2017)
  *
  *  This file is part of retromode.
  *
  *  Copyright (c) 2017 LiveForIt Software.
- *  MIT License.
+ *  MIT License
  *
  * $Id$
  *
@@ -21,21 +21,20 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
-
 #include "libbase.h"
 
-/****** retromode/main/retroApplyCopper ******************************************
+/****** retromode/main/retroFreeFrame ******************************************
 *
 *   NAME
-*      retroApplyCopper -- Description
+*      retroFreeFrame -- Description
 *
 *   SYNOPSIS
-*      void retroApplyCopper(struct retroVideo * video);
+*      void retroFreeFrame(struct retroFrame * frame);
 *
 *   FUNCTION
 *
 *   INPUTS
-*       video - 
+*       frame - 
 *
 *   RESULT
 *       This function does not return a result
@@ -52,9 +51,10 @@
 *
 */
 
-void _retromode_retroApplyCopper(struct RetroModeIFace *Self,
-       struct retroVideo * video)
+void _retromode_retroFreeFrame(struct RetroModeIFace *Self,
+       struct retroFrame * frame)
 {
-//  retroApplyCopper(video);
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
+	libBase -> IExec -> FreeVec( frame );
 }
 

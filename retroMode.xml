@@ -23,13 +23,6 @@
 		<method name="retroDmaVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 		</method>
-		<method name="retroSetVideoColor" result="void">
-			<arg name="video" type="struct retroVideo *"/>
-			<arg name="RGB" type="struct retroRGB *"/>
-			<arg name="color" type="int"/>
-			<arg name="from" type="int"/>
-			<arg name="to" type="int"/>
-		</method>
 		<method name="retroOpenScreen" result="struct retroScreen *">
 			<arg name="width" type="int"/>
 			<arg name="height" type="int"/>
@@ -118,7 +111,7 @@
 			<arg name="y1" type="int"/>
 			<arg name="xor_mask" type="unsigned char"/>
 		</method>
-		<method name="RetroShift" result="void">
+		<method name="retroShift" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
@@ -167,7 +160,7 @@
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
-			<arg name="heigh" type="int"/>
+			<arg name="height" type="int"/>
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
@@ -177,7 +170,7 @@
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
-			<arg name="heigh" type="int"/>
+			<arg name="height" type="int"/>
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
@@ -187,7 +180,7 @@
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
-			<arg name="heigh" type="int"/>
+			<arg name="height" type="int"/>
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
@@ -197,7 +190,7 @@
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
-			<arg name="heigh" type="int"/>
+			<arg name="height" type="int"/>
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
@@ -207,7 +200,7 @@
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
-			<arg name="heigh" type="int"/>
+			<arg name="height" type="int"/>
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
@@ -217,7 +210,7 @@
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
-			<arg name="heigh" type="int"/>
+			<arg name="height" type="int"/>
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
@@ -298,6 +291,24 @@
 			<arg name="x2" type="int"/>
 			<arg name="y2" type="int"/>
 			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroAllocFrame" result="struct retroFrame *">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="hotspotX" type="int"/>
+			<arg name="hotspotY" type="int"/>
+		</method>
+		<method name="retroFreeFrame" result="void">
+			<arg name="frame" type="struct retroFrame *"/>
+		</method>
+		<method name="retroDrawFrame" result="void">
+			<arg name="frame" type="struct retroFrame *"/>
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="X" type="int"/>
+			<arg name="Y" type="int"/>
 		</method>
 	</interface>
 </library>

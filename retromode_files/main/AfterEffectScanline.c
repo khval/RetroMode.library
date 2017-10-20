@@ -75,7 +75,8 @@ void _retromode_AfterEffectScanline(struct RetroModeIFace *Self,
 
 				for (x=0;x<video->width;x++)
 				{
-					*des_ptr++=(((*src_ptr++) & 0xFCFCFC) >> 2) | 0xFF000000;
+					*des_ptr++=*src_ptr++;
+//					*des_ptr++=(((*src_ptr++) & 0xFCFCFC) >> 1) | 0xFF000000;
 				}
 			}
 		}
