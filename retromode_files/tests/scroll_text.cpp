@@ -393,7 +393,7 @@ int main()
 			p = 0;
 
 
-			retroOrBlit( scroll_rp.BitMap, 0,0,320,15, screen2, 0 , 0);
+			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,15, screen2, 0 , 0);
 /*
 			lock = LockBitMapTags( scroll_rp.BitMap, LBM_BytesPerRow, &BitMapBytesPerRow,	LBM_BaseAddress, &BitMapMemory,	TAG_END);
 			if (lock)
