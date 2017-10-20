@@ -48,7 +48,7 @@
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 		</method>
-		<method name="retroFlash" result="struct retroFlashTable *">
+		<method name="retroFlash" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="color" type="unsigned char"/>
 			<arg name="data" type="char *"/>
@@ -57,11 +57,13 @@
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="from_color" type="unsigned char"/>
 			<arg name="to_color" type="unsigned char"/>
+			<arg name="flags" type="unsigned char"/>
 		</method>
 		<method name="retroCycleColorsDown" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="from_color" type="unsigned char"/>
 			<arg name="to_color" type="unsigned char"/>
+			<arg name="flags" type="unsigned char"/>
 		</method>
 		<method name="retroBAR" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
@@ -309,6 +311,10 @@
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="X" type="int"/>
 			<arg name="Y" type="int"/>
+		</method>
+		<method name="retroDeleteFlash" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="color" type="unsigned char"/>
 		</method>
 	</interface>
 </library>
