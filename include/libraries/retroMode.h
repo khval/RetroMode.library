@@ -19,12 +19,12 @@ struct retroRGB
 
 struct retroRainbow
 {
-	int color;		// color to change.
+	int color;				// color to change.
 	struct retroRGB *table;	// set Rainbow
 	int tableSize;			// set Rainbow
-	int offset;		// rainbow
-	int verticalOffset;	// rainbow (vertical offset)
-	int height;	// height of copper
+	int offset;				// rainbow
+	int verticalOffset;		// rainbow (vertical offset)
+	int height;			// height of copper
 	int drawpos;
 };
 
@@ -50,8 +50,17 @@ struct retroFlashTable
 	int color;
 	int colors;
 	int index;
-	int countDelay;		// counts up to delay, increments index.
+	int countDelay;		// counts up to delay, increments value.
 	struct retroFlash	*table;
+};
+
+struct retroShiftColors
+{
+	int delay;
+	int countDelay;		// counts up to delay, increments value.
+	unsigned char firstColor;
+	unsigned char lastColor;
+	unsigned char flags;
 };
 
 struct retroVideo
@@ -84,8 +93,22 @@ struct retroScreen
 	int width;
 	int height;
 	unsigned char *Memory;
+
+	// color palette and copper palette
 	struct retroRGB orgPalette[256];
 	struct retroRGB rowPalette[256];
+
+	// typical classic effects flash and color shifting
+	struct retroFlashTable *allocatedFlashs[256];
+	struct retroFlashTable **allocatedFlashs_end;
+	int flashsAllocated;
+	struct retroShiftColors *allocatedShifts[256];	// you can't shift more colors then there is on the screen.
+	struct retroShiftColors **allocatedShifts_end;
+	int shiftsAllocated;
+
+	// text cursor place holder	
+	int locateX;		
+	int locateY;
 };
 
 struct retroFrame
@@ -103,5 +126,10 @@ struct retroFrame
 #define retroLowres_pixeld 2
 #define retroHires 4
 #define retroInterlaced 8
+
+#define ECSColorToRGB32( ecs, color )			\
+			color.r =( ecs & 0xF00) >> 4;		\
+			color.g =( ecs & 0x0F0);			\
+			color.b =( ecs & 0x00F) << 4;	
 
 #endif
