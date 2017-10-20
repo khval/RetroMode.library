@@ -281,13 +281,62 @@ void retroBoing( struct retroScreen *screen, int rx, int ry, int r, unsigned cha
 	}
 }
 
+void do_all_screen_color_effects(struct retroScreen *screen)
+{
+	struct retroFlashTable **flash;
+	struct retroFlashTable *_flash;
+	struct retroShiftColors **shift;
+	struct retroShiftColors *_shift;
+	struct retroRGB temp;
+	int color;
+	int from_color,to_color;
+
+	for (flash = screen -> allocatedFlashs ; flash < screen -> allocatedFlashs_end; flash ++)
+	{
+		_flash = *flash;
+		if (_flash -> colors>0)
+		{
+			_flash -> countDelay ++;
+
+			if (_flash -> countDelay > _flash -> table[ _flash -> index ].delay)
+			{
+				_flash -> countDelay = 0;
+				_flash -> index = (_flash -> index+1) % _flash -> colors;
+				screen -> rowPalette[ _flash -> color & 255 ] = _flash -> table[ _flash -> index ].rgb ;						
+			}
+		}
+	}
+
+	for (shift = screen -> allocatedShifts ; shift < screen -> allocatedShifts_end; shift ++)
+	{
+		_shift = *shift;
+		if ( _shift -> countDelay > _shift -> delay )
+		{
+			_shift -> countDelay ++;
+			from_color = _shift -> firstColor;
+			to_color = _shift -> lastColor;
+
+			if (_shift -> flags % 2)
+			{
+				temp = screen -> rowPalette[to_color];
+				for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
+				screen -> rowPalette[ from_color ] = temp;
+			}
+			else
+			{
+				temp = screen -> rowPalette[from_color];
+				for (color = from_color+1; color <= to_color; color ++ ) screen->rowPalette[color-1] = screen->rowPalette[color];
+				screen -> rowPalette[ to_color ] = temp;
+			}
+		}
+	}
+}
+
 
 int main()
 {
 	struct retroScreen *screen = NULL;
 	struct RastPort scroll_rp;
-
-	struct retroFlashTable	*flash = NULL;
 
 	struct IntuiMessage *msg;
 	bool running = true;
@@ -329,19 +378,13 @@ int main()
 
 			for (int scanline = 0; scanline < video -> rainbow[0].tableSize ; scanline ++ )
 			{
-				// sacnline to ECS color.
-
-				color.r =(scanline & 0xF00) >> 4;
-				color.g =(scanline & 0x0F0);
-				color.b =(scanline & 0x00F) << 4;				
-
+				ECSColorToRGB32( scanline, color );
 				video -> rainbow[0].table[scanline] = color;
 			}
 		}
 		//  end rain
 
 		screen = retroOpenScreen(320,200);
-
 
 		if (screen)
 		{
@@ -369,8 +412,7 @@ int main()
 			retroScreenColor( screen, 16, 0,200, 0 );
 			retroScreenColor( screen, 17, 0, 0, 0 );
 
-
-			flash = retroFlash(screen, 2, "(100,5),(200,5),(300,5),(400,5),(500,5),(600,5)(700,5),(800,5),(900,5),(A00,5),(B00,5),(A00,5),(900,5),(800,5),(700,5),(600,5),(500,5)(400,5),(300,5),(200,5)");
+			retroFlash(screen, 2, "(100,5),(200,5),(300,5),(400,5),(500,5),(600,5)(700,5),(800,5),(900,5),(A00,5),(B00,5),(A00,5),(900,5),(800,5),(700,5),(600,5),(500,5)(400,5),(300,5),(200,5)");
 
 			retroBAR(screen, 10,10,100,100,2 );
 
@@ -382,9 +424,6 @@ int main()
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0,retroLowres_pixeld );
-
-
-		printf("colors %d, index %d\n", flash -> colors, flash -> index );
 
 		while (running)
 		{
@@ -422,41 +461,13 @@ int main()
 //			AfterEffectAdjustRGB( video , 8, 0 , 4);
 			retroDmaVideo(video);
 
-
-			if (flash)
-			{
-				if (flash -> colors>0)
-				{
-					flash -> countDelay ++;
-
-					if (flash -> countDelay > flash -> table[ flash -> index ].delay)
-					{
-						retroCycleColorsUp(screen,8,12);
-						retroCycleColorsDown(screen,13,17);
-
-						flash -> countDelay = 0;
-						flash -> index = (flash -> index + 1) % flash -> colors;
-						screen -> rowPalette[ flash -> color & 255 ] = flash -> table[ flash -> index ].rgb ;						
-					}
-				}
-			}
+			do_all_screen_color_effects( screen );
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
-
-
 		}
 
-		if (screen)
-		{
-			 retroCloseScreen(screen);
-
-			if (flash)
-			{
-				if (flash -> table) FreeVec(flash->table);
-				FreeVec(flash);
-			}
-		}
+		if (screen) retroCloseScreen(screen);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
