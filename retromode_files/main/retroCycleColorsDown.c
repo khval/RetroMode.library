@@ -58,11 +58,5 @@ void _retromode_retroCycleColorsDown(struct RetroModeIFace *Self,
        unsigned char from_color,
        unsigned char to_color)
 {
-	struct retroRGB temp;
-	int color;
-
-	temp = screen -> rowPalette[from_color];
-	for (color = from_color+1; color <= to_color; color ++ ) screen->rowPalette[color-1] = screen->rowPalette[color];
-	screen -> rowPalette[ to_color ] = temp;
 }
 
