@@ -230,6 +230,17 @@ void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buf
 	}
 }
 
+static BOOL is_found( struct retroVideo * video, struct retroScreen * screen)
+{
+	struct retroScreen **screen_item;
+
+	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
+	{
+		if (*screen_item == screen) return TRUE;
+	}
+
+	return FALSE;
+}
 
 void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
        struct retroScreen * screen,
@@ -238,6 +249,7 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
        int offsety,
        int videomode)
 {
+//	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int y;
 	int dest_y;
 	int scan_line_from;
@@ -252,6 +264,7 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 		{
 			video -> scanlines[ dest_y ].beamStart = offsetx;
 			video -> scanlines[ dest_y ].videoWidth = video -> width;
+			video -> scanlines[ dest_y ].screen = screen;
 			video -> scanlines[ dest_y ].pixels = screen -> width;
 			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> width * y);
 			video -> scanlines[ dest_y ].mode = NULL;
@@ -287,6 +300,7 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 				video -> scanlines[ dest_y ].pixels = 0;
 				video -> scanlines[ dest_y ].data = NULL;
 				video -> scanlines[ dest_y ].mode = NULL;
+				video -> scanlines[ dest_y ].screen = NULL;
 				dest_y ++;
 			}
 		}
@@ -301,18 +315,27 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 		scan_line_to = offsety + (screen -> height*2);
 	}
 
+
+	// refersh the list
+	video -> screensAttached = 0;
+	for (y=0;y<video->height;y++)
+	{
+		if (video -> scanlines[ y ].screen)
+		{
+			if ( is_found( video, video -> scanlines[ y ].screen ) == FALSE )
+			{
+				video -> attachedScreens[ video -> screensAttached ] = video -> scanlines[ y ].screen;
+
+				video -> screensAttached++;
+				video -> attachedScreens_end = video -> attachedScreens + video -> screensAttached;	
+			}
+		}
+	}
+
 	if (scan_line_from < 0) scan_line_from = 0;
 	if (scan_line_from > video -> height) scan_line_from = video -> height;
 	if (scan_line_to > video -> height) scan_line_to = video -> height;
 	if (scan_line_to < scan_line_from) scan_line_to = scan_line_from;
 
-	
-
-/*
-	for ( color=0; color<256; color++)
-	{
-		 Self -> retroSetVideoColor( video, screen -> palette +color,  color, scan_line_from , scan_line_to );
-	}
-*/
 }
 
