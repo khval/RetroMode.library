@@ -110,14 +110,13 @@ int hex_to_int( char *ptr, char **to_ptr)
 	return ret * 0x11;
 }
 
-
-struct retroFlashTable * _retromode_retroFlash(struct RetroModeIFace *Self,
+void _retromode_retroFlash(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        unsigned char color,
        char * data)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	struct retroFlashTable *table;
+	struct retroFlashTable *new_flash = NULL;
 
 	int idx = 0;
 	int count = 0;
@@ -134,13 +133,13 @@ struct retroFlashTable * _retromode_retroFlash(struct RetroModeIFace *Self,
 			if (screen->allocatedFlashs[idx] -> color == color)
 			{
 				idx_free = idx;
-				table = screen->allocatedFlashs[idx];
+				new_flash = screen->allocatedFlashs[idx];
 
 				// as we are going to create a new color table we need to kill the old one.
-				if (table -> table)
+				if (new_flash -> table)
 				{
-					libBase -> IExec -> FreeVec(table -> table);
-					table -> table = NULL;
+					libBase -> IExec -> FreeVec(new_flash -> table);
+					new_flash -> table = NULL;
 				}
 				break;
 			}
@@ -160,28 +159,22 @@ struct retroFlashTable * _retromode_retroFlash(struct RetroModeIFace *Self,
 		}
 	}
 
-	if (idx_free == -1) return NULL;		// quit if no free color 
-
-
-	for (c=data; *c!=0; c++)
-	{
-		if (*c=='(') count ++;
-	}	
+	for (c=data; *c!=0; c++) { if (*c=='(') count ++;	}	
 
 	// no table exists 
-	if (!table)	table = (struct retroFlashTable *) libBase -> IExec -> AllocVecTags( sizeof(struct retroFlashTable), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END	);
+	if (!new_flash)	new_flash = (struct retroFlashTable *) libBase -> IExec -> AllocVecTags( sizeof(struct retroFlashTable), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END	);
 
-	if (table)
+	if ((new_flash)&&(idx_free>-1))
 	{
 		struct retroFlash *ptr = NULL;
 
-		table -> color = color;
-		table -> colors = count;
-		table -> index = 0;
-		table -> table = (struct retroFlash *) libBase -> IExec -> AllocVecTags( sizeof(struct retroFlash) * count, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END );
+		new_flash -> color = color;
+		new_flash -> colors = count;
+		new_flash -> index = 0;
+		new_flash -> table = (struct retroFlash *) libBase -> IExec -> AllocVecTags( sizeof(struct retroFlash) * count, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END );
 
 		sptr = data;
-		for (ptr = table -> table; ptr < table -> table+count; ptr++)
+		for (ptr = new_flash -> table; ptr < new_flash -> table+count; ptr++)
 		{
 			sptr = next_char( sptr, '(' );
 			ptr -> rgb.r =	hex_to_int(sptr, &sptr) ;
@@ -197,11 +190,9 @@ struct retroFlashTable * _retromode_retroFlash(struct RetroModeIFace *Self,
 			ptr -> delay = get_int(sptr,&sptr);
 		}
 
-		screen-> flashsAllocated++;		// flash tables
-		screen->allocatedFlashs[idx_free] = table;
+		screen->flashsAllocated++;		// flash tables
+		screen->allocatedFlashs[idx_free] = new_flash;
 		screen->allocatedFlashs_end = screen->allocatedFlashs + screen-> flashsAllocated;
 	}
-
-	return table;
 }
 

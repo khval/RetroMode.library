@@ -70,7 +70,7 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
        int toY)
 {
 	// pointers
-	unsigned char *ptr,*destination_horizontal_ptr;
+	unsigned char *destination_horizontal_ptr;
 
 	// range
 	unsigned char *src_vertical_ptr;
@@ -110,7 +110,7 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
 	{
 		destination_horizontal_ptr = destination_memory;
 		src_horizontal_end =src_vertical_ptr+width;
-		for(src_horizontal_ptr=src_vertical_ptr;ptr<src_horizontal_end;ptr++)
+		for(src_horizontal_ptr=src_vertical_ptr;src_horizontal_ptr<src_horizontal_end;src_horizontal_ptr++)
 		{
 			*destination_horizontal_ptr++ |= *src_horizontal_ptr;
 		}
