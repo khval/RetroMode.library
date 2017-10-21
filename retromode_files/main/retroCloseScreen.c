@@ -78,16 +78,17 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroFlashTable * flash;
+	struct retroShiftColors * shift;
 	int idx;
 
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
+//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	if (screen)
 	{
-		// look for existing
 		for (idx = 0; idx<256; idx++)
 		{
-			if (flash = screen->allocatedFlashs[idx]  )
+			flash = screen->allocatedFlashs[idx];
+			if (flash)
 			{
 				if (flash -> table)
 				{
@@ -97,6 +98,13 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 
 				libBase -> IExec -> FreeVec(flash);
 				screen->allocatedFlashs[idx] = NULL;	
+			}
+
+			shift = screen->allocatedShifts[idx];
+			if (shift)
+			{
+				libBase -> IExec -> FreeVec(shift);
+				screen->allocatedShifts[idx] = NULL;	
 			}
 		}
 		
