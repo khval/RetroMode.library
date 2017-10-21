@@ -47,7 +47,7 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/AfterEffectScanline.c main/AfterEffectAdjustRGB.c main/retroTriangle.c \
     main/retroOrTriangle.c main/retroXorTriangle.c main/retroLine.c \
     main/retroOrLine.c main/retroXorLine.c main/retroAllocFrame.c \
-    main/retroFreeFrame.c main/retroDrawFrame.c 
+    main/retroFreeFrame.c main/retroDrawFrame.c main/retroDeleteFlash.c 
 
 # -------------------------------------------------------------
 # Nothing should need changing below this line
