@@ -34,6 +34,7 @@ struct retroScanline
 	int pixels;
 	int videoWidth;
 	unsigned char *data;
+	struct retroScreen *screen;
 	struct retroRGB *orgPalette;
 	struct retroRGB *rowPalette;
 	void (*mode) ( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
@@ -65,6 +66,9 @@ struct retroShiftColors
 
 struct retroVideo
 {
+	struct retroScreen *attachedScreens[256];
+	struct retroScreen **attachedScreens_end;
+	int screensAttached;
 	struct retroRainbow	rainbow[3];
 	struct Window *window;
 	struct retroScanline scanlines[480];
@@ -105,7 +109,6 @@ struct retroScreen
 	struct retroShiftColors *allocatedShifts[256];	// you can't shift more colors then there is on the screen.
 	struct retroShiftColors **allocatedShifts_end;
 	int shiftsAllocated;
-
 	// text cursor place holder	
 	int locateX;		
 	int locateY;
