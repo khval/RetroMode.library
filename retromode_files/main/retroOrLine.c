@@ -64,7 +64,6 @@ void _retromode_retroOrLine(struct RetroModeIFace *Self,
        int y2,
        unsigned char color)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	unsigned char *memory;
 	double dx,dy;
 	double a;
@@ -75,8 +74,6 @@ void _retromode_retroOrLine(struct RetroModeIFace *Self,
 	double _y;
 	int dirx;
 	int sdx;	// signed delta x
-
-//	libBase -> IDOS -> Printf("line %ld,%ld to %ld,%ld\n", (int) x1, (int) y1, (int) x2, (int) y2 );
 
 	if (x2>x1)
 	{

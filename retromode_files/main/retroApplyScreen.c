@@ -238,7 +238,6 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
        int offsety,
        int videomode)
 {
-	int color;
 	int y;
 	int dest_y;
 	int scan_line_from;

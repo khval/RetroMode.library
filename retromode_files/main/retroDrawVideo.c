@@ -70,10 +70,10 @@ void color_reset( struct retroVideo * video, struct retroScanline *scanline)
 	}
 }
 
+
 void _retromode_retroDrawVideo(struct RetroModeIFace *Self,
        struct retroVideo * video)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroScanline *scanline = video -> scanlines;
 	unsigned int *video_buffer = video -> Memory;
 	unsigned int beamY;

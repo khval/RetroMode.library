@@ -86,7 +86,6 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 	if (new_video)
 	{
 		int scanline;
-		int color;
 		int c;
 
 		new_video -> width = 640;

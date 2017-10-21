@@ -55,7 +55,7 @@
 *
 */
 
-void _retromode_retroScreenColor(struct retromodeIFace *Self,
+void _retromode_retroScreenColor(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int color,
        unsigned char r,

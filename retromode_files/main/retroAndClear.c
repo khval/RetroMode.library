@@ -60,7 +60,7 @@
 *
 */
 
-void _retromode_retroAndClear(struct retromodeIFace *Self,
+void _retromode_retroAndClear(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int x0,
        int y0,

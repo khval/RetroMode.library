@@ -55,7 +55,7 @@
 *
 */
 
-void _retromode_AfterEffectAdjustRGB(struct retromodeIFace *Self,
+void _retromode_AfterEffectAdjustRGB(struct RetroModeIFace *Self,
        struct retroVideo * video,
        unsigned int red_shift,
        unsigned int green_shift,
@@ -63,7 +63,6 @@ void _retromode_AfterEffectAdjustRGB(struct retromodeIFace *Self,
 {
 	int scanline=0;
 	int x;
-	unsigned int *data = NULL;
 	unsigned int *src_mem = video -> Memory;
 	unsigned int *des_ptr;
 	unsigned int *src_ptr;

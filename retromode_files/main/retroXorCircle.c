@@ -64,7 +64,6 @@ void _retromode_retroXorCircle(struct RetroModeIFace *Self,
 {
 	int x0,y0,x1,y1;
 	int xx;
-	int rr;
 	int r2 = r * r;
 	int x,y,_y;
 	unsigned char *memory;

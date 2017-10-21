@@ -62,9 +62,9 @@ void _retromode_retroShift(struct RetroModeIFace *Self,
        int y0,
        int x1,
        int y1,
-       char bits)
+       int bits)
 {
-	int x,y;
+	int y;
 	unsigned char *memory;
 
 	unsigned char *from;

@@ -64,7 +64,6 @@ void _retromode_retroXorLine(struct RetroModeIFace *Self,
        int y2,
        unsigned char color)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	unsigned char *memory;
 	double dx,dy;
 	double a;

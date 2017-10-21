@@ -55,7 +55,6 @@ void _retromode_AfterEffectScanline(struct RetroModeIFace *Self,
 {
 			int scanline=0;
 	int x;
-	unsigned int *data = NULL;
 	unsigned int *src_mem = video -> Memory;
 	unsigned int *des_ptr;
 	unsigned int *src_ptr;

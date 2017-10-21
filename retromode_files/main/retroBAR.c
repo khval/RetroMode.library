@@ -67,7 +67,7 @@ void _retromode_retroBAR(struct RetroModeIFace *Self,
        int y1,
        unsigned char color)
 {
-	int x,y;
+	int y;
 	unsigned char *memory;
 
 	unsigned char *from;
