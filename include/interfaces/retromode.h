@@ -46,8 +46,8 @@ struct RetroModeIFace
 	void APICALL (*retroPixel)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color);
 	unsigned char APICALL (*retroPoint)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y);
 	struct retroFlashTable * APICALL (*retroFlash)(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned char color, char * data);
-	void APICALL (*retroCycleColorsUp)(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned char from_color, unsigned char to_color);
-	void APICALL (*retroCycleColorsDown)(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned char from_color, unsigned char to_color);
+	void APICALL (*retroCycleColorsUp)(struct RetroModeIFace *Self, struct retroScreen * screen, int delay, unsigned char from_color, unsigned char to_color, unsigned char flags );
+	void APICALL (*retroCycleColorsDown)(struct RetroModeIFace *Self, struct retroScreen * screen, int delay, unsigned char from_color, unsigned char to_color, unsigned char flags );
 	void APICALL (*retroBAR)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char color);
 	void APICALL (*retroOrBAR)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char or_mask);
 	void APICALL (*retroXorBAR)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char xor_mask);
