@@ -310,23 +310,25 @@ void do_all_screen_color_effects(struct retroScreen *screen)
 	for (shift = screen -> allocatedShifts ; shift < screen -> allocatedShifts_end; shift ++)
 	{
 		_shift = *shift;
+		_shift -> countDelay ++;
+
 		if ( _shift -> countDelay > _shift -> delay )
 		{
-			_shift -> countDelay ++;
+			_shift -> countDelay = 0;
 			from_color = _shift -> firstColor;
 			to_color = _shift -> lastColor;
 
-			if (_shift -> flags % 2)
-			{
-				temp = screen -> rowPalette[to_color];
-				for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
-				screen -> rowPalette[ from_color ] = temp;
-			}
-			else
+			if (_shift -> flags & 2)
 			{
 				temp = screen -> rowPalette[from_color];
 				for (color = from_color+1; color <= to_color; color ++ ) screen->rowPalette[color-1] = screen->rowPalette[color];
 				screen -> rowPalette[ to_color ] = temp;
+			}
+			else
+			{
+				temp = screen -> rowPalette[to_color];
+				for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
+				screen -> rowPalette[ from_color ] = temp;
 			}
 		}
 	}
@@ -414,6 +416,9 @@ int main()
 
 			retroFlash(screen, 2, "(100,5),(200,5),(300,5),(400,5),(500,5),(600,5)(700,5),(800,5),(900,5),(A00,5),(B00,5),(A00,5),(900,5),(800,5),(700,5),(600,5),(500,5)(400,5),(300,5),(200,5)");
 
+			retroCycleColorsUp(screen,5,8,12,0);
+			retroCycleColorsDown(screen,5,13,13+4,0);
+
 			retroBAR(screen, 10,10,100,100,2 );
 
 			for (x=0;x<5;x++)
@@ -448,7 +453,6 @@ int main()
 				scrolled_x = 0;
 			}
 
-//			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 			retroAndClear( screen, 50,50,150,150, ~2 );
 
 			retroLine( screen, 100,100,100 + (cos(g)*50) ,100 +(-sin(g)*50) ,1 );
