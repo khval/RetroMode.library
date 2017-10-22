@@ -281,60 +281,6 @@ void retroBoing( struct retroScreen *screen, int rx, int ry, int r, unsigned cha
 	}
 }
 
-void do_all_screen_color_effects(struct retroScreen *screen)
-{
-	struct retroFlashTable **flash;
-	struct retroFlashTable *_flash;
-	struct retroShiftColors **shift;
-	struct retroShiftColors *_shift;
-	struct retroRGB temp;
-	int color;
-	int from_color,to_color;
-
-	for (flash = screen -> allocatedFlashs ; flash < screen -> allocatedFlashs_end; flash ++)
-	{
-		_flash = *flash;
-		if (_flash -> colors>0)
-		{
-			_flash -> countDelay ++;
-
-			if (_flash -> countDelay > _flash -> table[ _flash -> index ].delay)
-			{
-				_flash -> countDelay = 0;
-				_flash -> index = (_flash -> index+1) % _flash -> colors;
-				screen -> rowPalette[ _flash -> color & 255 ] = _flash -> table[ _flash -> index ].rgb ;						
-			}
-		}
-	}
-
-	for (shift = screen -> allocatedShifts ; shift < screen -> allocatedShifts_end; shift ++)
-	{
-		_shift = *shift;
-		_shift -> countDelay ++;
-
-		if ( _shift -> countDelay > _shift -> delay )
-		{
-			_shift -> countDelay = 0;
-			from_color = _shift -> firstColor;
-			to_color = _shift -> lastColor;
-
-			if (_shift -> flags & 2)
-			{
-				temp = screen -> rowPalette[from_color];
-				for (color = from_color+1; color <= to_color; color ++ ) screen->rowPalette[color-1] = screen->rowPalette[color];
-				screen -> rowPalette[ to_color ] = temp;
-			}
-			else
-			{
-				temp = screen -> rowPalette[to_color];
-				for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
-				screen -> rowPalette[ from_color ] = temp;
-			}
-		}
-	}
-}
-
-
 int main()
 {
 	struct retroScreen *screen = NULL;
@@ -464,8 +410,6 @@ int main()
 			AfterEffectScanline( video );
 //			AfterEffectAdjustRGB( video , 8, 0 , 4);
 			retroDmaVideo(video);
-
-			do_all_screen_color_effects( screen );
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
