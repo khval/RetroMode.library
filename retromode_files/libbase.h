@@ -11,6 +11,5 @@ struct RetroLibrary
 	struct DOSIFace		*IDOS;
 	struct Library			*GraphicsBase;
 	struct GraphicsIFace	*IGraphics;
-	
 };
 

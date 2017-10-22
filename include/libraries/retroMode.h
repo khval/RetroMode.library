@@ -77,6 +77,7 @@ struct retroVideo
 	unsigned int width;
 	unsigned int height;
 	struct RastPort rp;
+	BOOL updateScreenList;
 };
 
 struct p 
@@ -101,6 +102,9 @@ struct retroScreen
 	// color palette and copper palette
 	struct retroRGB orgPalette[256];
 	struct retroRGB rowPalette[256];
+
+	// keeping track of what video its attached to.
+	struct retroVideo *attachedToVideo;
 
 	// typical classic effects flash and color shifting
 	struct retroFlashTable *allocatedFlashs[256];

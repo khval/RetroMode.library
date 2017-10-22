@@ -74,6 +74,22 @@ void trunc_flash_table( struct retroScreen * screen )
 }
 */
 
+static void clean_up_video(struct retroVideo *video, struct retroScreen * screen)
+{
+	int y;
+	for (y=0;y<video->height;y++)
+	{
+		if (video -> scanlines[y].screen == screen)
+		{
+			video -> scanlines[y].screen = NULL;
+			video -> scanlines[y].data = NULL;
+			video -> scanlines[y].pixels = 0;
+			video -> scanlines[y].beamStart = 0;
+			video -> scanlines[y].videoWidth = 0;
+		}
+	}
+}
+
 void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen * screen)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
@@ -81,10 +97,15 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 	struct retroShiftColors * shift;
 	int idx;
 
-//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
-
 	if (screen)
 	{
+		if (screen -> attachedToVideo)
+		{
+			clean_up_video(screen -> attachedToVideo, screen);
+			screen -> attachedToVideo -> updateScreenList = TRUE;
+			screen -> attachedToVideo = NULL;	// unattach
+		}
+
 		for (idx = 0; idx<256; idx++)
 		{
 			flash = screen->allocatedFlashs[idx];

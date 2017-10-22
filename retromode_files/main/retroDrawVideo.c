@@ -123,6 +123,38 @@ static void color_reset( struct retroVideo * video, struct retroScanline *scanli
 	}
 }
 
+static BOOL is_found( struct retroVideo * video, struct retroScreen * screen)
+{
+	struct retroScreen **screen_item;
+
+	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
+	{
+		if (*screen_item == screen) return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void update_screen_list(struct retroVideo * video)
+{
+	int y;
+
+	// refersh the list
+	video -> screensAttached = 0;
+	for (y=0;y<video->height;y++)
+	{
+		if (video -> scanlines[ y ].screen)
+		{
+			if ( is_found( video, video -> scanlines[ y ].screen ) == FALSE )
+			{
+				video -> attachedScreens[ video -> screensAttached ] = video -> scanlines[ y ].screen;
+
+				video -> screensAttached++;
+				video -> attachedScreens_end = video -> attachedScreens + video -> screensAttached;	
+			}
+		}
+	}
+}
 
 void _retromode_retroDrawVideo(struct RetroModeIFace *Self,
        struct retroVideo * video)
@@ -141,6 +173,12 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self,
 	BOOL coopered = FALSE;
 	BOOL coopered_last = TRUE;
 
+	if (video -> updateScreenList == TRUE)
+	{
+		video -> updateScreenList = FALSE;
+		update_screen_list(video);
+	}
+
 	// only allocated rainbow tables are in the compressed table
 	// allowing me skip validating in main loop.
 
@@ -155,10 +193,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self,
 		}
 	}
 
-//	libBase -> IDOS -> Printf(" %lx - %lx\n" , compressed_rainbow_table, compressed_rainbow_table_end );
-
 	beamcount = 0;
-
 	for (beamY=0; beamY < video-> height; beamY++)
 	{
 		if (scanline->mode != NULL) 

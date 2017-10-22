@@ -230,17 +230,6 @@ void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buf
 	}
 }
 
-static BOOL is_found( struct retroVideo * video, struct retroScreen * screen)
-{
-	struct retroScreen **screen_item;
-
-	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
-	{
-		if (*screen_item == screen) return TRUE;
-	}
-
-	return FALSE;
-}
 
 void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
        struct retroScreen * screen,
@@ -254,6 +243,9 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 	int dest_y;
 	int scan_line_from;
 	int scan_line_to;
+
+	screen -> attachedToVideo = video;
+	video -> updateScreenList = TRUE;
 
 	scan_line_from = offsety;
 	dest_y = offsety;
@@ -313,23 +305,6 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 	else
 	{
 		scan_line_to = offsety + (screen -> height*2);
-	}
-
-
-	// refersh the list
-	video -> screensAttached = 0;
-	for (y=0;y<video->height;y++)
-	{
-		if (video -> scanlines[ y ].screen)
-		{
-			if ( is_found( video, video -> scanlines[ y ].screen ) == FALSE )
-			{
-				video -> attachedScreens[ video -> screensAttached ] = video -> scanlines[ y ].screen;
-
-				video -> screensAttached++;
-				video -> attachedScreens_end = video -> attachedScreens + video -> screensAttached;	
-			}
-		}
 	}
 
 	if (scan_line_from < 0) scan_line_from = 0;
