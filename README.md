@@ -6,8 +6,11 @@ Retro mode is for AmigaOS4.1
 to compile type:
 
 make install
+
 make clean
+
 make 
+
 make install
 
 first install install header files into the OS4.1 SDK.
@@ -32,6 +35,7 @@ After you have installed header files and library
 cd tests
 
 type "make clean", to delete old binrary files.
+
 type "make" to build the tests.
 
 
