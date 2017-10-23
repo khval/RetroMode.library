@@ -13,13 +13,14 @@ make
 
 make install
 
-first install install header files into the OS4.1 SDK.
+first install, installs the header files into the AmigaOS4.1 SDK.
 
 "make clean" 
 
-Delete any old .o files, if RetroMode or tests crashes then this is a likely cause,
-structs are changed and things are added, if structs are allocated incorrect size to
-a old sizeof(struct) then memory gets over written system crashes.
+Delete any old .o files, if RetroMode.library or tests crashes then this is a likely caused by outdated .o files.
+
+structs in header files are often changed, if structs are allocated incorrect size to
+a old sizeof(struct) then memory gets over written, result is a system crash. if things that are removed is being used by old .o files system crash and so on.
 
 "make"
 
