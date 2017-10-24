@@ -164,7 +164,7 @@ STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct
 	libBase->DOSBase = IExec->OpenLibrary("dos.library", 53L);
 	if (libBase->DOSBase)
 	{
-		libBase->IDOS = (struct GraphicsIFace *)IExec->GetInterface(libBase->DOSBase,"main", 1, NULL);
+		libBase->IDOS = (struct DOSIFace *)IExec->GetInterface(libBase->DOSBase,"main", 1, NULL);
 
 		if (!libBase->IDOS) return NULL;
 	} else return NULL; 
