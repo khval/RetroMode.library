@@ -54,6 +54,10 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroFreeFrame,
     _retromode_retroDrawFrame,
     _retromode_retroDeleteFlash,
+    _retromode_retroScreenOffset,
+    _retromode_retroScreenDetach,
+    _retromode_retroScreenToFront,
+    _retromode_retroScreenToBack,
     (APTR)-1
 };
 

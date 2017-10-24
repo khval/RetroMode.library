@@ -58,6 +58,11 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroAllocFrame
 	    FPTR IRetroMode_retroFreeFrame
 	    FPTR IRetroMode_retroDrawFrame
+	    FPTR IRetroMode_retroDeleteFlash
+	    FPTR IRetroMode_retroScreenOffset
+	    FPTR IRetroMode_retroScreenDetach
+	    FPTR IRetroMode_retroScreenToFront
+	    FPTR IRetroMode_retroScreenToBack
 	LABEL RetroModeIFace_SIZE
 
 #endif

@@ -26,6 +26,7 @@
 		<method name="retroOpenScreen" result="struct retroScreen *">
 			<arg name="width" type="int"/>
 			<arg name="height" type="int"/>
+			<arg name="videomode" type="int"/>
 		</method>
 		<method name="retroCloseScreen" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
@@ -33,9 +34,10 @@
 		<method name="retroApplyScreen" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="video" type="struct retroVideo *"/>
-			<arg name="offsetx" type="int"/>
-			<arg name="oppsety" type="int"/>
-			<arg name="videomode" type="int"/>				
+			<arg name="scanlinex" type="int"/>
+			<arg name="scanliney" type="int"/>
+			<arg name="displayWidth" type="int"/>
+			<arg name="displayHeight" type="int"/>
 		</method>
 		<method name="retroPixel" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
@@ -317,6 +319,20 @@
 		<method name="retroDeleteFlash" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroScreenOffset" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="offsetx" type="int"/>
+			<arg name="offsety" type="int"/>
+		</method>
+		<method name="retroScreenDetach" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+		</method>
+		<method name="retroScreenToFront" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+		</method>
+		<method name="retroScreenToBack" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
 		</method>
 	</interface>
 </library>
