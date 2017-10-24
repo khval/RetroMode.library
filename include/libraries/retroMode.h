@@ -77,7 +77,9 @@ struct retroVideo
 	unsigned int width;
 	unsigned int height;
 	struct RastPort rp;
-	BOOL updateScreenList;
+//	BOOL updateScreenList;
+	BOOL refreshAllScanlines;
+	BOOL refreshSomeScanlines;
 };
 
 struct p 
@@ -95,8 +97,13 @@ void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buff
 
 struct retroScreen
 {
+	int scanline_x;
+	int scanline_y;
+	int offset_x;
+	int offset_y;
 	int width;
 	int height;
+	unsigned int videomode;
 	unsigned char *Memory;
 
 	// color palette and copper palette
@@ -116,6 +123,7 @@ struct retroScreen
 	// text cursor place holder	
 	int locateX;		
 	int locateY;
+	BOOL refreshScanlines;
 };
 
 struct retroFrame

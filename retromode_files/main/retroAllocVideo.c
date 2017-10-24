@@ -88,7 +88,8 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 		int scanline;
 		int c;
 
-		new_video -> updateScreenList = TRUE;
+		new_video -> refreshAllScanlines = TRUE;
+		new_video -> refreshSomeScanlines = FALSE;
 
 		new_video -> width = 640;
 		new_video -> height = 480;

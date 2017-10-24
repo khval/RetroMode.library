@@ -74,6 +74,7 @@ void trunc_flash_table( struct retroScreen * screen )
 }
 */
 
+/*
 static void clean_up_video(struct retroVideo *video, struct retroScreen * screen)
 {
 	int y;
@@ -89,6 +90,9 @@ static void clean_up_video(struct retroVideo *video, struct retroScreen * screen
 		}
 	}
 }
+*/
+
+extern void _retromode_retroScreenDetach(struct RetroModeIFace *Self, struct retroScreen * screen);
 
 void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen * screen)
 {
@@ -97,42 +101,35 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 	struct retroShiftColors * shift;
 	int idx;
 
-	if (screen)
+	if (screen==NULL) return;
+
+	_retromode_retroScreenDetach( Self, screen );
+
+	for (idx = 0; idx<256; idx++)
 	{
-		if (screen -> attachedToVideo)
+		flash = screen->allocatedFlashs[idx];
+		if (flash)
 		{
-			clean_up_video(screen -> attachedToVideo, screen);
-			screen -> attachedToVideo -> updateScreenList = TRUE;
-			screen -> attachedToVideo = NULL;	// unattach
+			if (flash -> table)
+			{
+				libBase -> IExec -> FreeVec(flash -> table);
+				flash -> table = NULL;
+			}
+			libBase -> IExec -> FreeVec(flash);
+			screen->allocatedFlashs[idx] = NULL;	
 		}
 
-		for (idx = 0; idx<256; idx++)
+		shift = screen->allocatedShifts[idx];
+		if (shift)
 		{
-			flash = screen->allocatedFlashs[idx];
-			if (flash)
-			{
-				if (flash -> table)
-				{
-					libBase -> IExec -> FreeVec(flash -> table);
-					flash -> table = NULL;
-				}
-
-				libBase -> IExec -> FreeVec(flash);
-				screen->allocatedFlashs[idx] = NULL;	
-			}
-
-			shift = screen->allocatedShifts[idx];
-			if (shift)
-			{
-				libBase -> IExec -> FreeVec(shift);
-				screen->allocatedShifts[idx] = NULL;	
-			}
+			libBase -> IExec -> FreeVec(shift);
+			screen->allocatedShifts[idx] = NULL;	
 		}
-		
-		if (screen -> Memory)  libBase -> IExec -> FreeVec(screen -> Memory);
-		screen -> Memory = NULL;
-
-		libBase -> IExec -> FreeVec(screen);
 	}
+		
+	if (screen -> Memory)  libBase -> IExec -> FreeVec(screen -> Memory);
+	screen -> Memory = NULL;
+
+	libBase -> IExec -> FreeVec(screen);
 }
 

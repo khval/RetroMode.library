@@ -52,6 +52,170 @@
 *
 */
 
+void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+{
+	int x;
+	unsigned short lr,lg,lb;
+	unsigned short r,g,b;
+	struct retroRGB *palette = line -> rowPalette;
+	unsigned char *data = line -> data;
+	unsigned int *video_buffer_line = video_buffer;
+	unsigned char color;
+	int videoWidth;
+	unsigned int rgb;
+	int draw_pixels;
+
+	lr = 0;
+	lg = 0;
+	lb = 0;
+
+	// beam emulates 8 bits per chunk.
+
+	if (line -> beamStart > 0)
+	{
+		// move des on postive
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
+	}
+	else
+	{
+		// move src on nagative
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  line -> videoWidth / 2;	// displayable video width;
+	}
+
+	draw_pixels = line -> pixels - abs(line -> beamStart);
+
+	// lowres has only half the number of pixels.
+
+	if ( draw_pixels > videoWidth ) draw_pixels = videoWidth ;
+
+	for (x=0; x < draw_pixels; x++)
+	{
+		color = *data++;
+
+		r = palette[color].r;
+		g =palette[color].g;
+		b =palette[color].b;
+
+		rgb = 0xFF000000 | (r << 16) | (g << 8) | b;
+
+		*video_buffer_line ++ = rgb;
+		*video_buffer_line ++ = rgb;
+	}
+}
+
+
+void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+{
+	int x;
+	unsigned short lr,lg,lb;
+	unsigned short r,g,b;
+	struct retroRGB *palette = line -> rowPalette;
+	unsigned char *data = line -> data;
+	unsigned int *video_buffer_line = video_buffer;
+	unsigned char color;
+	int videoWidth;
+
+	int draw_pixels;
+
+	lr = 0;
+	lg = 0;
+	lb = 0;
+
+	// beam emulates 8 bits per chunk.
+
+	if (line -> beamStart > 0)
+	{
+		// move des on postive
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
+	}
+	else
+	{
+		// move src on nagative
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  line -> videoWidth / 2;	// displayable video width;
+	}
+
+	draw_pixels = line -> pixels - abs(line -> beamStart);
+
+	// lowres has only half the number of pixels.
+
+	if ( draw_pixels > videoWidth ) draw_pixels = videoWidth ;
+
+	for (x=0; x < draw_pixels; x++)
+	{
+
+		color = *data++;
+
+		r = ((lr * 5) + (palette[color].r*95)) /100;
+		g = ((lg * 5) + (palette[color].g*95)) / 100;
+		b = ((lb * 5) + (palette[color].b*95)) /100;
+
+		// keep last
+		lr = r; lg = g; lb = b;
+
+		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
+
+		r = ((lr * 5) + (palette[color].r*95)) /100;
+		g = ((lg * 5) + (palette[color].g*95)) / 100;
+		b = ((lb * 5) + (palette[color].b*95)) /100;
+
+		// keep last.
+		lr = r; lg = g; lb = b;
+
+		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
+	}
+}
+
+void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+{
+	int x;
+	unsigned short lr,lg,lb;
+	unsigned short r,g,b;
+	struct retroRGB *palette = line -> rowPalette;
+	unsigned char *data = line -> data;
+	unsigned int *video_buffer_line = video_buffer;
+	unsigned char color;
+	unsigned int videoWidth;
+
+	int draw_pixels;
+
+	lr = 0;
+	lg = 0;
+	lb = 0;
+
+	// beam emulates 8 bits per chunk.
+
+	if (line -> beamStart > 0)
+	{
+		// move des on postive
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart);		// displayable video width;
+	}
+	else
+	{
+		// move src on nagative
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  line -> videoWidth;	// displayable video width;
+	}
+	draw_pixels = line -> pixels - abs(line -> beamStart);
+
+	if (draw_pixels  >  videoWidth ) draw_pixels = videoWidth ;
+
+	for (x=0; x < draw_pixels; x++)
+	{
+		color = *data++;
+
+		r = palette[color].r;
+		g = palette[color].g;
+		b = palette[color].b;
+
+		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
+	}
+}
+
 static void do_all_screen_color_effects(struct retroScreen *screen)
 {
 	struct retroFlashTable **flash;
@@ -123,41 +287,80 @@ static void color_reset( struct retroVideo * video, struct retroScanline *scanli
 	}
 }
 
-static BOOL is_found( struct retroVideo * video, struct retroScreen * screen)
-{
-	struct retroScreen **screen_item;
-
-	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
-	{
-		if (*screen_item == screen) return TRUE;
-	}
-
-	return FALSE;
-}
-
-static void update_screen_list(struct retroVideo * video)
+void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * screen, struct retroVideo * video )
 {
 	int y;
+	int dest_y;
+	int videomode = screen -> videomode;
 
-	// refersh the list
-	video -> screensAttached = 0;
-	for (y=0;y<video->height;y++)
+	dest_y = screen -> scanline_y;
+
+//	libBase -> IDOS -> Printf("%s: screen -> scanline_y=%d\n",__FUNCTION__, screen -> scanline_y);
+
+	for ( y = 0 ; y < screen -> height; y++ )
 	{
-		if (video -> scanlines[ y ].screen)
-		{
-			if ( is_found( video, video -> scanlines[ y ].screen ) == FALSE )
-			{
-				video -> attachedScreens[ video -> screensAttached ] = video -> scanlines[ y ].screen;
+//		libBase -> IDOS -> Printf("%s: y=%ld\n",__FUNCTION__,y);
 
-				video -> screensAttached++;
-				video -> attachedScreens_end = video -> attachedScreens + video -> screensAttached;	
+		if ((dest_y > -1) && (dest_y<video->height))
+		{
+			video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
+			video -> scanlines[ dest_y ].videoWidth = video -> width;
+			video -> scanlines[ dest_y ].screen = screen;
+			video -> scanlines[ dest_y ].pixels = screen -> width;
+			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> width * (y + screen -> offset_y) ) + screen -> offset_x;
+			video -> scanlines[ dest_y ].mode = NULL;
+
+			video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
+			video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
+
+			if (videomode & retroLowres )
+			{
+				video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
+			}
+
+			if (videomode & retroLowres_pixeld )
+			{
+				video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
+			}
+
+			if (videomode & retroHires )
+			{
+				video -> scanlines[ dest_y ].mode = draw_hires;
+			}
+
+			dest_y ++;
+		}
+
+		if ( ! (videomode & retroInterlaced) )
+		{
+			if ((dest_y > -1) && (dest_y<video->height))
+			{
+				video -> scanlines[ dest_y ].orgPalette = NULL;
+				video -> scanlines[ dest_y ].rowPalette = NULL;
+				video -> scanlines[ dest_y ].beamStart = 0;
+				video -> scanlines[ dest_y ].pixels = 0;
+				video -> scanlines[ dest_y ].data = NULL;
+				video -> scanlines[ dest_y ].mode = NULL;
+				video -> scanlines[ dest_y ].screen = NULL;
+				dest_y ++;
 			}
 		}
 	}
 }
 
-void _retromode_retroDrawVideo(struct RetroModeIFace *Self,
-       struct retroVideo * video)
+void update_all_scanlines( struct RetroLibrary *libBase, struct retroVideo * video )
+{
+	struct retroScreen **screen_item;
+
+	libBase->IDOS->Printf("%s: %lx %lx\n",__FUNCTION__,video -> attachedScreens,video -> attachedScreens_end);
+
+	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
+	{
+		Screen_To_Scanlines( libBase, *screen_item, video );
+	}
+}
+
+void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * video)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroScanline *scanline = video -> scanlines;
@@ -173,11 +376,20 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self,
 	BOOL coopered = FALSE;
 	BOOL coopered_last = TRUE;
 
-	if (video -> updateScreenList == TRUE)
+	if (video -> refreshAllScanlines == TRUE)
 	{
-		video -> updateScreenList = FALSE;
-		update_screen_list(video);
+		libBase->IDOS->Printf("%s: if (video -> refreshAllScanlines == TRUE)\n",__FUNCTION__);
+
+		video -> refreshAllScanlines = FALSE;
+		update_all_scanlines(libBase, video);
 	}
+
+	if (video -> refreshSomeScanlines == TRUE)
+	{
+		video -> refreshSomeScanlines = FALSE;
+//		update_some_scanlines(video);
+	}
+
 
 	// only allocated rainbow tables are in the compressed table
 	// allowing me skip validating in main loop.
@@ -227,6 +439,5 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self,
 	{
 		do_all_screen_color_effects(*screen_item);
 	}
-
 }
 
