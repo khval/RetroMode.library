@@ -87,7 +87,7 @@ struct p
 	double x ; double y ;
 };
 
-void draw_lowred_emulate_color_changes( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+void draw_lowres_emulate_color_changes( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
 //void draw_video(struct retroVideo *context, unsigned int *video_buffer );
@@ -101,8 +101,11 @@ struct retroScreen
 	int scanline_y;
 	int offset_x;
 	int offset_y;
-	int width;
-	int height;
+	int realWidth;
+	int realHeight;
+	int displayWidth;
+	int displayHeight;
+
 	unsigned int videomode;
 	unsigned char *Memory;
 
