@@ -340,9 +340,9 @@ int main()
 		}
 		//  end rain
 
-		screen = retroOpenScreen(320,200);
-		screen2 = retroOpenScreen(640,200);
-		screen3 = retroOpenScreen(640,200);
+		screen = retroOpenScreen(320,200,retroLowres);
+		screen2 = retroOpenScreen(640,200, retroHires);
+		screen3 = retroOpenScreen(640,200, retroHires | retroInterlaced);
 
 
 		if (screen)
@@ -398,9 +398,9 @@ int main()
 //			retroBAR( screen3,20,20,60, 60, 2 );
 		}
 
-		if (screen)	retroApplyScreen( screen, video, 0, 0, retroLowres );
-		if (screen2)	retroApplyScreen( screen2, video, 0, 150, retroHires );
-		if (screen3)	retroApplyScreen( screen2, video, 0, 300, retroHires | retroInterlaced );
+		if (screen)	retroApplyScreen( screen, video, 0, 0,320,200 );
+		if (screen2)	retroApplyScreen( screen2, video, 0, 150,320,200 );
+		if (screen3)	retroApplyScreen( screen3, video, 0, 300,320,200 );
 
 		while (running)
 		{

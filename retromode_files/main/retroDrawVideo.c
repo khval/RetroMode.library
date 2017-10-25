@@ -299,7 +299,7 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 
 	for ( y = 0 ; y < screen -> height; y++ )
 	{
-//		libBase -> IDOS -> Printf("%s: y=%ld\n",__FUNCTION__,y);
+		libBase -> IDOS -> Printf("%s: y=%ld width %ld mode %lx\n",__FUNCTION__,y, screen -> width, videomode);
 
 		if ((dest_y > -1) && (dest_y<video->height))
 		{

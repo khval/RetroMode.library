@@ -412,7 +412,7 @@ int main()
 		}
 		//  end rain
 
-		screen = retroOpenScreen(320,200);
+		screen = retroOpenScreen(320,200,retroLowres);
 
 		if (screen)
 		{
@@ -450,7 +450,7 @@ int main()
 			retroBoing( screen, 295, 35, 10, 1 );
 		}
 
-		if (screen)	retroApplyScreen( screen, video, 0, 0, retroLowres );
+		if (screen)	retroApplyScreen( screen, video, 0, 0, 320,200 );
 
 		while (running)
 		{

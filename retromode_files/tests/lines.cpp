@@ -332,7 +332,7 @@ int main()
 		}
 		//  end rain
 
-		screen = retroOpenScreen(320,200);
+		screen = retroOpenScreen(320,200,retroLowres_pixeld);
 
 		if (screen)
 		{
@@ -374,7 +374,7 @@ int main()
 			}
 		}
 
-		if (screen)	retroApplyScreen( screen, video, 0, 0,retroLowres_pixeld );
+		if (screen)	retroApplyScreen( screen, video, 0, 0, 320,200 );
 
 		while (running)
 		{

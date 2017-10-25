@@ -73,14 +73,15 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
        struct retroVideo * video,
        int scanline_x,
        int scanline_y,
-       int videomode)
+       int display_width,
+	int display_height)
 {
 	int found;
 	int n;
 
 	screen -> scanline_x = scanline_x;
 	screen -> scanline_y = scanline_y;
-	screen -> videomode = videomode;
+
 
 	found = -1;
 	for (n=0;n<video -> screensAttached;n++)

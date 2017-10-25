@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <string.h>
 
 #ifdef amigaos4
 #include <proto/exec.h>
@@ -12,6 +14,11 @@
 #include "os4_emu.h"
 #endif
 
+int scrolled_x;
+int scroll_speed = 2;
+int scroll_char = 0;
+
+char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
 
 #define IDCMP_COMMON IDCMP_MOUSEBUTTONS | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW  | \
 	IDCMP_CHANGEWINDOW | IDCMP_MOUSEMOVE | IDCMP_REFRESHWINDOW | IDCMP_RAWKEY | \
@@ -97,8 +104,6 @@ static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, str
 }
 
 static CompositeHookData hookData;
-
-#ifdef amigaos4
 
 static struct Rectangle rect;
 static struct Hook hook;
@@ -213,51 +218,97 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
-#else
 
-bool open_window(int window_width, int window_height)
+void retroBoingOutline( struct retroScreen *screen, int rx, int ry, int r, int t, unsigned char color )
 {
-	My_Window = (struct Window *) malloc(sizeof(struct Window));
+	int x0,y0,x1,y1;
+	int xx;
+	int rr;
+	int r2 = r * r;
+	int x,y;
 
-	if (My_Window)
+	x0 = rx -r;
+	y0 = ry-r;
+	x1 = rx+r;
+	y1 = ry+r;
+
+	for (y=-r;y<=r;y++)
 	{
-		My_Window->RPort = (struct RastPort *) malloc(sizeof(struct RastPort));
+		xx = sqrt( r2 - (y*y));
 
-		if (My_Window->RPort)
+		for (x = -xx; x<xx;x++)
 		{
-			My_Window->RPort->BitMap = (struct BitMap *) malloc(sizeof(struct BitMap));
-			My_Window->RPort->BitMap->BytePerRow = window_width * 4;
-			My_Window->RPort->BitMap->height = window_height;
-			My_Window->RPort->BitMap->width = window_width;
+			rr = sqrt( (x*x) + (y*y) );
+
+			if (rr<=r)
+			{
+				retroPixel( screen, x + rx, y + ry, rr<r-t ? 2 : color );
+			}
 		}
 	}
-
-	return (My_Window != NULL);
 }
 
+void retroBoing( struct retroScreen *screen, int rx, int ry, int r, unsigned char color )
+{
+	int x0,y0,x1,y1;
+	int xx;
+	int rr;
+	int r2 = r * r;
+	int width, height;
+	int bx,by;
+	int x,y;
 
-bool init(){ 
+	x0 = rx -r;
+	y0 = ry-r;
+	x1 = rx+r;
+	y1 = ry+r;
 
-	if (!open_window(640, 480)) return false;
-	if ((video = alloc_retoVideo(My_Window)) == NULL) return false;
-	return true; 
-};
+	height = y1-y0+1;
 
-#endif
+	for (y=-r;y<=r;y++)
+	{
+		xx = sqrt( r2 - (y*y));
+		width = xx*2+1;
+
+		by = ((y + r) * 6 / height) & 1;
+
+		for (x = -xx; x<xx;x++)
+		{
+			bx = ((x + xx) * 6 / width) & 1;
+
+			retroPixel( screen, x + rx, y + ry, (bx + by) & 1 ? color : 3 );
+		}
+	}
+}
+
 
 int main()
 {
 	struct retroScreen *screen = NULL;
 	struct retroScreen *screen2 = NULL;
 	struct retroScreen *screen3 = NULL;
+	struct RastPort scroll_rp;
 
 	struct IntuiMessage *msg;
 	bool running = true;
 
 	retroRGB color;
+	double p = 0;
+	double start_sync;
 
-	if (init())
+
+	if (init())		// libs open her.
 	{
+
+		InitRastPort(&scroll_rp);
+		scroll_rp.BitMap = AllocBitMapTags( 320, 200, 256, 
+				BMATags_PixelFormat, PIXF_CLUT, 
+				BMATags_Clear, true,
+				BMATags_Displayable, false,
+				TAG_END);
+
+		scroll_rp.Font =  My_Window -> RPort -> Font;
+		SetBPen( &scroll_rp, 0 );
 
 		retroClearVideo(video);
 		
@@ -268,8 +319,8 @@ int main()
 		// end set rainbow
 
 		// start rainbow
-		video -> rainbow[0].verticalOffset = 50;	
-		video -> rainbow[0].height = 200;
+		video -> rainbow[0].verticalOffset = 100;	
+		video -> rainbow[0].height = 300;
 		// end rainbow
 
 		// start rain
@@ -289,29 +340,52 @@ int main()
 		}
 		//  end rain
 
-		screen = retroOpenScreen(320,200, retroLowres );
-		screen2 = retroOpenScreen(640,200, retroHires);
-		screen3 = retroOpenScreen(640,200, retroHires | retroInterlaced);
+		screen = retroOpenScreen(320,200);
+		screen2 = retroOpenScreen(640,200);
+		screen3 = retroOpenScreen(640,200);
 
 
 		if (screen)
 		{
-			retroScreenColor( screen, 0, 255, 100, 50 );
-			retroScreenColor( screen, 1, 255, 0, 0 );
-			retroScreenColor( screen, 2, 0, 0, 255 );
+			int x;
 
-			retroBAR( screen,10,10,50, 50, 1 );
-			retroBAR( screen,20,20,60, 60, 2 );
+			retroScreenColor( screen, 0, 255, 100, 50 );
+			retroScreenColor( screen, 1, 255, 255, 255 );
+			retroScreenColor( screen, 2, 0, 0, 0 );
+			retroScreenColor( screen, 3, 255, 0, 0 );
+
+			retroScreenColor( screen, 4, 0, 0, 0 );
+			retroScreenColor( screen, 5, 255, 255, 255 );
+			retroScreenColor( screen, 6, 0, 0, 0 );
+			retroScreenColor( screen, 7, 255, 0, 0 );
+
+//			retroCircle( screen, 50, 40, 25, 1 );
+//			retroOrCircle( screen, 70, 50, 25, 2 );
+
+			retroBoingOutline( screen,  50,  40,  25+4, 3, 1 );
+			retroBoing( screen, 50, 40, 25, 1 );
+
+			retroBoingOutline( screen,  295,  35,  10+3, 2, 1 );
+			retroBoing( screen, 295, 35, 10, 1 );
 		}
 
 		if (screen2)
 		{
+			int x;
+
 			retroScreenColor( screen2, 0, 0, 0, 100 );
 			retroScreenColor( screen2, 1, 255, 0, 0 );
 			retroScreenColor( screen2, 2, 0, 0, 255 );
 
-			retroBAR( screen2,10,10,50, 50, 1 );
-			retroBAR( screen2,20,20,60, 60, 2 );
+			retroScreenColor( screen2, 4, 255, 255, 255 );
+			retroScreenColor( screen2, 5, 100, 0, 0 );
+			retroScreenColor( screen2, 6, 0, 0, 100 );
+
+			for (x=0;x<10;x++)
+			{
+				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
+				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
+			}
 		}
 
 		if (screen3)
@@ -320,13 +394,13 @@ int main()
 			retroScreenColor( screen3, 1, 255, 0, 0 );
 			retroScreenColor( screen3, 2, 0, 0, 255 );
 
-			retroBAR( screen3,10,10,50, 50, 1 );
-			retroBAR( screen3,20,20,60, 60, 2 );
+//			retroBAR( screen3,10,10,50, 50, 1 );
+//			retroBAR( screen3,20,20,60, 60, 2 );
 		}
 
-		if (screen)	retroApplyScreen( screen, video, 0, 0, 320,200 );
-		if (screen2)	retroApplyScreen( screen2, video, 0, 150, 320,200 );
-		if (screen3)	retroApplyScreen( screen3, video, 0, 300, 320,200 );
+		if (screen)	retroApplyScreen( screen, video, 0, 0, retroLowres );
+		if (screen2)	retroApplyScreen( screen2, video, 0, 150, retroHires );
+		if (screen3)	retroApplyScreen( screen2, video, 0, 300, retroHires | retroInterlaced );
 
 		while (running)
 		{
@@ -338,19 +412,69 @@ int main()
 
 			video -> rainbow[0].offset ++;
 
-			retroDrawVideo(video);
+			scrolled_x+=scroll_speed;			
+			
+			if (scrolled_x>15)
+			{
+				SetAPen( &scroll_rp, 4 );
+				Move( &scroll_rp, 300,10 );
+				Text( &scroll_rp, scroll_text+scroll_char,1 );
+
+				scroll_char = (scroll_char + 1) % strlen(scroll_text) ;	// next char
+
+				scrolled_x = 0;
+			}
+
+			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
+
+			retroAndClear( screen, 0,0,screen2->width,screen2->height, ~4 );
+
+			p = 0;
+			{
+				int x;
+				double y;
+
+				for (x=0;x<320;x++)
+				{
+					y = sin(p)*10.0f+20.0f;
+					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
+					p+=0.05f;
+				}
+			 }
+
+//			applyCopper(video);
+
+//			retroModeBadVideoSync( video, start_sync, 0.15f, 4.0f );
+			start_sync += 0.1f;
+
+			if (start_sync>2*M_PI) start_sync =0.0f;
+
+
+			retroClearVideo( video );
+			retroDrawVideo( video );
+//			AfterEffectScanline( video );
+//			AfterEffectAdjustRGB( video , 8, 0 , 4);
 			retroDmaVideo(video);
 
+			WaitTOF();
 			BackFill_Func(NULL, NULL );
-			Delay(1);
+//			Delay(1);
 		}
 
+		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
 		if (screen) retroCloseScreen(screen);
+
+		Printf("screen %08lx, Memory %08lx\n", screen2, screen2->Memory);
 		if (screen2) retroCloseScreen(screen2);
+
+		Printf("screen %08lx, Memory %08lx\n", screen3, screen3->Memory);
 		if (screen3) retroCloseScreen(screen3);
+
+		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
 		retroFreeVideo(video);
 	}
+
 
 #ifdef amigaos4
 	closedown();
