@@ -295,19 +295,15 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 
 	dest_y = screen -> scanline_y;
 
-//	libBase -> IDOS -> Printf("%s: screen -> scanline_y=%d\n",__FUNCTION__, screen -> scanline_y);
-
-	for ( y = 0 ; y < screen -> height; y++ )
+	for ( y = 0 ; y < screen -> displayHeight; y++ )
 	{
-		libBase -> IDOS -> Printf("%s: y=%ld width %ld mode %lx\n",__FUNCTION__,y, screen -> width, videomode);
-
 		if ((dest_y > -1) && (dest_y<video->height))
 		{
 			video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
 			video -> scanlines[ dest_y ].videoWidth = video -> width;
 			video -> scanlines[ dest_y ].screen = screen;
-			video -> scanlines[ dest_y ].pixels = screen -> width;
-			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> width * (y + screen -> offset_y) ) + screen -> offset_x;
+			video -> scanlines[ dest_y ].pixels = screen -> displayWidth;
+			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
 			video -> scanlines[ dest_y ].mode = NULL;
 
 			video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
@@ -360,6 +356,26 @@ void update_all_scanlines( struct RetroLibrary *libBase, struct retroVideo * vid
 	}
 }
 
+void update_some_scanlines( struct RetroLibrary *libBase, struct retroVideo * video )
+{
+	struct retroScreen **screen_item;
+
+	libBase->IDOS->Printf("%s: %lx %lx\n",__FUNCTION__,video -> attachedScreens,video -> attachedScreens_end);
+
+	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
+	{
+		if ( (*screen_item) -> refreshScanlines == TRUE)
+		{
+
+			libBase->IDOS->Printf("%s: update scanlines for screen %lx\n",__FUNCTION__,*screen_item);
+
+			Screen_To_Scanlines( libBase, *screen_item, video );
+
+			(*screen_item) -> refreshScanlines == FALSE;
+		}
+	}
+}
+
 void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * video)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
@@ -387,7 +403,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 	if (video -> refreshSomeScanlines == TRUE)
 	{
 		video -> refreshSomeScanlines = FALSE;
-//		update_some_scanlines(video);
+		update_some_scanlines(libBase, video);
 	}
 
 
