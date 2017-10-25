@@ -69,11 +69,11 @@ extern void _retromode_retroSetVideoColor(struct RetroModeIFace *Self,
 
 
 void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       struct retroVideo * video,
-       int scanline_x,
-       int scanline_y,
-       int display_width,
+	struct retroScreen * screen,
+	struct retroVideo * video,
+	int scanline_x,
+	int scanline_y,
+	int display_width,
 	int display_height)
 {
 	int found;
@@ -82,6 +82,11 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 	screen -> scanline_x = scanline_x;
 	screen -> scanline_y = scanline_y;
 
+	if (display_width>screen->realWidth)  display_width = screen -> realWidth;
+	if (display_height>screen->realHeight) display_height = screen -> realHeight;
+
+	screen -> displayWidth = display_width;
+	screen -> displayHeight = display_height; 
 
 	found = -1;
 	for (n=0;n<video -> screensAttached;n++)
@@ -103,8 +108,7 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 			video -> attachedScreens[ video -> screensAttached ] = screen;
 			video -> screensAttached++;
 			video -> attachedScreens_end = video -> attachedScreens + video -> screensAttached;
-
-			video -> refreshSomeScanlines = TRUE;
+			video -> refreshAllScanlines = TRUE;
 		}
 	}
 }
