@@ -295,7 +295,7 @@ int main()
 	retroRGB color;
 	double p = 0;
 	double start_sync;
-
+	int xx=0,dirx=1;
 
 	if (init())		// libs open her.
 	{
@@ -427,7 +427,7 @@ int main()
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
-			retroAndClear( screen, 0,0,screen2->width,screen2->height, ~4 );
+			retroAndClear( screen, 0,0,screen2->realWidth,screen2->realHeight, ~4 );
 
 			p = 0;
 			{
@@ -442,13 +442,18 @@ int main()
 				}
 			 }
 
-//			applyCopper(video);
-
 //			retroModeBadVideoSync( video, start_sync, 0.15f, 4.0f );
-			start_sync += 0.1f;
+//			start_sync += 0.1f;
+//			if (start_sync>2*M_PI) start_sync =0.0f;
 
-			if (start_sync>2*M_PI) start_sync =0.0f;
 
+			xx+=dirx;
+			if (xx==320) dirx=-1;
+			if (xx==0) dirx = 1;
+
+//			printf("xx %d\n",xx);
+
+			retroScreenOffset(screen2,xx,0);
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
