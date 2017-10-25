@@ -69,10 +69,10 @@ void _retromode_retroXorBAR(struct RetroModeIFace *Self,
 
 	if (x0<0) x0 = 0;
 	if (y0<0) y0 = 0;
-	if (x1>screen->width-1) x1 = screen->width -1;
-	if (y1>screen->height-1) y1 = screen->height-1;
+	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
+	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
 
-	memory = screen -> Memory + ( screen -> width * y0 );
+	memory = screen -> Memory + ( screen -> realWidth * y0 );
 
 	for(y=y0;y<=y1;y++)
 	{
@@ -82,7 +82,7 @@ void _retromode_retroXorBAR(struct RetroModeIFace *Self,
 			memory[ x ] ^= xor_mask;
 		}
 
-		memory += screen -> width;
+		memory += screen -> realWidth;
 	}
 }
 

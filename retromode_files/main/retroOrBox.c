@@ -72,36 +72,36 @@ void _retromode_retroOrBox(struct RetroModeIFace *Self,
 	unsigned char *memory;
 
 	if (x1<0) x1 = 0;
-	if (x2>screen->width-1) x2 = screen -> width-1;
+	if (x2>screen->realWidth-1) x2 = screen -> realWidth-1;
 	if (y1<0) y1 = 0;
-	if (y2>screen->height-1) y2 = screen -> height-1;
+	if (y2>screen->realHeight-1) y2 = screen -> realHeight-1;
 
 	// draw top 
 	if (oy1>-1)
 	{
-		memory = screen -> Memory + (screen -> width * y1) + x1;
+		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
 		for ( x=x1; x<=x2; x++) { *memory++ |= or_mask; }
 	}
 
 	// draw vertical left
 	if (ox1>-1)
 	{
-		memory = screen -> Memory + (screen -> width * (y1+1)) + x1;
-		for ( y=y1+1; y<y2; y++) { *memory |= or_mask; memory += screen->width; }
+		memory = screen -> Memory + (screen -> realWidth * (y1+1)) + x1;
+		for ( y=y1+1; y<y2; y++) { *memory |= or_mask; memory += screen->realWidth; }
 	}
 
 	// draw bottom
-	if (oy2<screen->height)
+	if (oy2<screen->realHeight)
 	{
-		memory = screen -> Memory + (screen -> width * y2) + x1;
+		memory = screen -> Memory + (screen -> realWidth * y2) + x1;
 		for ( x=x1; x<=x2; x++) { *memory++ |= or_mask; }
 	}
 
 	// draw vertical right	
-	if (ox2<screen->width)
+	if (ox2<screen->realWidth)
 	{
-		memory = screen -> Memory + (screen -> width * (y1+1)) + x2;
-		for ( y=y1+1; y<y2; y++) { *memory |= or_mask; memory += screen->width; }
+		memory = screen -> Memory + (screen -> realWidth * (y1+1)) + x2;
+		for ( y=y1+1; y<y2; y++) { *memory |= or_mask; memory += screen->realWidth; }
 	}
 }
 

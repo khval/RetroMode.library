@@ -73,14 +73,14 @@ void _retromode_retroBAR(struct RetroModeIFace *Self,
 	unsigned char *from;
 	unsigned char *to;
 	unsigned char *ptr;
-	unsigned int bytesPerRow = screen -> width;
+	unsigned int bytesPerRow = screen -> realWidth;
 
 	if (x0<0) x0 = 0;
 	if (y0<0) y0 = 0;
-	if (x1>screen->width-1) x1 = screen->width -1;
-	if (y1>screen->height-1) y1 = screen->height-1;
+	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
+	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
 
-	memory = screen -> Memory + ( screen -> width * y0 );
+	memory = screen -> Memory + ( screen -> realWidth * y0 );
 
 	from = memory + x0;
 	to = memory + x1;

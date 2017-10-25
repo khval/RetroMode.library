@@ -64,12 +64,12 @@ void draw_xor_hline_fast(struct retroScreen *screen, int x,int y,int w, unsigned
 	int x2 = x + w ;
 
 	if (y<0) return;
-	if (y > screen->height-1) return ;
+	if (y > screen->realHeight-1) return ;
 
 	if (x<0) x = 0;
-	if (x2>screen -> width-1) x2 = screen->width-1;
+	if (x2>screen -> realWidth-1) x2 = screen->realWidth-1;
 
-	memory = screen -> Memory + (screen -> width * y);
+	memory = screen -> Memory + (screen -> realWidth * y);
 	for ( ; x <= x2 ; x++) memory[x] ^= c;
 }
 

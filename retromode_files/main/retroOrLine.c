@@ -68,8 +68,8 @@ void _retromode_retroOrLine(struct RetroModeIFace *Self,
 	double dx,dy;
 	double a;
 	double y,_y2;
-	int bytesPerRow = screen -> width;
-	int height = screen -> height;
+	int bytesPerRow = screen -> realWidth;
+	int height = screen -> realHeight;
 	int _x;
 	double _y;
 	int dirx;
@@ -93,7 +93,7 @@ void _retromode_retroOrLine(struct RetroModeIFace *Self,
 	a = (dx == 0) ? 0 : dy / dx;
 
 	if (x1+sdx<0) dx = x1;
-	if (x1+sdx>screen->width-1) dx=screen->width-x1-1;
+	if (x1+sdx>screen->realWidth-1) dx=screen->realWidth-x1-1;
 
 	memory = screen -> Memory +  x1;
 

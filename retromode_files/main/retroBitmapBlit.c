@@ -30,7 +30,7 @@
 *
 *   SYNOPSIS
 *      void retroBitmapBlit(struct BitMap * bitmap, int fromX, int fromY, 
-*          int width, int heigh, struct retroScreen * screen, int toX, 
+*          int realWidth, int heigh, struct retroScreen * screen, int toX, 
 *          int toY);
 *
 *   FUNCTION
@@ -39,7 +39,7 @@
 *       bitmap - 
 *       fromX - 
 *       fromY - 
-*       width - 
+*       realWidth - 
 *       heigh - 
 *       screen - 
 *       toX - 
@@ -101,20 +101,20 @@ void _retromode_retroBitmapBlit(struct RetroModeIFace *Self,
 		if (toX<0)	{ fromX-=toX; width+=toX; toX = 0; }		// - & - is +
 		if (toY<0)	{ fromY-=toY; height+=toY; toY = 0; }		// - & - is +
 
-		// make sure width is inside source, and destination
+		// make sure realWidth is inside source, and destination
 
 		if (fromX+width>BitMapWidth) width = BitMapWidth - fromX;
-		if (toX+width>screen->width) width = screen->width - toX;
+		if (toX+width>screen->realWidth) width = screen->realWidth - toX;
 
-		// make sure height is inside source, and destination
+		// make sure realHeight is inside source, and destination
 
 		if (fromY+height>BitMapHeight) height = BitMapHeight - fromY;
-		if (toY+height>screen->height) height = screen->height - toY;
+		if (toY+height>screen->realHeight) height = screen->realHeight - toY;
 
 		// we now know the limit, we can now do job, safely.
 
 		src_memory = BitMapMemory + (BitMapBytesPerRow * fromY) + fromX;
-		des_memory = screen -> Memory + (screen -> width * toY) + toX;
+		des_memory = screen -> Memory + (screen -> realWidth * toY) + toX;
 
 		for(y=0;y<height;y++)
 		{
@@ -127,7 +127,7 @@ void _retromode_retroBitmapBlit(struct RetroModeIFace *Self,
 			}
 
 			src_memory += BitMapBytesPerRow;
-			des_memory += screen -> width;
+			des_memory += screen -> realWidth;
 		}
 		libBase -> IGraphics -> UnlockBitMap( lock );
 	}

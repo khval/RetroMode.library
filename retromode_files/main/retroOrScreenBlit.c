@@ -29,7 +29,7 @@
 *
 *   SYNOPSIS
 *      void retroOrScreenBlit(struct BitMap * bitmap, int fromX, int fromY, 
-*          int width, int heigh, struct retroScreen * screen, int toX, 
+*          int realWidth, int heigh, struct retroScreen * screen, int toX, 
 *          int toY);
 *
 *   FUNCTION
@@ -38,7 +38,7 @@
 *       bitmap - 
 *       fromX - 
 *       fromY - 
-*       width - 
+*       realWidth - 
 *       heigh - 
 *       screen - 
 *       toX - 
@@ -63,8 +63,8 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
        struct retroScreen * source,
        int fromX,
        int fromY,
-       int width,
-       int height,
+       int realWidth,
+       int realHeight,
        struct retroScreen * destination,
        int toX,
        int toY)
@@ -83,38 +83,38 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
 
 	// limit to 0,0
 
-	if (fromX<0)	{ toX-=fromX; width+=fromX; fromX = 0;}		// - & - is +
-	if (fromY<0)	{ toY-=fromY; height+=fromY; fromY = 0;}		// - & - is +
+	if (fromX<0)	{ toX-=fromX; realWidth+=fromX; fromX = 0;}		// - & - is +
+	if (fromY<0)	{ toY-=fromY; realHeight+=fromY; fromY = 0;}		// - & - is +
 
-	if (toX<0)	{ fromX-=toX; width+=toX; toX = 0; }		// - & - is +
-	if (toY<0)	{ fromY-=toY; height+=toY; toY = 0; }		// - & - is +
+	if (toX<0)	{ fromX-=toX; realWidth+=toX; toX = 0; }		// - & - is +
+	if (toY<0)	{ fromY-=toY; realHeight+=toY; toY = 0; }		// - & - is +
 
-	// make sure width is inside source, and destination
+	// make sure realWidth is inside source, and destination
 
-	if (fromX+width>source->width) width = source->width - fromX;
-	if (toX+width>destination->width) width = destination->width - toX;
+	if (fromX+realWidth>source->realWidth) realWidth = source->realWidth - fromX;
+	if (toX+realWidth>destination->realWidth) realWidth = destination->realWidth - toX;
 
-	// make sure height is inside source, and destination
+	// make sure realHeight is inside source, and destination
 
-	if (fromY+height>source->height) height = source->height - fromY;
-	if (toY+height>destination->height) height = destination->height - toY;
+	if (fromY+realHeight>source->realHeight) realHeight = source->realHeight - fromY;
+	if (toY+realHeight>destination->realHeight) realHeight = destination->realHeight - toY;
 
 	// we now know the limit, we can now do job, safely.
 
-	src_vertical_ptr = source -> Memory + (source -> height * fromY) + fromX;
-	src_vertical_end = src_vertical_ptr + (source -> height * source -> width);
+	src_vertical_ptr = source -> Memory + (source -> realHeight * fromY) + fromX;
+	src_vertical_end = src_vertical_ptr + (source -> realHeight * source -> realWidth);
 
-	destination_memory = destination -> Memory + (destination -> width * toY) + toX;
+	destination_memory = destination -> Memory + (destination -> realWidth * toY) + toX;
 
-	for(;src_vertical_ptr<src_vertical_end;src_vertical_ptr += source -> width)
+	for(;src_vertical_ptr<src_vertical_end;src_vertical_ptr += source -> realWidth)
 	{
 		destination_horizontal_ptr = destination_memory;
-		src_horizontal_end =src_vertical_ptr+width;
+		src_horizontal_end =src_vertical_ptr+realWidth;
 		for(src_horizontal_ptr=src_vertical_ptr;src_horizontal_ptr<src_horizontal_end;src_horizontal_ptr++)
 		{
 			*destination_horizontal_ptr++ |= *src_horizontal_ptr;
 		}
-		destination_memory += destination -> width;
+		destination_memory += destination -> realWidth;
 	}
 }
 

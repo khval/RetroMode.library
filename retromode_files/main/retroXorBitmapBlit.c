@@ -104,17 +104,17 @@ void _retromode_retroXorBitmapBlit(struct RetroModeIFace *Self,
 		// make sure width is inside source, and destination
 
 		if (fromX+width>BitMapWidth) width = BitMapWidth - fromX;
-		if (toX+width>screen->width) width = screen->width - toX;
+		if (toX+width>screen->realWidth) width = screen->realWidth - toX;
 
 		// make sure height is inside source, and destination
 
 		if (fromY+height>BitMapHeight) height = BitMapHeight - fromY;
-		if (toY+height>screen->height) height = screen->height - toY;
+		if (toY+height>screen->realHeight) height = screen->realHeight - toY;
 
 		// we now know the limit, we can now do job, safely.
 
 		src_memory = BitMapMemory + (BitMapBytesPerRow * fromY) + fromX;
-		des_memory = screen -> Memory + (screen -> width * toY) + toX;
+		des_memory = screen -> Memory + (screen -> realWidth * toY) + toX;
 
 		for(y=0;y<height;y++)
 		{
@@ -127,7 +127,7 @@ void _retromode_retroXorBitmapBlit(struct RetroModeIFace *Self,
 			}
 
 			src_memory += BitMapBytesPerRow;
-			des_memory += screen -> width;
+			des_memory += screen -> realWidth;
 		}
 		libBase -> IGraphics -> UnlockBitMap( lock );
 	}
