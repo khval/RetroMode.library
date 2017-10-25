@@ -58,5 +58,21 @@ void _retromode_retroScreenOffset(struct RetroModeIFace *Self,
        int offsetx,
        int offsety)
 {
+	struct retroVideo * video;
+	if (offsetx<0) offsetx = 0;
+	if (offsety<0) offsety = 0;
+	if (offsetx+screen->displayWidth>screen->realWidth) offsetx = screen->realWidth - screen->displayWidth;
+	if (offsety+screen->displayHeight>screen->realHeight) offsety = screen->realHeight - screen->displayHeight;
+
+	screen -> offset_x = offsetx;
+	screen -> offset_y = offsety;
+
+	video = screen -> attachedToVideo;
+	if (video)
+	{
+		video -> refreshSomeScanlines = TRUE;
+		screen -> refreshScanlines = TRUE;
+	}
 }
+
 
