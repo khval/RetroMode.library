@@ -55,9 +55,12 @@
 
 void _retromode_retroScreenToFront(struct RetroModeIFace *Self, struct retroScreen * screen)
 {
-	struct retroVideo *video = screen -> attachedToVideo;
+	struct retroVideo *video; 
 	struct retroScreen **ptr;
 
+	if (!screen -> attachedToVideo) return;
+
+	video = screen -> attachedToVideo;
 	for ( ptr = video -> attachedScreens; ptr<video -> attachedScreens_end ; ptr++)
 	{
 		if ( *ptr == screen)
