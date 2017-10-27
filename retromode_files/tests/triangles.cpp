@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 
+
 #ifdef amigaos4
 #include <proto/exec.h>
 #include <proto/dos.h>
@@ -303,6 +304,36 @@ void init_ball( struct greate_ball_of_fire *ball )
 	ball -> color =  8 << (rand() % 3);
 }
 
+/*
+int star(retroScreen *screen, int x, int y, int n, int r0, int r1, double g, unsigned char color)
+{
+	int foot;
+	double g0, g1, g2;
+	double g00,g11,g22;
+
+	for (foot=0;foot<n*2; foot+=2)
+	{
+		g0 = M_PI * 2.0f * foot / (n*2);
+		g1 = M_PI * 2.0f * (foot + 1) / (n*2);
+		g2 = M_PI * 2.0f * (foot + 2) / (n*2);
+
+		g00 = g0 +g;
+		g11 = g1 +g;
+		g22 = g2 +g;
+
+		retroOrTriangle(screen,
+				(sin(g00) * 30)+x,(cos(g00) * r0)+y,
+				(sin(g11) * 90)+x,(cos(g11) * r1)+y,
+				(sin(g22) * 30)+x,(cos(g22) * r0)+y,color);
+
+		retroOrTriangle(screen,
+				(sin(g00) * 30)+x,(cos(g00) * r0)+y,
+				x,y,
+				(sin(g22) * 30)+x,(cos(g22) * r0)+y,color);
+	}
+}
+*/
+
 int main()
 {
 	struct retroScreen *screen = NULL;
@@ -314,6 +345,7 @@ int main()
 	retroRGB color;
 	double p = 0;
 	double start_sync;
+	double g0,g1,g2;
 
 	int n;
 	#define balls 20
@@ -386,20 +418,20 @@ int main()
 			retroScreenColor( screen, 6, 0, 0, 0 );
 			retroScreenColor( screen, 7, 255, 0, 0 );
 
+			retroScreenColor( screen, 16 | 1 , 0, 255, 0 );
+			retroScreenColor( screen, 16 | 2 , 0, 0, 0 );
+			retroScreenColor( screen, 16 | 3 , 0, 0, 0 );
+
 			retroScreenColor( screen, 8, 255, 0, 0 );
-			retroScreenColor( screen, 8 | 16, 255, 255, 0 );
+			retroScreenColor( screen, 8 | 16, 255, 100, 0 );
 			retroScreenColor( screen, 8 | 32, 255, 0, 255 );
 
-			retroScreenColor( screen, 16, 0, 255, 0 );
-			retroScreenColor( screen, 16 | 32, 0, 0, 255 );
+			retroScreenColor( screen, 16, 0, 100, 0 );
+			retroScreenColor( screen, 16 | 32, 0, 100, 255 );
 
 			retroScreenColor( screen, 32, 0, 0, 255 );
 
 			retroScreenColor( screen, 8 | 16 | 32, 255, 255, 255 );
-
-
-//			retroCircle( screen, 50, 40, 25, 1 );
-//			retroOrCircle( screen, 70, 50, 25, 2 );
 
 			retroBoingOutline( screen,  50,  40,  25+4, 3, 1 );
 			retroBoing( screen, 50, 40, 25, 1 );
@@ -409,6 +441,8 @@ int main()
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0,320,200 );
+
+		g0 = 0;
 
 		while (running)
 		{
@@ -434,7 +468,7 @@ int main()
 			}
 
 
-			retroAndClear(screen, 0,0,screen->width,screen->height, ~(4+8+16+32));
+			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
@@ -451,12 +485,15 @@ int main()
 				}
 			 }
 
+			retroOrStar(screen,100,100,20,20,100,-g0,8);
 
-			retroTriangle(screen,50,100,150,120,100,150,8);
+			g0 += 0.01f;
 
-			retroOrTriangle(screen,90,100,180,120,140,150,16);
+			retroOrStar(screen, 100, 100, 10, 30, 80, g0, 16 );
 
-			retroXorCircle(screen,110,100,30,16);
+			retroOrStar(screen, 200, 100, 3, 30, 80, g0, 16 );
+
+			retroXorCircle(screen,100,100,20,16);
 
 			start_sync += 0.1f;
 			if (start_sync>2*M_PI) start_sync =0.0f;

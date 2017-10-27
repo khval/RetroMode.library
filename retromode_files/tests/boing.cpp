@@ -296,6 +296,7 @@ int main()
 	double p = 0;
 	double start_sync;
 	int xx=0,dirx=1;
+	double g = 0;
 
 	if (init())		// libs open her.
 	{
@@ -367,6 +368,8 @@ int main()
 
 			retroBoingOutline( screen,  295,  35,  10+3, 2, 1 );
 			retroBoing( screen, 295, 35, 10, 1 );
+
+//			retroOrStar( screen, 200,50, 5, 20, 30, 0, 2 );
 		}
 
 		if (screen2)
@@ -381,11 +384,19 @@ int main()
 			retroScreenColor( screen2, 5, 100, 0, 0 );
 			retroScreenColor( screen2, 6, 0, 0, 100 );
 
+
+
 			for (x=0;x<10;x++)
 			{
+
+
 				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
 				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
+
+				retroOrStar( screen2, 10 +(x*100),40, 8, 20, 30, g, 4 );
 			}
+
+
 		}
 
 		if (screen3)
@@ -394,13 +405,15 @@ int main()
 			retroScreenColor( screen3, 1, 255, 0, 0 );
 			retroScreenColor( screen3, 2, 0, 0, 255 );
 
+			retroStar( screen3, 100,100, 5, 50, 80, 0, 1 );
+
 //			retroBAR( screen3,10,10,50, 50, 1 );
 //			retroBAR( screen3,20,20,60, 60, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0,320,200 );
-		if (screen2)	retroApplyScreen( screen2, video, 0, 150,320,200 );
-		if (screen3)	retroApplyScreen( screen3, video, 0, 300,320,200 );
+		if (screen2)	retroApplyScreen( screen2, video, 0, 150,640,200 );
+		if (screen3)	retroApplyScreen( screen3, video, 0, 300,640,200 );
 
 		while (running)
 		{
@@ -427,7 +440,12 @@ int main()
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
-			retroAndClear( screen, 0,0,screen2->realWidth,screen2->realHeight, ~4 );
+			retroAndClear( screen, 0,0,screen2->realWidth,screen2->realHeight, ~(4|16) );
+
+			retroOrStar(screen, 200, 50, 3, 5, 30, g, 16 );
+
+			g+=0.05;
+
 
 			p = 0;
 			{
@@ -466,13 +484,13 @@ int main()
 //			Delay(1);
 		}
 
-		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
+//		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
 		if (screen) retroCloseScreen(screen);
 
-		Printf("screen %08lx, Memory %08lx\n", screen2, screen2->Memory);
+//		Printf("screen %08lx, Memory %08lx\n", screen2, screen2->Memory);
 		if (screen2) retroCloseScreen(screen2);
 
-		Printf("screen %08lx, Memory %08lx\n", screen3, screen3->Memory);
+//		Printf("screen %08lx, Memory %08lx\n", screen3, screen3->Memory);
 		if (screen3) retroCloseScreen(screen3);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
