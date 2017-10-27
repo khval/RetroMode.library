@@ -185,37 +185,6 @@ bool open_window( int window_width, int window_height )
 	return (My_Window != NULL) ;
 }
 
-void _retromode_retroOrBlit(struct RetroModeIFace *Self,unsigned char *BitMapMemory, uint32 BitMapBytesPerRow, struct BitMap *bitmap,int fromX,int fromY,int height,struct retroScreen * screen,int toX,int toY)
-{
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	int y;
-	APTR lock;
-
-	uint32	BitMapWidth;
-	uint32	BitMapHeight;
-	unsigned char	*src_memory;
-	unsigned char	*des_memory;
-
-	BitMapWidth = GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
-	BitMapHeight = GetBitMapAttr( bitmap, BMA_HEIGHT );
-
-	height = toY - fromY + 1;
-
-	if (fromY+height>BitMapHeight) height = BitMapHeight - fromY;
-	if (toY+height>screen -> height) height = screen -> height - toY;
-
-	src_memory = BitMapMemory + (BitMapBytesPerRow * fromY) + fromX;
-	des_memory = screen -> Memory + (screen -> width * toY) + toX;
-
-	for(y=0;y<height;y++)
-	{
-		*des_memory |= *src_memory;
-		src_memory += BitMapBytesPerRow;
-		des_memory += screen -> width;
-	}
-}
-
-
 
 bool init()
 {
@@ -388,7 +357,7 @@ int main()
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
-			retroAndClear( screen2, 0,0,screen2->width,screen2->height, ~4 );
+			retroAndClear( screen2, 0,0,screen2->realWidth,screen2->realHeight, ~4 );
 
 			p = 0;
 
