@@ -79,14 +79,8 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 	int found;
 	int n;
 
-	screen -> scanline_x = scanline_x;
-	screen -> scanline_y = scanline_y;
-
 	if (display_width>screen->realWidth)  display_width = screen -> realWidth;
 	if (display_height>screen->realHeight) display_height = screen -> realHeight;
-
-	screen -> displayWidth = display_width;
-	screen -> displayHeight = display_height; 
 
 	found = -1;
 	for (n=0;n<video -> screensAttached;n++)
@@ -111,5 +105,33 @@ void _retromode_retroApplyScreen(struct RetroModeIFace *Self,
 			video -> refreshAllScanlines = TRUE;
 		}
 	}
+	else
+	{
+		// detect what type of change that is needed.
+		if (
+			(screen -> displayWidth != display_width) ||
+			(screen -> scanline_x != scanline_x))
+		{
+			video -> refreshSomeScanlines = TRUE;
+			screen -> refreshScanlines = TRUE;
+		}
+
+		// moveing in the y direction will need to lots of changes
+		if (
+			(screen -> displayHeight != display_height) ||
+			(screen -> scanline_y != scanline_y))
+		{
+			video -> refreshAllScanlines = TRUE;
+			video -> refreshSomeScanlines = FALSE;
+			screen -> refreshScanlines = TRUE;
+		}
+	}
+
+	// all ok, lets set some new values.
+
+	screen -> displayWidth = display_width;
+	screen -> displayHeight = display_height; 
+	screen -> scanline_x = scanline_x;
+	screen -> scanline_y = scanline_y;
 }
 

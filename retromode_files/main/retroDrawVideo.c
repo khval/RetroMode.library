@@ -21,7 +21,7 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
-
+#include <math.h>
 #include "libbase.h"
 
 /****** retromode/main/retroDrawVideo ******************************************
@@ -51,6 +51,18 @@
 *****************************************************************************
 *
 */
+
+void resetScanlines(struct retroVideo * video)
+{
+	struct retroScanline *scanline = video -> scanlines;
+	int beamY;
+
+	for (beamY=0; beamY < video-> height; beamY++)
+	{
+		scanline->mode = NULL;
+		scanline ++;
+	}
+}
 
 void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
@@ -291,41 +303,77 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 {
 	int y;
 	int dest_y;
+	int start_at = 0;
+	int end_at;
 	int videomode = screen -> videomode;
 
 	dest_y = screen -> scanline_y;
 
-	for ( y = 0 ; y < screen -> displayHeight; y++ )
+
+	if (screen ->videomode & retroInterlaced)
 	{
-		if ((dest_y > -1) && (dest_y<video->height))
+		if (dest_y<0)
 		{
-			video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
-			video -> scanlines[ dest_y ].videoWidth = video -> width;
-			video -> scanlines[ dest_y ].screen = screen;
-			video -> scanlines[ dest_y ].pixels = screen -> displayWidth;
-			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
-			video -> scanlines[ dest_y ].mode = NULL;
-
-			video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
-			video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
-
-			if (videomode & retroLowres )
-			{
-				video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
-			}
-
-			if (videomode & retroLowres_pixeld )
-			{
-				video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
-			}
-
-			if (videomode & retroHires )
-			{
-				video -> scanlines[ dest_y ].mode = draw_hires;
-			}
-
-			dest_y ++;
+			start_at = - dest_y;
+			dest_y = 0;
 		}
+
+		if (screen -> scanline_y + screen -> displayHeight > video->height)
+		{
+			end_at = video->height - screen -> scanline_y;
+		}
+		else
+		{
+			end_at = screen -> displayHeight;
+		}
+	}
+	else		// not interlaced.
+	{
+		if (dest_y<0)
+		{
+			start_at = - dest_y / 2;
+			dest_y = 0;
+		}
+
+		if (screen -> scanline_y + (screen -> displayHeight*2) > video->height)
+		{
+			end_at = (video->height - screen -> scanline_y) / 2;
+		}
+		else
+		{
+			end_at = screen -> displayHeight;
+		}
+	}
+
+	for ( y = start_at ; y < end_at; y++ )
+	{
+		video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
+		video -> scanlines[ dest_y ].videoWidth = video -> width;
+		video -> scanlines[ dest_y ].screen = screen;
+		video -> scanlines[ dest_y ].pixels = screen -> displayWidth;
+		video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
+		video -> scanlines[ dest_y ].mode = NULL;
+
+		video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
+		video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
+
+		if (videomode & retroLowres )
+		{
+			video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
+		}
+
+		if (videomode & retroLowres_pixeld )
+		{
+			video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
+		}
+
+		if (videomode & retroHires )
+		{
+			video -> scanlines[ dest_y ].mode = draw_hires;
+		}
+
+		dest_y ++;
+
 
 		if ( ! (videomode & retroInterlaced) )
 		{
@@ -348,8 +396,6 @@ void update_all_scanlines( struct RetroLibrary *libBase, struct retroVideo * vid
 {
 	struct retroScreen **screen_item;
 
-	libBase->IDOS->Printf("%s: %lx %lx\n",__FUNCTION__,video -> attachedScreens,video -> attachedScreens_end);
-
 	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
 	{
 		Screen_To_Scanlines( libBase, *screen_item, video );
@@ -360,15 +406,10 @@ void update_some_scanlines( struct RetroLibrary *libBase, struct retroVideo * vi
 {
 	struct retroScreen **screen_item;
 
-	libBase->IDOS->Printf("%s: %lx %lx\n",__FUNCTION__,video -> attachedScreens,video -> attachedScreens_end);
-
 	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
 	{
 		if ( (*screen_item) -> refreshScanlines == TRUE)
 		{
-
-			libBase->IDOS->Printf("%s: update scanlines for screen %lx\n",__FUNCTION__,*screen_item);
-
 			Screen_To_Scanlines( libBase, *screen_item, video );
 
 			(*screen_item) -> refreshScanlines == FALSE;
@@ -394,9 +435,8 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 
 	if (video -> refreshAllScanlines == TRUE)
 	{
-		libBase->IDOS->Printf("%s: if (video -> refreshAllScanlines == TRUE)\n",__FUNCTION__);
-
 		video -> refreshAllScanlines = FALSE;
+		resetScanlines(video);
 		update_all_scanlines(libBase, video);
 	}
 
