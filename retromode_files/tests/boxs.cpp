@@ -312,36 +312,36 @@ void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned ch
 	unsigned char *memory;
 
 	if (x1<0) x1 = 0;
-	if (x2>screen->width-1) x2 = screen -> width-1;
+	if (x2>screen->realWidth-1) x2 = screen -> realWidth-1;
 	if (y1<0) y1 = 0;
-	if (y2>screen->height-1) y2 = screen -> height-1;
+	if (y2>screen->realHeight-1) y2 = screen -> realHeight-1;
 
 	// draw top 
 	if (oy1>-1)
 	{
-		memory = screen -> Memory + (screen -> width * y1) + x1;
+		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
 		for (int x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical left
 	if (ox1>-1)
 	{
-		memory = screen -> Memory + (screen -> width * y1) + x1;
-		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->width; }
+		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
+		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
 	}
 
 	// draw bottom
-	if (oy2<screen->height)
+	if (oy2<screen->realHeight)
 	{
-		memory = screen -> Memory + (screen -> width * y2) + x1;
+		memory = screen -> Memory + (screen -> realWidth * y2) + x1;
 		for (int x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical right	
-	if (ox2<screen->width)
+	if (ox2<screen->realWidth)
 	{
-		memory = screen -> Memory + (screen -> width * y1) + x2;
-		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->width; }
+		memory = screen -> Memory + (screen -> realWidth * y1) + x2;
+		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
 	}
 }
 
@@ -476,7 +476,7 @@ int main()
 			}
 
 
-			retroAndClear(screen, 0,0,screen->width,screen->height, ~(4+8+16+32));
+			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
 			p = 0;

@@ -433,7 +433,7 @@ int main()
 			}
 
 
-			retroAndClear(screen, 0,0,screen->width,screen->height, ~(4+8+16+32));
+			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
@@ -455,7 +455,7 @@ int main()
 			{
 				ball[n].x+=ball[n].speed;
 
-				if (ball[n].x + ball[n].r > screen->width )
+				if (ball[n].x + ball[n].r > screen->realWidth )
 				{
 					if (ball[n].speed>0) ball[n].speed *= -1;
 				}
