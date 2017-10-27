@@ -50,8 +50,7 @@
 *
 */
 
-void _retromode_retroClearVideo(struct RetroModeIFace *Self,
-       struct retroVideo * video)
+void _retromode_retroClearVideo(struct RetroModeIFace *Self, struct retroVideo * video)
 {
 	int size =  video->BytesPerRow * video -> height ;
 	unsigned int *mem;

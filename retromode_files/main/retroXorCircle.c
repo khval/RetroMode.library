@@ -21,6 +21,7 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
+#include <math.h>
 
 /****** retromode/main/retroXorCircle ******************************************
 *
