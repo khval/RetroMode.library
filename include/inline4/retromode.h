@@ -75,5 +75,7 @@
 #define retroScreenDetach(screen) IRetroMode->retroScreenDetach((screen)) 
 #define retroScreenToFront(screen) IRetroMode->retroScreenToFront((screen)) 
 #define retroScreenToBack(screen) IRetroMode->retroScreenToBack((screen)) 
+#define retroStar(screen, x, y, n, r0, r1, g, color) IRetroMode->retroStar((screen), (x), (y), (n), (r0), (r1), (g), (color)) 
+#define retroOrStar(screen, x, y, n, r0, r1, g, color) IRetroMode->retroOrStar((screen), (x), (y), (n), (r0), (r1), (g), (color)) 
 
 #endif /* INLINE4_RETROMODE_H */

@@ -58,6 +58,8 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroScreenDetach,
     _retromode_retroScreenToFront,
     _retromode_retroScreenToBack,
+    _retromode_retroStar,
+    _retromode_retroOrStar,
     (APTR)-1
 };
 

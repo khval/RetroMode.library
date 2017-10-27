@@ -334,5 +334,25 @@
 		<method name="retroScreenToBack" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 		</method>
+		<method name="retroStar" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="n" type="int"/>
+			<arg name="r0" type="int"/>
+			<arg name="r1" type="int"/>
+			<arg name="g" type="double"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroOrStar" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="n" type="int"/>
+			<arg name="r0" type="int"/>
+			<arg name="r1" type="int"/>
+			<arg name="g" type="double"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
 	</interface>
 </library>

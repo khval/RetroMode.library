@@ -66,3 +66,5 @@ extern void                 VARARGS68K _retromode_retroScreenOffset(struct Retro
 extern void                 VARARGS68K _retromode_retroScreenDetach(struct RetroModeIFace *, struct retroScreen * screen);
 extern void                 VARARGS68K _retromode_retroScreenToFront(struct RetroModeIFace *, struct retroScreen * screen);
 extern void                 VARARGS68K _retromode_retroScreenToBack(struct RetroModeIFace *, struct retroScreen * screen);
+extern void                 VARARGS68K _retromode_retroStar(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int n, int r0, int r1, double g, unsigned char color);
+extern void                 VARARGS68K _retromode_retroOrStar(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int n, int r0, int r1, double g, unsigned char color);
