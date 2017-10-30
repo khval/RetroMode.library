@@ -65,6 +65,8 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroScreenToBack
 	    FPTR IRetroMode_retroStar
 	    FPTR IRetroMode_retroOrStar
+	    FPTR IRetroMode_retroPolyLine
+	    FPTR IRetroMode_retroPolyGon
 	LABEL RetroModeIFace_SIZE
 
 #endif

@@ -51,9 +51,9 @@
 #define retroOrCircle(screen, x, y, r, or_mask) IRetroMode->retroOrCircle((screen), (x), (y), (r), (or_mask)) 
 #define retroXorCircle(screen, x, y, r, xor_mask) IRetroMode->retroXorCircle((screen), (x), (y), (r), (xor_mask)) 
 #define retroScreenColor(screen, color, r, g, b) IRetroMode->retroScreenColor((screen), (color), (r), (g), (b)) 
-#define retroScreenBlit(bitmap, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroScreenBlit((bitmap), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
-#define retroOrScreenBlit(bitmap, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroOrScreenBlit((bitmap), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
-#define retroXorScreenBlit(bitmap, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroXorScreenBlit((bitmap), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
+#define retroScreenBlit(SourceScreen, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroScreenBlit((SourceScreen), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
+#define retroOrScreenBlit(SourceScreen, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroOrScreenBlit((SourceScreen), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
+#define retroXorScreenBlit(SourceScreen, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroXorScreenBlit((SourceScreen), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
 #define retroBitmapBlit(bitmap, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroBitmapBlit((bitmap), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
 #define retroOrBitmapBlit(bitmap, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroOrBitmapBlit((bitmap), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
 #define retroXorBitmapBlit(bitmap, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroXorBitmapBlit((bitmap), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
@@ -77,5 +77,17 @@
 #define retroScreenToBack(screen) IRetroMode->retroScreenToBack((screen)) 
 #define retroStar(screen, x, y, n, r0, r1, g, color) IRetroMode->retroStar((screen), (x), (y), (n), (r0), (r1), (g), (color)) 
 #define retroOrStar(screen, x, y, n, r0, r1, g, color) IRetroMode->retroOrStar((screen), (x), (y), (n), (r0), (r1), (g), (color)) 
+
+#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || (__GNUC__ >= 3)
+#define retroPolyLine(screen, ...) IRetroMode->retroPolyLine((screen), __VA_ARGS__) 
+#elif (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
+#define retroPolyLine(screen, vargs...) IRetroMode->retroPolyLine(screen, ## vargs) 
+#endif
+#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || (__GNUC__ >= 3)
+#define retroPolyGon(screen, ...) IRetroMode->retroPolyGon((screen), __VA_ARGS__) 
+#elif (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
+#define retroPolyGon(screen, vargs...) IRetroMode->retroPolyGon(screen, ## vargs) 
+#endif
+
 
 #endif /* INLINE4_RETROMODE_H */

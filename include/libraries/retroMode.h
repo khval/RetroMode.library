@@ -145,6 +145,10 @@ struct retroFrame
 #define retroHires 4
 #define retroInterlaced 8
 
+// so for va_list / va_start / va_arg, don't give you a count, so need to tell ... arg this is the end.
+
+#define retroEnd (~(1<<31))
+
 #define ECSColorToRGB32( ecs, color )			\
 			color.r =( ecs & 0xF00) >> 4;		\
 			color.g =( ecs & 0x0F0);			\

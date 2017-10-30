@@ -49,7 +49,8 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroOrLine.c main/retroXorLine.c main/retroAllocFrame.c \
     main/retroFreeFrame.c main/retroDrawFrame.c main/retroDeleteFlash.c \
     main/retroScreenOffset.c main/retroScreenDetach.c main/retroScreenToFront.c \
-    main/retroScreenToBack.c main/retroStar.c main/retroOrStar.c 
+    main/retroScreenToBack.c main/retroStar.c main/retroOrStar.c \
+    main/retroPolyLine.c main/retroPolyGon.c 
 
 # -------------------------------------------------------------
 # Nothing should need changing below this line
