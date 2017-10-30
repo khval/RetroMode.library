@@ -109,7 +109,7 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 		{
 			_y2 = y + a;
 
-			for (_y = y; _y>_y2;_y--)
+			for (_y = y; _y>=_y2;_y--)
 				if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
 
 			memory+=dirx;
@@ -122,7 +122,7 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 		{
 			_y2 = y + a;
 
-			for (_y = y; _y<_y2;_y++)
+			for (_y = y; _y<=_y2;_y++)
 				if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
 
 			memory+=dirx;
