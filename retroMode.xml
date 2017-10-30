@@ -162,7 +162,7 @@
 			<arg name="b" type="unsigned char"/>
 		</method>
 		<method name="retroScreenBlit" result="void">
-			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="SourceScreen" type="struct retroScreen *"/>
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
@@ -172,7 +172,7 @@
 			<arg name="toY" type="int"/>
 		</method>
 		<method name="retroOrScreenBlit" result="void">
-			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="SourceScreen" type="struct retroScreen *"/>
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
@@ -182,7 +182,7 @@
 			<arg name="toY" type="int"/>
 		</method>
 		<method name="retroXorScreenBlit" result="void">
-			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="SourceScreen" type="struct retroScreen *"/>
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
@@ -353,6 +353,16 @@
 			<arg name="r1" type="int"/>
 			<arg name="g" type="double"/>
 			<arg name="color" type="unsigned char"/>
+		</method>
+		<method name="retroPolyLine" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="color" type="unsigned char"/>
+			<vararg name="arg1" type="int"/>
+		</method>
+		<method name="retroPolyGon" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="color" type="unsigned char"/>
+			<vararg name="arg1" type="int"/>
 		</method>
 	</interface>
 </library>
