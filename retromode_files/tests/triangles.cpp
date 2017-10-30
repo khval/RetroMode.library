@@ -480,7 +480,9 @@ int main()
 				for (x=0;x<320;x++)
 				{
 					y = sin(p)*10.0f+20.0f;
-					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
+
+					retroOrScreenBlit( screen, x,0,1,30, screen, x , y);
+//					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
 					p+=0.05f;
 				}
 			 }
