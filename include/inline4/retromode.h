@@ -77,7 +77,6 @@
 #define retroScreenToBack(screen) IRetroMode->retroScreenToBack((screen)) 
 #define retroStar(screen, x, y, n, r0, r1, g, color) IRetroMode->retroStar((screen), (x), (y), (n), (r0), (r1), (g), (color)) 
 #define retroOrStar(screen, x, y, n, r0, r1, g, color) IRetroMode->retroOrStar((screen), (x), (y), (n), (r0), (r1), (g), (color)) 
-
 #if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || (__GNUC__ >= 3)
 #define retroPolyLine(screen, ...) IRetroMode->retroPolyLine((screen), __VA_ARGS__) 
 #elif (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
@@ -88,6 +87,8 @@
 #elif (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
 #define retroPolyGon(screen, vargs...) IRetroMode->retroPolyGon(screen, ## vargs) 
 #endif
-
+#define retroLoadABKSprite(filename) IRetroMode->retroLoadABKSprite((filename)) 
+#define retroPasteSprite(screen, sprite, x, y, image) IRetroMode->retroPasteSprite((screen), (sprite), (x), (y), (image)) 
+#define retroBoing(screen, x, y, r0, r1, color0, color1) IRetroMode->retroBoing((screen), (x), (y), (r0), (r1), (color0), (color1)) 
 
 #endif /* INLINE4_RETROMODE_H */

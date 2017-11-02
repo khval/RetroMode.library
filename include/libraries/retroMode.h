@@ -140,6 +140,39 @@ struct retroFrame
 	int hotspotY;
 };
 
+
+struct retroFrameHeaderShort
+{
+	unsigned short PlanarXSize;	// (divided by 16)
+	unsigned short Height;
+	unsigned short NumberOfPlanes;
+	short	XHotSpot;
+	short	YHotSpot;
+};
+
+struct retroFrameHeader
+{
+	unsigned short PlanarXSize;	// (divided by 16)
+	unsigned short Height;
+	unsigned short NumberOfPlanes;
+	short	XHotSpot;
+	short	YHotSpot;
+	short 	__alighnment__;			// stupid compiler :-(
+	union					
+	{						
+		int bytesPerRow;		
+		int Width;				
+	};						
+	char *data;	
+};
+
+struct retroSprite
+{
+	short number_of_frames;
+	struct retroFrameHeader *frames;
+};
+
+
 #define retroLowres 1
 #define retroLowres_pixeld 2
 #define retroHires 4

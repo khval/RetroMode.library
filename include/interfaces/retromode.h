@@ -88,6 +88,9 @@ struct RetroModeIFace
 	void APICALL (*retroOrStar)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int n, int r0, int r1, double g, unsigned char color);
 	void APICALL (*retroPolyLine)(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned char color, ...);
 	void APICALL (*retroPolyGon)(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned char color, ...);
+	struct retroSprite * APICALL (*retroLoadABKSprite)(struct RetroModeIFace *Self, char * filename);
+	struct retroSprite * APICALL (*retroPasteSprite)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
+	void APICALL (*retroBoing)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int r0, int r1, unsigned char color0, unsigned char color1);
 };
 
 #ifdef __cplusplus

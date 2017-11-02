@@ -7,7 +7,7 @@
 **	Prototype/inline/pragma header file combo
 **
 **	Copyright (c) 2010 LiveForIt Software.
-**	MIT License
+**	MIT License.
 */
 
 #ifndef EXEC_TYPES_H
