@@ -219,67 +219,6 @@ void closedown()
 }
 
 
-void retroBoingOutline( struct retroScreen *screen, int rx, int ry, int r, int t, unsigned char color )
-{
-	int x0,y0,x1,y1;
-	int xx;
-	int rr;
-	int r2 = r * r;
-	int x,y;
-
-	x0 = rx -r;
-	y0 = ry-r;
-	x1 = rx+r;
-	y1 = ry+r;
-
-	for (y=-r;y<=r;y++)
-	{
-		xx = sqrt( r2 - (y*y));
-
-		for (x = -xx; x<xx;x++)
-		{
-			rr = sqrt( (x*x) + (y*y) );
-
-			if (rr<=r)
-			{
-				retroPixel( screen, x + rx, y + ry, rr<r-t ? 2 : color );
-			}
-		}
-	}
-}
-
-void retroBoing( struct retroScreen *screen, int rx, int ry, int r, unsigned char color )
-{
-	int x0,y0,x1,y1;
-	int xx;
-	int rr;
-	int r2 = r * r;
-	int width, height;
-	int bx,by;
-	int x,y;
-
-	x0 = rx -r;
-	y0 = ry-r;
-	x1 = rx+r;
-	y1 = ry+r;
-
-	height = y1-y0+1;
-
-	for (y=-r;y<=r;y++)
-	{
-		xx = sqrt( r2 - (y*y));
-		width = xx*2+1;
-
-		by = ((y + r) * 6 / height) & 1;
-
-		for (x = -xx; x<xx;x++)
-		{
-			bx = ((x + xx) * 6 / width) & 1;
-
-			retroPixel( screen, x + rx, y + ry, (bx + by) & 1 ? color : 3 );
-		}
-	}
-}
 
 
 int main()
@@ -360,14 +299,8 @@ int main()
 			retroScreenColor( screen, 6, 0, 0, 0 );
 			retroScreenColor( screen, 7, 255, 0, 0 );
 
-//			retroCircle( screen, 50, 40, 25, 1 );
-//			retroOrCircle( screen, 70, 50, 25, 2 );
-
-			retroBoingOutline( screen,  50,  40,  25+4, 3, 1 );
-			retroBoing( screen, 50, 40, 25, 1 );
-
-			retroBoingOutline( screen,  295,  35,  10+3, 2, 1 );
-			retroBoing( screen, 295, 35, 10, 1 );
+			retroBoing( screen, 50, 40, 25, 25+4 , 1, 2 );
+			retroBoing( screen, 295, 35, 10,13, 1, 2 );
 
 //			retroOrStar( screen, 200,50, 5, 20, 30, 0, 2 );
 		}
@@ -384,19 +317,13 @@ int main()
 			retroScreenColor( screen2, 5, 100, 0, 0 );
 			retroScreenColor( screen2, 6, 0, 0, 100 );
 
-
-
 			for (x=0;x<10;x++)
 			{
-
-
 				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
 				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
 
 				retroOrStar( screen2, 10 +(x*100),40, 8, 20, 30, g, 4 );
 			}
-
-
 		}
 
 		if (screen3)

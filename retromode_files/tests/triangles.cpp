@@ -221,69 +221,6 @@ void closedown()
 
 struct p3 { int x ; int y ; int z; };
 
-void retroBoingOutline( struct retroScreen *screen, int rx, int ry, int r, int t, unsigned char color )
-{
-	int x0,y0,x1,y1;
-	int xx;
-	int rr;
-	int r2 = r * r;
-	int x,y;
-
-	x0 = rx -r;
-	y0 = ry-r;
-	x1 = rx+r;
-	y1 = ry+r;
-
-	for (y=-r;y<=r;y++)
-	{
-		xx = sqrt( r2 - (y*y));
-
-		for (x = -xx; x<xx;x++)
-		{
-			rr = sqrt( (x*x) + (y*y) );
-
-			if (rr<=r)
-			{
-				retroPixel( screen, x + rx, y + ry, rr<r-t ? 2 : color );
-			}
-		}
-	}
-}
-
-void retroBoing( struct retroScreen *screen, int rx, int ry, int r, unsigned char color )
-{
-	int x0,y0,x1,y1;
-	int xx;
-	int rr;
-	int r2 = r * r;
-	int width, height;
-	int bx,by;
-	int x,y;
-
-	x0 = rx -r;
-	y0 = ry-r;
-	x1 = rx+r;
-	y1 = ry+r;
-
-	height = y1-y0+1;
-
-	for (y=-r;y<=r;y++)
-	{
-		xx = sqrt( r2 - (y*y));
-		width = xx*2+1;
-
-		by = ((y + r) * 6 / height) & 1;
-
-		for (x = -xx; x<xx;x++)
-		{
-			bx = ((x + xx) * 6 / width) & 1;
-
-			retroPixel( screen, x + rx, y + ry, (bx + by) & 1 ? color : 3 );
-		}
-	}
-}
-
-
 struct greate_ball_of_fire
 {
 	int x;
@@ -303,36 +240,6 @@ void init_ball( struct greate_ball_of_fire *ball )
 	ball -> speed = (rand() % 4) + 1;
 	ball -> color =  8 << (rand() % 3);
 }
-
-/*
-int star(retroScreen *screen, int x, int y, int n, int r0, int r1, double g, unsigned char color)
-{
-	int foot;
-	double g0, g1, g2;
-	double g00,g11,g22;
-
-	for (foot=0;foot<n*2; foot+=2)
-	{
-		g0 = M_PI * 2.0f * foot / (n*2);
-		g1 = M_PI * 2.0f * (foot + 1) / (n*2);
-		g2 = M_PI * 2.0f * (foot + 2) / (n*2);
-
-		g00 = g0 +g;
-		g11 = g1 +g;
-		g22 = g2 +g;
-
-		retroOrTriangle(screen,
-				(sin(g00) * 30)+x,(cos(g00) * r0)+y,
-				(sin(g11) * 90)+x,(cos(g11) * r1)+y,
-				(sin(g22) * 30)+x,(cos(g22) * r0)+y,color);
-
-		retroOrTriangle(screen,
-				(sin(g00) * 30)+x,(cos(g00) * r0)+y,
-				x,y,
-				(sin(g22) * 30)+x,(cos(g22) * r0)+y,color);
-	}
-}
-*/
 
 int main()
 {
@@ -433,11 +340,8 @@ int main()
 
 			retroScreenColor( screen, 8 | 16 | 32, 255, 255, 255 );
 
-			retroBoingOutline( screen,  50,  40,  25+4, 3, 1 );
-			retroBoing( screen, 50, 40, 25, 1 );
-
-			retroBoingOutline( screen,  295,  35,  10+3, 2, 1 );
-			retroBoing( screen, 295, 35, 10, 1 );
+			retroBoing( screen, 50, 40, 25, 30, 1, 2 );
+			retroBoing( screen, 295, 35, 10, 13, 1, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0,320,200 );

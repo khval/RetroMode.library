@@ -218,70 +218,6 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
-
-void retroBoingOutline( struct retroScreen *screen, int rx, int ry, int r, int t, unsigned char color )
-{
-	int x0,y0,x1,y1;
-	int xx;
-	int rr;
-	int r2 = r * r;
-	int x,y;
-
-	x0 = rx -r;
-	y0 = ry-r;
-	x1 = rx+r;
-	y1 = ry+r;
-
-	for (y=-r;y<=r;y++)
-	{
-		xx = sqrt( r2 - (y*y));
-
-		for (x = -xx; x<xx;x++)
-		{
-			rr = sqrt( (x*x) + (y*y) );
-
-			if (rr<=r)
-			{
-				retroPixel( screen, x + rx, y + ry, rr<r-t ? 2 : color );
-			}
-		}
-	}
-}
-
-void retroBoing( struct retroScreen *screen, int rx, int ry, int r, unsigned char color )
-{
-	int x0,y0,x1,y1;
-	int xx;
-	int rr;
-	int r2 = r * r;
-	int width, height;
-	int bx,by;
-	int x,y;
-
-	x0 = rx -r;
-	y0 = ry-r;
-	x1 = rx+r;
-	y1 = ry+r;
-
-	height = y1-y0+1;
-
-	for (y=-r;y<=r;y++)
-	{
-		xx = sqrt( r2 - (y*y));
-		width = xx*2+1;
-
-		by = ((y + r) * 6 / height) & 1;
-
-		for (x = -xx; x<xx;x++)
-		{
-			bx = ((x + xx) * 6 / width) & 1;
-
-			retroPixel( screen, x + rx, y + ry, (bx + by) & 1 ? color : 3 );
-		}
-	}
-}
-
-
 struct greate_ball_of_fire
 {
 	int x;
@@ -396,15 +332,8 @@ int main()
 
 			retroScreenColor( screen, 8 | 16 | 32, 255, 255, 255 );
 
-
-//			retroCircle( screen, 50, 40, 25, 1 );
-//			retroOrCircle( screen, 70, 50, 25, 2 );
-
-			retroBoingOutline( screen,  50,  40,  25+4, 3, 1 );
-			retroBoing( screen, 50, 40, 25, 1 );
-
-			retroBoingOutline( screen,  295,  35,  10+3, 2, 1 );
-			retroBoing( screen, 295, 35, 10, 1 );
+			retroBoing( screen, 50, 40, 25, 30, 1 , 2 );
+			retroBoing( screen, 295, 35, 10, 13, 1 , 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0, 320, 200 );
