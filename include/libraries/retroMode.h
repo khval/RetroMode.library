@@ -140,7 +140,6 @@ struct retroFrame
 	int hotspotY;
 };
 
-
 struct retroFrameHeaderShort
 {
 	unsigned short PlanarXSize;	// (divided by 16)
@@ -162,7 +161,7 @@ struct retroFrameHeader
 	{						
 		int bytesPerRow;		
 		int Width;				
-	};						
+	};			
 	char *data;	
 };
 
@@ -170,6 +169,7 @@ struct retroSprite
 {
 	short number_of_frames;
 	struct retroFrameHeader *frames;
+	struct retroRGB palette[256];
 };
 
 
