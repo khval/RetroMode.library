@@ -3,7 +3,7 @@
  *
  *  This file is part of retromode.
  *
- *  Copyright (c) 2017 LiveForIt Software.
+ *  2017 LiveForIt Software.
  *  MIT License.
  *
  * $Id$
@@ -20,7 +20,7 @@
 #include <exec/types.h>
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
-
+//include <proto/dos.h>
 #include <libbase.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -57,7 +57,7 @@
 #define AllocVecTags libBase->IExec->AllocVecTags
 #define FreeVec libBase->IExec->FreeVec
 
-struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , FILE *fd )
+struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd )
 {
 	int n;
 	int num;
@@ -68,42 +68,30 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , FILE *f
 	unsigned int sizeOfPlanar,sizeOfChunky;
 	char *planar;
 	struct retroSprite *sprite;
+	short ECSColor;
 
-	sprite = AllocVecTags(  
-			sizeof(struct retroSprite) * sprite->number_of_frames ,
-			AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+
+	sprite = AllocVecTags(  sizeof(struct retroSprite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 	if (!sprite) return NULL;
 
-
-
-	printf("read icon or sprite\n");
-
-	if (fread( &sprite->number_of_frames,sizeof(sprite->number_of_frames), 1, fd ))
+	if ( libBase->IDOS->Read( fd, &sprite->number_of_frames,sizeof(sprite->number_of_frames)) == sizeof(sprite->number_of_frames) )
 	{
 		sprite->frames = AllocVecTags(  
 			sizeof(struct retroFrameHeader) * sprite->number_of_frames ,
 			AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 	}
 
-	printf("number of frames %d\n", sprite->number_of_frames);
-
 	for (n=0; n<sprite->number_of_frames; n++ )
 	{
-		printf("read bob %d header, %08x\n",n, sprite->frames + n);
 
-		if (fread( sprite->frames + n, sizeof(struct retroFrameHeaderShort),1, fd ) == 1)
+		if (libBase->IDOS->Read( fd, sprite->frames + n, sizeof(struct retroFrameHeaderShort)) == sizeof(struct retroFrameHeaderShort))
 		{
 			sprite->frames[n].bytesPerRow = sprite->frames[n].PlanarXSize * 16 ;
-
-			printf("%d,%d\n",  sprite->frames[n].PlanarXSize * 16 , sprite->frames[n].Height);
-
 			sizeOfPlanar = sprite->frames[n].Height * (sprite->frames[n].PlanarXSize * 2 );
 			sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].Height;
 	
 			sprite->frames[n].data = AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
-
-			printf ("sizeOfPlanar %d sizeOfChunky %d\n", sizeOfPlanar , sizeOfChunky);
 		}
 		else
 		{
@@ -116,20 +104,20 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , FILE *f
 			planar = AllocVecTags( sizeOfPlanar, 	AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 			if (planar)
 			{
-				printf("colors %d\n", 1 << sprite->frames[n].NumberOfPlanes );
+				// reset convertion table
+				for (num=0;num<256;num++)
+				{
+					for (bit = 0; bit<8; bit++) 
+					{
+						convert[ (num<<3) | (7-bit) ] = (num & (1 << bit)) ? 1 : 0;
+					}
+				}
 
 				for (Plane = 0; Plane < sprite->frames[n].NumberOfPlanes; Plane++ )	
 				{
-					// reset convertion table
-					for (num=0;num<256;num++)
-					{
-						for (bit = 0; bit<8; bit++) 
-						{
-							convert[ (num<<3) | (7-bit) ] = (num & (1 << bit)) ? 1 : 0;
-						}
-					}
 
-					if (fread( planar, sizeOfPlanar, 1, fd ) == 1) 
+
+					if (libBase->IDOS->Read( fd, planar, sizeOfPlanar ) == sizeOfPlanar) 
 					{
 						int y;
 						int source_BytesPerRow = sprite->frames[n].PlanarXSize*2;
@@ -141,8 +129,6 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , FILE *f
 						for (y=0; y<sprite->frames[n].Height;y++)
 						{
 							dest_ptr64 = (long long int *) (sprite->frames[n].data + (sprite->frames[n].bytesPerRow * y));
-
-//							printf("check start addr %08x - %d %d\n",dest_ptr64, sprite.frames[n].Width, sprite.frames[n].bytesPerRow);
 
 							// we can unroll it 16 bit alligned remeber ;-)
 							for (source_ptr = source; source_ptr < source_end;  source_ptr++)
@@ -160,7 +146,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , FILE *f
 					{ 
 						*byte = *byte << 1;
 					}
-				}
+				} // Next
 
 				if (planar) 
 				{
@@ -171,7 +157,21 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , FILE *f
 		}
 
 		if (sizeOfPlanar == 0) break;
+	} // Next
+
+
+	// in doc it says 32 colors, but we are flexible.
+
+	num = 0;
+	while (libBase->IDOS->Read( fd, &ECSColor, 2 ) == 2)	
+	{
+		ECSColorToRGB32( ECSColor, sprite -> palette[num] );
+		num++;
+		if (num==256) break;
 	}
+
+	libBase->IDOS->Printf("load palette loaded");
+
 	return sprite;
 }
 
@@ -179,27 +179,27 @@ struct retroSprite * _retromode_retroLoadABKSprite(struct RetroModeIFace *Self,
        char * filename)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	FILE *fd;
+	struct retroSprite *sprite = NULL;
+	BPTR fd;
 	char file_id[5]; // 4 bytes (0 to 3) byte 5 (4)
 
-	fd = fopen("menu.abk","r");
+	fd = libBase->IDOS ->Open( (char *) filename,MODE_OLDFILE);
 
 	if (fd)
 	{
 		file_id[4]= 0;
 
-		if (fgets( file_id, 5, fd ))	// reads 4 bytes but terminates on byte 5.
+		if (libBase->IDOS->Read( fd, file_id, 4 ))	// reads 4 bytes but terminates on byte 5.
 		{
 			if ((strcmp(file_id,"AmSp")==0) || (strcmp(file_id,"Amlc")==0))
 			{
-				read_icon_or_sprite( libBase, fd );
+				sprite = read_icon_or_sprite( libBase, fd );
 			}
 		}
 
-		fclose(fd);
+		libBase->IDOS->Close(fd);
 	}
 
-	return 0;
-
+	return sprite;
 }
 
