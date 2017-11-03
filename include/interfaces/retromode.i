@@ -67,9 +67,10 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroOrStar
 	    FPTR IRetroMode_retroPolyLine
 	    FPTR IRetroMode_retroPolyGon
-	    FPTR IRetroMode_retroLoadABKSprite
-	    FPTR IRetroMode_retroPasteSprite
 	    FPTR IRetroMode_retroBoing
+	    FPTR IRetroMode_retroLoadABKSprite
+	    FPTR IRetroMode_retroFreeSprite
+	    FPTR IRetroMode_retroPasteSprite
 	LABEL RetroModeIFace_SIZE
 
 #endif

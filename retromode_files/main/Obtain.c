@@ -4,7 +4,7 @@
  *  This file is part of retromode.
  *
  *  Copyright (c) 2017 LiveForIt Software.
- *  MIT License.
+ *  MIT License
  *
  * $Id$
  *

@@ -87,8 +87,9 @@
 #elif (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
 #define retroPolyGon(screen, vargs...) IRetroMode->retroPolyGon(screen, ## vargs) 
 #endif
-#define retroLoadABKSprite(filename) IRetroMode->retroLoadABKSprite((filename)) 
-#define retroPasteSprite(screen, sprite, x, y, image) IRetroMode->retroPasteSprite((screen), (sprite), (x), (y), (image)) 
 #define retroBoing(screen, x, y, r0, r1, color0, color1) IRetroMode->retroBoing((screen), (x), (y), (r0), (r1), (color0), (color1)) 
+#define retroLoadABKSprite(filename) IRetroMode->retroLoadABKSprite((filename)) 
+#define retroFreeSprite(sprite) IRetroMode->retroFreeSprite((sprite)) 
+#define retroPasteSprite(screen, sprite, x, y, image) IRetroMode->retroPasteSprite((screen), (sprite), (x), (y), (image)) 
 
 #endif /* INLINE4_RETROMODE_H */

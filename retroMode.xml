@@ -364,16 +364,6 @@
 			<arg name="color" type="unsigned char"/>
 			<vararg name="arg1" type="int"/>
 		</method>
-		<method name="retroLoadABKSprite" result="struct retroSprite *">
-			<arg name="filename" type="char *"/>
-		</method>
-		<method name="retroPasteSprite" result="struct retroSprite *">
-			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="sprite" type="struct retroSprite *"/>
-			<arg name="x" type="int"/>
-			<arg name="y" type="int"/>
-			<arg name="image" type="int"/>
-		</method>
 		<method name="retroBoing" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x" type="int"/>
@@ -383,5 +373,19 @@
 			<arg name="color0" type="unsigned char"/>
 			<arg name="color1" type="unsigned char"/>
 		</method>
+		<method name="retroLoadABKSprite" result="struct retroSprite *">
+			<arg name="filename" type="char *"/>
+		</method>
+		<method name="retroFreeSprite" result="void">
+			<arg name="sprite" type=struct retroSprite *"/>
+		</method>
+		<method name="retroPasteSprite" result="struct retroSprite *">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="sprite" type="struct retroSprite *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="image" type="int"/>
+		</method>
+
 	</interface>
 </library>

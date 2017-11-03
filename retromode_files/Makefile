@@ -51,7 +51,7 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroScreenOffset.c main/retroScreenDetach.c main/retroScreenToFront.c \
     main/retroScreenToBack.c main/retroStar.c main/retroOrStar.c \
     main/retroLoadABKSprite.c main/retroPasteSprite.c main/retroBoing.c \
-    main/retroPolyLine.c main/retroPolyGon.c  
+    main/retroPolyLine.c main/retroPolyGon.c main/retroFreeSprite.c
 
 # -------------------------------------------------------------
 # Nothing should need changing below this line
