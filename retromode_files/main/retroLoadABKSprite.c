@@ -3,7 +3,7 @@
  *
  *  This file is part of retromode.
  *
- *  2017 LiveForIt Software.
+ *  Copyright (c) 2017 LiveForIt Software.
  *  MIT License.
  *
  * $Id$
