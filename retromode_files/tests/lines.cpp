@@ -231,6 +231,8 @@ int main()
 	double p = 0;
 	double start_sync;
 	double g = 0.0f;
+	double g0 = 0.0f;
+	double dx,dy;
 
 	if (init())		// libs open her.
 	{
@@ -337,11 +339,21 @@ int main()
 				scrolled_x = 0;
 			}
 
-			retroAndClear( screen, 50,50,150,150, ~2 );
+			retroAndClear( screen, 50,50,150,150, ~(1|2) );
 
-			retroLine( screen, 100,100,100 + (cos(g)*50) ,100 +(-sin(g)*50) ,1 );
-			retroLine( screen, 100,100,100 + (cos(g+0.5f)*55) ,100 +(-sin(g+0.5f)*55) ,0 );
-			g+=0.01;
+			dx = (cos(g)*40);
+			dy =- (sin(g)*40);
+
+			retroThickLine( screen, 100+(dx*2/10),100+(dy*2/10) , 100+(dx*10/10),100+(dy*10/10) , 5,2 );
+
+			g0 = g + (M_PI/2);
+
+			dx = (cos(g0)*40);
+			dy =- (sin(g0)*40);
+
+			retroThickLine( screen, 100+(dx*-5/10),100+(dy*-5/10) , 100+(dx*10/10),100+(dy*10/10) , 10,2 );
+
+			g+=0.02;
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
