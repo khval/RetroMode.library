@@ -66,6 +66,11 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroLoadABKSprite,
     _retromode_retroFreeSprite,
     _retromode_retroPasteSprite,
+    _retromode_retroFill,
+    _retromode_retroOrFill,
+    _retromode_retroBarRounded,
+    _retromode_retroOrBarRounded,
+    _retromode_retroXorBarRounded,
     (APTR)-1
 };
 

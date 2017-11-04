@@ -91,5 +91,10 @@
 #define retroLoadABKSprite(filename) IRetroMode->retroLoadABKSprite((filename)) 
 #define retroFreeSprite(sprite) IRetroMode->retroFreeSprite((sprite)) 
 #define retroPasteSprite(screen, sprite, x, y, image) IRetroMode->retroPasteSprite((screen), (sprite), (x), (y), (image)) 
+#define retroFill(screen, x, y, color) IRetroMode->retroFill((screen), (x), (y), (color)) 
+#define retroOrFill(screen, x, y, and_mask, or_color) IRetroMode->retroOrFill((screen), (x), (y), (and_mask), (or_color)) 
+#define retroBarRounded(screen, x0, y0, x1, y1, r, color) IRetroMode->retroBarRounded((screen), (x0), (y0), (x1), (y1), (r), (color)) 
+#define retroOrBarRounded(screen, x0, y0, x1, y1, r, color) IRetroMode->retroOrBarRounded((screen), (x0), (y0), (x1), (y1), (r), (color)) 
+#define retroXorBarRounded(screen, x0, y0, x1, y1, r, color) IRetroMode->retroXorBarRounded((screen), (x0), (y0), (x1), (y1), (r), (color)) 
 
 #endif /* INLINE4_RETROMODE_H */

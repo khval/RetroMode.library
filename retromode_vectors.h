@@ -74,3 +74,8 @@ extern void                 VARARGS68K _retromode_retroBoing(struct RetroModeIFa
 extern struct retroSprite * VARARGS68K _retromode_retroLoadABKSprite(struct RetroModeIFace *, char * filename);
 extern void                 VARARGS68K _retromode_retroFreeSprite(struct RetroModeIFace *, struct retroSprite * sprite);
 extern struct retroSprite * VARARGS68K _retromode_retroPasteSprite(struct RetroModeIFace *, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
+extern void                 VARARGS68K _retromode_retroFill(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, unsigned char color);
+extern void                 VARARGS68K _retromode_retroOrFill(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int and_mask, unsigned char or_color);
+extern void                 VARARGS68K _retromode_retroBarRounded(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
+extern void                 VARARGS68K _retromode_retroOrBarRounded(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
+extern void                 VARARGS68K _retromode_retroXorBarRounded(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);

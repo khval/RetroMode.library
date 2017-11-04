@@ -92,6 +92,11 @@ struct RetroModeIFace
 	struct retroSprite * APICALL (*retroLoadABKSprite)(struct RetroModeIFace *Self, char * filename);
 	void APICALL (*retroFreeSprite)(struct RetroModeIFace *Self, struct retroSprite * sprite);
 	struct retroSprite * APICALL (*retroPasteSprite)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
+	void APICALL (*retroFill)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color);
+	void APICALL (*retroOrFill)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int and_mask, unsigned char or_color);
+	void APICALL (*retroBarRounded)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
+	void APICALL (*retroOrBarRounded)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
+	void APICALL (*retroXorBarRounded)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
 };
 
 #ifdef __cplusplus

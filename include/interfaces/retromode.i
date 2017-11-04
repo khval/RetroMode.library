@@ -71,6 +71,11 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroLoadABKSprite
 	    FPTR IRetroMode_retroFreeSprite
 	    FPTR IRetroMode_retroPasteSprite
+	    FPTR IRetroMode_retroFill
+	    FPTR IRetroMode_retroOrFill
+	    FPTR IRetroMode_retroBarRounded
+	    FPTR IRetroMode_retroOrBarRounded
+	    FPTR IRetroMode_retroXorBarRounded
 	LABEL RetroModeIFace_SIZE
 
 #endif
