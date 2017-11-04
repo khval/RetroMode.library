@@ -426,5 +426,15 @@
 			<arg name="r" type="int"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
+		<method name="retroThickLine" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="thickness" type="int"/>
+			<arg name="color" type="unsigned char"/>
+		</method>
 	</interface>
 </library>
+
