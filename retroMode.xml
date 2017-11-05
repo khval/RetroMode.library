@@ -447,6 +447,16 @@
 			<arg name="x3" type="int"/>
 			<arg name="y3" type="int"/>
 		</method>
+		<method name="retroBobble" result="void">
+			<arg name="fromScreen" type="struct retroScreen *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="fromR" type="int"/>
+			<arg name="toScreen" type="struct retroScreen *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+			<arg name="toR" type="int"/>
+		</method>
 	</interface>
 </library>
 

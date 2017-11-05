@@ -73,6 +73,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroXorBarRounded,
     _retromode_retroThickLine,
     _retromode_retroZoom,
+    _retromode_retroBobble,
     (APTR)-1
 };
 
