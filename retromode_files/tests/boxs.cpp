@@ -282,7 +282,6 @@ void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned ch
 	}
 }
 
-
 int main()
 {
 	struct retroScreen *screen = NULL;
@@ -375,9 +374,6 @@ int main()
 			retroScreenColor( screen, 32, 0, 0, 255 );
 			retroScreenColor( screen, 8 | 16 | 32, 255, 255, 255 );
 
-//			retroCircle( screen, 50, 40, 25, 1 );
-//			retroOrCircle( screen, 70, 50, 25, 2 );
-
 			retroBoing( screen, 50, 40, 25, 30, 1, 2 );
 			retroBoing( screen, 295, 35, 10, 13, 1, 2 );
 		}
@@ -432,6 +428,9 @@ int main()
 				retroXorBox(screen, 75+n,75+n,75+50-n,75+50-n,4);
 
 			retroXorCircle( screen, 75+50,75+50, 25,4);
+
+			retroFill(screen, 19,19, 2);
+
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
