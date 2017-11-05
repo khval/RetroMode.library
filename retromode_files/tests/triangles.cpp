@@ -219,31 +219,10 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
-struct p3 { int x ; int y ; int z; };
-
-struct greate_ball_of_fire
-{
-	int x;
-	int y;
-	int speed;
-	double a;
-	double r;
-	int color;
-};
-
-void init_ball( struct greate_ball_of_fire *ball )
-{
-	ball -> x = rand() % 320;
-	ball -> y = 0;
-	ball -> a = (2.0f*M_PI * 360.0f / (double) (rand() % 360) );
-	ball -> r = rand() % 50;
-	ball -> speed = (rand() % 4) + 1;
-	ball -> color =  8 << (rand() % 3);
-}
-
 int main()
 {
 	struct retroScreen *screen = NULL;
+	struct retroScreen *screen2 = NULL;
 	struct RastPort scroll_rp;
 
 	struct IntuiMessage *msg;
@@ -255,20 +234,9 @@ int main()
 	double g0,g1,g2;
 
 	int n;
-	#define balls 20
-
- 	struct greate_ball_of_fire ball[balls];
-
 
 	if (init())		// libs open her.
 	{
-
-		for (n=0;n<balls;n++)
-		{
-			init_ball( &ball[ n ] );
-		}
-
-
 		InitRastPort(&scroll_rp);
 		scroll_rp.BitMap = AllocBitMapTags( 320, 200, 256, 
 				BMATags_PixelFormat, PIXF_CLUT, 
@@ -310,6 +278,7 @@ int main()
 		//  end rain
 
 		screen = retroOpenScreen(320,200,retroLowres);
+		screen2 = retroOpenScreen(320,200,retroLowres);
 
 		if (screen)
 		{
@@ -386,6 +355,13 @@ int main()
 
 			retroZoom(screen,50,50,100,100, screen, 150,50,250+20,150+20);
 
+			memcpy( screen2 -> Memory, screen -> Memory, screen2 -> realWidth * screen2 -> realHeight );
+
+			retroBobble(screen2,
+					50,100+25,		15,
+					screen,
+					50,100+25,		30);
+
 			start_sync += 0.1f;
 			if (start_sync>2*M_PI) start_sync =0.0f;
 
@@ -399,6 +375,7 @@ int main()
 		}
 
 		if (screen) retroCloseScreen(screen);
+		if (screen2) retroCloseScreen(screen);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
