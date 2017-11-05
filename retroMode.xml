@@ -435,6 +435,18 @@
 			<arg name="thickness" type="int"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
+		<method name="retroZoom" result="void">
+			<arg name="fromScreen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="toScreen" type="struct retroScreen *"/>
+			<arg name="x2" type="int"/>
+			<arg name="y2" type="int"/>
+			<arg name="x3" type="int"/>
+			<arg name="y3" type="int"/>
+		</method>
 	</interface>
 </library>
 

@@ -80,3 +80,4 @@ extern void                 VARARGS68K _retromode_retroBarRounded(struct RetroMo
 extern void                 VARARGS68K _retromode_retroOrBarRounded(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
 extern void                 VARARGS68K _retromode_retroXorBarRounded(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
 extern void                 VARARGS68K _retromode_retroThickLine(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int thickness, unsigned char color);
+extern void                 VARARGS68K _retromode_retroZoom(struct RetroModeIFace *, struct retroScreen * fromScreen, int x0, int y0, int x1, int y1, struct retroScreen * toScreen, int x2, int y2, int x3, int y3);

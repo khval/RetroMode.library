@@ -98,6 +98,7 @@ struct RetroModeIFace
 	void APICALL (*retroOrBarRounded)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
 	void APICALL (*retroXorBarRounded)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
 	void APICALL (*retroThickLine)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int thickness, unsigned char color);
+	void APICALL (*retroZoom)(struct RetroModeIFace *Self, struct retroScreen * fromScreen, int x0, int y0, int x1, int y1, struct retroScreen * toScreen, int x2, int y2, int x3, int y3);
 };
 
 #ifdef __cplusplus

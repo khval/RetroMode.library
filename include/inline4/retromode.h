@@ -97,5 +97,6 @@
 #define retroOrBarRounded(screen, x0, y0, x1, y1, r, color) IRetroMode->retroOrBarRounded((screen), (x0), (y0), (x1), (y1), (r), (color)) 
 #define retroXorBarRounded(screen, x0, y0, x1, y1, r, color) IRetroMode->retroXorBarRounded((screen), (x0), (y0), (x1), (y1), (r), (color)) 
 #define retroThickLine(screen, x0, y0, x1, y1, thickness, color) IRetroMode->retroThickLine((screen), (x0), (y0), (x1), (y1), (thickness), (color)) 
+#define retroZoom(fromScreen, x0, y0, x1, y1, toScreen, x2, y2, x3, y3) IRetroMode->retroZoom((fromScreen), (x0), (y0), (x1), (y1), (toScreen), (x2), (y2), (x3), (y3)) 
 
 #endif /* INLINE4_RETROMODE_H */

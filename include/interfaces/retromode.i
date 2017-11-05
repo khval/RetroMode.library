@@ -77,6 +77,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroOrBarRounded
 	    FPTR IRetroMode_retroXorBarRounded
 	    FPTR IRetroMode_retroThickLine
+	    FPTR IRetroMode_retroZoom
 	LABEL RetroModeIFace_SIZE
 
 #endif

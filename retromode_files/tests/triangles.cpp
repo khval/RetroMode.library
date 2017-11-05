@@ -401,6 +401,8 @@ int main()
 
 			retroXorCircle(screen,100,100,20,16);
 
+			retroZoom(screen,50,50,100,100, screen, 150,50,250+20,150+20);
+
 			start_sync += 0.1f;
 			if (start_sync>2*M_PI) start_sync =0.0f;
 
