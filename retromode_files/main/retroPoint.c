@@ -52,16 +52,13 @@
 *
 */
 
-unsigned char _retromode_retroPoint(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       int x,
-       int y)
+unsigned char _retromode_retroPoint(struct RetroModeIFace *Self,  struct retroScreen * screen, int x, int y)
 {
 	if (x<0) return 0;
 	if (y<0) return 0;
 	if (x>=screen->realWidth) return 0;
 	if (y>=screen->realHeight) return 0;
 
-  return screen -> Memory[ screen -> realWidth * y + x ];
+	 return screen -> Memory[ screen -> realWidth * y + x ];
 }
 

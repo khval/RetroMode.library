@@ -54,11 +54,7 @@
 *
 */
 
-void _retromode_retroPixel(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       int x,
-       int y,
-       unsigned char color)
+void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color)
 {
 	if (x<0) return;
 	if (y<0) return;
