@@ -374,23 +374,6 @@ int main()
 
 			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
 
-			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
-
-			p = 0;
-			{
-				int x;
-				double y;
-
-				for (x=0;x<320;x++)
-				{
-					y = sin(p)*10.0f+20.0f;
-
-					retroOrScreenBlit( screen, x,0,1,30, screen, x , y);
-//					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
-					p+=0.05f;
-				}
-			 }
-
 			retroOrStar(screen,100,100,20,20,100,-g0,8);
 
 			g0 += 0.01f;
