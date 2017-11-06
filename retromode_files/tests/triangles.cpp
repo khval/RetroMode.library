@@ -19,8 +19,6 @@ int scrolled_x;
 int scroll_speed = 2;
 int scroll_char = 0;
 
-char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
-
 #define IDCMP_COMMON IDCMP_MOUSEBUTTONS | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW  | \
 	IDCMP_CHANGEWINDOW | IDCMP_MOUSEMOVE | IDCMP_REFRESHWINDOW | IDCMP_RAWKEY | \
 	IDCMP_EXTENDEDMOUSE | IDCMP_CLOSEWINDOW | IDCMP_NEWSIZE | IDCMP_INTUITICKS
@@ -326,19 +324,6 @@ int main()
 			}
 
 			video -> rainbow[0].offset ++;
-
-			scrolled_x+=scroll_speed;			
-			
-			if (scrolled_x>15)
-			{
-				SetAPen( &scroll_rp, 4 );
-				Move( &scroll_rp, 300,10 );
-				Text( &scroll_rp, scroll_text+scroll_char,1 );
-
-				scroll_char = (scroll_char + 1) % strlen(scroll_text) ;	// next char
-
-				scrolled_x = 0;
-			}
 
 
 			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));

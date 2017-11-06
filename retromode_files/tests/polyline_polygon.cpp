@@ -19,7 +19,7 @@ int scrolled_x;
 int scroll_speed = 2;
 int scroll_char = 0;
 
-char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
+const char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
 
 #define IDCMP_COMMON IDCMP_MOUSEBUTTONS | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW  | \
 	IDCMP_CHANGEWINDOW | IDCMP_MOUSEMOVE | IDCMP_REFRESHWINDOW | IDCMP_RAWKEY | \
