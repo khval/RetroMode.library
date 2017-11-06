@@ -375,7 +375,7 @@ int main()
 		}
 
 		if (screen) retroCloseScreen(screen);
-		if (screen2) retroCloseScreen(screen);
+		if (screen2) retroCloseScreen(screen2);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
