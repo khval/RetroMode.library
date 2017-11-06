@@ -99,5 +99,7 @@
 #define retroThickLine(screen, x0, y0, x1, y1, thickness, color) IRetroMode->retroThickLine((screen), (x0), (y0), (x1), (y1), (thickness), (color)) 
 #define retroZoom(fromScreen, x0, y0, x1, y1, toScreen, x2, y2, x3, y3) IRetroMode->retroZoom((fromScreen), (x0), (y0), (x1), (y1), (toScreen), (x2), (y2), (x3), (y3)) 
 #define retroBobble(fromScreen, fromX, fromY, fromR, toScreen, toX, toY, toR) IRetroMode->retroBobble((fromScreen), (fromX), (fromY), (fromR), (toScreen), (toX), (toY), (toR)) 
+#define retroRainbowColorRange(video, rainbowNumber, fromLine, fromR, fromG, fromB, toLine, toR, toG, toB) IRetroMode->retroRainbowColorRange((video), (rainbowNumber), (fromLine), (fromR), (fromG), (fromB), (toLine), (toR), (toG), (toB)) 
+#define retroRain(video, rainbowNumber, line, r, g, b) IRetroMode->retroRain((video), (rainbowNumber), (line), (r), (g), (b)) 
 
 #endif /* INLINE4_RETROMODE_H */
