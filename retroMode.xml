@@ -29,7 +29,7 @@
 			<arg name="videomode" type="int"/>
 		</method>
 		<method name="retroCloseScreen" result="void">
-			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="screen" type="struct retroScreen **"/>
 		</method>
 		<method name="retroApplyScreen" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
