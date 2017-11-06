@@ -30,13 +30,14 @@
 *      retroOpenScreen -- Description
 *
 *   SYNOPSIS
-*      struct retroScreen * retroOpenScreen(int width, int height);
+*      struct retroScreen * retroOpenScreen(int width, int height, int videomode);
 *
 *   FUNCTION
 *
 *   INPUTS
 *       width - 
 *       height - 
+*       videomode - 
 *
 *   RESULT
 *       The result ...
@@ -61,8 +62,6 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroScreen *screen;
 
-//	libBase -> IDOS -> Printf("%s:%ld - START\n",__FUNCTION__,__LINE__ );
-
 	screen = (struct retroScreen *) libBase -> IExec -> AllocVecTags( 
 						sizeof(struct retroScreen),  
 						AVT_Type, MEMF_SHARED,
@@ -71,6 +70,8 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 
 	if (screen)
 	{
+		screen -> clones = 0;
+		screen -> cloneOfScreen = NULL;
 		screen -> realWidth = width;
 		screen -> realHeight = height;
 		screen -> videomode = videomode;
