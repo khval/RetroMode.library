@@ -70,7 +70,6 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 	if (the_bitmap)
 	{
-
 		error = CompositeTags(COMPOSITE_Src, 
 			the_bitmap, the_bitmap_dest,
 
@@ -218,9 +217,6 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
-
-
-
 int main()
 {
 	struct retroScreen *screen = NULL;
@@ -254,7 +250,7 @@ int main()
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
-		video -> rainbow[0].tableSize = 1000;
+		video -> rainbow[0].tableSize = 400;
 		video -> rainbow[0].table = (struct retroRGB *) AllocVecTags(sizeof(struct retroRGB)  * video -> rainbow[0].tableSize,  AVT_Type, MEMF_SHARED, TAG_END );
 		// end set rainbow
 
@@ -263,27 +259,14 @@ int main()
 		video -> rainbow[0].height = 300;
 		// end rainbow
 
-		// start rain
-		{
-			struct retroRGB color;
-
-			for (int scanline = 0; scanline < video -> rainbow[0].tableSize ; scanline ++ )
-			{
-				// sacnline to ECS color.
-
-				color.r =(scanline & 0xF00) >> 4;
-				color.g =(scanline & 0x0F0);
-				color.b =(scanline & 0x00F) << 4;				
-
-				video -> rainbow[0].table[scanline] = color;
-			}
-		}
-		//  end rain
+		retroRainbowColorRange( video, 0, 	0 , 255, 0, 0, 100, 0, 0, 255 );
+		retroRainbowColorRange( video, 0, 100 , 0, 0, 255,200, 255, 0, 0 );
+		retroRainbowColorRange( video, 0, 200 , 255, 0, 0, 300, 0, 255, 0 );
+		retroRainbowColorRange( video, 0, 300 , 0, 255, 0, 400, 255, 0, 0 );
 
 		screen = retroOpenScreen(320,200,retroLowres);
 		screen2 = retroOpenScreen(640,200, retroHires);
 		screen3 = retroOpenScreen(640,200, retroHires | retroInterlaced);
-
 
 		if (screen)
 		{
@@ -321,7 +304,6 @@ int main()
 			{
 				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
 				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
-
 				retroOrStar( screen2, 10 +(x*100),40, 8, 20, 30, g, 4 );
 			}
 		}
@@ -361,18 +343,14 @@ int main()
 				Text( &scroll_rp, scroll_text+scroll_char,1 );
 
 				scroll_char = (scroll_char + 1) % strlen(scroll_text) ;	// next char
-
 				scrolled_x = 0;
 			}
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
-
 			retroAndClear( screen, 0,0,screen2->realWidth,screen2->realHeight, ~(4|16) );
-
 			retroOrStar(screen, 200, 50, 3, 5, 30, g, 16 );
 
 			g+=0.05;
-
 
 			p = 0;
 			{
@@ -391,12 +369,9 @@ int main()
 //			start_sync += 0.1f;
 //			if (start_sync>2*M_PI) start_sync =0.0f;
 
-
 			xx+=dirx;
 			if (xx==320) dirx=-1;
 			if (xx==0) dirx = 1;
-
-//			printf("xx %d\n",xx);
 
 			retroScreenOffset(screen2,xx,0);
 
@@ -411,13 +386,8 @@ int main()
 //			Delay(1);
 		}
 
-//		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
 		if (screen) retroCloseScreen(screen);
-
-//		Printf("screen %08lx, Memory %08lx\n", screen2, screen2->Memory);
 		if (screen2) retroCloseScreen(screen2);
-
-//		Printf("screen %08lx, Memory %08lx\n", screen3, screen3->Memory);
 		if (screen3) retroCloseScreen(screen3);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
