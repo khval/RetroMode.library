@@ -102,6 +102,7 @@ struct RetroModeIFace
 	void APICALL (*retroBobble)(struct RetroModeIFace *Self, struct retroScreen * fromScreen, int fromX, int fromY, int fromR, struct retroScreen * toScreen, int toX, int toY, int toR);
 	void APICALL (*retroRainbowColorRange)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int fromLine, int fromR, int fromG, int fromB, int toLine, int toR, int toG, int toB);
 	void APICALL (*retroRain)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int line, int r, int g, int b);
+	struct retroScreen * APICALL (*retroScreenClone)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int videomode);
 };
 
 #ifdef __cplusplus

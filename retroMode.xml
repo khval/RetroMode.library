@@ -477,6 +477,10 @@
 			<arg name="g" type="int"/>
 			<arg name="b" type="int"/>
 		</method>
+		<method name="retroScreenClone" result="struct retroScreen *">
+			<arg name="SourceScreen" type="struct retroScreen *"/>
+			<arg name="videomode" type="int"/>
+		</method>
 	</interface>
 </library>
 

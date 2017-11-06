@@ -101,5 +101,6 @@
 #define retroBobble(fromScreen, fromX, fromY, fromR, toScreen, toX, toY, toR) IRetroMode->retroBobble((fromScreen), (fromX), (fromY), (fromR), (toScreen), (toX), (toY), (toR)) 
 #define retroRainbowColorRange(video, rainbowNumber, fromLine, fromR, fromG, fromB, toLine, toR, toG, toB) IRetroMode->retroRainbowColorRange((video), (rainbowNumber), (fromLine), (fromR), (fromG), (fromB), (toLine), (toR), (toG), (toB)) 
 #define retroRain(video, rainbowNumber, line, r, g, b) IRetroMode->retroRain((video), (rainbowNumber), (line), (r), (g), (b)) 
+#define retroScreenClone(SourceScreen, videomode) IRetroMode->retroScreenClone((SourceScreen), (videomode)) 
 
 #endif /* INLINE4_RETROMODE_H */

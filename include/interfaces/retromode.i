@@ -81,6 +81,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroBobble
 	    FPTR IRetroMode_retroRainbowColorRange
 	    FPTR IRetroMode_retroRain
+	    FPTR IRetroMode_retroScreenClone
 	LABEL RetroModeIFace_SIZE
 
 #endif

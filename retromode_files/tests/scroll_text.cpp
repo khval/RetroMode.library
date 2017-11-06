@@ -17,7 +17,7 @@ int scrolled_x;
 int scroll_speed = 2;
 int scroll_char = 0;
 
-char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
+const char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
 
 #define IDCMP_COMMON IDCMP_MOUSEBUTTONS | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW  | \
 	IDCMP_CHANGEWINDOW | IDCMP_MOUSEMOVE | IDCMP_REFRESHWINDOW | IDCMP_RAWKEY | \
@@ -279,9 +279,9 @@ int main()
 		}
 		//  end rain
 
-		screen = retroOpenScreen(320,200,retroLowres);
-		screen2 = retroOpenScreen(640,200, retroHires);
-		screen3 = retroOpenScreen(640,200, retroHires | retroInterlaced);
+		screen = retroOpenScreen(640,200,retroLowres);
+		screen2 = retroScreenClone(screen, retroHires);
+		screen3 = retroScreenClone(screen, retroHires | retroInterlaced);
 
 
 		if (screen)
@@ -328,9 +328,9 @@ int main()
 			retroBAR( screen3,20,20,60, 60, 2 );
 		}
 
-		if (screen)	retroApplyScreen( screen2, video, 0, 0,320,200 );
-		if (screen2)	retroApplyScreen( screen2, video, 0, 150,320,200 );
-		if (screen3)	retroApplyScreen( screen2, video, 0, 300,320,200 );
+		if (screen)	retroApplyScreen( screen, video, 0, 0,320,200 );
+		if (screen2)	retroApplyScreen( screen2, video, 0, 150,640,200 );
+		if (screen3)	retroApplyScreen( screen3, video, 0, 300,320,200 );
 
 		while (running)
 		{
@@ -357,19 +357,18 @@ int main()
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
-			retroAndClear( screen2, 0,0,screen2->realWidth,screen2->realHeight, ~4 );
+			retroAndClear( screen, 0,0,screen->realWidth,screen->realHeight, ~4 );
 
 			p = 0;
 
+			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,15, screen, 0 , 0);
 
-			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,15, screen2, 0 , 0);
+
 /*
 			lock = LockBitMapTags( scroll_rp.BitMap, LBM_BytesPerRow, &BitMapBytesPerRow,	LBM_BaseAddress, &BitMapMemory,	TAG_END);
 			if (lock)
 			{
 				int x,y;
-
-
 
 				for (x=0;x<320;x++)
 				{
@@ -385,23 +384,17 @@ y= 20;
 			 }
 */
 
-//			applyCopper(video);
 			retroDrawVideo(video);
 			retroDmaVideo(video);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
-//			Delay(1);
+
 		}
 
-		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
-		if (screen) retroCloseScreen(screen);
-
-		Printf("screen %08lx, Memory %08lx\n", screen2, screen2->Memory);
-		if (screen2) retroCloseScreen(screen2);
-
-		Printf("screen %08lx, Memory %08lx\n", screen3, screen3->Memory);
-		if (screen3) retroCloseScreen(screen3);
+		retroCloseScreen(&screen2);
+		retroCloseScreen(&screen3);
+		retroCloseScreen(&screen);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 

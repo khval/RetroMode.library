@@ -84,3 +84,4 @@ extern void                 VARARGS68K _retromode_retroZoom(struct RetroModeIFac
 extern void                 VARARGS68K _retromode_retroBobble(struct RetroModeIFace *, struct retroScreen * fromScreen, int fromX, int fromY, int fromR, struct retroScreen * toScreen, int toX, int toY, int toR);
 extern void                 VARARGS68K _retromode_retroRainbowColorRange(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, int fromLine, int fromR, int fromG, int fromB, int toLine, int toR, int toG, int toB);
 extern void                 VARARGS68K _retromode_retroRain(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, int line, int r, int g, int b);
+extern struct retroScreen * VARARGS68K _retromode_retroScreenClone(struct RetroModeIFace *, struct retroScreen * SourceScreen, int videomode);
