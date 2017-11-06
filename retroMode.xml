@@ -457,6 +457,26 @@
 			<arg name="toY" type="int"/>
 			<arg name="toR" type="int"/>
 		</method>
+		<method name="retroRainbowColorRange" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="rainbowNumber" type="int"/>
+			<arg name="fromLine" type="int"/>
+			<arg name="fromR" type="int"/>
+			<arg name="fromG" type="int"/>
+			<arg name="fromB" type="int"/>
+			<arg name="toLine" type="int"/>
+			<arg name="toR" type="int"/>
+			<arg name="toG" type="int"/>
+			<arg name="toB" type="int"/>
+		</method>
+		<method name="retroRain" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="rainbowNumber" type="int"/>
+			<arg name="line" type="int"/>
+			<arg name="r" type="int"/>
+			<arg name="g" type="int"/>
+			<arg name="b" type="int"/>
+		</method>
 	</interface>
 </library>
 

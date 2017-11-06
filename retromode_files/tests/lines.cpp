@@ -218,6 +218,52 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
+void retroCurv( struct retroScreen *screen, int x0, int y0, int x1, int y1, int x2, int y2, char color )
+{
+	double dx0, dy0;
+	double dx1, dy1;
+	double xa, ya;
+	double xb, yb;
+	double xc, yc;
+	double dx, dy;
+	double a;
+	double x,y;
+	double lx,ly;
+	int n;
+
+//	retroBAR(screen, x0-1,y0-1,x0+1,y0+1,1);
+//	retroBAR(screen, x2-1,y2-1,x2+1,y2+1,1);
+
+	dx0 = (double) x1 - (double) x0;
+	dy0 = (double) y1 - (double) y0;
+
+	dx1 = (double) x2 - (double) x1;
+	dy1 = (double) y2 - (double) y1;
+
+	n = 0;
+	for (a=0; a<=1.0f; a+=0.05f)
+	{
+		xa = dx0 * a;
+		ya = dy0 * a;
+
+		xb = (dx1 * a) + dx0;
+		yb = (dy1 * a) + dy0;
+
+		dx = xb-xa;
+		dy = yb-ya;
+
+		x = x0 + xa + (dx * a);
+		y = y0 + ya + (dy * a);
+
+		if (n>0) retroThickLine( screen, lx, ly ,x ,y, 10, color);
+		n=1;
+		lx = x;
+		ly = y;
+	}
+
+	retroThickLine( screen, x, y ,x2 ,y2 , 10, color);
+}
+
 
 int main()
 {
@@ -305,7 +351,7 @@ int main()
 			retroCycleColorsUp(screen,5,8,12,0);
 			retroCycleColorsDown(screen,5,13,13+4,0);
 
-			retroBAR(screen, 10,10,100,100,2 );
+//			retroBAR(screen, 10,10,100,100,2 );
 
 			for (x=0;x<5;x++)
 			{
@@ -354,6 +400,9 @@ int main()
 			retroThickLine( screen, 100+(dx*-5/10),100+(dy*-5/10) , 100+(dx*10/10),100+(dy*10/10) , 10,2 );
 
 			g+=0.02;
+
+			retroCurv( screen, 50, 50, 100, 25, 120, 100, 1 );
+			retroCurv( screen, 120, 100, 150,160, 200,50, 1 );
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
