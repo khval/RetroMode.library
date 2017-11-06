@@ -41,7 +41,7 @@ struct RetroModeIFace
 	void APICALL (*retroDrawVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*retroDmaVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
 	struct retroScreen * APICALL (*retroOpenScreen)(struct RetroModeIFace *Self, int width, int height, int videomode);
-	void APICALL (*retroCloseScreen)(struct RetroModeIFace *Self, struct retroScreen * screen);
+	void APICALL (*retroCloseScreen)(struct RetroModeIFace *Self, struct retroScreen ** screen);
 	void APICALL (*retroApplyScreen)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroVideo * video, int scanlinex, int scanliney, int displayWidth, int displayHeight);
 	void APICALL (*retroPixel)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color);
 	unsigned char APICALL (*retroPoint)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y);
@@ -100,6 +100,8 @@ struct RetroModeIFace
 	void APICALL (*retroThickLine)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int thickness, unsigned char color);
 	void APICALL (*retroZoom)(struct RetroModeIFace *Self, struct retroScreen * fromScreen, int x0, int y0, int x1, int y1, struct retroScreen * toScreen, int x2, int y2, int x3, int y3);
 	void APICALL (*retroBobble)(struct RetroModeIFace *Self, struct retroScreen * fromScreen, int fromX, int fromY, int fromR, struct retroScreen * toScreen, int toX, int toY, int toR);
+	void APICALL (*retroRainbowColorRange)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int fromLine, int fromR, int fromG, int fromB, int toLine, int toR, int toG, int toB);
+	void APICALL (*retroRain)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int line, int r, int g, int b);
 };
 
 #ifdef __cplusplus

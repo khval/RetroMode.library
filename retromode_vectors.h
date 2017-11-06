@@ -23,7 +23,7 @@ extern void                 VARARGS68K _retromode_retroClearVideo(struct RetroMo
 extern void                 VARARGS68K _retromode_retroDrawVideo(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_retroDmaVideo(struct RetroModeIFace *, struct retroVideo * video);
 extern struct retroScreen * VARARGS68K _retromode_retroOpenScreen(struct RetroModeIFace *, int width, int height, int videomode);
-extern void                 VARARGS68K _retromode_retroCloseScreen(struct RetroModeIFace *, struct retroScreen * screen);
+extern void                 VARARGS68K _retromode_retroCloseScreen(struct RetroModeIFace *, struct retroScreen ** screen);
 extern void                 VARARGS68K _retromode_retroApplyScreen(struct RetroModeIFace *, struct retroScreen * screen, struct retroVideo * video, int scanlinex, int scanliney, int displayWidth, int displayHeight);
 extern void                 VARARGS68K _retromode_retroPixel(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, unsigned char color);
 extern unsigned char        VARARGS68K _retromode_retroPoint(struct RetroModeIFace *, struct retroScreen * screen, int x, int y);

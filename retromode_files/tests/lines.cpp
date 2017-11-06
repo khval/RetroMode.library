@@ -346,7 +346,7 @@ int main()
 			retroScreenColor( screen, 16, 0,200, 0 );
 			retroScreenColor( screen, 17, 0, 0, 0 );
 
-			retroFlash(screen, 2, "(100,5),(200,5),(300,5),(400,5),(500,5),(600,5)(700,5),(800,5),(900,5),(A00,5),(B00,5),(A00,5),(900,5),(800,5),(700,5),(600,5),(500,5)(400,5),(300,5),(200,5)");
+			retroFlash(screen, 2, (char *) "(100,5),(200,5),(300,5),(400,5),(500,5),(600,5)(700,5),(800,5),(900,5),(A00,5),(B00,5),(A00,5),(900,5),(800,5),(700,5),(600,5),(500,5)(400,5),(300,5),(200,5)");
 
 			retroCycleColorsUp(screen,5,8,12,0);
 			retroCycleColorsDown(screen,5,13,13+4,0);
@@ -414,7 +414,7 @@ int main()
 			BackFill_Func(NULL, NULL );
 		}
 
-		if (screen) retroCloseScreen(screen);
+		retroCloseScreen(&screen);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 

@@ -511,7 +511,7 @@ int main()
 			BackFill_Func(NULL, NULL );
 		}
 
-		if (screen) retroCloseScreen(screen);
+		retroCloseScreen(&screen);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 

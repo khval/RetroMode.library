@@ -412,7 +412,7 @@ int main()
 		}
 
 		Printf("screen %08lx, Memory %08lx\n", screen, screen->Memory);
-		if (screen) retroCloseScreen(screen);
+		retroCloseScreen(&screen);
 
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 

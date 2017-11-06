@@ -345,9 +345,9 @@ int main()
 			Delay(1);
 		}
 
-		if (screen) retroCloseScreen(screen);
-		if (screen2) retroCloseScreen(screen2);
-		if (screen3) retroCloseScreen(screen3);
+		retroCloseScreen(&screen);
+		retroCloseScreen(&screen2);
+		retroCloseScreen(&screen3);
 
 		retroFreeVideo(video);
 	}
