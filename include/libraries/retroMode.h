@@ -126,7 +126,9 @@ struct retroScreen
 	// text cursor place holder	
 	int locateX;		
 	int locateY;
+	int clones;
 	BOOL refreshScanlines;
+	struct retroScreen *cloneOfScreen;
 };
 
 struct retroFrame
