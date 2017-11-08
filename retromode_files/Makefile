@@ -54,7 +54,8 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroPasteSprite.c main/retroFill.c main/retroOrFill.c \
     main/retroBarRounded.c main/retroOrBarRounded.c main/retroXorBarRounded.c \
     main/retroThickLine.c main/retroZoom.c main/retroBobble.c \
-    main/retroRainbowColorRange.c main/retroRain.c main/retroScreenClone.c 
+    main/retroRainbowColorRange.c main/retroRain.c main/retroScreenClone.c \
+    main/retroSetRainbow.c main/retroRainbow.c main/retroColorRange.c 
 
 # this are never added by ideltool don't know way?
 main_SRCS +=  main/retroPolyLine.c main/retroPolyGon.c 

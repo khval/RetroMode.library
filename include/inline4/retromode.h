@@ -102,5 +102,8 @@
 #define retroRainbowColorRange(video, rainbowNumber, fromLine, fromR, fromG, fromB, toLine, toR, toG, toB) IRetroMode->retroRainbowColorRange((video), (rainbowNumber), (fromLine), (fromR), (fromG), (fromB), (toLine), (toR), (toG), (toB)) 
 #define retroRain(video, rainbowNumber, line, r, g, b) IRetroMode->retroRain((video), (rainbowNumber), (line), (r), (g), (b)) 
 #define retroScreenClone(SourceScreen, videomode) IRetroMode->retroScreenClone((SourceScreen), (videomode)) 
+#define retroSetRainbow(video, rainbowNumber, color, tableSize) IRetroMode->retroSetRainbow((video), (rainbowNumber), (color), (tableSize)) 
+#define retroRainbow(video, rainbowNumber, verticalOffset, height) IRetroMode->retroRainbow((video), (rainbowNumber), (verticalOffset), (height)) 
+#define retroColorRange(screen, fromColor, fromR, fromG, fromB, toColor, toR, toG, toB) IRetroMode->retroColorRange((screen), (fromColor), (fromR), (fromG), (fromB), (toColor), (toR), (toG), (toB)) 
 
 #endif /* INLINE4_RETROMODE_H */

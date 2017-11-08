@@ -21,7 +21,6 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
-
 #include "libbase.h"
 
 /****** retromode/main/retroAllocVideo ******************************************

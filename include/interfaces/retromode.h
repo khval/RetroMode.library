@@ -103,6 +103,9 @@ struct RetroModeIFace
 	void APICALL (*retroRainbowColorRange)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int fromLine, int fromR, int fromG, int fromB, int toLine, int toR, int toG, int toB);
 	void APICALL (*retroRain)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int line, int r, int g, int b);
 	struct retroScreen * APICALL (*retroScreenClone)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int videomode);
+	struct retroScreen * APICALL (*retroSetRainbow)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, unsigned char color, int tableSize);
+	struct retroScreen * APICALL (*retroRainbow)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int verticalOffset, int height);
+	void APICALL (*retroColorRange)(struct RetroModeIFace *Self, struct retroScreen * screen, int fromColor, int fromR, int fromG, int fromB, int toColor, int toR, int toG, int toB);
 };
 
 #ifdef __cplusplus
