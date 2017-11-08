@@ -248,17 +248,8 @@ int main()
 
 		retroClearVideo(video);
 		
-		// start set rainbow
-		video -> rainbow[0].color = 0;
-		video -> rainbow[0].tableSize = 400;
-		video -> rainbow[0].table = (struct retroRGB *) AllocVecTags(sizeof(struct retroRGB)  * video -> rainbow[0].tableSize,  AVT_Type, MEMF_SHARED, TAG_END );
-		// end set rainbow
-
-		// start rainbow
-		video -> rainbow[0].verticalOffset = 100;	
-		video -> rainbow[0].height = 300;
-		// end rainbow
-
+		retroSetRainbow( video, 0, 0, 400 );
+		retroRainbow( video, 0, 100, 300 );
 		retroRainbowColorRange( video, 0, 	0 , 255, 0, 0, 100, 0, 0, 255 );
 		retroRainbowColorRange( video, 0, 100 , 0, 0, 255,200, 255, 0, 0 );
 		retroRainbowColorRange( video, 0, 200 , 255, 0, 0, 300, 0, 255, 0 );

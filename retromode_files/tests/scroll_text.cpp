@@ -251,33 +251,13 @@ int main()
 
 		retroClearVideo(video);
 		
-		// start set rainbow
-		video -> rainbow[0].color = 0;
-		video -> rainbow[0].tableSize = 1000;
-		video -> rainbow[0].table = (struct retroRGB *) AllocVecTags(sizeof(struct retroRGB)  * video -> rainbow[0].tableSize,  AVT_Type, MEMF_SHARED, TAG_END );
-		// end set rainbow
+		retroSetRainbow( video, 0, 0, 400 );
+		retroRainbow( video, 0, 120, 150 );
 
-		// start rainbow
-		video -> rainbow[0].verticalOffset = 100;	
-		video -> rainbow[0].height = 300;
-		// end rainbow
-
-		// start rain
-		{
-			struct retroRGB color;
-
-			for (int scanline = 0; scanline < video -> rainbow[0].tableSize ; scanline ++ )
-			{
-				// sacnline to ECS color.
-
-				color.r =(scanline & 0xF00) >> 4;
-				color.g =(scanline & 0x0F0);
-				color.b =(scanline & 0x00F) << 4;				
-
-				video -> rainbow[0].table[scanline] = color;
-			}
-		}
-		//  end rain
+		retroRainbowColorRange( video, 0, 	0 , 255, 0, 0, 100, 0, 0, 255 );
+		retroRainbowColorRange( video, 0, 100 , 0, 0, 255,200, 255, 0, 0 );
+		retroRainbowColorRange( video, 0, 200 , 255, 0, 0, 300, 0, 255, 0 );
+		retroRainbowColorRange( video, 0, 300 , 0, 255, 0, 400, 255, 0, 0 );
 
 		screen = retroOpenScreen(640,200,retroLowres);
 		screen2 = retroScreenClone(screen, retroHires);
