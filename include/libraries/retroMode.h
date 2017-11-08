@@ -129,6 +129,7 @@ struct retroScreen
 	int clones;
 	BOOL refreshScanlines;
 	struct retroScreen *cloneOfScreen;
+	BOOL coopered_last;
 };
 
 struct retroFrame

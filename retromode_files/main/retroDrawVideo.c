@@ -431,7 +431,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 	struct retroRainbow **rainbow_ptr;
 	int n;
 	BOOL coopered = FALSE;
-	BOOL coopered_last = TRUE;
+	BOOL *coopered_last = TRUE;
 
 	if (video -> refreshAllScanlines == TRUE)
 	{
@@ -477,14 +477,19 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 				}
 			}
 
-			if ((coopered == FALSE)&&( coopered_last == TRUE))
-			{
-				color_reset( video, scanline );
-			}
+			coopered_last = scanline -> screen ? &scanline -> screen -> coopered_last : NULL;
 
-			scanline -> mode( scanline,  beamY, video_buffer  );
-			beamcount ++;
-			coopered_last = coopered;
+			if (coopered_last)
+			{
+				if ((coopered == FALSE)&&( *coopered_last == TRUE))
+				{
+					color_reset( video, scanline );
+				}
+
+				scanline -> mode( scanline,  beamY, video_buffer  );
+				beamcount ++;
+				*coopered_last = coopered;
+			}
 		}
 
 		video_buffer += intsPerRow;	// next line
