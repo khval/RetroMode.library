@@ -218,27 +218,6 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
-struct p3 { int x ; int y ; int z; };
-
-struct greate_ball_of_fire
-{
-	int x;
-	int y;
-	int speed;
-	double a;
-	double r;
-	int color;
-};
-
-void init_ball( struct greate_ball_of_fire *ball )
-{
-	ball -> x = rand() % 320;
-	ball -> y = 0;
-	ball -> a = (2.0f*M_PI * 360.0f / (double) (rand() % 360) );
-	ball -> r = rand() % 50;
-	ball -> speed = (rand() % 4) + 1;
-	ball -> color =  8 << (rand() % 3);
-}
 
 void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned char color )
 {
@@ -282,75 +261,75 @@ void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned ch
 	}
 }
 
-
-
-
-// nice on the stack on recursive call back
-
-struct FillNode
+void translateInnerPos(int circleX, int circleY, int circleOX, int circleOY, int r, int startX, int startY, int endX, int endY, int &outX, int &outY )
 {
-	struct Node node;
-	int x;
-	int y;
-};
+	int hx;
+	int xa,ya;
+	int xb,yb;
 
-BOOL insideScreenAndReplaceColor(struct retroScreen *screen,int x,int y, char replace_color)
-{
-	if ((x>-1)&&(x<screen->realWidth)&&(y>-1)&&(y<screen->realHeight))
+	double deltaWdith = endX - startX + 1;
+	double deltaHeight = endY - startY + 1;
+
+	double a;
+	double dx,dy;
+	double z;
+
+	dx = (circleX<circleOX) ? circleOX-circleX+1 : circleX-circleOX+1 ;
+	dy = (circleY<circleOY) ? circleOY-circleY+1 : circleY-circleOY+1 ;
+
+	z = sqrt( (dx*dx) + (dy*dy) ) ;
+	if (z>0)
 	{
-		if (screen -> Memory[ screen -> realWidth * y + x ] == replace_color) return TRUE;
+		a = asin( dy / z );
+		if (circleOY<circleY) { if (circleOX>circleX) { a+=M_PI; } else { a =  -a; } }	else	{ if (circleOX>circleX) a = M_PI-a;}
 	}
-	return FALSE;
+
+	a+= (M_PI / 2.0f);
+
+/*
+	while(a>(M_PI*2)) a-= (M_PI*2);
+	while(a<(M_PI*2)) a+=(M_PI*2);
+*/
+//	z -= 0;
+
+	outX = (deltaWdith * a / (M_PI*2.0f)) + startX;
+	outY = endY - (deltaHeight * z / r);
 }
 
-void AddXY( struct List *list, int x, int y )
+void circelCopy( struct retroScreen *screen, int cx, int cy, int r, int startX, int startY, int endX, int endY)
 {
-	struct FillNode *newNode = NULL;
-	newNode = (FillNode *) AllocSysObjectTags( ASOT_NODE, 
-			ASO_NoTrack, TRUE, 
-			ASONODE_Size, sizeof(struct FillNode), TAG_END);
+	int x0,y0,x1,y1,_y;
+	int xx;
+	int r2 = r * r;
+	int x,y;
+	int outX, outY;
+	int color;
 
-	newNode -> x = x;
-	newNode -> y = y;
+	y0 = cy-r;
+	y1 = cy+r;
 
-	AddHead( list, (struct Node *) newNode );
-}
+	if (y0<0) y0=0;
+	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
 
-void fill( struct retroScreen *screen, int x, int y, char color )
-{
-	char replace_color;
-	struct List list;
-	struct FillNode *node = NULL;
-	NewList(&list);
-
-	if ((x>-1)&&(x<screen->realWidth)&&(y>-1)&&(y<screen->realHeight))
+	for (y=y0;y<=y1;y++)
 	{
-		replace_color = screen -> Memory[ screen -> realWidth * y + x ];
-		if (replace_color == color) return;
-	}
-	else return;
-	
-	do
-	{
-		if ( (void *) node == (void *) &list) break;
+		_y = y - cy; 
 
-		if (node)
+		xx = sqrt( r2 - (_y*_y));
+
+		x0 = cx -xx;
+		x1 = cx +xx;
+
+		if (x0<0) x0 = 0;
+		if (x1>screen->realWidth-1) x1 = screen -> realWidth-1;
+
+		for (x = x0; x <= x1; x++)
 		{
-			x = node -> x;
-			y = node -> y;
-			Remove( (struct Node *) node);
-			FreeSysObject( ASOT_NODE, node );
-			node = NULL;
+			translateInnerPos( cx, cy, x , y,  r,  startX,  startY,  endX,  endY, outX, outY );
+			color = retroPoint( screen, outX, outY );
+			retroPixel( screen, cx -(x-cx), y, color );
 		}
-
-		screen -> Memory[ (screen -> realWidth * y) + x ] = color;
-
-		if (insideScreenAndReplaceColor(screen,x,y-1,replace_color)) AddXY( &list, x, y-1 );
-		if (insideScreenAndReplaceColor(screen,x,y+1,replace_color)) AddXY( &list, x, y+1 );
-		if (insideScreenAndReplaceColor(screen,x-1,y,replace_color)) AddXY( &list, x-1, y );
-		if (insideScreenAndReplaceColor(screen,x+1,y,replace_color)) AddXY( &list, x+1, y );
-
-	} while (node = (struct FillNode *) GetHead( &list));
+	}
 }
 
 
@@ -365,20 +344,13 @@ int main()
 	retroRGB color;
 	double p = 0;
 	double start_sync;
+	double dd = 0.0f;
 
 	int n;
 	#define balls 20
 
- 	struct greate_ball_of_fire ball[balls];
-
 	if (init())		// libs open her.
 	{
-
-		for (n=0;n<balls;n++)
-		{
-			init_ball( &ball[ n ] );
-		}
-
 
 		InitRastPort(&scroll_rp);
 		scroll_rp.BitMap = AllocBitMapTags( 320, 200, 256, 
@@ -428,29 +400,17 @@ int main()
 
 			retroScreenColor( screen, 0, 255, 100, 50 );
 			retroScreenColor( screen, 1, 255, 255, 255 );
-			retroScreenColor( screen, 2, 0, 0, 0 );
-			retroScreenColor( screen, 3, 255, 0, 0 );
 
-			retroScreenColor( screen, 4, 255, 255, 255 );
-			retroScreenColor( screen, 5, 255, 255, 255 );
-			retroScreenColor( screen, 6, 0, 0, 0 );
-			retroScreenColor( screen, 7, 255, 0, 0 );
+			retroScreenColor( screen, 4, 0, 0, 255 );
+			retroScreenColor( screen, 4 | 1, 100, 100, 255 );
 
 			retroScreenColor( screen, 8, 255, 0, 0 );
-			retroScreenColor( screen, 8 | 16, 255, 255, 0 );
-			retroScreenColor( screen, 8 | 32, 255, 0, 255 );
+			retroScreenColor( screen, 8 | 1, 255, 100, 100 );
 
-			retroScreenColor( screen, 16, 0, 255, 0 );
-			retroScreenColor( screen, 16 | 32, 0, 0, 255 );
+			retroScreenColor( screen, 8 | 4, 255, 0, 255 );
 
-			retroScreenColor( screen, 32, 0, 0, 255 );
-			retroScreenColor( screen, 8 | 16 | 32, 255, 255, 255 );
+			retroScreenColor( screen, 8 | 4 | 1 , 255, 100, 255 );
 
-//			retroCircle( screen, 50, 40, 25, 1 );
-//			retroOrCircle( screen, 70, 50, 25, 2 );
-
-			retroBoing( screen, 50, 40, 25, 30, 1, 2 );
-			retroBoing( screen, 295, 35, 10, 13, 1, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0, 320,200 );
@@ -463,13 +423,25 @@ int main()
 				ReplyMsg( (Message*) msg );
 			}
 
-			video -> rainbow[0].offset ++;
+/*
+			{
+				int x0,x1;
 
+				for (n=1;n<255;n++)
+				{
+					x0 = screen -> realWidth * (n-1) / 255;
+					x1 = screen -> realWidth * n / 255;
+
+					retroBAR(screen, x0, 0, x1, 50, n );
+				}
+			}
+*/
+			video -> rainbow[0].offset ++;
 			scrolled_x+=scroll_speed;			
 			
-			if (scrolled_x>15)
+			if (scrolled_x>8)
 			{
-				SetAPen( &scroll_rp, 4 );
+				SetAPen( &scroll_rp, 1 );
 				Move( &scroll_rp, 300,10 );
 				Text( &scroll_rp, scroll_text+scroll_char,1 );
 
@@ -478,8 +450,11 @@ int main()
 				scrolled_x = 0;
 			}
 
-			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
+			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(1));
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
+
+//			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,30, screen, 0 , 0);
+
 
 			p = 0;
 			{
@@ -488,17 +463,20 @@ int main()
 
 				for (x=0;x<320;x++)
 				{
-					y = sin(p)*10.0f+20.0f;
+					y = sin(p)*2.0f+5.0f;
 					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
-					p+=0.05f;
+					p+=0.1f;
 				}
 			 }
 
-			retroBarRounded(screen, 50,120,200,180,10,4);
 
-			retroXorBarRounded(screen, 50 + 20 ,120 - 20,200 + 20,180 - 20,10,8);
+			circelCopy( screen, 100, 120 + (sin(dd)*35), 60, 0, 0, 320, 40 );
+			dd+= 0.1f;
 
-			retroXorBarRounded(screen, 50 + 20 + 5 ,120 - 20 + 5, 200 + 20 - 5,180 - 20 -5,5,8);
+			retroOrBarRounded(screen, 20,120,100,180,10,4);
+			retroOrBarRounded(screen, 50,100,130,160,10,8);
+			retroXorBarRounded(screen, 50+10,100+10,130-10,160-10,6,8);
+
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
