@@ -1,10 +1,10 @@
 /* :ts=4
- *  $VER: retroBAR.c $Revision$ (03-Oct-2017)
+ *  $VER: retroEclipse.c $Revision$ (12-Nov-2017)
  *
  *  This file is part of retromode.
  *
  *  Copyright (c) 2017 LiveForIt Software.
- *  MIT License
+ *  MIT License.
  *
  * $Id$
  *
@@ -21,6 +21,7 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
+#include <math.h>
 
 /****** retromode/main/retroEclipse ******************************************
 *
@@ -29,7 +30,7 @@
 *
 *   SYNOPSIS
 *      void retroEclipse(struct retroScreen * screen, int x, int y, int r1, 
-*          int r2, unsigned char color);
+*          int r2, double angel, unsigned char color);
 *
 *   FUNCTION
 *
@@ -39,6 +40,7 @@
 *       y - 
 *       r1 - 
 *       r2 - 
+*       angel - 
 *       color - 
 *
 *   RESULT
@@ -62,7 +64,47 @@ void _retromode_retroEclipse(struct RetroModeIFace *Self,
        int y,
        int r1,
        int r2,
+       double angel,
        unsigned char color)
 {
+	double vxx, vxy, vyx, vyy;
+	double tx, ty;
+	double a;
+	double ia;
+	double xx,yy, lx,ly;
+
+	// setup vector axes
+
+	vxx = cos( angel ) ;
+	vxy = -sin( angel ) ;
+
+	vyx = cos( angel + (M_PI/2) ) ;
+	vyy = -sin( angel + (M_PI/2) ) ;
+
+	ia = (M_PI/16.0f);
+
+	a = 0;
+
+	tx = cos( a ) * r1;
+	ty = -sin( a ) * r2;
+
+	lx = (vxx * tx) + (vyx * ty) + x;
+	ly = (vxy * tx) + (vyy * ty) + y;
+
+	for (a=ia;a<=(M_PI*2.0f)+ia;a+=ia)
+	{
+		tx = cos( a ) * r1;
+		ty = -sin( a ) * r2;
+
+		xx = (vxx * tx) + (vyx * ty) + x;
+		yy = (vxy * tx) + (vyy * ty) + y;
+
+		Self->retroLine( screen, lx, ly, xx, yy, color );
+
+		lx = xx;
+		ly = yy;
+
+	//	color++;
+	}
 }
 
