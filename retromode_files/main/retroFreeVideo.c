@@ -58,7 +58,7 @@ void _retromode_retroFreeVideo(struct RetroModeIFace *Self,
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int c;
 
-//	libBase -> IExec -> DebugPrintF("video->rp.BitMap: %08x\n",video->rp.BitMap);
+	Self -> retroFreeSpriteObjects( video );
 
 	if (video->rp.BitMap)
 	{
@@ -68,16 +68,12 @@ void _retromode_retroFreeVideo(struct RetroModeIFace *Self,
 
 	for ( c = 0; c<3 ;c++) 
 	{
-		libBase -> IExec -> DebugPrintF("video -> rainbow[%d].table %08x\n", c, video -> rainbow[c].table);
-
 		if (video -> rainbow[c].table)
 		{
 			libBase -> IExec ->FreeVec (video -> rainbow[c].table);
 			video -> rainbow[c].table = NULL;
 		}
 	}
-
-//	libBase -> IExec -> DebugPrintF("video->Memory: %08x\n",video->Memory);
 
 	if (video->Memory)
 	{
