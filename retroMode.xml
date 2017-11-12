@@ -137,7 +137,8 @@
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="r1" type="int"/>
-			<arg name="r2" type="int"/>		
+			<arg name="r2" type="int"/>	
+			<arg name="angel" type="double"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
 		<method name="retroOrCircle" result="void">
@@ -509,6 +510,17 @@
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="image" type="int"/>
+		</method>
+		<method name="retroColorRange" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="fromColor" type="int"/>
+			<arg name="fromR" type="int"/>
+			<arg name="fromG" type="int"/>
+			<arg name="fromB" type="int"/>
+			<arg name="toColor" type="int"/>
+			<arg name="toR" type="int"/>
+			<arg name="toG" type="int"/>
+			<arg name="toB" type="int"/>
 		</method>
 	</interface>
 </library>
