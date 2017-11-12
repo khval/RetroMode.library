@@ -83,6 +83,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroFreeSpriteObjects,
     _retromode_AfterEffectDrawSrpites,
     _retromode_retroSprite,
+    _retromode_retroColorRange,
     (APTR)-1
 };
 

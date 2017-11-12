@@ -38,7 +38,7 @@ extern void                 VARARGS68K _retromode_retroOrBox(struct RetroModeIFa
 extern void                 VARARGS68K _retromode_retroXorBox(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char xor_mask);
 extern void                 VARARGS68K _retromode_retroShift(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int bits);
 extern void                 VARARGS68K _retromode_retroCircle(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int r, unsigned char color);
-extern void                 VARARGS68K _retromode_retroEclipse(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int r1, int r2, unsigned char color);
+extern void                 VARARGS68K _retromode_retroEclipse(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int r1, int r2, double angel, unsigned char color);
 extern void                 VARARGS68K _retromode_retroOrCircle(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int r, unsigned char or_mask);
 extern void                 VARARGS68K _retromode_retroXorCircle(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int r, unsigned char xor_mask);
 extern void                 VARARGS68K _retromode_retroScreenColor(struct RetroModeIFace *, struct retroScreen * screen, int color, unsigned char r, unsigned char g, unsigned char b);
@@ -91,3 +91,4 @@ extern void                 VARARGS68K _retromode_retroAllocSpriteObjects(struct
 extern void                 VARARGS68K _retromode_retroFreeSpriteObjects(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_AfterEffectDrawSrpites(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_retroSprite(struct RetroModeIFace *, struct retroVideo * video, int number, int x, int y, int image);
+extern void                 VARARGS68K _retromode_retroColorRange(struct RetroModeIFace *, struct retroScreen * screen, int fromColor, int fromR, int fromG, int fromB, int toColor, int toR, int toG, int toB);

@@ -88,6 +88,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroFreeSpriteObjects
 	    FPTR IRetroMode_AfterEffectDrawSrpites
 	    FPTR IRetroMode_retroSprite
+	    FPTR IRetroMode_retroColorRange
 	LABEL RetroModeIFace_SIZE
 
 #endif

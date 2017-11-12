@@ -47,7 +47,7 @@
 #define retroXorBox(screen, x0, y0, x1, y1, xor_mask) IRetroMode->retroXorBox((screen), (x0), (y0), (x1), (y1), (xor_mask)) 
 #define retroShift(screen, x0, y0, x1, y1, bits) IRetroMode->retroShift((screen), (x0), (y0), (x1), (y1), (bits)) 
 #define retroCircle(screen, x, y, r, color) IRetroMode->retroCircle((screen), (x), (y), (r), (color)) 
-#define retroEclipse(screen, x, y, r1, r2, color) IRetroMode->retroEclipse((screen), (x), (y), (r1), (r2), (color)) 
+#define retroEclipse(screen, x, y, r1, r2, angel, color) IRetroMode->retroEclipse((screen), (x), (y), (r1), (r2), (angel), (color)) 
 #define retroOrCircle(screen, x, y, r, or_mask) IRetroMode->retroOrCircle((screen), (x), (y), (r), (or_mask)) 
 #define retroXorCircle(screen, x, y, r, xor_mask) IRetroMode->retroXorCircle((screen), (x), (y), (r), (xor_mask)) 
 #define retroScreenColor(screen, color, r, g, b) IRetroMode->retroScreenColor((screen), (color), (r), (g), (b)) 
@@ -108,5 +108,6 @@
 #define retroFreeSpriteObjects(video) IRetroMode->retroFreeSpriteObjects((video)) 
 #define AfterEffectDrawSrpites(video) IRetroMode->AfterEffectDrawSrpites((video)) 
 #define retroSprite(video, number, x, y, image) IRetroMode->retroSprite((video), (number), (x), (y), (image)) 
+#define retroColorRange(screen, fromColor, fromR, fromG, fromB, toColor, toR, toG, toB) IRetroMode->retroColorRange((screen), (fromColor), (fromR), (fromG), (fromB), (toColor), (toR), (toG), (toB)) 
 
 #endif /* INLINE4_RETROMODE_H */
