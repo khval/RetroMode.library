@@ -431,7 +431,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 	struct retroRainbow **rainbow_ptr;
 	int n;
 	BOOL coopered = FALSE;
-	BOOL *coopered_last = TRUE;
+	BOOL *coopered_last = NULL;
 
 	if (video -> refreshAllScanlines == TRUE)
 	{
@@ -479,7 +479,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 
 			coopered_last = scanline -> screen ? &scanline -> screen -> coopered_last : NULL;
 
-			if (coopered_last)
+			if (coopered_last)		// have pointer...
 			{
 				if ((coopered == FALSE)&&( *coopered_last == TRUE))
 				{
