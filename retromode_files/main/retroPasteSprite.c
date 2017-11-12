@@ -56,7 +56,7 @@
 *
 */
 
-struct retroSprite * _retromode_retroPasteSprite(struct RetroModeIFace *Self,
+void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        struct retroSprite * sprite,
        int x,

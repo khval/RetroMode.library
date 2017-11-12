@@ -115,8 +115,6 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 
 				for (Plane = 0; Plane < sprite->frames[n].NumberOfPlanes; Plane++ )	
 				{
-
-
 					if (libBase->IDOS->Read( fd, planar, sizeOfPlanar ) == sizeOfPlanar) 
 					{
 						int y;
