@@ -15,10 +15,6 @@
 #endif
 
 int scrolled_x;
-int scroll_speed = 2;
-int scroll_char = 0;
-
-const char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
 
 #define IDCMP_COMMON IDCMP_MOUSEBUTTONS | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW  | \
 	IDCMP_CHANGEWINDOW | IDCMP_MOUSEMOVE | IDCMP_REFRESHWINDOW | IDCMP_RAWKEY | \
@@ -158,8 +154,6 @@ BOOL open_lib( const char *name, int ver , const char *iname, int iver, struct L
 	return (*interface) ? TRUE : FALSE;
 }
 
-
-
 bool open_window( int window_width, int window_height )
 {
 		My_Window = OpenWindowTags( NULL,
@@ -185,7 +179,6 @@ bool open_window( int window_width, int window_height )
 
 	return (My_Window != NULL) ;
 }
-
 
 bool init()
 {
@@ -218,6 +211,7 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
+
 int main()
 {
 	struct retroScreen *screen = NULL;
@@ -230,24 +224,22 @@ int main()
 	retroSprite *sprite;
 	double p = 0;
 	double start_sync;
+	int spritedir0 = 1;
+	int spritedir1 = 1;
+	int spritedir2 = 1;
+	int x0,y0;
+	int x1,y1;
+	int x2,y2;
+	int spriteimage = 1;
 
 	int n;
-	#define balls 20
 
 	if (init())		// libs open her.
 	{
 
-		InitRastPort(&scroll_rp);
-		scroll_rp.BitMap = AllocBitMapTags( 320, 200, 256, 
-				BMATags_PixelFormat, PIXF_CLUT, 
-				BMATags_Clear, true,
-				BMATags_Displayable, false,
-				TAG_END);
-
-		scroll_rp.Font =  My_Window -> RPort -> Font;
-		SetBPen( &scroll_rp, 0 );
-
 		retroClearVideo(video);
+
+		retroAllocSpriteObjects(video,8);	// Alloc typical 8 sprites like Amiga has, we should not need to free it as done by retroFreeVideo();
 	
 		screen = retroOpenScreen(320,200,retroLowres);
 
@@ -266,6 +258,10 @@ int main()
 
 		if (sprite)
 		{
+			video -> sprites[0].sprite = sprite;
+			video -> sprites[1].sprite = sprite;
+			video -> sprites[2].sprite = sprite;
+
 			printf("sprite was loaded success\n");
 
 			for (n=0;n<256;n++)
@@ -279,7 +275,7 @@ int main()
 			{
 				retroPasteSprite( screen, sprite,  (n*50),100, n );
 			}
-			retroFreeSprite( sprite );
+
 		}
 		else
 		{
@@ -287,6 +283,15 @@ int main()
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0, 320,200 );
+
+		x0 = 50;
+		y0 = 5;
+
+		x1 = 100;
+		y1 = 10;
+
+		x2 = 150;
+		y2 = 15;
 
 		while (running)
 		{
@@ -296,19 +301,35 @@ int main()
 				ReplyMsg( (Message*) msg );
 			}
 
+			x0+=spritedir0;
+			if ( x0 > 300 ) spritedir0 = -1;
+			if ( x0 < -40 ) spritedir0 = 1;
+
+			x1+=spritedir1;
+			if ( x1 > 300 ) spritedir1 = -1;
+			if ( x1 < -40 ) spritedir1 = 1;
+
+			x2+=spritedir2;
+			if ( x2 > 300 ) spritedir2 = -1;
+			if ( x2 < -40 ) spritedir2 = 1;
+
+			retroSprite( video, 0, x0, y0, 1 );
+			retroSprite( video, 1, x1, y1, 1 );
+			retroSprite( video, 2, x2, y2, 1 );
+
 			retroClearVideo( video );
 			retroDrawVideo( video );
 			AfterEffectScanline( video);
+			AfterEffectDrawSrpites( video );
 			retroDmaVideo(video);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
 		}
 
+		if (sprite)	retroFreeSprite( sprite );
+
 		retroCloseScreen(&screen);
-
-		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
-
 		retroFreeVideo(video);
 	}
 
