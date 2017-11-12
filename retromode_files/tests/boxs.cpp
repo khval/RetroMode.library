@@ -293,6 +293,7 @@ int main()
 	retroRGB color;
 	double p = 0;
 	double start_sync;
+	double aa = 0;
 
 	int n;
 	#define balls 20
@@ -431,6 +432,13 @@ int main()
 
 			retroFill(screen, 19,19, 2);
 
+			retroAndClear(screen, 150,0,250,150, ~2);
+			retroEclipse( screen, 200, 70, 20, 50,  aa , 2 );
+			retroEclipse( screen, 200, 70, 20, 50,  aa + (M_PI/2) , 2 );
+
+			retroCircle( screen, 200, 70, 10, 2 );
+
+			aa += 0.01f;
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
