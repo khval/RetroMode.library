@@ -84,7 +84,10 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroScreenClone
 	    FPTR IRetroMode_retroSetRainbow
 	    FPTR IRetroMode_retroRainbow
-	    FPTR IRetroMode_retroColorRange
+	    FPTR IRetroMode_retroAllocSpriteObjects
+	    FPTR IRetroMode_retroFreeSpriteObjects
+	    FPTR IRetroMode_AfterEffectDrawSrpites
+	    FPTR IRetroMode_retroSprite
 	LABEL RetroModeIFace_SIZE
 
 #endif

@@ -91,7 +91,7 @@ struct RetroModeIFace
 	void APICALL (*retroBoing)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int r0, int r1, unsigned char color0, unsigned char color1);
 	struct retroSprite * APICALL (*retroLoadABKSprite)(struct RetroModeIFace *Self, char * filename);
 	void APICALL (*retroFreeSprite)(struct RetroModeIFace *Self, struct retroSprite * sprite);
-	struct retroSprite * APICALL (*retroPasteSprite)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
+	void APICALL (*retroPasteSprite)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
 	void APICALL (*retroFill)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color);
 	void APICALL (*retroOrFill)(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, int and_mask, unsigned char or_color);
 	void APICALL (*retroBarRounded)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
@@ -105,7 +105,10 @@ struct RetroModeIFace
 	struct retroScreen * APICALL (*retroScreenClone)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int videomode);
 	struct retroScreen * APICALL (*retroSetRainbow)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, unsigned char color, int tableSize);
 	struct retroScreen * APICALL (*retroRainbow)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int verticalOffset, int height);
-	void APICALL (*retroColorRange)(struct RetroModeIFace *Self, struct retroScreen * screen, int fromColor, int fromR, int fromG, int fromB, int toColor, int toR, int toG, int toB);
+	void APICALL (*retroAllocSpriteObjects)(struct RetroModeIFace *Self, struct retroVideo * video, int numberOfSprites);
+	void APICALL (*retroFreeSpriteObjects)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*AfterEffectDrawSrpites)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*retroSprite)(struct RetroModeIFace *Self, struct retroVideo * video, int number, int x, int y, int image);
 };
 
 #ifdef __cplusplus

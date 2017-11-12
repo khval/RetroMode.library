@@ -8,6 +8,10 @@
 #include <proto/graphics.h>
 
 
+struct retroSprite;
+struct retroSpriteObject;
+
+
 //------------ video -------------
 
 struct retroRGB
@@ -80,6 +84,10 @@ struct retroVideo
 //	BOOL updateScreenList;
 	BOOL refreshAllScanlines;
 	BOOL refreshSomeScanlines;
+	// Sprites
+	struct retroSpriteObject *sprites;
+	struct retroSpriteObject *sprites_end;
+	int spriteObjectsAllocated;
 };
 
 struct p 
@@ -101,7 +109,10 @@ struct retroScreen
 	int scanline_y;
 	int offset_x;
 	int offset_y;
-	int realWidth;
+	union {
+		int bytesPerRow;
+		int realWidth;
+	};
 	int realHeight;
 	int displayWidth;
 	int displayHeight;
@@ -130,6 +141,7 @@ struct retroScreen
 	BOOL refreshScanlines;
 	struct retroScreen *cloneOfScreen;
 	BOOL coopered_last;
+
 };
 
 struct retroFrame
@@ -175,6 +187,12 @@ struct retroSprite
 	struct retroRGB palette[256];
 };
 
+struct retroSpriteObject
+{
+	int x; int y;
+	struct retroSprite *sprite;
+	struct retroFrameHeader *frame;
+};
 
 #define retroLowres 1
 #define retroLowres_pixeld 2

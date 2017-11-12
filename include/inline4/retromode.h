@@ -104,6 +104,9 @@
 #define retroScreenClone(SourceScreen, videomode) IRetroMode->retroScreenClone((SourceScreen), (videomode)) 
 #define retroSetRainbow(video, rainbowNumber, color, tableSize) IRetroMode->retroSetRainbow((video), (rainbowNumber), (color), (tableSize)) 
 #define retroRainbow(video, rainbowNumber, verticalOffset, height) IRetroMode->retroRainbow((video), (rainbowNumber), (verticalOffset), (height)) 
-#define retroColorRange(screen, fromColor, fromR, fromG, fromB, toColor, toR, toG, toB) IRetroMode->retroColorRange((screen), (fromColor), (fromR), (fromG), (fromB), (toColor), (toR), (toG), (toB)) 
+#define retroAllocSpriteObjects(video, numberOfSprites) IRetroMode->retroAllocSpriteObjects((video), (numberOfSprites)) 
+#define retroFreeSpriteObjects(video) IRetroMode->retroFreeSpriteObjects((video)) 
+#define AfterEffectDrawSrpites(video) IRetroMode->AfterEffectDrawSrpites((video)) 
+#define retroSprite(video, number, x, y, image) IRetroMode->retroSprite((video), (number), (x), (y), (image)) 
 
 #endif /* INLINE4_RETROMODE_H */

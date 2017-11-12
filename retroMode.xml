@@ -379,7 +379,7 @@
 		<method name="retroFreeSprite" result="void">
 			<arg name="sprite" type="struct retroSprite *"/>
 		</method>
-		<method name="retroPasteSprite" result="struct retroSprite *">
+		<method name="retroPasteSprite" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="sprite" type="struct retroSprite *"/>
 			<arg name="x" type="int"/>
@@ -493,16 +493,22 @@
 			<arg name="verticalOffset" type="int"/>
 			<arg name="height" type="int"/>
 		</method>
-		<method name="retroColorRange" result="void">
-			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="fromColor" type="int"/>
-			<arg name="fromR" type="int"/>
-			<arg name="fromG" type="int"/>
-			<arg name="fromB" type="int"/>
-			<arg name="toColor" type="int"/>
-			<arg name="toR" type="int"/>
-			<arg name="toG" type="int"/>
-			<arg name="toB" type="int"/>
+		<method name="retroAllocSpriteObjects" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="numberOfSprites" type="int"/>
+		</method>
+		<method name="retroFreeSpriteObjects" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="AfterEffectDrawSrpites" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="retroSprite" result="void">
+			<arg name="video" type="struct retroVideo *"/>
+			<arg name="number" type="int"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="image" type="int"/>
 		</method>
 	</interface>
 </library>

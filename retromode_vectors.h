@@ -73,7 +73,7 @@ extern void                 VARARGS68K _retromode_retroPolyGon(struct RetroModeI
 extern void                 VARARGS68K _retromode_retroBoing(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int r0, int r1, unsigned char color0, unsigned char color1);
 extern struct retroSprite * VARARGS68K _retromode_retroLoadABKSprite(struct RetroModeIFace *, char * filename);
 extern void                 VARARGS68K _retromode_retroFreeSprite(struct RetroModeIFace *, struct retroSprite * sprite);
-extern struct retroSprite * VARARGS68K _retromode_retroPasteSprite(struct RetroModeIFace *, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
+extern void                 VARARGS68K _retromode_retroPasteSprite(struct RetroModeIFace *, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
 extern void                 VARARGS68K _retromode_retroFill(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, unsigned char color);
 extern void                 VARARGS68K _retromode_retroOrFill(struct RetroModeIFace *, struct retroScreen * screen, int x, int y, int and_mask, unsigned char or_color);
 extern void                 VARARGS68K _retromode_retroBarRounded(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, int r, unsigned char color);
@@ -87,4 +87,7 @@ extern void                 VARARGS68K _retromode_retroRain(struct RetroModeIFac
 extern struct retroScreen * VARARGS68K _retromode_retroScreenClone(struct RetroModeIFace *, struct retroScreen * SourceScreen, int videomode);
 extern struct retroScreen * VARARGS68K _retromode_retroSetRainbow(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, unsigned char color, int tableSize);
 extern struct retroScreen * VARARGS68K _retromode_retroRainbow(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, int verticalOffset, int height);
-extern void                 VARARGS68K _retromode_retroColorRange(struct RetroModeIFace *, struct retroScreen * screen, int fromColor, int fromR, int fromG, int fromB, int toColor, int toR, int toG, int toB);
+extern void                 VARARGS68K _retromode_retroAllocSpriteObjects(struct RetroModeIFace *, struct retroVideo * video, int numberOfSprites);
+extern void                 VARARGS68K _retromode_retroFreeSpriteObjects(struct RetroModeIFace *, struct retroVideo * video);
+extern void                 VARARGS68K _retromode_AfterEffectDrawSrpites(struct RetroModeIFace *, struct retroVideo * video);
+extern void                 VARARGS68K _retromode_retroSprite(struct RetroModeIFace *, struct retroVideo * video, int number, int x, int y, int image);
