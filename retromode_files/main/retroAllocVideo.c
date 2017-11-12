@@ -63,7 +63,6 @@ void config_scanline(
 	scanline->data = data;
 }
 
-
 struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
        struct Window * window)
 {
@@ -112,8 +111,6 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 						AVT_ClearWithValue, 0 ,
 						TAG_END	);
 		}
-
-		// if no success.
 
 		if (( ! new_video -> Memory) || ( ! new_video -> rp.BitMap ))
 		{
