@@ -218,7 +218,34 @@ void closedown()
 	if (IRetroMode) DropInterface((struct Interface*) IRetroMode); IRetroMode = 0;
 }
 
-void retroCurv( struct retroScreen *screen, int x0, int y0, int x1, int y1, int x2, int y2, char color )
+void getSides(  struct retroScreen * screen, int x0, int y0, int x1, int y1, int thickness, int &xa, int &ya, int &xb, int &yb )
+{
+	double a;
+	double dx,dy;
+	double z;
+
+	dx = (x0<x1) ? x1-x0+1 : x0-x1+1 ;
+	dy = (y0<y1) ? y1-y0+1 : y0-y1+1 ;
+
+	thickness /= 2;
+
+	z = sqrt( (dx*dx) + (dy*dy) );
+	if (z>0)
+	{
+		a = asin( dy / z );
+		if (y1<y0) { if (x1>x0) { a+=M_PI; } else { a =  -a; } }	else	{ if (x1>x0) a = M_PI-a;	}
+	}
+
+	a+= (M_PI / 2.0f);
+
+	ya = sin(a) * thickness;
+	xa = -cos(a) * thickness;
+
+	yb = sin(a + M_PI) * thickness;
+	xb = -cos(a + M_PI) * thickness;
+}
+
+void retroThickCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1, int x2, int y2, char color )
 {
 	double dx0, dy0;
 	double dx1, dy1;
@@ -230,9 +257,73 @@ void retroCurv( struct retroScreen *screen, int x0, int y0, int x1, int y1, int 
 	double x,y;
 	double lx,ly;
 	int n;
+	int lsideAx,lsideAy;
+	int lsideBx,lsideBy;
+	int sideAx,sideAy;
+	int sideBx,sideBy;
 
-//	retroBAR(screen, x0-1,y0-1,x0+1,y0+1,1);
-//	retroBAR(screen, x2-1,y2-1,x2+1,y2+1,1);
+
+	retroCircle( screen, x0, y0, 4, color);
+
+	dx0 = (double) x1 - (double) x0;
+	dy0 = (double) y1 - (double) y0;
+
+	dx1 = (double) x2 - (double) x1;
+	dy1 = (double) y2 - (double) y1;
+
+	n = 0;
+	for (a=0; a<=1.0f; a+=0.01f)
+	{
+		xa = dx0 * a;
+		ya = dy0 * a;
+
+		xb = (dx1 * a) + dx0;
+		yb = (dy1 * a) + dy0;
+
+		dx = xb-xa;
+		dy = yb-ya;
+
+		x = x0 + xa + (dx * a);
+		y = y0 + ya + (dy * a);
+
+		if (n>0) 
+		{
+			getSides( screen, lx, ly, x, y, 10, sideAx, sideAy, sideBx, sideBy );
+			retroThickLine( screen, lx, ly ,x ,y, 10, color);
+			retroCircle( screen, x, y, 4, color);
+
+		}
+		else n = 1;
+
+		lx = x;
+		ly = y;
+		lsideAx=sideAx;
+		lsideAy=sideAy;
+		lsideBx=sideBx;
+		lsideBy=sideBy;
+	}
+
+	getSides(  screen, x, y, x2, y2, 10, sideAx, sideAy, sideBx, sideBy );
+
+	retroThickLine( screen, x, y ,x2 ,y2, 10, color);
+	retroCircle( screen, x2, y2, 4, color);
+
+
+}
+
+
+void retroCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1, int x2, int y2, char color )
+{
+	double dx0, dy0;
+	double dx1, dy1;
+	double xa, ya;
+	double xb, yb;
+	double xc, yc;
+	double dx, dy;
+	double a;
+	double x,y;
+	double lx,ly;
+	int n;
 
 	dx0 = (double) x1 - (double) x0;
 	dy0 = (double) y1 - (double) y0;
@@ -255,7 +346,7 @@ void retroCurv( struct retroScreen *screen, int x0, int y0, int x1, int y1, int 
 		x = x0 + xa + (dx * a);
 		y = y0 + ya + (dy * a);
 
-		if (n>0) retroThickLine( screen, lx, ly ,x ,y, 10, color);
+		if (n>0) retroLine( screen, lx, ly ,x ,y, color);
 		n=1;
 		lx = x;
 		ly = y;
@@ -401,8 +492,8 @@ int main()
 
 			g+=0.02;
 
-			retroCurv( screen, 50, 50, 100, 25, 120, 100, 1 );
-			retroCurv( screen, 120, 100, 150,160, 200,50, 1 );
+			retroThickCurve( screen, 50, 50, 100, 25, 120, 100, 1 );
+			retroThickCurve( screen, 120, 100, 150,160, 200,50, 1 );
 
 			retroClearVideo( video );
 			retroDrawVideo( video );
