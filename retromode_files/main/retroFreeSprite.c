@@ -1,5 +1,5 @@
 /* :ts=4
- *  $VER: retroFreeSprite.c $Revision$ (02-Nov-2017)
+ *  $VER: retroFreeSprite.c $Revision$ (11-Nov-2017)
  *
  *  This file is part of retromode.
  *
@@ -51,30 +51,23 @@
 *
 */
 
-#define AllocVecTags libBase->IExec->AllocVecTags
-#define FreeVec libBase->IExec->FreeVec
-
-void _retromode_retroFreeSprite(struct RetroModeIFace *Self,
-       struct retroSprite * sprite)
+void _retromode_retroFreeSprite(struct RetroModeIFace *Self, struct retroSprite * sprite)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int n;
 
-	if (!sprite) return;
-
-	if (sprite->frames)
+	if (sprite)
 	{
-		for (n=0; n<sprite->number_of_frames; n++ )
+		if (sprite->frames)
 		{
-			if (sprite->frames[n].data)
+			for (n=0; n<sprite->number_of_frames; n++ )
 			{
-				FreeVec( sprite->frames[n].data);
-			}
-		}
-		FreeVec(sprite->frames);
-		sprite->frames = NULL;
-	}
+				if (sprite->frames[n].data) libBase->IExec->FreeVec(sprite->frames[n].data);
+			 }
 
-	FreeVec(sprite);
+			libBase->IExec->FreeVec(sprite->frames);
+		}
+		libBase->IExec->FreeVec(sprite);
+	}
 }
 
