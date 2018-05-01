@@ -72,33 +72,40 @@ void _retromode_retroBox(struct RetroModeIFace *Self,
 	unsigned char *memory;
 
 	if (x1<0) x1 = 0;
+	if (x1>screen->realWidth-1) x1 = screen -> realWidth-1;
+
+	if (x2<0) x2 = 0;
 	if (x2>screen->realWidth-1) x2 = screen -> realWidth-1;
+
 	if (y1<0) y1 = 0;
+	if (y1>screen->realHeight-1) y1 = screen -> realHeight-1;
+
+	if (y2<0) y2 =0;
 	if (y2>screen->realHeight-1) y2 = screen -> realHeight-1;
 
 	// draw top 
-	if (oy1>-1)
+	if ((oy1>-1) && (oy1<screen->realHeight))
 	{
 		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
 		for ( x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical left
-	if (ox1>-1)
+	if ((ox1>-1)&&(ox1<screen->realWidth))
 	{
 		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
 		for ( y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
 	}
 
 	// draw bottom
-	if (oy2<screen->realHeight)
+	if ((oy2>-1) && (oy2<screen->realHeight))
 	{
 		memory = screen -> Memory + (screen -> realWidth * y2) + x1;
 		for ( x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical right	
-	if (ox2<screen->realWidth)
+	if ((ox2>-1)&&(ox2<screen->realWidth))
 	{
 		memory = screen -> Memory + (screen -> realWidth * y1) + x2;
 		for ( y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
