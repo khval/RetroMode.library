@@ -40,7 +40,7 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroFlash.c main/retroCycleColorsUp.c main/retroCycleColorsDown.c \
     main/retroBAR.c main/retroOrBAR.c main/retroXorBAR.c main/retroBox.c \
     main/retroOrBox.c main/retroXorBox.c main/retroShift.c main/retroCircle.c \
-    main/retroEclipse.c main/retroOrCircle.c main/retroXorCircle.c \
+    main/retroEllipse.c main/retroOrCircle.c main/retroXorCircle.c \
     main/retroScreenColor.c main/retroScreenBlit.c main/retroOrScreenBlit.c \
     main/retroXorScreenBlit.c main/retroBitmapBlit.c main/retroOrBitmapBlit.c \
     main/retroXorBitmapBlit.c main/retroAndClear.c main/retroModeBadVideoSync.c \

@@ -30,7 +30,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroXorBox,
     _retromode_retroShift,
     _retromode_retroCircle,
-    _retromode_retroEclipse,
+    _retromode_retroEllipse,
     _retromode_retroOrCircle,
     _retromode_retroXorCircle,
     _retromode_retroScreenColor,
