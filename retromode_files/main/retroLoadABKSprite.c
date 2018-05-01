@@ -168,8 +168,6 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 		if (num==256) break;
 	}
 
-	libBase->IDOS->Printf("load palette loaded");
-
 	return sprite;
 }
 
@@ -189,9 +187,13 @@ struct retroSprite * _retromode_retroLoadABKSprite(struct RetroModeIFace *Self,
 
 		if (libBase->IDOS->Read( fd, file_id, 4 ))	// reads 4 bytes but terminates on byte 5.
 		{
-			if ((strcmp(file_id,"AmSp")==0) || (strcmp(file_id,"Amlc")==0))
+			if ((strcmp(file_id,"AmSp")==0) || (strcmp(file_id,"AmIc")==0))
 			{
 				sprite = read_icon_or_sprite( libBase, fd );
+			}
+			else
+			{
+				libBase->IDOS->Printf("[%s]\n",file_id);
 			}
 		}
 
