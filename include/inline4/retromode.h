@@ -109,5 +109,6 @@
 #define AfterEffectDrawSrpites(video) IRetroMode->AfterEffectDrawSrpites((video)) 
 #define retroSprite(video, number, x, y, image) IRetroMode->retroSprite((video), (number), (x), (y), (image)) 
 #define retroColorRange(screen, fromColor, fromR, fromG, fromB, toColor, toR, toG, toB) IRetroMode->retroColorRange((screen), (fromColor), (fromR), (fromG), (fromB), (toColor), (toR), (toG), (toB)) 
+#define retroPolyGonArray(screen, color, array) IRetroMode->retroPolyGonArray((screen), (color), (array)) 
 
 #endif /* INLINE4_RETROMODE_H */

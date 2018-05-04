@@ -84,6 +84,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_AfterEffectDrawSrpites,
     _retromode_retroSprite,
     _retromode_retroColorRange,
+    _retromode_retroPolyGonArray,
     (APTR)-1
 };
 

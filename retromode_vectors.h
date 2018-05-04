@@ -92,3 +92,4 @@ extern void                 VARARGS68K _retromode_retroFreeSpriteObjects(struct 
 extern void                 VARARGS68K _retromode_AfterEffectDrawSrpites(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_retroSprite(struct RetroModeIFace *, struct retroVideo * video, int number, int x, int y, int image);
 extern void                 VARARGS68K _retromode_retroColorRange(struct RetroModeIFace *, struct retroScreen * screen, int fromColor, int fromR, int fromG, int fromB, int toColor, int toR, int toG, int toB);
+extern void                 VARARGS68K _retromode_retroPolyGonArray(struct RetroModeIFace *, struct retroScreen * screen, unsigned char color, int * array);

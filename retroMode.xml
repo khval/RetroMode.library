@@ -132,7 +132,7 @@
 			<arg name="r" type="int"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
-		<method name="retroEclipse" result="void">
+		<method name="retroEllipse" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
@@ -521,6 +521,11 @@
 			<arg name="toR" type="int"/>
 			<arg name="toG" type="int"/>
 			<arg name="toB" type="int"/>
+		</method>
+		<method name="retroPolyGonArray" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="color" type="unsigned char"/>
+			<arg name="array" type="int *"/>
 		</method>
 	</interface>
 </library>

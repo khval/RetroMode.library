@@ -110,6 +110,7 @@ struct RetroModeIFace
 	void APICALL (*AfterEffectDrawSrpites)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*retroSprite)(struct RetroModeIFace *Self, struct retroVideo * video, int number, int x, int y, int image);
 	void APICALL (*retroColorRange)(struct RetroModeIFace *Self, struct retroScreen * screen, int fromColor, int fromR, int fromG, int fromB, int toColor, int toR, int toG, int toB);
+	void APICALL (*retroPolyGonArray)(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned char color, int * array);
 };
 
 #ifdef __cplusplus

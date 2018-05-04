@@ -19,6 +19,10 @@ int scrolled_x;
 int scroll_speed = 2;
 int scroll_char = 0;
 
+#include "../main/retroPixel.c"
+#include "../main/retroPolyGon.c"
+#include "../main/retroPolyGonArray.c"
+
 const char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
 
 #define IDCMP_COMMON IDCMP_MOUSEBUTTONS | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW  | \
@@ -42,11 +46,13 @@ struct LayersIFace *ILayers = NULL;
 
 int debugy = 0;
 
+/*
 struct _line_
 {
 	int x0,y0;
 	int x1,y1;
 };
+*/
 
 struct XYSTW_Vertex3D { 
 float x, y; 
@@ -241,6 +247,7 @@ int main()
 	double p = 0;
 	double start_sync;
 
+
 	int n;
 	#define balls 20
 
@@ -356,8 +363,19 @@ int main()
 
 			debugy = -1;
 
+/*
+			{
+				int array[] = { 50,25,   150,50,   140,100,   80,80,    50,25 };
+				_retromode_retroPolyGonArray( IRetroMode, screen,  6, sizeof(array)  / sizeof(int), array );
+			}
+*/
+
+
 			retroPolyGon( screen,  6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
-			retroPolyGon( screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
+			retroPolyGon(  screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
+
+//			_retromode_retroPolyGon( IRetroMode, screen,  6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
+//			_retromode_retroPolyGon( IRetroMode, screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
 
 //												p1		p2		p3		p4		p5		p6             p7           p8              p9
 //			IRetroMode->retroPolyLine( screen,   10,   50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );

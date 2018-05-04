@@ -57,7 +57,8 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroRainbowColorRange.c main/retroRain.c main/retroScreenClone.c \
     main/retroSetRainbow.c main/retroRainbow.c main/retroAllocSpriteObjects.c \
     main/retroFreeSpriteObjects.c main/AfterEffectDrawSrpites.c \
-    main/retroSprite.c main/retroColorRange.c 
+    main/retroSprite.c main/retroColorRange.c main/retroPolyGonArray.c 
+
 
 # this are never added by ideltool don't know way?
 main_SRCS +=  main/retroPolyLine.c main/retroPolyGon.c 
@@ -82,3 +83,6 @@ revision:
 
 install:
 	execute install_script
+
+autodoc:
+	autodoc -l100 $(main_SRCS) > $(TARGET:.library=.doc)
