@@ -1,0 +1,2298 @@
+TABLE OF CONTENTS
+
+retromode/main/AfterEffectAdjustRGB
+retromode/main/afterEffectDrawSrpites
+retromode/main/AfterEffectScanline
+retromode/main/Obtain
+retromode/main/Release
+retromode/main/retroAllocFrame
+retromode/main/retroAllocSpriteObjects
+retromode/main/retroAllocVideo
+retromode/main/retroApplyScreen
+retromode/main/retroBAR
+retromode/main/retroBarRounded
+retromode/main/retroBitmapBlit
+retromode/main/retroBobble
+retromode/main/retroBoing
+retromode/main/retroBox
+retromode/main/retroCircle
+retromode/main/retroClearVideo
+retromode/main/retroCloseScreen
+retromode/main/retroColorRange
+retromode/main/retroCycleColorsDown
+retromode/main/retroCycleColorsUp
+retromode/main/retroDeleteFlash
+retromode/main/retroDmaVideo
+retromode/main/retroDrawFrame
+retromode/main/retroDrawVideo
+retromode/main/retroEllipse
+retromode/main/retroFill
+retromode/main/retroFlash
+retromode/main/retroFreeFrame
+retromode/main/retroFreeSprite
+retromode/main/retroFreeSpriteObjects
+retromode/main/retroFreeVideo
+retromode/main/retroLine
+retromode/main/retroLoadABKSprite
+retromode/main/retroModeBadVideoSync
+retromode/main/retroOpenScreen
+retromode/main/retroOrBAR
+retromode/main/retroOrBarRounded
+retromode/main/retroOrBitmapBlit
+retromode/main/retroOrBox
+retromode/main/retroOrCircle
+retromode/main/retroOrFill
+retromode/main/retroOrLine
+retromode/main/retroOrScreenBlit
+retromode/main/retroOrStar
+retromode/main/retroOrTriangle
+retromode/main/retroPasteSprite
+retromode/main/retroPixel
+retromode/main/retroPoint
+retromode/main/retroPolyGon
+retromode/main/retroPolyLine
+retromode/main/retroRain
+retromode/main/retroRainbow
+retromode/main/retroRainbowColorRange
+retromode/main/retroScreenBack
+retromode/main/retroScreenBlit
+retromode/main/retroScreenClone
+retromode/main/retroScreenColor
+retromode/main/retroScreenDetach
+retromode/main/retroScreenFront
+retromode/main/retroScreenOffset
+retromode/main/retroSetRainbow
+retromode/main/RetroShift
+retromode/main/retroSprite
+retromode/main/retroStar
+retromode/main/retroThickLine
+retromode/main/retroTriangle
+retromode/main/retroXorBAR
+retromode/main/retroXorBarRounded
+retromode/main/retroXorBitmapBlit
+retromode/main/retroXorBox
+retromode/main/retroXorCircle
+retromode/main/retroXorLine
+retromode/main/retroXorScreenBlit
+retromode/main/retroBAR
+retromode/main/retroXorTriangle
+retromode/main/retroZoom
+
+
+retromode/main/AfterEffectAdjustRGB                             retromode/main/AfterEffectAdjustRGB
+
+   NAME
+      AfterEffectAdjustRGB -- Description
+
+   SYNOPSIS
+      void AfterEffectAdjustRGB(struct retroVideo * video, 
+          unsigned int red_shift, unsigned int green_shift, 
+          unsigned int blue_shift);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       red_shift - 
+       green_shift - 
+       blue_shift - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/afterEffectDrawSrpites                         retromode/main/afterEffectDrawSrpites
+
+   NAME
+      afterEffectDrawSrpites -- Description
+
+   SYNOPSIS
+      void afterEffectDrawSrpites(struct retroVideo * video);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/AfterEffectScanline                               retromode/main/AfterEffectScanline
+
+   NAME
+      AfterEffectScanline -- Description
+
+   SYNOPSIS
+      void AfterEffectScanline(struct retroVideo * video);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/Obtain                                                         retromode/main/Obtain
+
+   NAME
+      Obtain -- Description
+
+   SYNOPSIS
+      ULONG Obtain(void);
+
+   FUNCTION
+
+   INPUTS
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/Release                                                       retromode/main/Release
+
+   NAME
+      Release -- Description
+
+   SYNOPSIS
+      ULONG Release(void);
+
+   FUNCTION
+
+   INPUTS
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroAllocFrame                                       retromode/main/retroAllocFrame
+
+   NAME
+      retroAllocFrame -- Description
+
+   SYNOPSIS
+      struct retroFrame * retroAllocFrame(struct retroScreen * screen, 
+          int x1, int y1, int x2, int y2, int hotspotX, int hotspotY);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x1 - 
+       y1 - 
+       x2 - 
+       y2 - 
+       hotspotX - 
+       hotspotY - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroAllocSpriteObjects                       retromode/main/retroAllocSpriteObjects
+
+   NAME
+      retroAllocSpriteObjects -- Description
+
+   SYNOPSIS
+      void retroAllocSpriteObjects(struct retroVideo * video, 
+          int numberOfSprites);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       numberOfSprites - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroAllocVideo                                       retromode/main/retroAllocVideo
+
+   NAME
+      retroAllocVideo -- Description
+
+   SYNOPSIS
+      struct retroVideo * retroAllocVideo(struct Window * window);
+
+   FUNCTION
+
+   INPUTS
+       window - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroApplyScreen                                     retromode/main/retroApplyScreen
+
+   NAME
+      retroApplyScreen -- Description
+
+   SYNOPSIS
+      void retroApplyScreen(struct retroScreen * screen, 
+          struct retroVideo * video, int offsetx, int oppsety, 
+          int videomode);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       video - 
+       offsetx - 
+       oppsety - 
+       videomode - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroBAR                                                     retromode/main/retroBAR
+
+   NAME
+      retroBAR -- Description
+
+   SYNOPSIS
+      void retroBAR(struct retroScreen * screen, int x0, int y0, int x1, 
+          int y1, unsigned char color);
+
+   FUNCTION
+	This is 8bit function do not use with 32bit screens!!!
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroBarRounded                                       retromode/main/retroBarRounded
+
+   NAME
+      retroBarRounded -- Description
+
+   SYNOPSIS
+      void retroBarRounded(struct retroScreen * screen, int x0, int y0, 
+          int x1, int y1, int r, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       r - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroBitmapBlit                                       retromode/main/retroBitmapBlit
+
+   NAME
+      retroBitmapBlit -- Description
+
+   SYNOPSIS
+      void retroBitmapBlit(struct BitMap * bitmap, int fromX, int fromY, 
+          int realWidth, int heigh, struct retroScreen * screen, int toX, 
+          int toY);
+
+   FUNCTION
+
+   INPUTS
+       bitmap - 
+       fromX - 
+       fromY - 
+       realWidth - 
+       heigh - 
+       screen - 
+       toX - 
+       toY - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroBobble                                               retromode/main/retroBobble
+
+   NAME
+      retroBobble -- Description
+
+   SYNOPSIS
+      void retroBobble(struct retroScreen * fromScreen, int fromX, int fromY, 
+          int fromR,struct retroScreen *toScreen,  int toX, int toY, int toR);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       fromX - 
+       fromY - 
+       fromR - 
+       screen - 
+       toX - 
+       toY - 
+       toR - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroBoing                                                 retromode/main/retroBoing
+
+   NAME
+      retroBoing -- Description
+
+   SYNOPSIS
+      void retroBoing(struct retroScreen * screen, int x, int y, int r0, 
+          int r1, unsigned char color0, unsigned char color1);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       r0 - 
+       r1 - 
+       color0 - 
+       color1 - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroBox                                                     retromode/main/retroBox
+
+   NAME
+      retroBox -- Description
+
+   SYNOPSIS
+      void retroBox(struct retroScreen * screen, int x0, int y0, int x1, 
+          int y1, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroCircle                                               retromode/main/retroCircle
+
+   NAME
+      retroCircle -- Description
+
+   SYNOPSIS
+      void retroCircle(struct retroScreen * screen, int x, int y, int r, 
+          unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       r - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroClearVideo                                       retromode/main/retroClearVideo
+
+   NAME
+      retroClearVideo -- Description
+
+   SYNOPSIS
+      void retroClearVideo(struct retroVideo * video);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroCloseScreen                                     retromode/main/retroCloseScreen
+
+   NAME
+      retroCloseScreen -- Description
+
+   SYNOPSIS
+      void retroCloseScreen(struct retroScreen * screen);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroColorRange                                       retromode/main/retroColorRange
+
+   NAME
+      retroColorRange -- Description
+
+   SYNOPSIS
+      void retroColorRange(struct retroScreen * screen, int fromColor, 
+          int fromR, int fromG, int fromB, int toColor, int toR, int toG, 
+          int toB);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       fromColor - 
+       fromR - 
+       fromG - 
+       fromB - 
+       toColor - 
+       toR - 
+       toG - 
+       toB - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroCycleColorsDown                             retromode/main/retroCycleColorsDown
+
+   NAME
+      retroCycleColorsDown -- Description
+
+   SYNOPSIS
+      void retroCycleColorsDown(struct retroScreen * screen, 
+          unsigned char from_color, unsigned char to_color, 
+          unsigned char flags);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       from_color - 
+       to_color - 
+       flags - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroCycleColorsUp                                 retromode/main/retroCycleColorsUp
+
+   NAME
+      retroCycleColorsUp -- Description
+
+   SYNOPSIS
+      void retroCycleColorsUp(struct retroScreen * screen, 
+          unsigned char from_color, unsigned char to_color, 
+          unsigned char flags);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       delay
+       from_color - 
+       to_color - 
+       flags - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroDeleteFlash                                     retromode/main/retroDeleteFlash
+
+   NAME
+      retroDeleteFlash -- Description
+
+   SYNOPSIS
+      void retroDeleteFlash(struct retroScreen * screen, 
+          unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroDmaVideo                                           retromode/main/retroDmaVideo
+
+   NAME
+      retroDmaVideo -- Description
+
+   SYNOPSIS
+      void retroDmaVideo(struct retroVideo * video);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroDrawFrame                                         retromode/main/retroDrawFrame
+
+   NAME
+      retroDrawFrame -- Description
+
+   SYNOPSIS
+      void retroDrawFrame(struct retroFrame * frame, 
+          struct retroScreen * screen, int X, int Y);
+
+   FUNCTION
+
+   INPUTS
+       frame - 
+       screen - 
+       X - 
+       Y - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroDrawVideo                                         retromode/main/retroDrawVideo
+
+   NAME
+      retroDrawVideo -- Description
+
+   SYNOPSIS
+      void retroDrawVideo(struct retroVideo * video);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroEllipse                                             retromode/main/retroEllipse
+
+   NAME
+      retroEllipse -- Description
+
+   SYNOPSIS
+      void retroEllipse(struct retroScreen * screen, int x, int y, int r1, 
+          int r2, double angel, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       r1 - 
+       r2 - 
+       angel - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroFill                                                   retromode/main/retroFill
+
+   NAME
+      retroFill -- Description
+
+   SYNOPSIS
+      void retroFill(struct retroScreen * screen, int x, int y, 
+          unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroFlash                                                 retromode/main/retroFlash
+
+   NAME
+      retroFlash -- Description
+
+   SYNOPSIS
+      struct retroFlashTable * retroFlash(struct retroScreen * screen, 
+          unsigned char color, char * data);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       color - 
+       data - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroFreeFrame                                         retromode/main/retroFreeFrame
+
+   NAME
+      retroFreeFrame -- Description
+
+   SYNOPSIS
+      void retroFreeFrame(struct retroFrame * frame);
+
+   FUNCTION
+
+   INPUTS
+       frame - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroFreeSprite                                       retromode/main/retroFreeSprite
+
+   NAME
+      retroFreeSprite -- Description
+
+   SYNOPSIS
+      void retroFreeSprite(struct retroSprite * sprite);
+
+   FUNCTION
+
+   INPUTS
+       sprite - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroFreeSpriteObjects                         retromode/main/retroFreeSpriteObjects
+
+   NAME
+      retroFreeSpriteObjects -- Description
+
+   SYNOPSIS
+      void retroFreeSpriteObjects(struct retroVideo * video);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroFreeVideo                                         retromode/main/retroFreeVideo
+
+   NAME
+      retroFreeVideo -- Description
+
+   SYNOPSIS
+      void retroFreeVideo(struct retroVideo * video);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroLine                                                   retromode/main/retroLine
+
+   NAME
+      retroLine -- Description
+
+   SYNOPSIS
+      void retroLine(struct retroScreen * screen, int x1, int y1, int x2, 
+          int y2, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x1 - 
+       y1 - 
+       x2 - 
+       y2 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroLoadABKSprite                                 retromode/main/retroLoadABKSprite
+
+   NAME
+      retroLoadABKSprite -- Description
+
+   SYNOPSIS
+      struct retroSprite * retroLoadABKSprite(char * filename);
+
+   FUNCTION
+
+   INPUTS
+       filename - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroModeBadVideoSync                           retromode/main/retroModeBadVideoSync
+
+   NAME
+      retroModeBadVideoSync -- Description
+
+   SYNOPSIS
+      void retroModeBadVideoSync(struct retroVideo * video, 
+          double sync_offset, double incRad);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       sync_offset - 
+       incRad - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOpenScreen                                       retromode/main/retroOpenScreen
+
+   NAME
+      retroOpenScreen -- Description
+
+   SYNOPSIS
+      struct retroScreen * retroOpenScreen(int width, int height, int videomode);
+
+   FUNCTION
+
+   INPUTS
+       width - 
+       height - 
+       videomode - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrBAR                                                 retromode/main/retroOrBAR
+
+   NAME
+      retroOrBAR -- Description
+
+   SYNOPSIS
+      void retroOrBAR(struct retroScreen * screen, int x0, int y0, int x1, 
+          int y1, unsigned char or_mask);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       or_mask - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrBarRounded                                   retromode/main/retroOrBarRounded
+
+   NAME
+      retroOrBarRounded -- Description
+
+   SYNOPSIS
+      void retroOrBarRounded(struct retroScreen * screen, int x0, int y0, 
+          int x1, int y1, int r, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       r - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrBitmapBlit                                   retromode/main/retroOrBitmapBlit
+
+   NAME
+      retroOrBitmapBlit -- Description
+
+   SYNOPSIS
+      void retroOrBitmapBlit(struct BitMap * bitmap, int fromX, int fromY, 
+          int width, int heigh, struct retroScreen * screen, int toX, 
+          int toY);
+
+   FUNCTION
+
+   INPUTS
+       bitmap - 
+       fromX - 
+       fromY - 
+       width - 
+       heigh - 
+       screen - 
+       toX - 
+       toY - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrBox                                                 retromode/main/retroOrBox
+
+   NAME
+      retroOrBox -- Description
+
+   SYNOPSIS
+      void retroOrBox(struct retroScreen * screen, int x0, int y0, int x1, 
+          int y1, unsigned char or_mask);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       or_mask - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrCircle                                           retromode/main/retroOrCircle
+
+   NAME
+      retroOrCircle -- Description
+
+   SYNOPSIS
+      void retroOrCircle(struct retroScreen * screen, int x, int y, int r, 
+          unsigned char or_mask);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       r - 
+       or_mask - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrFill                                               retromode/main/retroOrFill
+
+   NAME
+      retroOrFill -- Description
+
+   SYNOPSIS
+      void retroOrFill(struct retroScreen * screen, int x, int y, 
+          int and_mask, unsigned char or_color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       and_mask - 
+       or_color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrLine                                               retromode/main/retroOrLine
+
+   NAME
+      retroOrLine -- Description
+
+   SYNOPSIS
+      void retroOrLine(struct retroScreen * screen, int x1, int y1, int x2, 
+          int y2, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x1 - 
+       y1 - 
+       x2 - 
+       y2 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrScreenBlit                                   retromode/main/retroOrScreenBlit
+
+   NAME
+      retroOrScreenBlit -- Description
+
+   SYNOPSIS
+      void retroOrScreenBlit(struct BitMap * bitmap, int fromX, int fromY, 
+          int realWidth, int heigh, struct retroScreen * screen, int toX, 
+          int toY);
+
+   FUNCTION
+
+   INPUTS
+       bitmap - 
+       fromX - 
+       fromY - 
+       realWidth - 
+       heigh - 
+       screen - 
+       toX - 
+       toY - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrStar                                               retromode/main/retroOrStar
+
+   NAME
+      retroOrStar -- Description
+
+   SYNOPSIS
+      void retroOrStar(struct retroScreen * screen, int x, int y, int n, 
+          int r0, int r1, double g, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       n - 
+       r0 - 
+       r1 - 
+       g - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroOrTriangle                                       retromode/main/retroOrTriangle
+
+   NAME
+      retroOrTriangle -- Description
+
+   SYNOPSIS
+      void retroOrTriangle(struct retroScreen * screen, int x1, int y1, 
+          int x2, int y2, int x3, int y3, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x1 - 
+       y1 - 
+       x2 - 
+       y2 - 
+       x3 - 
+       y3 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroPasteSprite                                     retromode/main/retroPasteSprite
+
+   NAME
+      retroPasteSprite -- Description
+
+   SYNOPSIS
+      struct retroSprite * retroPasteSprite(struct retroScreen * screen, 
+          struct retroSprite * sprite, int x, int y, int image);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       sprite - 
+       x - 
+       y - 
+       image - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroPixel                                                 retromode/main/retroPixel
+
+   NAME
+      retroPixel -- Description
+
+   SYNOPSIS
+      void retroPixel(struct retroScreen * screen, int x, int y, 
+          unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroPoint                                                 retromode/main/retroPoint
+
+   NAME
+      retroPoint -- Description
+
+   SYNOPSIS
+      unsigned char retroPoint(struct retroScreen * screen, int x, int y);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroPolyGon                                             retromode/main/retroPolyGon
+
+   NAME
+      retroPolyGon -- Description
+
+   SYNOPSIS
+      void retroPolyGon(struct retroScreen * screen, unsigned char color, 
+           ...);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       color - 
+       ... - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroPolyLine                                           retromode/main/retroPolyLine
+
+   NAME
+      retroPolyLine -- Description
+
+   SYNOPSIS
+      void retroPolyLine(struct retroScreen * screen, unsigned char color, ... );
+
+   FUNCTION
+
+   INPUTS
+       screen - screen to draw to.
+       color - the color to use
+       ... - list of (x,y) points, last item should be "retroEnd"
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+	retroPolyLine( screen, color,   10,10,   50,20,   50,50,   retroEnd );
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroRain                                                   retromode/main/retroRain
+
+   NAME
+      retroRain -- Description
+
+   SYNOPSIS
+      void retroRain(struct retroVideo * video, int rainbowNumber, 
+          int line, int r, int g, int b);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       rainbowNumber - 
+       line - 
+       r - 
+       g - 
+       b - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroRainbow                                             retromode/main/retroRainbow
+
+   NAME
+      retroRainbow -- Description
+
+   SYNOPSIS
+      struct retroScreen * retroRainbow(struct retroVideo * video, 
+          int rainbowNumber, int verticalOffset, int height);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       rainbowNumber - 
+       verticalOffset - 
+       height - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroRainbowColorRange                         retromode/main/retroRainbowColorRange
+
+   NAME
+      retroRainbowColorRange -- Description
+
+   SYNOPSIS
+      void retroRainbowColorRange(struct retroVideo * video, 
+          int rainbowNumber, int fromLine, int fromR, int fromG, int fromB, 
+          int toLine, int toR, int toG, int toB);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       rainbowNumber - 
+       fromLine - 
+       fromR - 
+       fromG - 
+       fromB - 
+       toLine - 
+       toR - 
+       toG - 
+       toB - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroScreenBack                                       retromode/main/retroScreenBack
+
+   NAME
+      retroScreenBack -- Description
+
+   SYNOPSIS
+      void retroScreenToBack(struct retroScreen * screen, int offsetx, 
+          int offsety);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       offsetx - 
+       offsety - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroScreenBlit                                       retromode/main/retroScreenBlit
+
+   NAME
+      retroScreenBlit -- Description
+
+   SYNOPSIS
+      void retroScreenBlit(struct BitMap * bitmap, int fromX, int fromY, 
+          int realWidth, int heigh, struct retroScreen * screen, int toX, 
+          int toY);
+
+   FUNCTION
+
+   INPUTS
+       bitmap - 
+       fromX - 
+       fromY - 
+       realWidth - 
+       heigh - 
+       screen - 
+       toX - 
+       toY - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroScreenClone                                     retromode/main/retroScreenClone
+
+   NAME
+      retroScreenClone -- Description
+
+   SYNOPSIS
+      void retroScreenClone(struct retroScreen * SourceScreen, 
+          int videomode);
+
+   FUNCTION
+
+   INPUTS
+       SourceScreen - 
+       videomode - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroScreenColor                                     retromode/main/retroScreenColor
+
+   NAME
+      retroScreenColor -- Description
+
+   SYNOPSIS
+      void retroScreenColor(struct retroScreen * screen, int color, 
+          unsigned char r, unsigned char g, unsigned char b);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       color - 
+       r - 
+       g - 
+       b - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroScreenDetach                                   retromode/main/retroScreenDetach
+
+   NAME
+      retroScreenDetach -- Description
+
+   SYNOPSIS
+      void retroScreenDetach(struct retroScreen * screen);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroScreenFront                                     retromode/main/retroScreenFront
+
+   NAME
+      retroScreenFront -- Description
+
+   SYNOPSIS
+      void retroScreenToFront(struct retroScreen * screen, int offsetx, 
+          int offsety);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       offsetx - 
+       offsety - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroScreenOffset                                   retromode/main/retroScreenOffset
+
+   NAME
+      retroScreenOffset -- Description
+
+   SYNOPSIS
+      void retroScreenOffset(struct retroScreen * screen, int offsetx, 
+          int offsety);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       offsetx - 
+       offsety - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroSetRainbow                                       retromode/main/retroSetRainbow
+
+   NAME
+      retroSetRainbow -- Description
+
+   SYNOPSIS
+      struct retroScreen * retroSetRainbow(struct retroVideo * video, 
+          int rainbowNumber, unsigned char color, int tableSize);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       rainbowNumber - 
+       color - 
+       tableSize - 
+
+   RESULT
+       The result ...
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/RetroShift                                                 retromode/main/RetroShift
+
+   NAME
+      RetroShift -- Description
+
+   SYNOPSIS
+      void RetroShift(struct retroScreen * screen, int x0, int y0, int x1, 
+          int y1, unsigned char bits);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       bits - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroSprite                                               retromode/main/retroSprite
+
+   NAME
+      retroSprite -- Description
+
+   SYNOPSIS
+      void retroSprite(struct retroVideo * video, int number, int x, int y, 
+          int image);
+
+   FUNCTION
+
+   INPUTS
+       video - 
+       number - 
+       x - 
+       y - 
+       image - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroStar                                                   retromode/main/retroStar
+
+   NAME
+      retroStar -- Description
+
+   SYNOPSIS
+      void retroStar(struct retroScreen * screen, int x, int y, int n, 
+          int r0, int r1, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       n - 
+       r0 - 
+       r1 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroThickLine                                         retromode/main/retroThickLine
+
+   NAME
+      retroThickLine -- Description
+
+   SYNOPSIS
+      void retroThickLine(struct retroScreen * screen, int x0, int y0, 
+          int x1, int y1, int thickness, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       thickness - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroTriangle                                           retromode/main/retroTriangle
+
+   NAME
+      retroTriangle -- Description
+
+   SYNOPSIS
+      void retroTriangle(struct retroScreen * screen, int x1, int y1, 
+          int x2, int y2, int x3, int y3, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x1 - 
+       y1 - 
+       x2 - 
+       y2 - 
+       x3 - 
+       y3 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorBAR                                               retromode/main/retroXorBAR
+
+   NAME
+      retroXorBAR -- Description
+
+   SYNOPSIS
+      void retroXorBAR(struct retroScreen * screen, int x0, int y0, int x1, 
+          int y1, unsigned char xor_mask);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       xor_mask - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorBarRounded                                 retromode/main/retroXorBarRounded
+
+   NAME
+      retroXorBarRounded -- Description
+
+   SYNOPSIS
+      void retroXorBarRounded(struct retroScreen * screen, int x0, int y0, 
+          int x1, int y1, int r, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       r - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorBitmapBlit                                 retromode/main/retroXorBitmapBlit
+
+   NAME
+      retroXorBitmapBlit -- Description
+
+   SYNOPSIS
+      void retroXorBitmapBlit(struct BitMap * bitmap, int fromX, int fromY, 
+          int width, int heigh, struct retroScreen * screen, int toX, 
+          int toY);
+
+   FUNCTION
+
+   INPUTS
+       bitmap - 
+       fromX - 
+       fromY - 
+       width - 
+       heigh - 
+       screen - 
+       toX - 
+       toY - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorBox                                               retromode/main/retroXorBox
+
+   NAME
+      retroXorBox -- Description
+
+   SYNOPSIS
+      void retroXorBox(struct retroScreen * screen, int x0, int y0, int x1, 
+          int y1, unsigned char xor_mask);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       xor_mask - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorCircle                                         retromode/main/retroXorCircle
+
+   NAME
+      retroXorCircle -- Description
+
+   SYNOPSIS
+      void retroXorCircle(struct retroScreen * screen, int x, int y, int r, 
+          unsigned char xor_mask);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x - 
+       y - 
+       r - 
+       xor_mask - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorLine                                             retromode/main/retroXorLine
+
+   NAME
+      retroXorLine -- Description
+
+   SYNOPSIS
+      void retroXorLine(struct retroScreen * screen, int x1, int y1, 
+          int x2, int y2, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x1 - 
+       y1 - 
+       x2 - 
+       y2 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorScreenBlit                                 retromode/main/retroXorScreenBlit
+
+   NAME
+      retroXorScreenBlit -- Description
+
+   SYNOPSIS
+      void retroXorScreenBlit(struct BitMap * bitmap, int fromX, int fromY, 
+          int realWidth, int heigh, struct retroScreen * screen, int toX, 
+          int toY);
+
+   FUNCTION
+
+   INPUTS
+       bitmap - 
+       fromX - 
+       fromY - 
+       realWidth - 
+       heigh - 
+       screen - 
+       toX - 
+       toY - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroBAR                                                     retromode/main/retroBAR
+
+   NAME
+      retroBAR -- Description
+
+   SYNOPSIS
+      void retroAndClear(struct retroScreen * screen, int x0, int y0, int x1, int y1, unsigned char
+ and_mask);
+
+   FUNCTION
+	This is 8bit function do not use with 32bit screens!!!
+
+   INPUTS
+       screen - screen to clear parts of
+       x0 - start pos x
+       y0 - start pos y
+       x1 - end pos x
+       y1 - end pos y
+       and_mask - bits to keep.
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+	retroAndClear(screen, 0, 0,320, 200, ~(1<<2));	//	Removes bit 2, from color value
+
+	retroAndClear(screen, 0, 0,320, 200, (1<<2));	//	Keep only bit 2, clear other bits from color valu
+e
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroXorTriangle                                     retromode/main/retroXorTriangle
+
+   NAME
+      retroXorTriangle -- Description
+
+   SYNOPSIS
+      void retroXorTriangle(struct retroScreen * screen, int x1, int y1, 
+          int x2, int y2, int x3, int y3, unsigned char color);
+
+   FUNCTION
+
+   INPUTS
+       screen - 
+       x1 - 
+       y1 - 
+       x2 - 
+       y2 - 
+       x3 - 
+       y3 - 
+       color - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+retromode/main/retroZoom                                                   retromode/main/retroZoom
+
+   NAME
+      retroZoom -- Description
+
+   SYNOPSIS
+      void retroZoom(struct retroScreen * fromScreen, int x0, int y0, 
+          int x1, int y1, struct retroScreen * toScreen, int x2, int y2, 
+          int x3, int y3);
+
+   FUNCTION
+
+   INPUTS
+       fromScreen - 
+       x0 - 
+       y0 - 
+       x1 - 
+       y1 - 
+       toScreen - 
+       x2 - 
+       y2 - 
+       x3 - 
+       y3 - 
+
+   RESULT
+       This function does not return a result
+
+   EXAMPLE
+
+   NOTES
+
+   BUGS
+
+   SEE ALSO
+
+
