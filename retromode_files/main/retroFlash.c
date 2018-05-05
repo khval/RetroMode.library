@@ -128,20 +128,17 @@ void _retromode_retroFlash(struct RetroModeIFace *Self,
 	char *c;
 	char *sptr;
 
-	idx_free = _retromode_retroDeleteFlash(Self, screen, color);
+	_retromode_retroDeleteFlash(Self, screen, color);
 
-	// look for free
-	if (idx_free==-1)
+	for (idx = 0; idx<256; idx++)
 	{
-		for (idx = 0; idx<256; idx++)
+		if (screen->allocatedFlashs[idx] == NULL)
 		{
-			if (screen->allocatedFlashs[idx] == NULL)
-			{
-				idx_free = idx;
-				break;
-			}
+			idx_free = idx;
+			break;
 		}
 	}
+
 
 	for (c=data; *c!=0; c++) { if (*c=='(') count ++;	}	
 

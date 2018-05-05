@@ -60,30 +60,36 @@ int _retromode_retroDeleteFlash(struct RetroModeIFace *Self,
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 
 	int idx = 0;
-	int idx_free = -1;
 	struct retroFlashTable *flash = NULL;
 
-	// look for existing
 	for (idx = 0; idx<256; idx++)
 	{
 		if (screen->allocatedFlashs[idx] != NULL)
 		{
 			if (screen->allocatedFlashs[idx] -> color == color)
 			{
-				idx_free = idx;
 				flash = screen->allocatedFlashs[idx];
 
-				// as we are going to create a new color table we need to kill the old one.
 				if (flash -> table)
 				{
 					libBase -> IExec -> FreeVec(flash -> table);
 					flash -> table = NULL;
 				}
+
+				libBase -> IExec -> FreeVec(screen->allocatedFlashs[idx]);	
+				for ( ; idx<255;idx++)
+				{
+					screen->allocatedFlashs[idx] = screen->allocatedFlashs[idx+1];
+				}
+
+				screen->allocatedFlashs[255] = NULL;
+				screen->flashsAllocated--;		// flash tables
+				screen->allocatedFlashs_end = screen->allocatedFlashs + screen-> flashsAllocated;
 				break;
 			}
 		}
 	}
 
-	return idx_free;
+	return -1;
 }
 
