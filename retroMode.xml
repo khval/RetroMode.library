@@ -317,7 +317,7 @@
 			<arg name="X" type="int"/>
 			<arg name="Y" type="int"/>
 		</method>
-		<method name="retroDeleteFlash" result="void">
+		<method name="retroDeleteFlash" result="int">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
@@ -525,6 +525,7 @@
 		<method name="retroPolyGonArray" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 			<arg name="color" type="unsigned char"/>
+			<arg name="count" type="int"/>
 			<arg name="array" type="int *"/>
 		</method>
 	</interface>

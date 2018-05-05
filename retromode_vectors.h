@@ -61,7 +61,7 @@ extern void                 VARARGS68K _retromode_retroXorLine(struct RetroModeI
 extern struct retroFrame *  VARARGS68K _retromode_retroAllocFrame(struct RetroModeIFace *, struct retroScreen * screen, int x1, int y1, int x2, int y2, int hotspotX, int hotspotY);
 extern void                 VARARGS68K _retromode_retroFreeFrame(struct RetroModeIFace *, struct retroFrame * frame);
 extern void                 VARARGS68K _retromode_retroDrawFrame(struct RetroModeIFace *, struct retroFrame * frame, struct retroScreen * screen, int X, int Y);
-extern void                 VARARGS68K _retromode_retroDeleteFlash(struct RetroModeIFace *, struct retroScreen * screen, unsigned char color);
+extern int                  VARARGS68K _retromode_retroDeleteFlash(struct RetroModeIFace *, struct retroScreen * screen, unsigned char color);
 extern void                 VARARGS68K _retromode_retroScreenOffset(struct RetroModeIFace *, struct retroScreen * screen, int offsetx, int offsety);
 extern void                 VARARGS68K _retromode_retroScreenDetach(struct RetroModeIFace *, struct retroScreen * screen);
 extern void                 VARARGS68K _retromode_retroScreenToFront(struct RetroModeIFace *, struct retroScreen * screen);
@@ -92,4 +92,4 @@ extern void                 VARARGS68K _retromode_retroFreeSpriteObjects(struct 
 extern void                 VARARGS68K _retromode_AfterEffectDrawSrpites(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_retroSprite(struct RetroModeIFace *, struct retroVideo * video, int number, int x, int y, int image);
 extern void                 VARARGS68K _retromode_retroColorRange(struct RetroModeIFace *, struct retroScreen * screen, int fromColor, int fromR, int fromG, int fromB, int toColor, int toR, int toG, int toB);
-extern void                 VARARGS68K _retromode_retroPolyGonArray(struct RetroModeIFace *, struct retroScreen * screen, unsigned char color, int * array);
+extern void                 VARARGS68K _retromode_retroPolyGonArray(struct RetroModeIFace *, struct retroScreen * screen, unsigned char color, int count, int * array);

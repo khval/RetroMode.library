@@ -21,6 +21,7 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
+#include "libbase.h"
 
 /****** retromode/main/retroDeleteFlash ******************************************
 *
@@ -52,10 +53,37 @@
 *
 */
 
-void _retromode_retroDeleteFlash(struct RetroModeIFace *Self,
+int _retromode_retroDeleteFlash(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        unsigned char color)
 {
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 
+	int idx = 0;
+	int idx_free = -1;
+	struct retroFlashTable *flash = NULL;
+
+	// look for existing
+	for (idx = 0; idx<256; idx++)
+	{
+		if (screen->allocatedFlashs[idx] != NULL)
+		{
+			if (screen->allocatedFlashs[idx] -> color == color)
+			{
+				idx_free = idx;
+				flash = screen->allocatedFlashs[idx];
+
+				// as we are going to create a new color table we need to kill the old one.
+				if (flash -> table)
+				{
+					libBase -> IExec -> FreeVec(flash -> table);
+					flash -> table = NULL;
+				}
+				break;
+			}
+		}
+	}
+
+	return idx_free;
 }
 

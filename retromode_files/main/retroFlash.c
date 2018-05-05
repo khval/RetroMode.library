@@ -110,6 +110,9 @@ int hex_to_int( char *ptr, char **to_ptr)
 	return ret * 0x11;
 }
 
+
+intretromode_retroDeleteFlash(struct RetroModeIFace *Self,  struct retroScreen * screen, unsigned char color);
+
 void _retromode_retroFlash(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        unsigned char color,
@@ -125,26 +128,7 @@ void _retromode_retroFlash(struct RetroModeIFace *Self,
 	char *c;
 	char *sptr;
 
-	// look for existing
-	for (idx = 0; idx<256; idx++)
-	{
-		if (screen->allocatedFlashs[idx] != NULL)
-		{
-			if (screen->allocatedFlashs[idx] -> color == color)
-			{
-				idx_free = idx;
-				new_flash = screen->allocatedFlashs[idx];
-
-				// as we are going to create a new color table we need to kill the old one.
-				if (new_flash -> table)
-				{
-					libBase -> IExec -> FreeVec(new_flash -> table);
-					new_flash -> table = NULL;
-				}
-				break;
-			}
-		}
-	}
+	idx_free = _retromode_retroDeleteFlash(Self, screen, color);
 
 	// look for free
 	if (idx_free==-1)
