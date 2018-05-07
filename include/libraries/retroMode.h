@@ -101,7 +101,8 @@ void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buff
 //void draw_video(struct retroVideo *context, unsigned int *video_buffer );
 
 
-//--------- screen --------------
+#define retroscreen_flag_hide 1
+
 
 struct retroScreen
 {
@@ -141,7 +142,7 @@ struct retroScreen
 	BOOL refreshScanlines;
 	struct retroScreen *cloneOfScreen;
 	BOOL coopered_last;
-
+	unsigned int flags;
 };
 
 struct retroFrame

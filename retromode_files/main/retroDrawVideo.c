@@ -309,7 +309,6 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 
 	dest_y = screen -> scanline_y;
 
-
 	if (screen ->videomode & retroInterlaced)
 	{
 		if (dest_y<0)
@@ -345,48 +344,51 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 		}
 	}
 
-	for ( y = start_at ; y < end_at; y++ )
+	if ((screen -> flags & retroscreen_flag_hide)==0)
 	{
-		video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
-		video -> scanlines[ dest_y ].videoWidth = video -> width;
-		video -> scanlines[ dest_y ].screen = screen;
-		video -> scanlines[ dest_y ].pixels = screen -> displayWidth;
-		video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
-		video -> scanlines[ dest_y ].mode = NULL;
-
-		video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
-		video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
-
-		if (videomode & retroLowres )
+		for ( y = start_at ; y < end_at; y++ )
 		{
-			video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
-		}
 
-		if (videomode & retroLowres_pixeld )
-		{
-			video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
-		}
+			video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
+			video -> scanlines[ dest_y ].videoWidth = video -> width;
+			video -> scanlines[ dest_y ].screen = screen;
+			video -> scanlines[ dest_y ].pixels = screen -> displayWidth;
+			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
+			video -> scanlines[ dest_y ].mode = NULL;
+			video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
+			video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
 
-		if (videomode & retroHires )
-		{
-			video -> scanlines[ dest_y ].mode = draw_hires;
-		}
-
-		dest_y ++;
-
-
-		if ( ! (videomode & retroInterlaced) )
-		{
-			if ((dest_y > -1) && (dest_y<video->height))
+			if (videomode & retroLowres )
 			{
-				video -> scanlines[ dest_y ].orgPalette = NULL;
-				video -> scanlines[ dest_y ].rowPalette = NULL;
-				video -> scanlines[ dest_y ].beamStart = 0;
-				video -> scanlines[ dest_y ].pixels = 0;
-				video -> scanlines[ dest_y ].data = NULL;
-				video -> scanlines[ dest_y ].mode = NULL;
-				video -> scanlines[ dest_y ].screen = NULL;
-				dest_y ++;
+				video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
+			}
+
+			if (videomode & retroLowres_pixeld )
+			{
+				video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
+			}
+
+			if (videomode & retroHires )
+			{
+				video -> scanlines[ dest_y ].mode = draw_hires;
+			}
+
+			dest_y ++;
+
+
+			if ( ! (videomode & retroInterlaced) )
+			{
+				if ((dest_y > -1) && (dest_y<video->height))
+				{
+					video -> scanlines[ dest_y ].orgPalette = NULL;
+					video -> scanlines[ dest_y ].rowPalette = NULL;
+					video -> scanlines[ dest_y ].beamStart = 0;
+					video -> scanlines[ dest_y ].pixels = 0;
+					video -> scanlines[ dest_y ].data = NULL;
+					video -> scanlines[ dest_y ].mode = NULL;
+					video -> scanlines[ dest_y ].screen = NULL;
+					dest_y ++;
+				}
 			}
 		}
 	}
@@ -412,7 +414,7 @@ void update_some_scanlines( struct RetroLibrary *libBase, struct retroVideo * vi
 		{
 			Screen_To_Scanlines( libBase, *screen_item, video );
 
-			(*screen_item) -> refreshScanlines == FALSE;
+			(*screen_item) -> refreshScanlines = FALSE;
 		}
 	}
 }
