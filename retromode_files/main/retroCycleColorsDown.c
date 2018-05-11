@@ -83,32 +83,25 @@ void _retromode_retroCycleColorsDown(struct RetroModeIFace *Self,
 		}
 	}
 
-	// look for free
-	if (idx_free==-1)
-	{
-		for (idx = 0; idx<256; idx++)
-		{
-			if (screen->allocatedShifts[idx] == NULL)
-			{
-				idx_free = idx;
-				break;
-			}
-		}
-	}
+	// add to end if new
+	if ((screen -> shiftsAllocated<256)&&(idx_free == -1)) idx_free = screen -> shiftsAllocated;
 
-	if (!new_ShiftColors) new_ShiftColors = (struct retroShiftColors *) libBase -> IExec -> AllocVecTags( sizeof(struct retroShiftColors),  
+	if (idx_free>-1)
+	{
+		if (!new_ShiftColors) new_ShiftColors = (struct retroShiftColors *) libBase -> IExec -> AllocVecTags( sizeof(struct retroShiftColors),  
 					AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END	);
 
-	if ((new_ShiftColors)&&(idx_free>-1))
-	{
-		new_ShiftColors-> delay = delay;
-		new_ShiftColors-> firstColor = from_color;
-		new_ShiftColors-> lastColor = to_color;
-		new_ShiftColors-> flags = 2 | (flags&1);
+		if (new_ShiftColors)
+		{
+			new_ShiftColors-> delay = delay;
+			new_ShiftColors-> firstColor = from_color;
+			new_ShiftColors-> lastColor = to_color;
+			new_ShiftColors-> flags = 2 | (flags&1);
 
-		screen -> shiftsAllocated ++;
-		screen -> allocatedShifts[idx_free] = new_ShiftColors;
-		screen -> allocatedShifts_end = screen -> allocatedShifts + screen -> shiftsAllocated;
+			screen -> shiftsAllocated ++;
+			screen -> allocatedShifts[idx_free] = new_ShiftColors;
+			screen -> allocatedShifts_end = screen -> allocatedShifts + screen -> shiftsAllocated;
+		}
 	}
 }
 
