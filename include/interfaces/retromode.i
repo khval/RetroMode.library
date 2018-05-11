@@ -90,6 +90,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroSprite
 	    FPTR IRetroMode_retroColorRange
 	    FPTR IRetroMode_retroPolyGonArray
+	    FPTR IRetroMode_retroCycleOff
 	LABEL RetroModeIFace_SIZE
 
 #endif

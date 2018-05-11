@@ -528,6 +528,9 @@
 			<arg name="count" type="int"/>
 			<arg name="array" type="int *"/>
 		</method>
+		<method name="retroCycleOff" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+		</method>
 	</interface>
 </library>
 

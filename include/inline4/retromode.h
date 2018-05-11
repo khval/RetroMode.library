@@ -110,5 +110,6 @@
 #define retroSprite(video, number, x, y, image) IRetroMode->retroSprite((video), (number), (x), (y), (image)) 
 #define retroColorRange(screen, fromColor, fromR, fromG, fromB, toColor, toR, toG, toB) IRetroMode->retroColorRange((screen), (fromColor), (fromR), (fromG), (fromB), (toColor), (toR), (toG), (toB)) 
 #define retroPolyGonArray(screen, color, count, array) IRetroMode->retroPolyGonArray((screen), (color), (count), (array)) 
+#define retroCycleOff(screen) IRetroMode->retroCycleOff((screen)) 
 
 #endif /* INLINE4_RETROMODE_H */
