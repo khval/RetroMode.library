@@ -28,21 +28,21 @@
 *      retroScreenBlit -- Description
 *
 *   SYNOPSIS
-*      void retroScreenBlit(struct BitMap * bitmap, int fromX, int fromY, 
-*          int realWidth, int heigh, struct retroScreen * screen, int toX, 
+*      void retroScreenBlit(struct retroScreen * screen, int fromX, int fromY, 
+*          int width, int heigh, struct retroScreen * screen, int toX, 
 *          int toY);
 *
 *   FUNCTION
 *
 *   INPUTS
-*       bitmap - 
-*       fromX - 
-*       fromY - 
-*       realWidth - 
-*       heigh - 
-*       screen - 
-*       toX - 
-*       toY - 
+*       screen - source screen 
+*       fromX - source x
+*       fromY -  source y
+*       width - source width
+*       heigh - source heigh
+*       screen - destination screen
+*       toX - destination x
+*       toY - destination y
 *
 *   RESULT
 *       This function does not return a result
