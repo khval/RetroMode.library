@@ -228,7 +228,7 @@ void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buf
 	}
 }
 
-static void do_all_screen_color_effects(struct retroScreen *screen)
+static void do_all_screen_color_effects(struct RetroLibrary *libBase, struct retroScreen *screen)
 {
 	struct retroFlashTable **flash;
 	struct retroFlashTable *_flash;
@@ -256,6 +256,7 @@ static void do_all_screen_color_effects(struct retroScreen *screen)
 
 	for (shift = screen -> allocatedShifts ; shift < screen -> allocatedShifts_end; shift ++)
 	{
+		
 		_shift = *shift;
 		_shift -> countDelay ++;
 
@@ -265,17 +266,28 @@ static void do_all_screen_color_effects(struct retroScreen *screen)
 			from_color = _shift -> firstColor;
 			to_color = _shift -> lastColor;
 
-			if (_shift -> flags & 2)
+			switch (_shift -> flags)
 			{
-				temp = screen -> rowPalette[from_color];
-				for (color = from_color+1; color <= to_color; color ++ ) screen->rowPalette[color-1] = screen->rowPalette[color];
-				screen -> rowPalette[ to_color ] = temp;
-			}
-			else
-			{
-				temp = screen -> rowPalette[to_color];
-				for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
-				screen -> rowPalette[ from_color ] = temp;
+				case 0:
+					for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
+					break;
+
+				case 1:
+
+					temp = screen -> rowPalette[to_color];
+					for (color = to_color; color > from_color; color -- ) screen->rowPalette[color] = screen->rowPalette[color-1];
+					screen -> rowPalette[ from_color ] = temp;
+					break;
+
+				case 2:
+					for (color = from_color+1; color <= to_color; color ++ ) screen->rowPalette[color-1] = screen->rowPalette[color];
+					break;
+
+				case 3:
+					temp = screen -> rowPalette[from_color];
+					for (color = from_color+1; color <= to_color; color ++ ) screen->rowPalette[color-1] = screen->rowPalette[color];
+					screen -> rowPalette[ to_color ] = temp;
+					break;
 			}
 		}
 	}
@@ -500,7 +512,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 
 	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
 	{
-		do_all_screen_color_effects(*screen_item);
+		do_all_screen_color_effects(libBase, *screen_item);
 	}
 }
 
