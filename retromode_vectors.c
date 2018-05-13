@@ -86,6 +86,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroColorRange,
     _retromode_retroPolyGonArray,
     _retromode_retroCycleOff,
+    _retromode_retroFadeScreen,
     (APTR)-1
 };
 

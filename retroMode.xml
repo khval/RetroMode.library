@@ -482,13 +482,13 @@
 			<arg name="SourceScreen" type="struct retroScreen *"/>
 			<arg name="videomode" type="int"/>
 		</method>
-		<method name="retroSetRainbow" result="struct retroScreen *">
+		<method name="retroSetRainbow" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 			<arg name="rainbowNumber" type="int"/>
 			<arg name="color" type="unsigned char"/>
 			<arg name="tableSize" type="int"/>
 		</method>
-		<method name="retroRainbow" result="struct retroScreen *">
+		<method name="retroRainbow" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 			<arg name="rainbowNumber" type="int"/>
 			<arg name="verticalOffset" type="int"/>
@@ -529,6 +529,9 @@
 			<arg name="array" type="int *"/>
 		</method>
 		<method name="retroCycleOff" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+		</method>
+		<method name="retroFadeScreen" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 		</method>
 	</interface>

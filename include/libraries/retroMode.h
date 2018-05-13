@@ -124,6 +124,7 @@ struct retroScreen
 	// color palette and copper palette
 	struct retroRGB orgPalette[256];
 	struct retroRGB rowPalette[256];
+	struct retroRGB fadePalette[256];
 
 	// keeping track of what video its attached to.
 	struct retroVideo *attachedToVideo;
@@ -143,6 +144,8 @@ struct retroScreen
 	struct retroScreen *cloneOfScreen;
 	BOOL coopered_last;
 	unsigned int flags;
+	int fade_speed;	// fade_speed 0, disabled.
+	int fade_count;		// count up to speed, then change color by one step -0x11 or +0x11
 };
 
 struct retroFrame

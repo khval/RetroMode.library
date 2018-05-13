@@ -111,5 +111,6 @@
 #define retroColorRange(screen, fromColor, fromR, fromG, fromB, toColor, toR, toG, toB) IRetroMode->retroColorRange((screen), (fromColor), (fromR), (fromG), (fromB), (toColor), (toR), (toG), (toB)) 
 #define retroPolyGonArray(screen, color, count, array) IRetroMode->retroPolyGonArray((screen), (color), (count), (array)) 
 #define retroCycleOff(screen) IRetroMode->retroCycleOff((screen)) 
+#define retroFadeScreen(screen) IRetroMode->retroFadeScreen((screen)) 
 
 #endif /* INLINE4_RETROMODE_H */

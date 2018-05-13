@@ -305,8 +305,10 @@ void retroThickCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1
 
 	getSides(  screen, x, y, x2, y2, 10, sideAx, sideAy, sideBx, sideBy );
 
-	retroThickLine( screen, x, y ,x2 ,y2, 10, color);
-	retroCircle( screen, x2, y2, 4, color);
+	retroLine( screen, x, y ,x2 ,y2, color);
+
+//	retroThickLine( screen, x, y ,x2 ,y2, 10, color);
+//	retroCircle( screen, x2, y2, 4, color);
 
 
 }
@@ -352,7 +354,7 @@ void retroCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1, int
 		ly = y;
 	}
 
-	retroThickLine( screen, x, y ,x2 ,y2 , 10, color);
+//	retroThickLine( screen, x, y ,x2 ,y2 , 10, color);
 }
 
 
@@ -476,24 +478,34 @@ int main()
 				scrolled_x = 0;
 			}
 
+//			retroLine( screen,	200,50,	250,	50,	 1 );
+//			retroLine( screen, 	250,50,	250,100,	 1 );
+
+			retroCurve( screen, 200,50,	250,	50, 250,100, 1 );
+
+			for (int n=-20; n<20;n+=5)
+
+			retroCurve( screen, 200,50+n,  250-n,50+n,  250-n, 100 , 1 );
+
+
 			retroAndClear( screen, 50,50,150,150, ~(1|2) );
 
 			dx = (cos(g)*40);
 			dy =- (sin(g)*40);
 
-			retroThickLine( screen, 100+(dx*2/10),100+(dy*2/10) , 100+(dx*10/10),100+(dy*10/10) , 5,2 );
+//			retroThickLine( screen, 100+(dx*2/10),100+(dy*2/10) , 100+(dx*10/10),100+(dy*10/10) , 5,2 );
 
 			g0 = g + (M_PI/2);
 
 			dx = (cos(g0)*40);
 			dy =- (sin(g0)*40);
 
-			retroThickLine( screen, 100+(dx*-5/10),100+(dy*-5/10) , 100+(dx*10/10),100+(dy*10/10) , 10,2 );
+//			retroThickLine( screen, 100+(dx*-5/10),100+(dy*-5/10) , 100+(dx*10/10),100+(dy*10/10) , 10,2 );
 
 			g+=0.02;
 
-			retroThickCurve( screen, 50, 50, 100, 25, 120, 100, 1 );
-			retroThickCurve( screen, 120, 100, 150,160, 200,50, 1 );
+//			retroThickCurve( screen, 50, 50, 100, 25, 120, 100, 1 );
+//			retroThickCurve( screen, 120, 100, 150,160, 200,50, 1 );
 
 			retroClearVideo( video );
 			retroDrawVideo( video );

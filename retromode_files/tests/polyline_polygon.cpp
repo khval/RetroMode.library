@@ -371,8 +371,20 @@ int main()
 */
 
 
-			retroPolyGon( screen,  6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
-			retroPolyGon(  screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
+			{
+				int array[] = { 150,150,   140,180,   100,180,   50,100 };
+
+				printf("count %d\n", sizeof(array)  / sizeof(int) );
+
+				retroPolyGonArray( screen,  6, sizeof(array)  / sizeof(int), array );
+			}
+
+
+
+//			retroPolyGon( screen,  6,   150,150,   140,180,   100,180,   50,100,   retroEnd ); // crash from Amos Kittens.
+
+//			retroPolyGon( screen,  6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
+//	 		retroPolyGon(  screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
 
 //			_retromode_retroPolyGon( IRetroMode, screen,  6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
 //			_retromode_retroPolyGon( IRetroMode, screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );

@@ -91,6 +91,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroColorRange
 	    FPTR IRetroMode_retroPolyGonArray
 	    FPTR IRetroMode_retroCycleOff
+	    FPTR IRetroMode_retroFadeScreen
 	LABEL RetroModeIFace_SIZE
 
 #endif
