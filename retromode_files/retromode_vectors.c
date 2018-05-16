@@ -29,10 +29,10 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroOrBox,
     _retromode_retroXorBox,
     _retromode_retroShift,
-    _retromode_retroCircle,
+    _retromode_retroCircleFilled,
     _retromode_retroEllipse,
-    _retromode_retroOrCircle,
-    _retromode_retroXorCircle,
+    _retromode_retroOrCircleFilled,
+    _retromode_retroXorCircleFilled,
     _retromode_retroScreenColor,
     _retromode_retroScreenBlit,
     _retromode_retroOrScreenBlit,
@@ -87,6 +87,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroPolyGonArray,
     _retromode_retroCycleOff,
     _retromode_retroFadeScreen,
+    _retromode_retroCircle,
     (APTR)-1
 };
 

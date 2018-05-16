@@ -46,10 +46,10 @@
 #define retroOrBox(screen, x0, y0, x1, y1, or_mask) IRetroMode->retroOrBox((screen), (x0), (y0), (x1), (y1), (or_mask)) 
 #define retroXorBox(screen, x0, y0, x1, y1, xor_mask) IRetroMode->retroXorBox((screen), (x0), (y0), (x1), (y1), (xor_mask)) 
 #define retroShift(screen, x0, y0, x1, y1, bits) IRetroMode->retroShift((screen), (x0), (y0), (x1), (y1), (bits)) 
-#define retroCircle(screen, x, y, r, color) IRetroMode->retroCircle((screen), (x), (y), (r), (color)) 
-#define retroEllipse(screen, x, y, r1, r2, angel, color) IRetroMode->retroEllipse((screen), (x), (y), (r1), (r2), (angel), (color)) 
-#define retroOrCircle(screen, x, y, r, or_mask) IRetroMode->retroOrCircle((screen), (x), (y), (r), (or_mask)) 
-#define retroXorCircle(screen, x, y, r, xor_mask) IRetroMode->retroXorCircle((screen), (x), (y), (r), (xor_mask)) 
+#define retroCircleFilled(screen, cx, cy, r, color) IRetroMode->retroCircleFilled((screen), (cx), (cy), (r), (color)) 
+#define retroEllipse(screen, cx, cy, r1, r2, angel, color) IRetroMode->retroEllipse((screen), (cx), (cy), (r1), (r2), (angel), (color)) 
+#define retroOrCircleFilled(screen, cx, cy, r, or_mask) IRetroMode->retroOrCircleFilled((screen), (cx), (cy), (r), (or_mask)) 
+#define retroXorCircleFilled(screen, cx, cy, r, xor_mask) IRetroMode->retroXorCircleFilled((screen), (cx), (cy), (r), (xor_mask)) 
 #define retroScreenColor(screen, color, r, g, b) IRetroMode->retroScreenColor((screen), (color), (r), (g), (b)) 
 #define retroScreenBlit(SourceScreen, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroScreenBlit((SourceScreen), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
 #define retroOrScreenBlit(SourceScreen, fromX, fromY, width, height, screen, toX, toY) IRetroMode->retroOrScreenBlit((SourceScreen), (fromX), (fromY), (width), (height), (screen), (toX), (toY)) 
@@ -112,5 +112,6 @@
 #define retroPolyGonArray(screen, color, count, array) IRetroMode->retroPolyGonArray((screen), (color), (count), (array)) 
 #define retroCycleOff(screen) IRetroMode->retroCycleOff((screen)) 
 #define retroFadeScreen(screen) IRetroMode->retroFadeScreen((screen)) 
+#define retroCircle(screen, cx, cy, r, color) IRetroMode->retroCircle((screen), (cx), (cy), (r), (color)) 
 
 #endif /* INLINE4_RETROMODE_H */

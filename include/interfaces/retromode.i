@@ -34,10 +34,10 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroOrBox
 	    FPTR IRetroMode_retroXorBox
 	    FPTR IRetroMode_retroShift
-	    FPTR IRetroMode_retroCircle
+	    FPTR IRetroMode_retroCircleFilled
 	    FPTR IRetroMode_retroEllipse
-	    FPTR IRetroMode_retroOrCircle
-	    FPTR IRetroMode_retroXorCircle
+	    FPTR IRetroMode_retroOrCircleFilled
+	    FPTR IRetroMode_retroXorCircleFilled
 	    FPTR IRetroMode_retroScreenColor
 	    FPTR IRetroMode_retroScreenBlit
 	    FPTR IRetroMode_retroOrScreenBlit
@@ -92,6 +92,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroPolyGonArray
 	    FPTR IRetroMode_retroCycleOff
 	    FPTR IRetroMode_retroFadeScreen
+	    FPTR IRetroMode_retroCircle
 	LABEL RetroModeIFace_SIZE
 
 #endif

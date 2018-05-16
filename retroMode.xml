@@ -125,33 +125,33 @@
 			<arg name="y1" type="int"/>
 			<arg name="bits" type="int"/>
 		</method>
-		<method name="retroCircle" result="void">
+		<method name="retroCircleFilled" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="x" type="int"/>
-			<arg name="y" type="int"/>
+			<arg name="cx" type="int"/>
+			<arg name="cy" type="int"/>
 			<arg name="r" type="int"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
 		<method name="retroEllipse" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="x" type="int"/>
-			<arg name="y" type="int"/>
+			<arg name="cx" type="int"/>
+			<arg name="cy" type="int"/>
 			<arg name="r1" type="int"/>
 			<arg name="r2" type="int"/>	
 			<arg name="angel" type="double"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
-		<method name="retroOrCircle" result="void">
+		<method name="retroOrCircleFilled" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="x" type="int"/>
-			<arg name="y" type="int"/>
+			<arg name="cx" type="int"/>
+			<arg name="cy" type="int"/>
 			<arg name="r" type="int"/>
 			<arg name="or_mask" type="unsigned char"/>
 		</method>
-		<method name="retroXorCircle" result="void">
+		<method name="retroXorCircleFilled" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="x" type="int"/>
-			<arg name="y" type="int"/>
+			<arg name="cx" type="int"/>
+			<arg name="cy" type="int"/>
 			<arg name="r" type="int"/>
 			<arg name="xor_mask" type="unsigned char"/>
 		</method>
@@ -533,6 +533,13 @@
 		</method>
 		<method name="retroFadeScreen" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+		</method>
+		<method name="retroCircle" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="cx" type="int"/>
+			<arg name="cy" type="int"/>
+			<arg name="r" type="int"/>
+			<arg name="color" type="unsigned char"/>
 		</method>
 	</interface>
 </library>

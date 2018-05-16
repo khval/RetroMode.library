@@ -58,48 +58,49 @@
 *
 */
 
+void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color);
+
+#define putpixel(x,y) _retromode_retroPixel(Self, screen, x,y, color)
+
 void _retromode_retroCircle(struct RetroModeIFace *Self,
        struct retroScreen * screen,
-       int cx,
-       int cy,
-       int r,
+       int x0,
+       int y0,
+       int radius,
        unsigned char color)
 {
-//	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	int x0,y0,x1,y1,_y;
-	int xx;
-	int r2 = r * r;
-	int x,y;
-	unsigned char *memory;
 
-	y0 = cy-r;
-	y1 = cy+r;
+   int x = radius-1;
+    int y = 0;
+    int dx = 1;
+    int dy = 1;
+    int err = dx - (radius << 1);
 
-	if (y0<0) y0=0;
-	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
+    while (x >= y)
+    {
+        putpixel(x0 + x, y0 + y);
+        putpixel(x0 + y, y0 + x);
+        putpixel(x0 - y, y0 + x);
+        putpixel(x0 - x, y0 + y);
+        putpixel(x0 - x, y0 - y);
+        putpixel(x0 - y, y0 - x);
+        putpixel(x0 + y, y0 - x);
+        putpixel(x0 + x, y0 - y);
 
-	memory = screen -> Memory + (screen -> realWidth * y0);
+        if (err <= 0)
+        {
+            y++;
+            err += dy;
+            dy += 2;
+        }
+        
+        if (err > 0)
+        {
+            x--;
+            dx += 2;
+            err += dx - (radius << 1);
+        }
+    }
 
-//	libBase -> IDOS -> Printf("%08lx% - %ld, %ld\n", memory, y0, y1);
-
-	for (y=y0;y<=y1;y++)
-	{
-		_y = y - cy; 
-
-		xx = sqrt( r2 - (_y*_y));
-
-		x0 = cx -xx;
-		x1 = cx +xx;
-
-		if (x0<0) x0 = 0;
-		if (x1>screen->realWidth-1) x1 = screen -> realWidth-1;
-
-		for (x = x0; x <= x1; x++)
-		{
-			memory[ x ] = color;
-		}
-
-		memory += screen -> realWidth;
-	}
 }
 

@@ -39,8 +39,8 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroApplyScreen.c main/retroPixel.c main/retroPoint.c \
     main/retroFlash.c main/retroCycleColorsUp.c main/retroCycleColorsDown.c \
     main/retroBAR.c main/retroOrBAR.c main/retroXorBAR.c main/retroBox.c \
-    main/retroOrBox.c main/retroXorBox.c main/retroShift.c main/retroCircle.c \
-    main/retroEllipse.c main/retroOrCircle.c main/retroXorCircle.c \
+    main/retroOrBox.c main/retroXorBox.c main/retroShift.c main/retroCircleFilled.c \
+    main/retroEllipse.c main/retroOrCircleFilled.c main/retroXorCircleFilled.c \
     main/retroScreenColor.c main/retroScreenBlit.c main/retroOrScreenBlit.c \
     main/retroXorScreenBlit.c main/retroBitmapBlit.c main/retroOrBitmapBlit.c \
     main/retroXorBitmapBlit.c main/retroAndClear.c main/retroModeBadVideoSync.c \
@@ -58,7 +58,7 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroSetRainbow.c main/retroRainbow.c main/retroAllocSpriteObjects.c \
     main/retroFreeSpriteObjects.c main/AfterEffectDrawSrpites.c \
     main/retroSprite.c main/retroColorRange.c main/retroPolyGonArray.c \
-    main/retroCycleOff.c main/retroFadeScreen.c \
+    main/retroCycleOff.c main/retroFadeScreen.c main/retroCircle.c \
 
 # this are never added by ideltool don't know way?
 main_SRCS +=  main/retroPolyLine.c main/retroPolyGon.c 
