@@ -86,7 +86,7 @@ extern void                 VARARGS68K _retromode_retroRainbowColorRange(struct 
 extern void                 VARARGS68K _retromode_retroRain(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, int line, int r, int g, int b);
 extern struct retroScreen * VARARGS68K _retromode_retroScreenClone(struct RetroModeIFace *, struct retroScreen * SourceScreen, int videomode);
 extern void                 VARARGS68K _retromode_retroSetRainbow(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, unsigned char color, int tableSize);
-extern void                 VARARGS68K _retromode_retroRainbow(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, int verticalOffset, int height);
+extern void                 VARARGS68K _retromode_retroRainbow(struct RetroModeIFace *, struct retroVideo * video, int rainbowNumber, int offset, int verticalOffset, int height);
 extern void                 VARARGS68K _retromode_retroAllocSpriteObjects(struct RetroModeIFace *, struct retroVideo * video, int numberOfSprites);
 extern void                 VARARGS68K _retromode_retroFreeSpriteObjects(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_AfterEffectDrawSrpites(struct RetroModeIFace *, struct retroVideo * video);

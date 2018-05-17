@@ -491,6 +491,7 @@
 		<method name="retroRainbow" result="void">
 			<arg name="video" type="struct retroVideo *"/>
 			<arg name="rainbowNumber" type="int"/>
+			<arg name="offset" type="int"/> 
 			<arg name="verticalOffset" type="int"/>
 			<arg name="height" type="int"/>
 		</method>

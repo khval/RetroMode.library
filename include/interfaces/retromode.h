@@ -104,7 +104,7 @@ struct RetroModeIFace
 	void APICALL (*retroRain)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int line, int r, int g, int b);
 	struct retroScreen * APICALL (*retroScreenClone)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int videomode);
 	void APICALL (*retroSetRainbow)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, unsigned char color, int tableSize);
-	void APICALL (*retroRainbow)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int verticalOffset, int height);
+	void APICALL (*retroRainbow)(struct RetroModeIFace *Self, struct retroVideo * video, int rainbowNumber, int offset, int verticalOffset, int height);
 	void APICALL (*retroAllocSpriteObjects)(struct RetroModeIFace *Self, struct retroVideo * video, int numberOfSprites);
 	void APICALL (*retroFreeSpriteObjects)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*AfterEffectDrawSrpites)(struct RetroModeIFace *Self, struct retroVideo * video);

@@ -28,16 +28,17 @@
 *      retroRainbow -- Description
 *
 *   SYNOPSIS
-*      struct retroScreen * retroRainbow(struct retroVideo * video, 
-*          int rainbowNumber, int verticalOffset, int height);
+*      void retroRainbow(struct retroVideo * video, 
+*          int rainbowNumber, int offset, int verticalOffset, int height);
 *
 *   FUNCTION
 *
 *   INPUTS
-*       video - 
-*       rainbowNumber - 
-*       verticalOffset - 
-*       height - 
+*       video - retro mode video output
+*       rainbowNumber - rainbow index number.
+*       offset - Start location in the rainbow table
+*       verticalOffset - y beam pos, to put the rainbow
+*       height - visible height of the rainbow
 *
 *   RESULT
 *       The result ...
@@ -54,12 +55,14 @@
 *
 */
 
-struct retroScreen * _retromode_retroRainbow(struct RetroModeIFace *Self,
+void _retromode_retroRainbow(struct RetroModeIFace *Self,
        struct retroVideo * video,
        int rainbowNumber,
+       int offset,
        int verticalOffset,
        int height)
 {
+	video -> rainbow[rainbowNumber].offset = offset;	
 	video -> rainbow[rainbowNumber].verticalOffset = verticalOffset;	
 	video -> rainbow[rainbowNumber].height = height;
 }
