@@ -106,9 +106,15 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 	{
 		(*screen) -> cloneOfScreen -> clones--;	// I guess we might use list, but I'm too lazy
 	}
-	else	if ((*screen) -> Memory) libBase -> IExec -> FreeVec((*screen) -> Memory);
+	else
+	{
+		if ((*screen) -> Memory[0]) libBase -> IExec -> FreeVec((*screen) -> Memory[0]);
+		if ((*screen) -> Memory[1]) libBase -> IExec -> FreeVec((*screen) -> Memory[1]);
+	}
 
-	(*screen) -> Memory = NULL;
+	(*screen) -> Memory[0] = NULL;
+	(*screen) -> Memory[1] = NULL;
+
 	libBase -> IExec -> FreeVec(*screen);
 	*screen = NULL;
 }

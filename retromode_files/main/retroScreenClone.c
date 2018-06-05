@@ -72,7 +72,8 @@ struct retroScreen * _retromode_retroScreenClone(struct RetroModeIFace *Self,
 		screen -> displayWidth = sourceScreen -> displayWidth;
 		screen -> displayHeight = sourceScreen -> displayHeight;
 		screen -> videomode = videomode;
-		screen -> Memory = sourceScreen -> Memory;
+		screen -> Memory[0] = sourceScreen -> Memory[0];
+		screen -> Memory[1] = sourceScreen -> Memory[1];
 		screen -> cloneOfScreen = sourceScreen;
 
 		// if fail

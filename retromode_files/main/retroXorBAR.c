@@ -72,7 +72,7 @@ void _retromode_retroXorBAR(struct RetroModeIFace *Self,
 	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
 	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
 
-	memory = screen -> Memory + ( screen -> realWidth * y0 );
+	memory = screen -> Memory[screen -> double_buffer_draw_frame] + ( screen -> realWidth * y0 );
 
 	for(y=y0;y<=y1;y++)
 	{

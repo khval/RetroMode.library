@@ -67,15 +67,21 @@ void resetScanlines(struct retroVideo * video)
 void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
+	int display_frame = 0;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
-	struct retroRGB *palette = line -> rowPalette;
-	unsigned char *data = line -> data;
 	unsigned int *video_buffer_line = video_buffer;
+	struct retroScreen *screen = line -> screen;
+	struct retroRGB *palette = line -> rowPalette;
+	unsigned char *data ; 
 	unsigned char color;
 	int videoWidth;
 	unsigned int rgb;
 	int draw_pixels;
+
+	// check if screen is double buffer screen
+	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
+	data = line -> data[ display_frame  ] ;
 
 	lr = 0;
 	lg = 0;
@@ -121,15 +127,20 @@ void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned
 void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
+	int display_frame = 0;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
-	struct retroRGB *palette = line -> rowPalette;
-	unsigned char *data = line -> data;
 	unsigned int *video_buffer_line = video_buffer;
+	struct retroScreen *screen = line -> screen;
+	struct retroRGB *palette = line -> rowPalette;
+	unsigned char *data ;
 	unsigned char color;
 	int videoWidth;
-
 	int draw_pixels;
+
+	// check if screen is double buffer screen
+	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
+	data = line -> data[ display_frame  ] ;
 
 	lr = 0;
 	lg = 0;
@@ -184,15 +195,20 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
+	int display_frame = 0;
 	unsigned short lr,lg,lb;
 	unsigned short r,g,b;
-	struct retroRGB *palette = line -> rowPalette;
-	unsigned char *data = line -> data;
 	unsigned int *video_buffer_line = video_buffer;
+	struct retroScreen *screen = line -> screen;
+	struct retroRGB *palette = line -> rowPalette;
+	unsigned char *data ;
 	unsigned char color;
-	unsigned int videoWidth;
-
+	int videoWidth;
 	int draw_pixels;
+
+	// check if screen is double buffer screen
+	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
+	data = line -> data[ display_frame  ] ;
 
 	lr = 0;
 	lg = 0;
@@ -358,14 +374,27 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 
 	if ((screen -> flags & retroscreen_flag_hide)==0)
 	{
+		unsigned int offset; 
+
 		for ( y = start_at ; y < end_at; y++ )
 		{
+			offset = (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
 
 			video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
 			video -> scanlines[ dest_y ].videoWidth = video -> width;
 			video -> scanlines[ dest_y ].screen = screen;
 			video -> scanlines[ dest_y ].pixels = screen -> displayWidth;
-			video -> scanlines[ dest_y ].data = screen -> Memory + (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
+			video -> scanlines[ dest_y ].data[0] = screen -> Memory[0] + offset;
+
+			if (screen -> Memory[1])
+			{
+				video -> scanlines[ dest_y ].data[1] = screen -> Memory[1] + offset;
+			}
+			else
+			{
+				video -> scanlines[ dest_y ].data[1] = NULL;
+			}
+
 			video -> scanlines[ dest_y ].mode = NULL;
 			video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
 			video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
@@ -396,7 +425,8 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 					video -> scanlines[ dest_y ].rowPalette = NULL;
 					video -> scanlines[ dest_y ].beamStart = 0;
 					video -> scanlines[ dest_y ].pixels = 0;
-					video -> scanlines[ dest_y ].data = NULL;
+					video -> scanlines[ dest_y ].data[0] = NULL;
+					video -> scanlines[ dest_y ].data[1] = NULL;
 					video -> scanlines[ dest_y ].mode = NULL;
 					video -> scanlines[ dest_y ].screen = NULL;
 					dest_y ++;

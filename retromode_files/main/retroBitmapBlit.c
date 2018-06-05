@@ -114,7 +114,7 @@ void _retromode_retroBitmapBlit(struct RetroModeIFace *Self,
 		// we now know the limit, we can now do job, safely.
 
 		src_memory = BitMapMemory + (BitMapBytesPerRow * fromY) + fromX;
-		des_memory = screen -> Memory + (screen -> realWidth * toY) + toX;
+		des_memory = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * toY) + toX;
 
 		for(y=0;y<height;y++)
 		{
@@ -123,7 +123,7 @@ void _retromode_retroBitmapBlit(struct RetroModeIFace *Self,
 
 			for(x=0;x<width;x++)
 			{
-				*inner_des_memory++ |= *inner_src_memory++;
+				*inner_des_memory++ = *inner_src_memory++;
 			}
 
 			src_memory += BitMapBytesPerRow;

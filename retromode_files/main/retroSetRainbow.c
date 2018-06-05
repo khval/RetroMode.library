@@ -55,7 +55,7 @@
 *
 */
 
-struct retroScreen * _retromode_retroSetRainbow(struct RetroModeIFace *Self,
+void _retromode_retroSetRainbow(struct RetroModeIFace *Self,
        struct retroVideo * video,
        int rainbowNumber,
        unsigned char color,

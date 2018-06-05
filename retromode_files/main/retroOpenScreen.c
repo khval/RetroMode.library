@@ -54,6 +54,8 @@
 *
 */
 
+void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen **screen);
+
 struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
       	int width,
 	int height,
@@ -75,15 +77,17 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		screen -> realWidth = width;
 		screen -> realHeight = height;
 		screen -> videomode = videomode;
-		screen -> Memory = (unsigned char *) libBase -> IExec -> AllocVecTags(  width * (height+1) ,
+		screen -> Memory[0] = (unsigned char *) libBase -> IExec -> AllocVecTags(  width * (height+1) ,
 								AVT_Type, MEMF_SHARED,
 								AVT_ClearWithValue, 0 ,
 								TAG_END	);
 
+		screen -> Memory[1] = NULL;
+
 		// if fail
-		if (screen -> Memory == NULL)
+		if (screen -> Memory[0] == NULL)
 		{
-			Self -> retroCloseScreen( screen );
+			_retromode_retroCloseScreen( Self, &screen );
 			return NULL;
 		}
 	}

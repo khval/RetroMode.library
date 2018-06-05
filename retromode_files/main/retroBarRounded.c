@@ -61,7 +61,7 @@
 
 extern void _retromode_retroBAR(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1,int y1,unsigned char color);
 
-void hline( struct retroScreen * screen, int x0, int x1, int y, char color )
+void hline( struct retroScreen * screen, unsigned char *scr_mem, int x0, int x1, int y, char color )
 {
 	unsigned char *from;
 	unsigned char *to;
@@ -77,7 +77,7 @@ void hline( struct retroScreen * screen, int x0, int x1, int y, char color )
 	if (x0<0) x0 = 0;
 	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
 
-	from = screen -> Memory + ( screen -> realWidth * y ) + x0;
+	from = scr_mem + ( screen -> realWidth * y ) + x0;
 	to = from + (x1-x0) ;
 
 	for(ptr=from;ptr<=to;ptr++)
@@ -97,6 +97,7 @@ void _retromode_retroBarRounded(struct RetroModeIFace *Self,
        unsigned char color)
 {
 	int x, y, r2;
+	unsigned char *scr_mem = screen -> Memory[ screen -> double_buffer_draw_frame ];
 	if (x1-x0<r*2) return;
 	if (y1-y0<r*2) return;
 
@@ -111,10 +112,10 @@ void _retromode_retroBarRounded(struct RetroModeIFace *Self,
 		x = sqrt( r2 - (y*y));
 		if (x>r) x=r;
 
-		hline( screen, x0+r-x, x0+r, y0+r-y, color );
-		hline( screen, x1-r, x1-r+x, y0+r-y, color );
-		hline( screen, x0+r-x, x0+r, y1-r+y, color );
-		hline( screen, x1-r, x1-r+x, y1-r+y, color );
+		hline( screen, scr_mem, x0+r-x, x0+r, y0+r-y, color );
+		hline( screen, scr_mem, x1-r, x1-r+x, y0+r-y, color );
+		hline( screen, scr_mem, x0+r-x, x0+r, y1-r+y, color );
+		hline( screen, scr_mem, x1-r, x1-r+x, y1-r+y, color );
 	}
 }
 

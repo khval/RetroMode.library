@@ -55,12 +55,14 @@ void config_scanline(
 		struct retroScanline *scanline,
 		int pixels,
 		void (*mode) ( struct retroScanline *line, int beamY, unsigned int *video_buffer  ),
-		unsigned char *data
+		unsigned char *data0,
+		unsigned char *data1
 	 )
 {
 	scanline->pixels = pixels;
 	scanline->mode = mode;
-	scanline->data = data;
+	scanline->data[0] = data0;
+	scanline->data[1] = data1;
 }
 
 struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
@@ -92,7 +94,7 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 		new_video -> width = 640;
 		new_video -> height = 480;
 
-		for ( scanline=0; scanline< new_video -> height ;scanline++) config_scanline( &new_video -> scanlines[scanline] , 0, NULL, NULL );
+		for ( scanline=0; scanline< new_video -> height ;scanline++) config_scanline( &new_video -> scanlines[scanline] , 0, NULL, NULL, NULL );
 
 		for ( c = 0; c<3 ;c++) new_video -> rainbow[c].table = NULL;
 

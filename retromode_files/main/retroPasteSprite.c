@@ -68,11 +68,11 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	int height;
 	int ypos;
 	int source_x0 = 0,source_y0 = 0;
-	char *destination_row_ptr;
-	char *destination_row_start;
-	char *source_row_start;
-	char *source_row_ptr;
-	char *source_row_end ;
+	unsigned char *destination_row_ptr;
+	unsigned char *destination_row_start;
+	unsigned char *source_row_start;
+	unsigned char *source_row_ptr;
+	unsigned char *source_row_end ;
 
 	if (image > sprite -> number_of_frames) image = sprite -> number_of_frames;
 	if (image < 0) image = 0;
@@ -91,9 +91,9 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	if (y<0) { source_y0 = -y; y = 0; height -= source_y0;  }
 	if (x<0) { source_x0 = -x; x = 0; width -= source_x0; }
 
-	destination_row_start = screen -> Memory + (screen -> realWidth * y) + x;
+	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * y) + x;
 
-	source_row_start = frame -> data + (source_y0 * frame -> bytesPerRow );
+	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow );
 	source_row_end = source_row_start + width;
 
 	for ( ypos = 0; ypos < height; ypos++ )

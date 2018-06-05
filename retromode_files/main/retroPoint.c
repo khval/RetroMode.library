@@ -59,6 +59,6 @@ unsigned char _retromode_retroPoint(struct RetroModeIFace *Self,  struct retroSc
 	if (x>=screen->realWidth) return 0;
 	if (y>=screen->realHeight) return 0;
 
-	 return screen -> Memory[ screen -> realWidth * y + x ];
+	 return screen -> Memory[screen -> double_buffer_draw_frame][ screen -> realWidth * y + x ];
 }
 

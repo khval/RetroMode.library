@@ -73,7 +73,7 @@ void _retromode_retroThickLine(struct RetroModeIFace *Self,
 	int xa,ya;
 	int xb,yb;
 
-	double a;
+	double a ;
 	double dx,dy;
 	double z;
 
@@ -89,7 +89,7 @@ void _retromode_retroThickLine(struct RetroModeIFace *Self,
 		if (y1<y0) { if (x1>x0) { a+=M_PI; } else { a =  -a; } }	else	{ if (x1>x0) a = M_PI-a;	}
 	}
 
-	a+= (M_PI / 2.0f);
+	a= (M_PI / 2.0f);
 
 	ya = sin(a) * thickness;
 	xa = -cos(a) * thickness;

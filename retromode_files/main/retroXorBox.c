@@ -69,6 +69,7 @@ void _retromode_retroXorBox(struct RetroModeIFace *Self,
 	int ox2 = x2;
 	int oy2 = y2;
 	int x,y;
+	unsigned char *sc_memory = screen -> Memory[screen -> double_buffer_draw_frame];
 	unsigned char *memory;
 
 	if (x1<0) x1 = 0;
@@ -79,28 +80,28 @@ void _retromode_retroXorBox(struct RetroModeIFace *Self,
 	// draw top 
 	if (oy1>-1)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
+		memory = sc_memory + (screen -> realWidth * y1) + x1;
 		for ( x=x1; x<=x2; x++) { *memory++ ^= xor_mask; }
 	}
 
 	// draw vertical left
 	if (ox1>-1)
 	{
-		memory = screen -> Memory + (screen -> realWidth * (y1+1)) + x1;
+		memory = sc_memory + (screen -> realWidth * (y1+1)) + x1;
 		for ( y=y1+1; y<y2; y++) { *memory ^= xor_mask; memory += screen->realWidth; }
 	}
 
 	// draw bottom
 	if (oy2<screen->realHeight)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y2) + x1;
+		memory = sc_memory + (screen -> realWidth * y2) + x1;
 		for ( x=x1; x<=x2; x++) { *memory++ ^= xor_mask; }
 	}
 
 	// draw vertical right	
 	if (ox2<screen->realWidth)
 	{
-		memory = screen -> Memory + (screen -> realWidth * (y1+1)) + x2;
+		memory = sc_memory + (screen -> realWidth * (y1+1)) + x2;
 		for ( y=y1+1; y<y2; y++) { *memory ^= xor_mask; memory += screen->realWidth; }
 	}
 }

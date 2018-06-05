@@ -249,7 +249,7 @@ int main()
 		retroClearVideo(video);
 		
 		retroSetRainbow( video, 0, 0, 400 );
-		retroRainbow( video, 0, 100, 300 );
+		retroRainbow( video, 0, 0, 100, 300 );
 		retroRainbowColorRange( video, 0, 	0 , 255, 0, 0, 100, 0, 0, 255 );
 		retroRainbowColorRange( video, 0, 100 , 0, 0, 255,200, 255, 0, 0 );
 		retroRainbowColorRange( video, 0, 200 , 255, 0, 0, 300, 0, 255, 0 );

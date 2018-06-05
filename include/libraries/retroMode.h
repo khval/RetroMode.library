@@ -37,7 +37,7 @@ struct retroScanline
 	int beamStart;
 	int pixels;
 	int videoWidth;
-	unsigned char *data;
+	unsigned char *data[2];
 	struct retroScreen *screen;
 	struct retroRGB *orgPalette;
 	struct retroRGB *rowPalette;
@@ -119,7 +119,7 @@ struct retroScreen
 	int displayHeight;
 
 	unsigned int videomode;
-	unsigned char *Memory;
+	unsigned char *Memory[2];
 
 	// color palette and copper palette
 	struct retroRGB orgPalette[256];
@@ -146,6 +146,7 @@ struct retroScreen
 	unsigned int flags;
 	int fade_speed;	// fade_speed 0, disabled.
 	int fade_count;		// count up to speed, then change color by one step -0x11 or +0x11
+	int double_buffer_draw_frame;
 };
 
 struct retroFrame

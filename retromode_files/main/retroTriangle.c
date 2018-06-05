@@ -58,7 +58,7 @@
 *
 */
 
-void draw_hline_fast(struct retroScreen *screen, int x,int y,int w, unsigned char c)
+void draw_hline_fast(struct retroScreen *screen, unsigned char *scr_mem, int x,int y,int w, unsigned char c)
 {
 	unsigned char *memory;
 	int x2 = x + w ;
@@ -69,7 +69,7 @@ void draw_hline_fast(struct retroScreen *screen, int x,int y,int w, unsigned cha
 	if (x<0) x = 0;
 	if (x2>screen -> realWidth-1) x2 = screen->realWidth-1;
 
-	memory = screen -> Memory + (screen -> realWidth * y);
+	memory = scr_mem + (screen -> realWidth * y);
 	for ( ; x <= x2 ; x++) memory[x] = c;
 }
 
@@ -84,6 +84,7 @@ void _retromode_retroTriangle(struct RetroModeIFace *Self,
        int y3,
        unsigned char color)
 {
+	unsigned char *src_mem = screen -> Memory[ screen -> double_buffer_draw_frame ];
 	struct p p1 = {x1,y1};
 	struct p p2 = {x2,y2};
 	struct p p3 = {x3,y3};
@@ -150,8 +151,8 @@ void _retromode_retroTriangle(struct RetroModeIFace *Self,
 			xb = (dyb ? (y-y2) *  dxb / dyb : dxb) + x2;
 		}
 
-		draw_hline_fast(screen,xa,y,xb-xa,color);
-		draw_hline_fast(screen,xb,y,xa-xb,color);
+		draw_hline_fast(screen,src_mem,xa,y,xb-xa,color);
+		draw_hline_fast(screen,src_mem,xb,y,xa-xb,color);
 	}
 }
 

@@ -65,7 +65,7 @@ struct FillNode
 	int y;
 };
 
-extern BOOL insideScreenAndReplaceColor(struct retroScreen *screen,int x,int y, char replace_color);
+extern BOOL insideScreenAndReplaceColor(struct retroScreen *screen,unsigned char *sc_mem, int x,int y, unsigned char replace_color);
 extern void AddXY( struct RetroLibrary *libBase, struct List *list, int x, int y );
 
 void _retromode_retroOrFill(struct RetroModeIFace *Self,
@@ -79,6 +79,7 @@ void _retromode_retroOrFill(struct RetroModeIFace *Self,
 	char replace_color;
 	struct List list;
 	struct FillNode *node = NULL;
+	unsigned char *sc_mem = screen -> Memory[screen -> double_buffer_draw_frame];
 
 	libBase -> IExec-> NewList(&list);
 
@@ -86,7 +87,7 @@ void _retromode_retroOrFill(struct RetroModeIFace *Self,
 
 	if ((x>-1)&&(x<screen->realWidth)&&(y>-1)&&(y<screen->realHeight))
 	{
-		replace_color = screen -> Memory[ screen -> realWidth * y + x ]  & and_mask;
+		replace_color = sc_mem[ screen -> realWidth * y + x ]  & and_mask;
 		if (replace_color == or_color) return;
 	}
 	else return;
@@ -104,12 +105,12 @@ void _retromode_retroOrFill(struct RetroModeIFace *Self,
 			node = NULL;
 		}
 
-		screen -> Memory[ (screen -> realWidth * y) + x ] |= or_color;
+		sc_mem[ (screen -> realWidth * y) + x ] |= or_color;
 
-		if (insideScreenAndReplaceColor(screen,x,y-1,replace_color)) AddXY( libBase, &list, x, y-1 );
-		if (insideScreenAndReplaceColor(screen,x,y+1,replace_color)) AddXY( libBase, &list, x, y+1 );
-		if (insideScreenAndReplaceColor(screen,x-1,y,replace_color)) AddXY( libBase, &list, x-1, y );
-		if (insideScreenAndReplaceColor(screen,x+1,y,replace_color)) AddXY( libBase, &list, x+1, y );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x,y-1,replace_color)) AddXY( libBase, &list, x, y-1 );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x,y+1,replace_color)) AddXY( libBase, &list, x, y+1 );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x-1,y,replace_color)) AddXY( libBase, &list, x-1, y );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x+1,y,replace_color)) AddXY( libBase, &list, x+1, y );
 
 	} while (node = (struct FillNode *) libBase -> IExec-> GetHead( &list));
 }

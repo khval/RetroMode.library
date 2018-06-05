@@ -75,8 +75,8 @@ void _retromode_retroZoom(struct RetroModeIFace *Self,
 	ddx=x3-x2+1;
 	ddy=y3-y2+1;
 
-	fromMemory = fromScreen -> Memory;
-	toMemory = toScreen -> Memory;
+	fromMemory = fromScreen -> Memory[ fromScreen -> double_buffer_draw_frame ];
+	toMemory = toScreen -> Memory[ toScreen -> double_buffer_draw_frame ];
 
 	for (dy=0;dy<ddy;dy++)
 	{

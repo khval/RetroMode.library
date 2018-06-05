@@ -57,8 +57,15 @@
 *
 */
 
+void _retromode_retroOrBAR(struct RetroModeIFace *Self,
+       struct retroScreen * screen,
+       int x0,
+       int y0,
+       int x1,
+       int y1,
+       unsigned char or_mask);
 
-void Orhline( struct retroScreen * screen, int x0, int x1, int y, char color )
+void Orhline( struct retroScreen * screen, unsigned char *src_mem,int x0, int x1, int y, char color )
 {
 	unsigned char *from;
 	unsigned char *to;
@@ -74,7 +81,7 @@ void Orhline( struct retroScreen * screen, int x0, int x1, int y, char color )
 	if (x0<0) x0 = 0;
 	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
 
-	from = screen -> Memory + ( screen -> realWidth * y ) + x0;
+	from = src_mem + ( screen -> realWidth * y ) + x0;
 	to = from + (x1-x0) ;
 
 	for(ptr=from;ptr<=to;ptr++)
@@ -82,7 +89,6 @@ void Orhline( struct retroScreen * screen, int x0, int x1, int y, char color )
 		*ptr |= color;
 	}
 }
-
 
 void _retromode_retroOrBarRounded(struct RetroModeIFace *Self,
        struct retroScreen * screen,
@@ -94,6 +100,7 @@ void _retromode_retroOrBarRounded(struct RetroModeIFace *Self,
        unsigned char color)
 {
 	int x, y, r2;
+	unsigned char *scr_mem = screen -> Memory[ screen -> double_buffer_draw_frame ];
 	if (x1-x0<r*2) return;
 	if (y1-y0<r*2) return;
 
@@ -108,11 +115,11 @@ void _retromode_retroOrBarRounded(struct RetroModeIFace *Self,
 		x = sqrt( r2 - (y*y));
 		if (x>r) x=r;
 
-		Orhline( screen, x0+r-x, x0+r-1, y0+r-y, color );
-		Orhline( screen, x1-r+1, x1-r+x, y0+r-y, color );
+		Orhline( screen, scr_mem, x0+r-x, x0+r-1, y0+r-y, color );
+		Orhline( screen, scr_mem, x1-r+1, x1-r+x, y0+r-y, color );
 
-		Orhline( screen, x0+r-x, x0+r-1, y1-r+y, color );
-		Orhline( screen, x1-r+1, x1-r+x, y1-r+y, color );
+		Orhline( screen, scr_mem, x0+r-x, x0+r-1, y1-r+y, color );
+		Orhline( screen, scr_mem, x1-r+1, x1-r+x, y1-r+y, color );
 	}
 }
 

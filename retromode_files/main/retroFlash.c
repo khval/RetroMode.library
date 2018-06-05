@@ -111,7 +111,7 @@ int hex_to_int( char *ptr, char **to_ptr)
 }
 
 
-intretromode_retroDeleteFlash(struct RetroModeIFace *Self,  struct retroScreen * screen, unsigned char color);
+int _retromode_retroDeleteFlash(struct RetroModeIFace *Self,  struct retroScreen *screen, unsigned char color);
 
 void _retromode_retroFlash(struct RetroModeIFace *Self,
        struct retroScreen * screen,

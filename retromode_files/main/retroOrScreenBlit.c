@@ -70,7 +70,7 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
        int toX,
        int toY)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
+//	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	// pointers
 	unsigned char *destination_horizontal_ptr;
 
@@ -85,7 +85,7 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
 
 	unsigned char *destination_end;
 
-	destination_end = destination -> Memory + ( destination->realHeight * destination->realHeight );
+	destination_end = destination -> Memory[destination -> double_buffer_draw_frame] + ( destination->realHeight * destination->realHeight );
 
 	// limit to 0,0
 
@@ -107,10 +107,10 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
 
 	// we now know the limit, we can now do the job, safely.
 
-	src_vertical_ptr = source -> Memory + (source -> realHeight * fromY) + fromX;
+	src_vertical_ptr = source -> Memory[source -> double_buffer_draw_frame] + (source -> realHeight * fromY) + fromX;
 	src_vertical_end = src_vertical_ptr + (height * source -> realWidth);
 
-	destination_memory = destination -> Memory + (destination -> realWidth * toY) + toX;
+	destination_memory = destination -> Memory[destination -> double_buffer_draw_frame] + (destination -> realWidth * toY) + toX;
 
 	for(;src_vertical_ptr<src_vertical_end;src_vertical_ptr += source -> realWidth)
 	{
@@ -121,7 +121,6 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
 		{
 			*destination_horizontal_ptr++ |= *src_horizontal_ptr;
 		}
-
 		destination_memory += destination -> realWidth;
 	}
 }

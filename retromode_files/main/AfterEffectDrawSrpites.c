@@ -51,7 +51,7 @@
 *
 */
 
-struct retroSprite * retroDrawSprite(struct RetroLibrary *libBase,
+void retroDrawSprite(struct RetroLibrary *libBase,
        struct retroVideo *video,
        struct retroFrameHeader *frame,
        int x,
@@ -82,8 +82,8 @@ struct retroSprite * retroDrawSprite(struct RetroLibrary *libBase,
 
 	// insanity check
 
-	if ( width > frame -> Width ) return;
-	if ( height > frame -> Height ) return;
+	if ( width > frame -> Width ) return ;
+	if ( height > frame -> Height ) return ;
 
 	// things look ok.
 

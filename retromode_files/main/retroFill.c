@@ -64,11 +64,11 @@ struct FillNode
 	int y;
 };
 
-BOOL insideScreenAndReplaceColor(struct retroScreen *screen,int x,int y, char replace_color)
+BOOL insideScreenAndReplaceColor(struct retroScreen *screen,unsigned char *sc_mem, int x,int y, unsigned char replace_color)
 {
 	if ((x>-1)&&(x<screen->realWidth)&&(y>-1)&&(y<screen->realHeight))
 	{
-		if (screen -> Memory[ screen -> realWidth * y + x ] == replace_color) return TRUE;
+		if (sc_mem[ screen -> realWidth * y + x ] == replace_color) return TRUE;
 	}
 	return FALSE;
 }
@@ -96,12 +96,13 @@ void _retromode_retroFill(struct RetroModeIFace *Self,
 	char replace_color;
 	struct List list;
 	struct FillNode *node = NULL;
+	unsigned char *sc_mem = screen -> Memory[screen -> double_buffer_draw_frame];
 
 	libBase -> IExec-> NewList(&list);
 
 	if ((x>-1)&&(x<screen->realWidth)&&(y>-1)&&(y<screen->realHeight))
 	{
-		replace_color = screen -> Memory[ screen -> realWidth * y + x ];
+		replace_color = sc_mem[ screen -> realWidth * y + x ];
 		if (replace_color == color) return;
 	}
 	else return;
@@ -119,12 +120,12 @@ void _retromode_retroFill(struct RetroModeIFace *Self,
 			node = NULL;
 		}
 
-		screen -> Memory[ (screen -> realWidth * y) + x ] = color;
+		sc_mem[ (screen -> realWidth * y) + x ] = color;
 
-		if (insideScreenAndReplaceColor(screen,x,y-1,replace_color)) AddXY( libBase, &list, x, y-1 );
-		if (insideScreenAndReplaceColor(screen,x,y+1,replace_color)) AddXY( libBase, &list, x, y+1 );
-		if (insideScreenAndReplaceColor(screen,x-1,y,replace_color)) AddXY( libBase, &list, x-1, y );
-		if (insideScreenAndReplaceColor(screen,x+1,y,replace_color)) AddXY( libBase, &list, x+1, y );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x,y-1,replace_color)) AddXY( libBase, &list, x, y-1 );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x,y+1,replace_color)) AddXY( libBase, &list, x, y+1 );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x-1,y,replace_color)) AddXY( libBase, &list, x-1, y );
+		if (insideScreenAndReplaceColor(screen,sc_mem,x+1,y,replace_color)) AddXY( libBase, &list, x+1, y );
 
 	} while (node = (struct FillNode *) libBase -> IExec-> GetHead( &list));
 }

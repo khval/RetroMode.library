@@ -76,7 +76,7 @@ void Xorhline( struct retroScreen * screen, int x0, int x1, int y, char color )
 	if (x0<0) x0 = 0;
 	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
 
-	from = screen -> Memory + ( screen -> realWidth * y ) + x0;
+	from = screen -> Memory[ screen -> double_buffer_draw_frame ] + ( screen -> realWidth * y ) + x0;
 	to = from + (x1-x0) ;
 
 	for(ptr=from;ptr<=to;ptr++)

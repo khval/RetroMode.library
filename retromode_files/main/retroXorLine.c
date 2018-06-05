@@ -97,7 +97,7 @@ void _retromode_retroXorLine(struct RetroModeIFace *Self,
 	if (x1+sdx<0) dx = x1;
 	if (x1+sdx>screen->realWidth-1) dx=screen->realWidth-x1-1;
 
-	memory = screen -> Memory +  x1;
+	memory = screen -> Memory[ screen -> double_buffer_draw_frame ] +  x1;
 
 	y = (double) y1;
 
