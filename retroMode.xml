@@ -542,6 +542,9 @@
 			<arg name="r" type="int"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
+		<method name="retroAllocDoubleBuffer" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+		</method>
 	</interface>
 </library>
 

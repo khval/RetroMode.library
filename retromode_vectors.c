@@ -88,6 +88,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroCycleOff,
     _retromode_retroFadeScreen,
     _retromode_retroCircle,
+    _retromode_retroAllocDoubleBuffer,
     (APTR)-1
 };
 
