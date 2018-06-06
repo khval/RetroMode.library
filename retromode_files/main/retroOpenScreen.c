@@ -77,7 +77,7 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		screen -> realWidth = width;
 		screen -> realHeight = height;
 		screen -> videomode = videomode;
-		screen -> Memory[0] = (unsigned char *) libBase -> IExec -> AllocVecTags(  width * (height+1) ,
+		screen -> Memory[0] = (unsigned char *) libBase -> IExec -> AllocVecTags(  screen -> bytesPerRow * (screen -> realHeight+1) ,
 								AVT_Type, MEMF_SHARED,
 								AVT_ClearWithValue, 0 ,
 								TAG_END	);
