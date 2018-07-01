@@ -196,8 +196,10 @@ struct retroSprite
 struct retroSpriteObject
 {
 	int x; int y;
-	struct retroSprite *sprite;
-	struct retroFrameHeader *frame;
+	int image;
+	int screen_id;
+	struct retroSprite *sprite;			// optional
+	struct retroFrameHeader *frame;		// optional
 };
 
 #define retroLowres 1
