@@ -52,13 +52,22 @@
 *
 */
 
+void _retromode_retroFreeSpriteObject(struct RetroModeIFace *Self,
+       struct retroSpriteObject * spriteObject, BOOL onlyData);
+
 void _retromode_retroFreeSpriteObjects(struct RetroModeIFace *Self,
        struct retroVideo * video)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
+	struct retroSpriteObject *spriteObject;
 
 	if (video -> sprites)
 	{
+		for (spriteObject = video -> sprites; spriteObject < video -> sprites_end; spriteObject++)
+		{
+			_retromode_retroFreeSpriteObject(Self,spriteObject, TRUE);
+		}
+
 		libBase->IExec->FreeVec(video -> sprites);
 		video -> sprites = NULL;
 		video -> sprites_end = NULL;
