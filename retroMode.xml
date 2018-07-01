@@ -549,6 +549,19 @@
 			<arg name="fd" type="FILE *"/>
 			<arg name="cust_fread" type="cust_fread_t"/>
 		</method>
+		<method name="retroGetSprite" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="sprite" type="struct retroSprite *"/>
+			<arg name="image" type="int"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+		</method>
+		<method name="retroFreeSpriteObject" result="void">
+			<arg name="spriteObject" type="struct retroSpriteObject *"/>
+			<arg name="onlyData" type="BOOL"/>
+		</method>
 	</interface>
 </library>
 
