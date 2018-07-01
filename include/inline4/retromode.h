@@ -114,5 +114,6 @@
 #define retroFadeScreen(screen) IRetroMode->retroFadeScreen((screen)) 
 #define retroCircle(screen, cx, cy, r, color) IRetroMode->retroCircle((screen), (cx), (cy), (r), (color)) 
 #define retroAllocDoubleBuffer(screen) IRetroMode->retroAllocDoubleBuffer((screen)) 
+#define retroLoadSprite(fd, cust_fread) IRetroMode->retroLoadSprite((fd), (cust_fread)) 
 
 #endif /* INLINE4_RETROMODE_H */

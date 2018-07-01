@@ -94,6 +94,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroFadeScreen
 	    FPTR IRetroMode_retroCircle
 	    FPTR IRetroMode_retroAllocDoubleBuffer
+	    FPTR IRetroMode_retroLoadSprite
 	LABEL RetroModeIFace_SIZE
 
 #endif

@@ -97,3 +97,4 @@ extern void                 VARARGS68K _retromode_retroCycleOff(struct RetroMode
 extern void                 VARARGS68K _retromode_retroFadeScreen(struct RetroModeIFace *, struct retroScreen * screen);
 extern void                 VARARGS68K _retromode_retroCircle(struct RetroModeIFace *, struct retroScreen * screen, int cx, int cy, int r, unsigned char color);
 extern void                 VARARGS68K _retromode_retroAllocDoubleBuffer(struct RetroModeIFace *, struct retroScreen * screen);
+extern struct retroSprite * VARARGS68K _retromode_retroLoadSprite(struct RetroModeIFace *, FILE * fd, cust_fread_t cust_fread);

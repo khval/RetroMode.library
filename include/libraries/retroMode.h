@@ -11,6 +11,8 @@
 struct retroSprite;
 struct retroSpriteObject;
 
+typedef int (*cust_fread_t) (void *ptr, int size,int elements, FILE *fd);
+
 
 //------------ video -------------
 
@@ -88,6 +90,12 @@ struct retroVideo
 	struct retroSpriteObject *sprites;
 	struct retroSpriteObject *sprites_end;
 	int spriteObjectsAllocated;
+};
+
+struct retroMemFd
+{
+	char *mem;
+	unsigned int off;
 };
 
 struct p 

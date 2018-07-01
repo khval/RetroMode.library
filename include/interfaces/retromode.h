@@ -115,6 +115,7 @@ struct RetroModeIFace
 	void APICALL (*retroFadeScreen)(struct RetroModeIFace *Self, struct retroScreen * screen);
 	void APICALL (*retroCircle)(struct RetroModeIFace *Self, struct retroScreen * screen, int cx, int cy, int r, unsigned char color);
 	void APICALL (*retroAllocDoubleBuffer)(struct RetroModeIFace *Self, struct retroScreen * screen);
+	struct retroSprite * APICALL (*retroLoadSprite)(struct RetroModeIFace *Self, FILE * fd, cust_fread_t cust_fread);
 };
 
 #ifdef __cplusplus

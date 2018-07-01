@@ -545,6 +545,10 @@
 		<method name="retroAllocDoubleBuffer" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
 		</method>
+		<method name="retroLoadSprite" result="struct retroSprite *">
+			<arg name="fd" type="FILE *"/>
+			<arg name="cust_fread" type="cust_fread_t"/>
+		</method>
 	</interface>
 </library>
 
