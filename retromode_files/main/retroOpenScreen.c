@@ -13,7 +13,8 @@
  *
  */
 
-
+#include <stdlib.h>
+#include <stdio.h>
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <dos/dos.h>
@@ -77,7 +78,9 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		screen -> realWidth = width;
 		screen -> realHeight = height;
 		screen -> videomode = videomode;
-		screen -> Memory[0] = (unsigned char *) libBase -> IExec -> AllocVecTags(  screen -> bytesPerRow * (screen -> realHeight+1) ,
+		screen -> autoback = 2;
+		screen -> Memory[0] = (unsigned char *) libBase -> IExec -> AllocVecTags(  
+								screen -> bytesPerRow * (screen -> realHeight+1) ,
 								AVT_Type, MEMF_SHARED,
 								AVT_ClearWithValue, 0 ,
 								TAG_END	);
