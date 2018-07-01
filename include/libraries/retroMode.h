@@ -201,11 +201,21 @@ struct retroSprite
 	struct retroRGB palette[256];
 };
 
+struct retroSpriteClear
+{
+	int x,y,image;
+	int w,h;
+	char *mem;
+	int size;
+	int drawn;
+};
+
 struct retroSpriteObject
 {
 	int x; int y;
 	int image;
 	int screen_id;
+	struct retroSpriteClear clear[2];
 	struct retroSprite *sprite;			// optional
 	struct retroFrameHeader *frame;		// optional
 };
