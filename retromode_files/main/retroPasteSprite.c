@@ -103,7 +103,8 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 
 		for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
 		{
-			*destination_row_ptr++= *source_row_ptr;
+			if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
+			destination_row_ptr++;
 		}
 
 		destination_row_start += screen -> realWidth;
