@@ -13,7 +13,8 @@
  *
  */
 
-
+#include <stdlib.h>
+#include <stdio.h>
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <dos/dos.h>
