@@ -55,12 +55,13 @@
 void _retromode_retroFreeSprite(struct RetroModeIFace *Self, struct retroSprite * sprite)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	int n;
 
 	if (sprite)
 	{
 		if (sprite->frames)
 		{
+			int n;
+
 			for (n=0; n<sprite->number_of_frames; n++ )
 			{
 				if (sprite->frames[n].data) libBase->IExec->FreeVec(sprite->frames[n].data);
