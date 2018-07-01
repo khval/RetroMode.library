@@ -90,6 +90,8 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroCircle,
     _retromode_retroAllocDoubleBuffer,
     _retromode_retroLoadSprite,
+    _retromode_retroGetSprite,
+    _retromode_retroFreeSpriteObject,
     (APTR)-1
 };
 

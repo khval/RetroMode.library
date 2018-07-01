@@ -115,5 +115,7 @@
 #define retroCircle(screen, cx, cy, r, color) IRetroMode->retroCircle((screen), (cx), (cy), (r), (color)) 
 #define retroAllocDoubleBuffer(screen) IRetroMode->retroAllocDoubleBuffer((screen)) 
 #define retroLoadSprite(fd, cust_fread) IRetroMode->retroLoadSprite((fd), (cust_fread)) 
+#define retroGetSprite(screen, sprite, image, x0, y0, x1, y1) IRetroMode->retroGetSprite((screen), (sprite), (image), (x0), (y0), (x1), (y1)) 
+#define retroFreeSpriteObject(spriteObject, onlyData) IRetroMode->retroFreeSpriteObject((spriteObject), (onlyData)) 
 
 #endif /* INLINE4_RETROMODE_H */
