@@ -58,11 +58,12 @@
 */
 
 void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       struct retroSprite * sprite,
-       int x,
-       int y,
-       int image)
+	struct retroScreen * screen,
+	struct retroSprite * sprite,
+	int x,
+	int y,
+	int image,
+	int flags)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int width;
@@ -92,24 +93,84 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	if (y<0) { source_y0 = -y; y = 0; height -= source_y0;  }
 	if (x<0) { source_x0 = -x; x = 0; width -= source_x0; }
 
-	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * y) + x;
 
+	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * y) + x;
 	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow );
 	source_row_end = source_row_start + width;
 
-	for ( ypos = 0; ypos < height; ypos++ )
+	switch (flags)
 	{
-		destination_row_ptr = destination_row_start;
+		case 0x0000:
 
-		for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-		{
-			if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-			destination_row_ptr++;
-		}
+			for ( ypos = 0; ypos < height; ypos++ )
+			{
+				destination_row_ptr = destination_row_start;
 
-		destination_row_start += screen -> realWidth;
-		source_row_start += frame -> bytesPerRow;
-		source_row_end += frame -> bytesPerRow;
+				for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
+				{
+					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
+					destination_row_ptr++;
+				}
+
+				destination_row_start += screen -> realWidth;
+				source_row_start += frame -> bytesPerRow;
+				source_row_end += frame -> bytesPerRow;
+			}
+			break;
+		case 0x4000:
+
+			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * (y + height - 1)) + x;
+
+			for ( ypos = 0; ypos < height; ypos++ )
+			{
+				destination_row_ptr = destination_row_start;
+
+				for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
+				{
+					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
+					destination_row_ptr++;
+				}
+
+				destination_row_start -= screen -> realWidth;
+				source_row_start += frame -> bytesPerRow;
+				source_row_end += frame -> bytesPerRow;
+			}
+			break;
+		case 0x8000:
+			for ( ypos = 0; ypos < height; ypos++ )
+			{
+				destination_row_ptr = destination_row_start;
+
+				for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
+				{
+					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
+					destination_row_ptr++;
+				}
+
+				destination_row_start += screen -> realWidth;
+				source_row_start += frame -> bytesPerRow;
+				source_row_end += frame -> bytesPerRow;
+			}
+			break;
+		case 0xC000:
+
+			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * (y + height - 1)) + x;
+
+			for ( ypos = 0; ypos < height; ypos++ )
+			{
+				destination_row_ptr = destination_row_start;
+
+				for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
+				{
+					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
+					destination_row_ptr++;
+				}
+
+				destination_row_start -= screen -> realWidth;
+				source_row_start += frame -> bytesPerRow;
+				source_row_end += frame -> bytesPerRow;
+			}
+			break;
 	}
 }
 
