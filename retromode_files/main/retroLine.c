@@ -71,9 +71,10 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 	double dx,dy;
 	double a;
 	double y,_y2;
-	int bytesPerRow = screen -> realWidth;
+	int bytesPerRow = screen -> bytesPerRow;
 	int height = screen -> realHeight;
 	int _x;
+	int xx;
 	double _y;
 	int dirx;
 	int sdx;	// signed delta x
@@ -97,36 +98,43 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 
 	a = (dx == 0) ? 0 : dy / dx;
 
-	if (x1+sdx<0) dx = x1;
-	if (x1+sdx>screen->realWidth-1) dx=screen->realWidth-x1-1;
-
 	memory = screen -> Memory[ screen -> double_buffer_draw_frame ] +  x1;
 
 	y = (double) y1;
 
 	if (y1>y2)
 	{
+		xx  = x1;
 		for (_x=0;_x<dx;_x++)
 		{
 			_y2 = y + a;
 
-			for (_y = y; _y>=_y2;_y--)
-				if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
+			if ((xx>-1)&&(xx<screen->realWidth))
+			{
+				for (_y = y; _y>=_y2;_y--)
+					if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
+			}
 
 			memory+=dirx;
+			xx+=dirx;
 			y+=a;
 		}
 	}
 	else
 	{
+		xx = x1;
 		for (_x=0;_x<dx;_x++)
 		{
 			_y2 = y + a;
 
-			for (_y = y; _y<=_y2;_y++)
-				if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
+			if ((xx>-1)&&(xx<screen->realWidth))
+			{
+				for (_y = y; _y<=_y2;_y++)
+					if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
+			}
 
 			memory+=dirx;
+			xx+=dirx;
 			y+=a;
 		}
 	}
