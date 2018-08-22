@@ -65,6 +65,7 @@ void _retromode_retroFadeScreen(struct RetroModeIFace *Self,
 		}
 		else
 		{
+			int changed_at = -1;
 			int n = 0;
 			struct retroRGB *opal = screen -> orgPalette;
 			struct retroRGB *rpal = screen -> rowPalette;
@@ -78,10 +79,12 @@ void _retromode_retroFadeScreen(struct RetroModeIFace *Self,
 					if (npal->r > opal->r)
 					{
 						opal -> r +=  0x11;	
+						changed_at = n | 0x1000;
 					}
 					else if ((npal->r < opal -> r))
 					{
 						opal -> r -=  0x11;	
+						changed_at = n | 0x1000;
 					}
 				}
 
@@ -89,11 +92,13 @@ void _retromode_retroFadeScreen(struct RetroModeIFace *Self,
 				{
 					if (npal->g > opal->g)
 					{
-						opal->g += 0x11;	
+						opal->g += 0x11;
+						changed_at = n | 0x2000;
 					}
 					else if ((npal->g < opal -> g))
 					{
-						opal->g -= 0x11;	
+						opal->g -= 0x11;
+						changed_at = n | 0x2000;
 					}
 				}
 
@@ -101,11 +106,13 @@ void _retromode_retroFadeScreen(struct RetroModeIFace *Self,
 				{
 					if (npal->b > opal->b)
 					{
-						opal->b +=  0x11;	
+						opal->b +=  0x11;
+						changed_at = n | 0x3000;
 					}
 					else if ((npal->b < opal->b))
 					{
-						opal->b -=  0x11;	
+						opal->b -=  0x11;
+						changed_at = n | 0x3000;
 					}
 				}
 
@@ -116,7 +123,14 @@ void _retromode_retroFadeScreen(struct RetroModeIFace *Self,
 				npal++;
 			}
 
+			libBase -> IDOS -> Printf("%Fade changed at lx\n",changed_at);
+
 			screen -> fade_count = 0;
+			if (changed_at > -1)
+			{
+				screen -> fade_speed = 0;
+				libBase -> IDOS -> Printf("screen -> fade_speed set to 0\n");
+			}
 		}
 	}
 }
