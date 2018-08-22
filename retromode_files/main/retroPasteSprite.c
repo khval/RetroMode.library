@@ -95,7 +95,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 
 
 	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * y) + x;
-	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow );
+	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow ) + source_x0;
 	source_row_end = source_row_start + width;
 
 	switch (flags)
