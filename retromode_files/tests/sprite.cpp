@@ -269,11 +269,11 @@ int main()
 				retroScreenColor( screen, n, sprite -> palette[n].r, sprite -> palette[n].g, sprite -> palette[n].b );
 			}
 
-			retroPasteSprite( screen, sprite, 0,10, 0 );
+			retroPasteSprite( screen, sprite, 0,10, 0 ,0 );
 
 			for (n=1;n<10;n++)
 			{
-				retroPasteSprite( screen, sprite,  (n*50),100, n );
+				retroPasteSprite( screen, sprite,  (n*50),100, n, 0 );
 			}
 
 		}
