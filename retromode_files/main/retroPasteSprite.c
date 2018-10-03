@@ -87,13 +87,25 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	x -= frame -> XHotSpot;
 	y -= frame -> YHotSpot;	
 
-	if (y+height>screen->realHeight) height = screen->realHeight - y;
-	if (x+width>screen->realWidth) width = screen->realWidth - x;
+	if (y>0)
+	{
+		if (y+height>screen->realHeight) height = screen->realHeight - y;
+	}
+	else
+	{
+		source_y0 = -y; y = 0; height -= source_y0; 
+	}
+
+	if (x>0)
+	{
+		if (x+width>screen->realWidth) width = screen->realWidth - x;
+	}
+	else
+	{
+		 source_x0 = -x; x = 0; width -= source_x0;
+	}
 
 	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * y) + x;
-	if (x<0) { source_x0 = -x; x = 0; width -= source_x0; }
-
-
 	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow ) + source_x0;
 	source_row_end = source_row_start + width;
 
