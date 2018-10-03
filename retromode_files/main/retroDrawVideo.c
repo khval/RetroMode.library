@@ -344,15 +344,26 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 		{
 			start_at = - dest_y;
 			dest_y = 0;
-		}
 
-		if (screen -> scanline_y + screen -> displayHeight > video->height)
-		{
-			end_at = video->height - screen -> scanline_y;
+			if ( (screen -> displayHeight - start_at) > video->height)
+			{
+				end_at = video->height - start_at;
+			}
+			else
+			{
+				end_at = screen -> displayHeight;
+			}
 		}
 		else
 		{
-			end_at = screen -> displayHeight;
+			if (screen -> scanline_y + screen -> displayHeight > video->height)
+			{
+				end_at = video->height - screen -> scanline_y;
+			}
+			else
+			{
+				end_at = screen -> displayHeight;
+			}
 		}
 	}
 	else		// not interlaced.
@@ -361,75 +372,82 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 		{
 			start_at = - dest_y / 2;
 			dest_y = 0;
-		}
 
-		if (screen -> scanline_y + (screen -> displayHeight*2) > video->height)
-		{
-			end_at = (video->height - screen -> scanline_y) / 2;
+			if ( (screen -> displayHeight-start_at)*2 > video->height)
+			{
+				end_at = (video->height/2) - start_at;
+			}
+			else
+			{
+				end_at = screen -> displayHeight;
+			}
 		}
 		else
 		{
-			end_at = screen -> displayHeight;
+			if (screen -> scanline_y + (screen -> displayHeight*2) > video->height)
+			{
+				end_at = (video->height - screen -> scanline_y) / 2;
+			}
+			else
+			{
+				end_at = screen -> displayHeight;
+			}
 		}
 	}
+
+	// dest_y is never negative, if negative desy_y is set to 0, and start_at is set cut of offset.
 
 	if ((screen -> flags & retroscreen_flag_hide)==0)
 	{
 		unsigned int offset; 
+		struct retroScanline *scanline;
+
+//		Printf("Screen_To_Scanlines %d\n", end_at - start_at +1);
 
 		for ( y = start_at ; y < end_at; y++ )
 		{
-			offset = (screen -> realWidth * (y + screen -> offset_y) ) + screen -> offset_x;
+			offset = (screen -> bytesPerRow * (y + screen -> offset_y) ) + screen -> offset_x;
 
-			video -> scanlines[ dest_y ].beamStart = screen -> scanline_x;
-			video -> scanlines[ dest_y ].videoWidth = video -> width;
-			video -> scanlines[ dest_y ].screen = screen;
-			video -> scanlines[ dest_y ].pixels = screen -> displayWidth;
-			video -> scanlines[ dest_y ].data[0] = screen -> Memory[0] + offset;
+			scanline = &video -> scanlines[ dest_y ];
+			scanline -> beamStart = screen -> scanline_x;
+			scanline -> videoWidth = video -> width;
+			scanline -> screen = screen;
+			scanline -> pixels = screen -> displayWidth;
+			scanline -> data[0] = screen -> Memory[0] + offset;
 
 			if (screen -> Memory[1])
 			{
-				video -> scanlines[ dest_y ].data[1] = screen -> Memory[1] + offset;
+				scanline -> data[1] = screen -> Memory[1] + offset;
 			}
 			else
 			{
-				video -> scanlines[ dest_y ].data[1] = NULL;
+				scanline -> data[1] = NULL;
 			}
 
-			video -> scanlines[ dest_y ].mode = NULL;
-			video -> scanlines[ dest_y ].rowPalette = screen -> rowPalette;
-			video -> scanlines[ dest_y ].orgPalette = screen -> orgPalette;
+			scanline -> mode = NULL;
+			scanline -> rowPalette = screen -> rowPalette;
+			scanline -> orgPalette = screen -> orgPalette;
 
-			if (videomode & retroLowres )
-			{
-				video -> scanlines[ dest_y ].mode = draw_lowred_emulate_color_changes;
-			}
-
-			if (videomode & retroLowres_pixeld )
-			{
-				video -> scanlines[ dest_y ].mode = draw_lowred_pixeled_color;
-			}
-
-			if (videomode & retroHires )
-			{
-				video -> scanlines[ dest_y ].mode = draw_hires;
-			}
+			if (videomode & retroLowres ) scanline -> mode = draw_lowred_emulate_color_changes;
+			if (videomode & retroLowres_pixeld ) scanline -> mode = draw_lowred_pixeled_color;
+			if (videomode & retroHires ) scanline -> mode = draw_hires;
 
 			dest_y ++;
-
 
 			if ( ! (videomode & retroInterlaced) )
 			{
 				if ((dest_y > -1) && (dest_y<video->height))
 				{
-					video -> scanlines[ dest_y ].orgPalette = NULL;
-					video -> scanlines[ dest_y ].rowPalette = NULL;
-					video -> scanlines[ dest_y ].beamStart = 0;
-					video -> scanlines[ dest_y ].pixels = 0;
-					video -> scanlines[ dest_y ].data[0] = NULL;
-					video -> scanlines[ dest_y ].data[1] = NULL;
-					video -> scanlines[ dest_y ].mode = NULL;
-					video -> scanlines[ dest_y ].screen = NULL;
+					scanline = &video -> scanlines[ dest_y ];
+
+					scanline -> orgPalette = NULL;
+					scanline -> rowPalette = NULL;
+					scanline -> beamStart = 0;
+					scanline -> pixels = 0;
+					scanline -> data[0] = NULL;
+					scanline -> data[1] = NULL;
+					scanline -> mode = NULL;
+					scanline -> screen = NULL;
 					dest_y ++;
 				}
 			}
