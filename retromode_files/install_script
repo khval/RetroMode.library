@@ -2,4 +2,6 @@ copy /include/#? sdk:Include/include_h/ all
 
 IF EXISTS retromode.library
 copy retromode.library libs:
+avail flush
 endif
+
