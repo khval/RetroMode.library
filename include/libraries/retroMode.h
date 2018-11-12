@@ -111,6 +111,17 @@ void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buff
 
 #define retroscreen_flag_hide 1
 
+struct retroTextWindow
+{
+	int id;
+	int pen;
+	int paper;
+	int locateX;		
+	int locateY;
+	int x,y;
+	int charsPerRow;
+	int rows;
+};
 
 struct retroScreen
 {
@@ -144,20 +155,22 @@ struct retroScreen
 	struct retroShiftColors *allocatedShifts[256];	// you can't shift more colors then there is on the screen.
 	struct retroShiftColors **allocatedShifts_end;
 	int shiftsAllocated;
-	// text cursor place holder	
-	int locateX;		
-	int locateY;
+
 	int clones;
 	BOOL refreshScanlines;
 	struct retroScreen *cloneOfScreen;
+
+	struct retroTextWindow *currentTextWindow;
+	struct retroTextWindow **textWindow;
+	int allocatedTextWindows;
+
+
 	BOOL coopered_last;
 	unsigned int flags;
 	int fade_speed;	// fade_speed 0, disabled.
 	int fade_count;		// count up to speed, then change color by one step -0x11 or +0x11
 	int double_buffer_draw_frame;
 	int autoback;
-	int pen;
-	int paper;
 };
 
 struct retroFrame
