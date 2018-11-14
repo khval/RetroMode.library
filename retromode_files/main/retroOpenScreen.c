@@ -82,7 +82,7 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		screen -> fade_speed = 0;
 		screen -> fade_count = 0;
 		screen -> currentTextWindow = NULL;
-		screen -> textWindow = NULL;
+		screen -> textWindows = NULL;
 		screen -> allocatedTextWindows = 0;
 
 		screen -> Memory[0] = (unsigned char *) libBase -> IExec -> AllocVecTags(  

@@ -114,13 +114,13 @@ void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buff
 struct retroTextWindow
 {
 	int id;
-	int pen;
-	int paper;
 	int locateX;		
 	int locateY;
 	int x,y;
 	int charsPerRow;
 	int rows;
+	int border;
+	int set;
 };
 
 struct retroScreen
@@ -161,9 +161,11 @@ struct retroScreen
 	struct retroScreen *cloneOfScreen;
 
 	struct retroTextWindow *currentTextWindow;
-	struct retroTextWindow **textWindow;
+	struct retroTextWindow **textWindows;
 	int allocatedTextWindows;
 
+	int pen;
+	int paper;
 
 	BOOL coopered_last;
 	unsigned int flags;
