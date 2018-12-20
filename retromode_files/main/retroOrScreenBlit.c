@@ -38,11 +38,13 @@
 *
 *   INPUTS
 *       bitmap - 
+*       fromMode - logical or physical screen
 *       fromX - 
 *       fromY - 
 *       realWidth - 
 *       heigh - 
 *       screen - 
+*       toMode - logical or physical screen
 *       toX - 
 *       toY - 
 *
@@ -62,14 +64,16 @@
 */
 
 void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
-       struct retroScreen * source,
-       int fromX,
-       int fromY,
-       int width,
-       int height,
-       struct retroScreen * destination,
-       int toX,
-       int toY)
+	struct retroScreen *source,
+	int formMode,
+	int fromX,
+	int fromY,
+	int width,
+	int height,
+	struct retroScreen *destination,
+	int toMode,
+	int toX,
+	int toY)
 {
 //	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	// pointers
@@ -78,15 +82,35 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
 	// range
 	unsigned char *src_vertical_ptr;
 	unsigned char *src_vertical_end;
-
 	unsigned char *src_horizontal_ptr;
 	unsigned char *src_horizontal_end;
-
 	unsigned char *destination_memory;
-
 	unsigned char *destination_end;
+	unsigned int source_double_buffer_draw_frame,destination_double_buffer_draw_frame;
 
-	destination_end = destination -> Memory[destination -> double_buffer_draw_frame] + ( destination->realHeight * destination->realHeight );
+	switch (formMode)
+	{
+		case 1:	// physical
+				source_double_buffer_draw_frame = (source ->Memory[1]) ? 1-source -> double_buffer_draw_frame : source -> double_buffer_draw_frame;
+				break;
+
+		default:	// Logical
+				source_double_buffer_draw_frame = source -> double_buffer_draw_frame;
+				break;
+	}
+
+	switch (toMode)
+	{
+		case 1:	 // physical
+				destination_double_buffer_draw_frame = (destination ->Memory[1]) ? 1-destination -> double_buffer_draw_frame : destination -> double_buffer_draw_frame;
+				break;
+
+		default:	// Logical
+				destination_double_buffer_draw_frame = destination -> double_buffer_draw_frame;
+				break;
+	}
+
+	destination_end = destination -> Memory[destination_double_buffer_draw_frame] + ( destination->realHeight * destination->realHeight );
 
 	// limit to 0,0
 
@@ -108,10 +132,10 @@ void _retromode_retroOrScreenBlit(struct RetroModeIFace *Self,
 
 	// we now know the limit, we can now do the job, safely.
 
-	src_vertical_ptr = source -> Memory[source -> double_buffer_draw_frame] + (source -> realHeight * fromY) + fromX;
-	src_vertical_end = src_vertical_ptr + (height * source -> realWidth);
+	src_vertical_ptr = source -> Memory[source_double_buffer_draw_frame] + (source -> bytesPerRow * fromY) + fromX;
+	src_vertical_end = src_vertical_ptr + (height * source -> bytesPerRow);
 
-	destination_memory = destination -> Memory[destination -> double_buffer_draw_frame] + (destination -> realWidth * toY) + toX;
+	destination_memory = destination -> Memory[destination_double_buffer_draw_frame] + (destination -> realWidth * toY) + toX;
 
 	for(;src_vertical_ptr<src_vertical_end;src_vertical_ptr += source -> realWidth)
 	{

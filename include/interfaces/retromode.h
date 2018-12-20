@@ -60,9 +60,9 @@ struct RetroModeIFace
 	void APICALL (*retroOrCircleFilled)(struct RetroModeIFace *Self, struct retroScreen * screen, int cx, int cy, int r, unsigned char or_mask);
 	void APICALL (*retroXorCircleFilled)(struct RetroModeIFace *Self, struct retroScreen * screen, int cx, int cy, int r, unsigned char xor_mask);
 	void APICALL (*retroScreenColor)(struct RetroModeIFace *Self, struct retroScreen * screen, int color, unsigned char r, unsigned char g, unsigned char b);
-	void APICALL (*retroScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
-	void APICALL (*retroOrScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
-	void APICALL (*retroXorScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromMode, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toMode, int toX, int toY);
+	void APICALL (*retroOrScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromMode, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toMode, int toX, int toY);
+	void APICALL (*retroXorScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toMode, int toX, int toY);
 	void APICALL (*retroBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
 	void APICALL (*retroOrBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
 	void APICALL (*retroXorBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
