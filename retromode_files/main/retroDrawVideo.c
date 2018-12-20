@@ -53,6 +53,7 @@
 *
 */
 
+
 void resetScanlines(struct retroVideo * video)
 {
 	struct retroScanline *scanline = video -> scanlines;
@@ -328,131 +329,94 @@ static void color_reset( struct retroVideo * video, struct retroScanline *scanli
 	}
 }
 
-void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * screen, struct retroVideo * video )
+void set_scanline(struct retroScanline *scanline,struct retroScreen * screen, struct retroVideo * video, int offset)
 {
-	int y;
-	int dest_y;
-	int start_at = 0;
-	int end_at;
 	int videomode = screen -> videomode;
 
-	dest_y = screen -> scanline_y;
+	scanline -> beamStart = screen -> scanline_x;
+	scanline -> videoWidth = video -> width;
+	scanline -> screen = screen;
+	scanline -> pixels = screen -> displayWidth;
 
-	if (screen ->videomode & retroInterlaced)
+	scanline -> data[0] = screen -> Memory[0] + offset;
+
+	if (screen -> Memory[1])
 	{
-		if (dest_y<0)
-		{
-			start_at = - dest_y;
-			dest_y = 0;
-
-			if ( (screen -> displayHeight - start_at) > video->height)
-			{
-				end_at = video->height - start_at;
-			}
-			else
-			{
-				end_at = screen -> displayHeight;
-			}
-		}
-		else
-		{
-			if (screen -> scanline_y + screen -> displayHeight > video->height)
-			{
-				end_at = video->height - screen -> scanline_y;
-			}
-			else
-			{
-				end_at = screen -> displayHeight;
-			}
-		}
+		scanline -> data[1] = screen -> Memory[1] + offset;
 	}
-	else		// not interlaced.
+	else
 	{
-		if (dest_y<0)
-		{
-			start_at = - dest_y / 2;
-			dest_y = 0;
-
-			if ( (screen -> displayHeight-start_at)*2 > video->height)
-			{
-				end_at = (video->height/2) - start_at;
-			}
-			else
-			{
-				end_at = screen -> displayHeight;
-			}
-		}
-		else
-		{
-			if (screen -> scanline_y + (screen -> displayHeight*2) > video->height)
-			{
-				end_at = (video->height - screen -> scanline_y) / 2;
-			}
-			else
-			{
-				end_at = screen -> displayHeight;
-			}
-		}
+		scanline -> data[1] = NULL;
 	}
 
-	// dest_y is never negative, if negative desy_y is set to 0, and start_at is set cut of offset.
+	scanline -> mode = NULL;
+	scanline -> rowPalette = screen -> rowPalette;
+	scanline -> orgPalette = screen -> orgPalette;
 
-	if ((screen -> flags & retroscreen_flag_hide)==0)
+	if (videomode & retroLowres ) scanline -> mode = draw_lowred_emulate_color_changes;
+	if (videomode & retroLowres_pixeld ) scanline -> mode = draw_lowred_pixeled_color;
+	if (videomode & retroHires ) scanline -> mode = draw_hires;
+}
+
+#define is_displayed 0
+
+void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * screen, struct retroVideo * video )
+{
+	int screen_y = 0;
+	int hw_start = 0;
+	int hw_end = 0;
+	int hw_y = 0;
+	int offset;
+	int displayed = (screen ->videomode & retroInterlaced) ? 0 : 1;
+	int physical_vfacor = (screen ->videomode & retroInterlaced) ? 1 : 2;
+
+	if (screen -> flags & retroscreen_flag_hide) return;
+
+	hw_start = screen -> scanline_y ;
+	hw_end = hw_start + (screen -> displayHeight * physical_vfacor );
+
+	libBase -> IDOS -> Printf("Screen_To_Scanlines start %ld, end %ld, size %ld\n", hw_start, hw_end , hw_end - hw_start +1);
+
+	if (hw_end<0)
 	{
-		unsigned int offset; 
-		struct retroScanline *scanline;
+//		libBase -> IDOS -> Printf("outside of scope (end before video)\n");
+//		libBase -> IDOS -> Delay(60);
+		return;		// outside of scope.
+	}
 
-//		Printf("Screen_To_Scanlines %d\n", end_at - start_at +1);
+	if (hw_start> ((int) video->height))
+	{
+//		libBase -> IDOS -> Printf("outside of scope (start after video end)\n");
+//		libBase -> IDOS -> Delay(60);
+		return;		// outside of scope.
+	}
 
-		for ( y = start_at ; y < end_at; y++ )
+	if (hw_start<0)
+	{
+		screen_y = -hw_start / physical_vfacor;
+		hw_start = 0;
+	}
+
+	if (hw_end>=video->height) hw_end = video->height;
+
+	screen_y += screen -> offset_y;
+
+	for (hw_y = hw_start; hw_y<hw_end; hw_y++)
+	{
+		if ((hw_y & displayed) == is_displayed)
 		{
-			offset = (screen -> bytesPerRow * (y + screen -> offset_y) ) + screen -> offset_x;
-
-			scanline = &video -> scanlines[ dest_y ];
-			scanline -> beamStart = screen -> scanline_x;
-			scanline -> videoWidth = video -> width;
-			scanline -> screen = screen;
-			scanline -> pixels = screen -> displayWidth;
-			scanline -> data[0] = screen -> Memory[0] + offset;
-
-			if (screen -> Memory[1])
+			if ((screen_y>=0) && (screen_y <= screen -> realHeight))
 			{
-				scanline -> data[1] = screen -> Memory[1] + offset;
-			}
-			else
-			{
-				scanline -> data[1] = NULL;
+				offset = (screen -> bytesPerRow * screen_y) + screen -> offset_x;
+
+				set_scanline( &video -> scanlines[ hw_y ], screen, video, offset );
 			}
 
-			scanline -> mode = NULL;
-			scanline -> rowPalette = screen -> rowPalette;
-			scanline -> orgPalette = screen -> orgPalette;
-
-			if (videomode & retroLowres ) scanline -> mode = draw_lowred_emulate_color_changes;
-			if (videomode & retroLowres_pixeld ) scanline -> mode = draw_lowred_pixeled_color;
-			if (videomode & retroHires ) scanline -> mode = draw_hires;
-
-			dest_y ++;
-
-			if ( ! (videomode & retroInterlaced) )
-			{
-				if ((dest_y > -1) && (dest_y<video->height))
-				{
-					scanline = &video -> scanlines[ dest_y ];
-
-					scanline -> orgPalette = NULL;
-					scanline -> rowPalette = NULL;
-					scanline -> beamStart = 0;
-					scanline -> pixels = 0;
-					scanline -> data[0] = NULL;
-					scanline -> data[1] = NULL;
-					scanline -> mode = NULL;
-					scanline -> screen = NULL;
-					dest_y ++;
-				}
-			}
+			screen_y ++;
 		}
 	}
+
+//	libBase -> IDOS -> Delay(20);
 }
 
 void update_all_scanlines( struct RetroLibrary *libBase, struct retroVideo * video )
