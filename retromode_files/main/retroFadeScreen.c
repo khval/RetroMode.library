@@ -123,13 +123,10 @@ void _retromode_retroFadeScreen(struct RetroModeIFace *Self,
 				npal++;
 			}
 
-			libBase -> IDOS -> Printf("%Fade changed at lx\n",changed_at);
-
 			screen -> fade_count = 0;
-			if (changed_at > -1)
+			if (changed_at == -1)
 			{
 				screen -> fade_speed = 0;
-				libBase -> IDOS -> Printf("screen -> fade_speed set to 0\n");
 			}
 		}
 	}
