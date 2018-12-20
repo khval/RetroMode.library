@@ -53,17 +53,26 @@
 *
 */
 
-void _retromode_retroAllocDoubleBuffer(struct RetroModeIFace *Self,
-       struct retroScreen * screen)
+void _retromode_retroAllocDoubleBuffer(struct RetroModeIFace *Self,  struct retroScreen * screen)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 
 	if (screen -> Memory[1] == NULL )
 	{ 
-		screen -> Memory[1] = (unsigned char *) libBase -> IExec -> AllocVecTags(  screen -> bytesPerRow * (screen -> realHeight+1) ,
-								AVT_Type, MEMF_SHARED,
-								AVT_ClearWithValue, 0 ,
-								TAG_END	);
+		int _size_ = screen -> bytesPerRow * (screen -> realHeight+1);
+		unsigned char *src_ptr,*dest_ptr;
+		unsigned char *mem_end;
+
+		screen -> Memory[1] = (unsigned char *) libBase -> IExec -> AllocVecTags(  _size_ , AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+
+		src_ptr = screen -> Memory[0];
+		dest_ptr=screen -> Memory[1];
+		mem_end = screen -> Memory[1] + _size_;
+
+		for(;dest_ptr<mem_end;dest_ptr++)
+		{
+			*dest_ptr	= *src_ptr; src_ptr++;
+		}		
 	}
 }
 
