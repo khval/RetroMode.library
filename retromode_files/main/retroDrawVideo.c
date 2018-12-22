@@ -375,21 +375,8 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 	hw_start = screen -> scanline_y ;
 	hw_end = hw_start + (screen -> displayHeight * physical_vfacor );
 
-	libBase -> IDOS -> Printf("Screen_To_Scanlines start %ld, end %ld, size %ld\n", hw_start, hw_end , hw_end - hw_start +1);
-
-	if (hw_end<0)
-	{
-//		libBase -> IDOS -> Printf("outside of scope (end before video)\n");
-//		libBase -> IDOS -> Delay(60);
-		return;		// outside of scope.
-	}
-
-	if (hw_start> ((int) video->height))
-	{
-//		libBase -> IDOS -> Printf("outside of scope (start after video end)\n");
-//		libBase -> IDOS -> Delay(60);
-		return;		// outside of scope.
-	}
+	if (hw_end<0)	return;						// outside of scope.
+	if (hw_start> ((int) video->height))	return;		// outside of scope.
 
 	if (hw_start<0)
 	{
@@ -415,8 +402,6 @@ void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * scr
 			screen_y ++;
 		}
 	}
-
-//	libBase -> IDOS -> Delay(20);
 }
 
 void update_all_scanlines( struct RetroLibrary *libBase, struct retroVideo * video )
