@@ -173,6 +173,7 @@ struct retroScreen
 	int fade_count;		// count up to speed, then change color by one step -0x11 or +0x11
 	int double_buffer_draw_frame;
 	int autoback;
+	BOOL force_swap;
 };
 
 struct retroFrame
