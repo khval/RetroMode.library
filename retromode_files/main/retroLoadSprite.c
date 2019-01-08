@@ -65,7 +65,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 	int bit;
 	int Plane;
 	unsigned char *byte;
-	unsigned char convert[ (255<<3)+8];
+	unsigned char convert[ (256<<3)+8];	// 0 to 255 is 256 numbers.
 	unsigned int sizeOfPlanar,sizeOfChunky;
 	char *planar;
 	struct retroSprite *sprite;
@@ -76,102 +76,106 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 	if (!sprite) return NULL;
 
+	sprite->frames = NULL;			// set default value
+	sprite->number_of_frames=0;
+
 	if ( cust_fread( &sprite->number_of_frames,sizeof(sprite->number_of_frames), 1, fd ) == 1 )
 	{
 		libBase -> IDOS -> Printf("Load sprite->number_of_frames %ld\n",  sprite->number_of_frames);
 
-
 		sprite->frames = libBase -> IExec -> AllocVecTags(  
-			sizeof(struct retroFrameHeader) * sprite->number_of_frames ,
-			AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+				sizeof(struct retroFrameHeader) * sprite->number_of_frames ,
+				AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+
+		if (sprite->frames == NULL) sprite->number_of_frames=0;
 	}
 
-	if (sprite->frames == NULL) sprite->number_of_frames=0;
-
-	for (n=0; n<sprite->number_of_frames; n++ )
+	if (sprite->frames)
 	{
-
-		if (cust_fread( sprite->frames + n, sizeof(struct retroFrameHeaderShort), 1, fd ) == 1 )
+		for (n=0; n<sprite->number_of_frames; n++ )
 		{
-			sprite->frames[n].bytesPerRow = sprite->frames[n].PlanarXSize * 16 ;
-			sizeOfPlanar = sprite->frames[n].Height * (sprite->frames[n].PlanarXSize * 2 );
-			sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].Height;
-	
-			sprite->frames[n].data = libBase -> IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
-		}
-		else
-		{
-			sizeOfPlanar = 0;
-			sizeOfChunky = 0;
-		}
-
-		if (sizeOfPlanar>0)
-		{
-			planar = libBase -> IExec -> AllocVecTags( sizeOfPlanar, 	AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
-			if (planar)
+			if (cust_fread( sprite->frames + n, sizeof(struct retroFrameHeaderShort), 1, fd ) == 1 )
 			{
-				// reset convertion table
-				for (num=0;num<256;num++)
-				{
-					for (bit = 0; bit<8; bit++) 
-					{
-						convert[ (num<<3) | (7-bit) ] = (num & (1 << bit)) ? 1 : 0;
-					}
-				}
+				sprite->frames[n].bytesPerRow = sprite->frames[n].PlanarXSize * 16 ;
+				sizeOfPlanar = sprite->frames[n].Height * (sprite->frames[n].PlanarXSize * 2 );
+				sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].Height;
+	
+				sprite->frames[n].data = libBase -> IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+			}
+			else
+			{
+				sizeOfPlanar = 0;
+				sizeOfChunky = 0;
+			}
 
-				for (Plane = 0; Plane < sprite->frames[n].NumberOfPlanes; Plane++ )	
+			if (sizeOfPlanar>0)
+			{
+				planar = libBase -> IExec -> AllocVecTags( sizeOfPlanar, 	AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+				if (planar)
 				{
-					if (cust_fread( planar, sizeOfPlanar, 1, fd ) == 1) 
+					// reset convertion table
+					for (num=0;num<256;num++)
 					{
-						int y;
-						int source_BytesPerRow = sprite->frames[n].PlanarXSize*2;
-						char *source = planar;
-						char *source_ptr = planar;
-						char *source_end = planar + source_BytesPerRow;
-						long long int *dest_ptr64;	 // 8bits = 8 pixels, 8 pixels is 8 bytes = 64bit :-)
-
-						for (y=0; y<sprite->frames[n].Height;y++)
+						for (bit = 0; bit<8; bit++) 
 						{
-							dest_ptr64 = (long long int *) (sprite->frames[n].data + (sprite->frames[n].bytesPerRow * y));
-
-							// we can unroll it 16 bit alligned remeber ;-)
-							for (source_ptr = source; source_ptr < source_end;  source_ptr++)
-							{
-								*dest_ptr64++ |= *((long long int *) ( (char *) convert + ((*source_ptr)<<3)));
-							}
-
-							source += source_BytesPerRow;
-							source_end += source_BytesPerRow;
+							convert[ (num<<3) | (7-bit) ] = (num & (1 << bit)) ? 1 : 0;
 						}
 					}
 
-					// next plane
-					for (byte = convert; byte < convert + ((255<<3)+8); byte++ )
-					{ 
-						*byte = *byte << 1;
-					}
-				} // Next
+					for (Plane = 0; Plane < sprite->frames[n].NumberOfPlanes; Plane++ )	
+					{
+						if (cust_fread( planar, sizeOfPlanar, 1, fd ) == 1) 
+						{
+							int y;
+							int source_BytesPerRow = sprite->frames[n].PlanarXSize*2;
+							char *source = planar;
+							char *source_ptr = planar;
+							char *source_end = planar + source_BytesPerRow;
+							long long int *dest_ptr64;	 // 8bits = 8 pixels, 8 pixels is 8 bytes = 64bit :-)
 
-				if (planar) 
-				{
-					libBase -> IExec -> FreeVec(planar);
-					planar = NULL;
+							for (y=0; y<sprite->frames[n].Height;y++)
+							{
+								dest_ptr64 = (long long int *) (sprite->frames[n].data + (sprite->frames[n].bytesPerRow * y));		
+
+								// we can unroll it 16 bit alligned remeber ;-)
+								for (source_ptr = source; source_ptr < source_end;  source_ptr++)
+								{
+									*dest_ptr64++ |= *((long long int *) ( (char *) convert + ((*source_ptr)<<3)));
+								}
+
+								source += source_BytesPerRow;
+								source_end += source_BytesPerRow;
+							}
+						}
+
+						// next plane
+						for (byte = convert; byte < convert + ((255<<3)+8); byte++ )
+						{ 
+							*byte = *byte << 1;
+						}
+					} // Next
+
+					if (planar) 
+					{
+						libBase -> IExec -> FreeVec(planar);
+						planar = NULL;
+					}
 				}
 			}
+
+			if (sizeOfPlanar == 0) break;
+		} // Next
+
+
+		// in doc it says 32 colors, but we are flexible.
+
+		num = 0;
+		while (cust_fread( &ECSColor, 2, 1, fd ) == 1)	
+		{
+			ECSColorToRGB32( ECSColor, sprite -> palette[num] );
+			num++;
+			if (num==256) break;
 		}
-
-		if (sizeOfPlanar == 0) break;
-	} // Next
-
-
-	// in doc it says 32 colors, but we are flexible.
-
-	num = 0;
-	while (cust_fread( &ECSColor, 2, 1, fd ) == 1)	
-	{
-		ECSColorToRGB32( ECSColor, sprite -> palette[num] );
-		num++;
-		if (num==256) break;
 	}
 
 	return sprite;
