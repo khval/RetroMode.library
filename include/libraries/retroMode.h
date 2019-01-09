@@ -11,7 +11,7 @@
 struct retroSprite;
 struct retroSpriteObject;
 
-typedef int (*cust_fread_t) (void *ptr, int size,int elements, FILE *fd);
+typedef int (*cust_fread_t) (void *ptr, int size,int elements, void *fd);
 
 
 //------------ video -------------
@@ -96,6 +96,7 @@ struct retroMemFd
 {
 	char *mem;
 	unsigned int off;
+	unsigned int size;
 };
 
 struct p 

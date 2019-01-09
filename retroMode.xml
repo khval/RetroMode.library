@@ -552,7 +552,7 @@
 			<arg name="screen" type="struct retroScreen *"/>
 		</method>
 		<method name="retroLoadSprite" result="struct retroSprite *">
-			<arg name="fd" type="FILE *"/>
+			<arg name="fd" type="void *"/>
 			<arg name="cust_fread" type="cust_fread_t"/>
 		</method>
 		<method name="retroGetSprite" result="void">
