@@ -70,6 +70,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 	char *planar;
 	struct retroSprite *sprite;
 	short ECSColor;
+	int colors = 0;
 
 
 	sprite = (struct retroSprite *) libBase -> IExec -> AllocVecTags(  sizeof(struct retroSprite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
@@ -164,17 +165,21 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 			}
 
 			if (sizeOfPlanar == 0) break;
+
+			if (colors<(1L<<sprite->frames[n].NumberOfPlanes)) colors = 1L<<sprite->frames[n].NumberOfPlanes;
+
 		} // Next
 
 
 		// in doc it says 32 colors, but we are flexible.
+		if (colors<32) colors = 32;	
 
 		num = 0;
 		while (cust_fread( &ECSColor, 2, 1, fd ) == 1)	
 		{
 			ECSColorToRGB32( ECSColor, sprite -> palette[num] );
 			num++;
-			if (num==256) break;
+			if (num==colors) break;
 		}
 	}
 
