@@ -67,7 +67,7 @@ void config_scanline(
 }
 
 struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
-       struct Window * window)
+       int width, int height)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroVideo *new_video ;
@@ -77,7 +77,8 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 	RGB000.g = 0;
 	RGB000.b = 0;
 
-	if (libBase -> IGraphics == NULL) return NULL;
+
+	libBase -> IDOS -> Printf("%s(%ld,%ld)\n",__FUNCTION__,width,height);
 
 	new_video = (struct retroVideo *) libBase -> IExec -> AllocVecTags( sizeof(struct retroVideo),  
 					AVT_Type, MEMF_SHARED, 
@@ -89,33 +90,23 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 		int scanline;
 		int c;
 
+		new_video -> width = width;
+		new_video -> height = height;
+		new_video -> BytesPerRow = width  * 4;		// size of ARGB
+
+		new_video -> Memory = (unsigned int *)  libBase -> IExec -> AllocVecTags( new_video -> BytesPerRow * (new_video -> height  + 1), 
+						AVT_Type, MEMF_SHARED, 
+						AVT_ClearWithValue, 0 ,
+						TAG_END	);
+
 		new_video -> refreshAllScanlines = TRUE;
 		new_video -> refreshSomeScanlines = FALSE;
-
-		new_video -> width = 640;
-		new_video -> height = 480;
 
 		for ( scanline=0; scanline< new_video -> height ;scanline++) config_scanline( &new_video -> scanlines[scanline] , 0, NULL, NULL, NULL );
 
 		for ( c = 0; c<3 ;c++) new_video -> rainbow[c].table = NULL;
 
-		libBase -> IGraphics -> InitRastPort(&new_video->rp);
-
-		new_video -> window = window;
-
-		new_video -> rp.BitMap = libBase -> IGraphics -> AllocBitMap( new_video -> width , new_video -> height, 32, BMF_DISPLAYABLE, new_video -> window ->RPort -> BitMap);
-
-		if (new_video -> rp.BitMap )
-		{
-			// We create a mirror copy in system ram.
-			new_video -> BytesPerRow = libBase -> IGraphics -> GetBitMapAttr( new_video -> rp.BitMap, BMA_WIDTH)  * 4;
-			new_video -> Memory = (unsigned int *)  libBase -> IExec -> AllocVecTags( new_video -> BytesPerRow * (new_video -> height  + 1), 
-						AVT_Type, MEMF_SHARED, 
-						AVT_ClearWithValue, 0 ,
-						TAG_END	);
-		}
-
-		if (( ! new_video -> Memory) || ( ! new_video -> rp.BitMap ))
+		if ( ! new_video -> Memory) 
 		{
 			Self -> retroFreeVideo( new_video );
 			return NULL;

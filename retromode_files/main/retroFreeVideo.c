@@ -61,12 +61,6 @@ void _retromode_retroFreeVideo(struct RetroModeIFace *Self,
 
 	Self -> retroFreeSpriteObjects( video );
 
-	if (video->rp.BitMap)
-	{
-		libBase-> IGraphics->FreeBitMap( video-> rp.BitMap );
-		video -> rp.BitMap = NULL;
-	}
-
 	for ( c = 0; c<3 ;c++) 
 	{
 		if (video -> rainbow[c].table)
