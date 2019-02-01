@@ -26,11 +26,13 @@
 #include <interfaces/retromode.h>
 
 /* Inline macros for Interface "main" */
-#define retroAllocVideo(window) IRetroMode->retroAllocVideo((window)) 
+#define retroAllocEngine(window, video) IRetroMode->retroAllocEngine((window), (video)) 
+#define retroAllocVideo(width, height) IRetroMode->retroAllocVideo((width), (height)) 
 #define retroFreeVideo(video) IRetroMode->retroFreeVideo((video)) 
+#define retroFreeEngine(engine) IRetroMode->retroFreeEngine((engine)) 
 #define retroClearVideo(video) IRetroMode->retroClearVideo((video)) 
 #define retroDrawVideo(video) IRetroMode->retroDrawVideo((video)) 
-#define retroDmaVideo(video) IRetroMode->retroDmaVideo((video)) 
+#define retroDmaVideo(video, engine) IRetroMode->retroDmaVideo((video), (engine)) 
 #define retroOpenScreen(width, height, videomode) IRetroMode->retroOpenScreen((width), (height), (videomode)) 
 #define retroCloseScreen(screen) IRetroMode->retroCloseScreen((screen)) 
 #define retroApplyScreen(screen, video, scanlinex, scanliney, displayWidth, displayHeight) IRetroMode->retroApplyScreen((screen), (video), (scanlinex), (scanliney), (displayWidth), (displayHeight)) 

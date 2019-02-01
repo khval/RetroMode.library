@@ -35,11 +35,13 @@ struct RetroModeIFace
 	ULONG APICALL (*Release)(struct RetroModeIFace *Self);
 	void APICALL (*Expunge)(struct RetroModeIFace *Self);
 	struct Interface * APICALL (*Clone)(struct RetroModeIFace *Self);
-	struct retroVideo * APICALL (*retroAllocVideo)(struct RetroModeIFace *Self, struct Window * window);
+	struct retroEngine * APICALL (*retroAllocEngine)(struct RetroModeIFace *Self, struct Window * window, struct retroVideo * video);
+	struct retroVideo * APICALL (*retroAllocVideo)(struct RetroModeIFace *Self, int width, int height);
 	void APICALL (*retroFreeVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*retroFreeEngine)(struct RetroModeIFace *Self, struct retroEngine * engine);
 	void APICALL (*retroClearVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*retroDrawVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
-	void APICALL (*retroDmaVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*retroDmaVideo)(struct RetroModeIFace *Self, struct retroVideo * video, struct retroEngine * engine);
 	struct retroScreen * APICALL (*retroOpenScreen)(struct RetroModeIFace *Self, int width, int height, int videomode);
 	void APICALL (*retroCloseScreen)(struct RetroModeIFace *Self, struct retroScreen ** screen);
 	void APICALL (*retroApplyScreen)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroVideo * video, int scanlinex, int scanliney, int displayWidth, int displayHeight);

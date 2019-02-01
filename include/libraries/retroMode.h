@@ -70,22 +70,32 @@ struct retroShiftColors
 	unsigned char flags;
 };
 
+struct retroEngine
+{
+	struct RastPort rp;
+	struct Window *window;
+	unsigned int width;
+	unsigned int height;
+};
+
 struct retroVideo
 {
 	struct retroScreen *attachedScreens[256];
 	struct retroScreen **attachedScreens_end;
+
 	int screensAttached;
+
 	struct retroRainbow	rainbow[3];
-	struct Window *window;
 	struct retroScanline scanlines[480];
+
 	unsigned int *Memory;
 	unsigned int BytesPerRow;
 	unsigned int width;
 	unsigned int height;
-	struct RastPort rp;
-//	BOOL updateScreenList;
+
 	BOOL refreshAllScanlines;
 	BOOL refreshSomeScanlines;
+
 	// Sprites
 	struct retroSpriteObject *sprites;
 	struct retroSpriteObject *sprites_end;

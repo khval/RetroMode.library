@@ -8,11 +8,19 @@
 		<method name="Release" result="ULONG"/>
 		<method name="Expunge" result="void" status="unimplemented"/>
 		<method name="Clone" result="struct Interface *" status="unimplemented"/>
-		<method name="retroAllocVideo" result="struct retroVideo *">
+		<method name="retroAllocEngine" result="struct retroEngine *">
 			<arg name="window" type="struct Window *"/>
+			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="retroAllocVideo" result="struct retroVideo *">
+			<arg name="width" type="int"/>
+			<arg name="height" type="int"/>
 		</method>
 		<method name="retroFreeVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
+		</method>
+		<method name="retroFreeEngine" result="void">
+			<arg name="engine" type="struct retroEngine *"/>
 		</method>
 		<method name="retroClearVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
@@ -22,6 +30,7 @@
 		</method>
 		<method name="retroDmaVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
+			<arg name="engine" type="struct retroEngine *"/>
 		</method>
 		<method name="retroOpenScreen" result="struct retroScreen *">
 			<arg name="width" type="int"/>

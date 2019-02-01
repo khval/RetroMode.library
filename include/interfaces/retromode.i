@@ -14,8 +14,10 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_Release
 	    FPTR IRetroMode_Expunge
 	    FPTR IRetroMode_Clone
+	    FPTR IRetroMode_retroAllocEngine
 	    FPTR IRetroMode_retroAllocVideo
 	    FPTR IRetroMode_retroFreeVideo
+	    FPTR IRetroMode_retroFreeEngine
 	    FPTR IRetroMode_retroClearVideo
 	    FPTR IRetroMode_retroDrawVideo
 	    FPTR IRetroMode_retroDmaVideo

@@ -17,11 +17,13 @@
 
 extern ULONG                VARARGS68K _retromode_Obtain(struct RetroModeIFace *);
 extern ULONG                VARARGS68K _retromode_Release(struct RetroModeIFace *);
-extern struct retroVideo *  VARARGS68K _retromode_retroAllocVideo(struct RetroModeIFace *, struct Window * window);
+extern struct retroEngine * VARARGS68K _retromode_retroAllocEngine(struct RetroModeIFace *, struct Window * window, struct retroVideo * video);
+extern struct retroVideo *  VARARGS68K _retromode_retroAllocVideo(struct RetroModeIFace *, int width, int height);
 extern void                 VARARGS68K _retromode_retroFreeVideo(struct RetroModeIFace *, struct retroVideo * video);
+extern void                 VARARGS68K _retromode_retroFreeEngine(struct RetroModeIFace *, struct retroEngine * engine);
 extern void                 VARARGS68K _retromode_retroClearVideo(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_retroDrawVideo(struct RetroModeIFace *, struct retroVideo * video);
-extern void                 VARARGS68K _retromode_retroDmaVideo(struct RetroModeIFace *, struct retroVideo * video);
+extern void                 VARARGS68K _retromode_retroDmaVideo(struct RetroModeIFace *, struct retroVideo * video, struct retroEngine * engine);
 extern struct retroScreen * VARARGS68K _retromode_retroOpenScreen(struct RetroModeIFace *, int width, int height, int videomode);
 extern void                 VARARGS68K _retromode_retroCloseScreen(struct RetroModeIFace *, struct retroScreen ** screen);
 extern void                 VARARGS68K _retromode_retroApplyScreen(struct RetroModeIFace *, struct retroScreen * screen, struct retroVideo * video, int scanlinex, int scanliney, int displayWidth, int displayHeight);
