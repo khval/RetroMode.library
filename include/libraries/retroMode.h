@@ -175,8 +175,11 @@ struct retroScreen
 	struct retroTextWindow **textWindows;
 	int allocatedTextWindows;
 
-	int pen;
-	int paper;
+	unsigned int pen;
+	unsigned int paper;
+	unsigned int ink0;
+	unsigned int ink1;
+	unsigned int ink2;
 
 	BOOL coopered_last;
 	unsigned int flags;
