@@ -128,6 +128,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 				source_row_end += frame -> bytesPerRow;
 			}
 			break;
+
 		case 0x4000:
 
 			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * (y + height - 1)) + x;
@@ -147,6 +148,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 				source_row_end += frame -> bytesPerRow;
 			}
 			break;
+
 		case 0x8000:
 			for ( ypos = 0; ypos < height; ypos++ )
 			{
@@ -163,6 +165,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 				source_row_end += frame -> bytesPerRow;
 			}
 			break;
+
 		case 0xC000:
 
 			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * (y + height - 1)) + x;
