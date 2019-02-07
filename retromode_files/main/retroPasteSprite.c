@@ -76,10 +76,24 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	unsigned char *source_row_ptr;
 	unsigned char *source_row_end ;
 
-	if (image > sprite -> number_of_frames) image = sprite -> number_of_frames;
-	if (image < 0) image = 0;
+	if ( ! sprite -> frames ) 
+	{
+		libBase -> IDOS -> Printf("Sprite has no frames!\n");
+		return;
+	}
+
+	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
+
+	if (image > sprite -> number_of_frames) return;
+	if (image < 0) return;
 
 	struct retroFrameHeader *frame = sprite -> frames + image;
+
+	if ( ! frame -> data)
+	{
+		libBase -> IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
+		return;
+	}
 
 	width = frame -> Width;
 	height = frame -> Height;
