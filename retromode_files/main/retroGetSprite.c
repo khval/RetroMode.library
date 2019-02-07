@@ -76,80 +76,107 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroFrameHeader *frame;
-	int ypos;
-	int destination_x0 = 0,destination_y0 = 0;
-	unsigned char *source_row_ptr;
-	unsigned char *source_row_start;
-	unsigned char *destination_row_start;
-	unsigned char *destination_row_ptr;
-	unsigned char *destination_row_end ;
 	unsigned int sizeOfChunky;
 
-	if (image < 0) image = 0;
+	if (sprite == NULL) return;
+	if (image < 0) return;
 
-	if (image >= sprite -> number_of_frames)
+	if ( (image+1) > sprite -> number_of_frames)
 	{
-		int n;
-		struct retroFrameHeader *new_frames;
-		int old_frames = sprite->number_of_frames;
+		struct retroFrameHeader *new_frames = NULL;
+		int old_frames_count = sprite->number_of_frames;
 		int new_frames_count  = image+1;
 
-		new_frames = libBase -> IExec -> AllocVecTags(  
-							sizeof(struct retroFrameHeader) *  new_frames_count,
+		libBase -> IDOS -> Printf("old frames %ld, new frames %ld\n",old_frames_count, new_frames_count);
+
+		new_frames = libBase -> IExec -> AllocVecTags(  sizeof(struct retroFrameHeader) *  new_frames_count,
 							AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 		if (new_frames)
 		{
-			memcpy( new_frames, sprite -> frames, sizeof(struct retroFrameHeader) *  old_frames );
+			memcpy( new_frames, sprite -> frames, sizeof(struct retroFrameHeader) *  old_frames_count );
 			libBase -> IExec -> FreeVec( sprite -> frames );
 			sprite -> frames = new_frames;
 			sprite -> number_of_frames = new_frames_count;
 		}
+		else	return;
 	}
 
-	frame = sprite -> frames + image;
-
-	frame -> XHotSpot = 0;
-	frame -> YHotSpot = 0;	
-	frame -> Width  = x1-x0+1;
-	frame -> Height = y1-y0+1;
-	frame -> bytesPerRow  = frame -> Width;
-
-	sizeOfChunky = frame -> bytesPerRow  * frame -> Height;
-	if ( frame -> data ) libBase -> IExec -> FreeVec( (void *) frame -> data );
-	frame -> data = (char *) libBase -> IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
-
+	if (sprite -> frames)
 	{
-		int width = frame -> Width;
-		int height = frame -> Height;
+		libBase -> IDOS -> Printf("sprite has frames\n");
 
-		if (y0+height>screen->realHeight) height = screen->realHeight - y0;
-		if (x0+width>screen->realWidth) width = screen->realWidth - x0;
+		frame = sprite -> frames + image;
+		frame -> XHotSpot = 0;
+		frame -> YHotSpot = 0;	
+		frame -> Width  = x1-x0+1;
+		frame -> Height = y1-y0+1;
+		frame -> bytesPerRow  = frame -> Width;
 
-		if (y0<0) { destination_y0 = -y0; y0 = 0; height -= destination_y0;  }
-		if (x0<0) { destination_x0 = -x0; x0 = 0; width -= destination_x0; }
+		libBase -> IDOS -> Printf("Width %ld, Height %ld\n", frame -> Width, frame -> Height);
 
-		source_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * y0) + x0;
+		sizeOfChunky = frame -> bytesPerRow  * frame -> Height;
 
-		if (frame -> data)
+		if ( frame -> data ) 
 		{
-			destination_row_start = (unsigned char *) frame -> data + (destination_y0 * frame -> bytesPerRow );
-			destination_row_end = destination_row_start + width;
+			libBase -> IDOS -> Printf("old data freed\n");
 
-			for ( ypos = 0; ypos < height; ypos++ )
+			libBase -> IExec -> FreeVec( (void *) frame -> data );
+			frame -> data = NULL;
+		}
+
+		frame -> data = (char *) libBase -> IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+
+		if ( ! frame -> data )
+		{
+			libBase -> IDOS -> Printf("retroGetSprite - failed to alloc frame data, size %ld, width %ld, height %ld\n", sizeOfChunky, frame -> Width, frame -> Height);
+			return;
+		}
+		else
+		{
+
+			unsigned char *source_row_ptr;
+			unsigned char *source_row_start;
+			unsigned char *destination_row_start;
+			unsigned char *destination_row_ptr;
+			unsigned char *destination_row_end ;
+			int destination_x0 = 0;
+			int destination_y0 = 0;
+			int width = frame -> Width;
+			int height = frame -> Height;
+			int ypos;
+
+			if (y0+height>screen->realHeight) height = screen->realHeight - y0;
+			if (x0+width>screen->realWidth) width = screen->realWidth - x0;
+
+			if (y0<0) { destination_y0 = -y0; y0 = 0; height -= destination_y0;  }
+			if (x0<0) { destination_x0 = -x0; x0 = 0; width -= destination_x0; }
+
+			source_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * y0) + x0;
+
+			if ( (destination_x0 < frame -> Width) && (destination_y0 < frame -> Height))
 			{
-				source_row_ptr = source_row_start;
+				destination_row_start = (unsigned char *) frame -> data + destination_x0 + (destination_y0 * frame -> bytesPerRow );
+				destination_row_end = destination_row_start + width;
 
-				for ( destination_row_ptr = destination_row_start;  destination_row_ptr < destination_row_end ; destination_row_ptr++ )
+				for ( ypos = 0; ypos < height; ypos++ )
 				{
-					*destination_row_ptr= *source_row_ptr;
-					source_row_ptr++;
-				}
+					source_row_ptr = source_row_start;
 
-				source_row_start += screen -> realWidth;
-				destination_row_start += frame -> bytesPerRow;
-				destination_row_end += frame -> bytesPerRow;
+					for ( destination_row_ptr = destination_row_start;  destination_row_ptr < destination_row_end ; destination_row_ptr++ )
+					{
+		//				*source_row_ptr = 0x02;
+						*destination_row_ptr= *source_row_ptr;
+						source_row_ptr++;
+					}
+
+					source_row_start += screen -> realWidth;
+					destination_row_start += frame -> bytesPerRow;
+					destination_row_end += frame -> bytesPerRow;
+				}
 			}
+
+
 		}
 	}
 }
