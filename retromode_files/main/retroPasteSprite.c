@@ -82,7 +82,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		return;
 	}
 
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
+//	libBase -> IDOS -> Printf("%s:%ld image %ld, frames %ld\n",__FUNCTION__,__LINE__,image,sprite -> number_of_frames);
 
 	if (image > sprite -> number_of_frames) return;
 	if (image < 0) return;
@@ -119,9 +119,11 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		 source_x0 = -x; x = 0; width -= source_x0;
 	}
 
-	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * y) + x;
+	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
 	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow ) + source_x0;
 	source_row_end = source_row_start + width;
+
+//	libBase -> IDOS -> Printf("%s:%ld - %ld, %ld, %ld\n",__FUNCTION__,__LINE__,x,y, image);
 
 	switch (flags)
 	{
