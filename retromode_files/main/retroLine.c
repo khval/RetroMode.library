@@ -59,6 +59,18 @@
 *
 */
 
+
+//	memory = screen -> Memory[ screen -> double_buffer_draw_frame ] +  x1;
+
+static void plot(unsigned char *memory, int x, int y, int w, int h, int bpr, char c )
+{
+	if ((x>-1)&&(x<w)&&(y>-1)&&(y<h))
+	{
+		memory[ y*bpr + x ] = c;
+	}
+
+}
+
 void _retromode_retroLine(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        int x1,
@@ -67,75 +79,52 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
        int y2,
        unsigned char color)
 {
+	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	unsigned char *memory;
-	double dx,dy;
-	double a;
-	double y,_y2;
-	int bytesPerRow = screen -> bytesPerRow;
-	int height = screen -> realHeight;
-	int _x;
-	int xx;
-	double _y;
-	int dirx;
-	int sdx;	// signed delta x
+	int x,y;
+	int dx, dy;
+	int adx,ady;
+	int aa,p;
+	int w,h,bpr;
 
-//	libBase -> IDOS -> Printf("line %ld,%ld to %ld,%ld\n", (int) x1, (int) y1, (int) x2, (int) y2 );
+	memory = screen -> Memory[ screen -> double_buffer_draw_frame ];
+	w = screen -> realWidth;
+	h = screen -> realHeight;
+	bpr = screen -> bytesPerRow;
 
-	if (x2>x1)
+	libBase -> IDOS -> Printf("line %ld,%ld to %ld,%ld\n", (int) x1, (int) y1, (int) x2, (int) y2 );
+
+	dx = x2-x1;	 dy = y2-y1;
+	if (dx<0) { adx=-dx; aa=-1; } else { adx=dx; aa=1; }
+	if (dy<0) { ady=-dy; aa=-1; } else { ady=dy; aa=1; }
+
+	if (adx>ady)
 	{
-		dx = (double) x2 - (double) x1 + 1.0f;
-		dy = (double) y2 - (double) y1 ;
-		sdx = dx;
-		dirx = 1;
-	}
-	else
-	{
-		dx = (double) x1 - (double) x2 + 1.0f;
-		dy = (double) y2 - (double) y1 ;
-		sdx = - dx;
-		dirx = -1;
-	}
+		libBase -> IDOS -> Printf("do DX\n" );
 
-	a = (dx == 0) ? 0 : dy / dx;
-
-	memory = screen -> Memory[ screen -> double_buffer_draw_frame ] +  x1;
-
-	y = (double) y1;
-
-	if (y1>y2)
-	{
-		xx  = x1;
-		for (_x=0;_x<dx;_x++)
+		x=x1;
+		y=y1;
+		for (p=0;p<=adx;p++)
 		{
-			_y2 = y + a;
+			y=p*dy/adx;
+			x=p*dx/adx;
 
-			if ((xx>-1)&&(xx<screen->realWidth))
-			{
-				for (_y = y; _y>=_y2;_y--)
-					if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
-			}
-
-			memory+=dirx;
-			xx+=dirx;
-			y+=a;
+			plot(memory, x+x1, y+y1, w, h, bpr, color );
 		}
 	}
 	else
 	{
-		xx = x1;
-		for (_x=0;_x<dx;_x++)
+		libBase -> IDOS -> Printf("do DY\n" );
+
+		x=x1;
+		y=y1;
+		for (p=0;p<=ady;p++)
 		{
-			_y2 = y + a;
+			x=p*dx/ady;
+			y=p*dy/ady;
+			plot(memory, x+x1, y+y1, w, h, bpr, color );
+			// next
 
-			if ((xx>-1)&&(xx<screen->realWidth))
-			{
-				for (_y = y; _y<=_y2;_y++)
-					if ((_y>0)&&(_y<height)) memory[ bytesPerRow * (int) _y ] = color;
-			}
-
-			memory+=dirx;
-			xx+=dirx;
-			y+=a;
 		}
 	}
 }
