@@ -84,6 +84,7 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		screen -> currentTextWindow = NULL;
 		screen -> textWindows = NULL;
 		screen -> allocatedTextWindows = 0;
+		screen -> double_buffer_draw_frame = 0;
 
 		screen -> Memory[0] = (unsigned char *) libBase -> IExec -> AllocVecTags(  
 								screen -> bytesPerRow * (screen -> realHeight+1) ,
