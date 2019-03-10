@@ -92,16 +92,12 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 	h = screen -> realHeight;
 	bpr = screen -> bytesPerRow;
 
-	libBase -> IDOS -> Printf("line %ld,%ld to %ld,%ld\n", (int) x1, (int) y1, (int) x2, (int) y2 );
-
 	dx = x2-x1;	 dy = y2-y1;
 	if (dx<0) { adx=-dx; aa=-1; } else { adx=dx; aa=1; }
 	if (dy<0) { ady=-dy; aa=-1; } else { ady=dy; aa=1; }
 
 	if (adx>ady)
 	{
-		libBase -> IDOS -> Printf("do DX\n" );
-
 		x=x1;
 		y=y1;
 		for (p=0;p<=adx;p++)
@@ -114,8 +110,6 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 	}
 	else
 	{
-		libBase -> IDOS -> Printf("do DY\n" );
-
 		x=x1;
 		y=y1;
 		for (p=0;p<=ady;p++)
@@ -124,7 +118,6 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 			y=p*dy/ady;
 			plot(memory, x+x1, y+y1, w, h, bpr, color );
 			// next
-
 		}
 	}
 }

@@ -175,8 +175,6 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 					destination_row_end += frame -> bytesPerRow;
 				}
 			}
-
-
 		}
 	}
 }

@@ -60,8 +60,6 @@ void _retromode_retroDmaVideo(struct RetroModeIFace *Self,
 
 	if (video->Memory)
 	{
-		libBase -> IDOS -> Printf("DMA Success\n");
-
 		// move gfx from system mem to video mem.
 		libBase -> IGraphics -> WritePixelArray( (uint8 * ) video->Memory, 0, 0, video->BytesPerRow, PIXF_A8R8G8B8, 
 			&Engine->rp, 0,0, video->width,video->height);

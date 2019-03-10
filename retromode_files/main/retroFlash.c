@@ -163,11 +163,6 @@ void _retromode_retroFlash(struct RetroModeIFace *Self,
 			ptr -> rgb.g =	hex_to_int(sptr, &sptr) ;
 			ptr -> rgb.b =	hex_to_int(sptr, &sptr) ;
 
-			libBase -> IDOS -> Printf("RGB %lx,%lx,%lx\n", 
-					(int) ptr->rgb.r,
-					(int) ptr->rgb.g,
-					(int) ptr->rgb.b);
-
 			sptr = next_char( sptr, ',' );
 			ptr -> delay = get_int(sptr,&sptr);
 		}
