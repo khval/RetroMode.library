@@ -92,7 +92,7 @@ void _retromode_retroScreenBlit(struct RetroModeIFace *Self,
 	switch (formMode)
 	{
 		case 1:	// physical
-				source_double_buffer_draw_frame = (source ->Memory[1]) ? 1-source -> double_buffer_draw_frame : source -> double_buffer_draw_frame;
+				source_double_buffer_draw_frame = (source ->Memory[1]) ? 1-source -> double_buffer_draw_frame : 0;
 				break;
 
 		default:	// Logical
@@ -103,7 +103,7 @@ void _retromode_retroScreenBlit(struct RetroModeIFace *Self,
 	switch (toMode)
 	{
 		case 1:	 // physical
-				destination_double_buffer_draw_frame = (destination ->Memory[1]) ? 1-destination -> double_buffer_draw_frame : destination -> double_buffer_draw_frame;
+				destination_double_buffer_draw_frame = (destination ->Memory[1]) ? 1-destination -> double_buffer_draw_frame : 0;
 				break;
 
 		default:	// Logical
