@@ -194,6 +194,80 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 	}
 }
 
+void draw_lowred_ham6(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+{
+	int x;
+	int display_frame = 0;
+	unsigned short lr,lg,lb;
+	unsigned short r,g,b;
+	unsigned int *video_buffer_line = video_buffer;
+	struct retroScreen *screen = line -> screen;
+	struct retroRGB *palette = line -> rowPalette;
+	unsigned char *data ;
+	unsigned char color;
+	int videoWidth;
+	int draw_pixels;
+
+	// check if screen is double buffer screen
+	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
+	data = line -> data[ display_frame  ] ;
+
+	lr = 0;
+	lg = 0;
+	lb = 0;
+
+	// beam emulates 8 bits per chunk.
+
+	if (line -> beamStart > 0)
+	{
+		// move des on postive
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
+	}
+	else
+	{
+		// move src on nagative
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  line -> videoWidth / 2;	// displayable video width;
+	}
+
+	draw_pixels = line -> pixels - abs(line -> beamStart);
+
+	// lowres has only half the number of pixels.
+
+	if ( draw_pixels > videoWidth ) draw_pixels = videoWidth ;
+
+	r=0;
+	g=0;
+	b=0;
+
+	for (x=0; x < draw_pixels; x++)
+	{
+		color = *data++;
+
+		switch (color & 0x30)
+		{
+			case 0x00:
+					r = palette[color].r;
+					g = palette[color].g;
+					b = palette[color].b;
+					break;
+			case 0x10:
+					b = (color & 0xF) * 0x11;
+					break;
+			case 0x20:
+					r = (color & 0xF) * 0x11;
+					break;
+			case 0x30:
+					g = (color & 0xF) * 0x11;
+					break;
+		}
+
+		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
+		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
+	}
+}
+
 void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
@@ -353,9 +427,32 @@ void set_scanline(struct retroScanline *scanline,struct retroScreen * screen, st
 	scanline -> rowPalette = screen -> rowPalette;
 	scanline -> orgPalette = screen -> orgPalette;
 
-	if (videomode & retroLowres ) scanline -> mode = draw_lowred_emulate_color_changes;
-	if (videomode & retroLowres_pixeld ) scanline -> mode = draw_lowred_pixeled_color;
-	if (videomode & retroHires ) scanline -> mode = draw_hires;
+	switch (videomode) 
+	{
+		case retroLowres:
+				scanline -> mode = draw_lowred_emulate_color_changes;
+				break;
+
+		case retroLowres|retroHam6:
+				scanline -> mode = draw_lowred_ham6;
+				break;
+
+		case retroLowres_pixeld:
+				scanline -> mode = draw_lowred_pixeled_color;
+				break;
+
+		case retroLowres_pixeld|retroHam6:
+				scanline -> mode = draw_lowred_ham6;
+				break;
+
+		case retroHires:
+				scanline -> mode = draw_hires;
+				break;
+
+		case retroHires|retroHam6:
+				scanline -> mode = draw_hires;
+				break;
+	}
 }
 
 #define is_displayed 0
