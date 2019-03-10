@@ -23,6 +23,7 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
+#include <libBase.h>
 
 /****** retromode/main/retroScreenBlit ******************************************
 *
