@@ -94,6 +94,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroLoadSprite,
     _retromode_retroGetSprite,
     _retromode_retroFreeSpriteObject,
+    _retromode_retroScreenToBitmap,
     (APTR)-1
 };
 

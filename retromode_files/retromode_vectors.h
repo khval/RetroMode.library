@@ -102,3 +102,4 @@ extern void                 VARARGS68K _retromode_retroAllocDoubleBuffer(struct 
 extern struct retroSprite * VARARGS68K _retromode_retroLoadSprite(struct RetroModeIFace *, void * fd, cust_fread_t cust_fread);
 extern void                 VARARGS68K _retromode_retroGetSprite(struct RetroModeIFace *, struct retroScreen * screen, struct retroSprite * sprite, int image, int x0, int y0, int x1, int y1);
 extern void                 VARARGS68K _retromode_retroFreeSpriteObject(struct RetroModeIFace *, struct retroSpriteObject * spriteObject, BOOL onlyData);
+extern void                 VARARGS68K _retromode_retroScreenToBitmap(struct RetroModeIFace *, struct retroScreen * screen, int fromX, int fromY, int width, int height, struct BitMap * bitmap, int toX, int toY);

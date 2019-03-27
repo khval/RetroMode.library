@@ -120,6 +120,7 @@ struct RetroModeIFace
 	struct retroSprite * APICALL (*retroLoadSprite)(struct RetroModeIFace *Self, void * fd, cust_fread_t cust_fread);
 	void APICALL (*retroGetSprite)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroSprite * sprite, int image, int x0, int y0, int x1, int y1);
 	void APICALL (*retroFreeSpriteObject)(struct RetroModeIFace *Self, struct retroSpriteObject * spriteObject, BOOL onlyData);
+	void APICALL (*retroScreenToBitmap)(struct RetroModeIFace *Self, struct retroScreen * screen, int fromX, int fromY, int width, int height, struct BitMap * bitmap, int toX, int toY);
 };
 
 #ifdef __cplusplus

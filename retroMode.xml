@@ -577,6 +577,16 @@
 			<arg name="spriteObject" type="struct retroSpriteObject *"/>
 			<arg name="onlyData" type="BOOL"/>
 		</method>
+		<method name="retroScreenToBitmap" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="fromX" type="int"/>
+			<arg name="fromY" type="int"/>
+			<arg name="width" type="int"/>
+			<arg name="height" type="int"/>
+			<arg name="bitmap" type="struct BitMap *"/>
+			<arg name="toX" type="int"/>
+			<arg name="toY" type="int"/>
+		</method>
 	</interface>
 </library>
 

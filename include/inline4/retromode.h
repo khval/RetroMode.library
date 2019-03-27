@@ -119,5 +119,6 @@
 #define retroLoadSprite(fd, cust_fread) IRetroMode->retroLoadSprite((fd), (cust_fread)) 
 #define retroGetSprite(screen, sprite, image, x0, y0, x1, y1) IRetroMode->retroGetSprite((screen), (sprite), (image), (x0), (y0), (x1), (y1)) 
 #define retroFreeSpriteObject(spriteObject, onlyData) IRetroMode->retroFreeSpriteObject((spriteObject), (onlyData)) 
+#define retroScreenToBitmap(screen, fromX, fromY, width, height, bitmap, toX, toY) IRetroMode->retroScreenToBitmap((screen), (fromX), (fromY), (width), (height), (bitmap), (toX), (toY)) 
 
 #endif /* INLINE4_RETROMODE_H */
