@@ -412,14 +412,14 @@ void set_scanline(struct retroScanline *scanline,struct retroScreen * screen, st
 	scanline -> screen = screen;
 	scanline -> pixels = screen -> displayWidth;
 
-	scanline -> data[0] = screen -> Memory[0] + offset;
-
 	if (screen -> Memory[1])
 	{
+		scanline -> data[0] = screen -> Memory[0] + offset;
 		scanline -> data[1] = screen -> Memory[1] + offset;
 	}
 	else
 	{
+		scanline -> data[0] = screen -> Memory[0] + offset;
 		scanline -> data[1] = NULL;
 	}
 

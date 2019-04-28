@@ -54,32 +54,53 @@
 void _retromode_AfterEffectScanline(struct RetroModeIFace *Self,
        struct retroVideo * video)
 {
-			int scanline=0;
+	int ybeam=0;
+	int display_frame = 0;
 	int x;
 	unsigned int *src_mem = video -> Memory;
 	unsigned int *des_ptr;
 	unsigned int *src_ptr;
 	int intsPerRow = video -> BytesPerRow / 4;
-
+	struct retroScanline *scanlineLast;
+	struct retroScanline *scanline;
+//	BOOL copied ;
 
 	src_mem += intsPerRow;	// next line
 
-	for ( scanline = 1 ; scanline < video->height ; scanline++ )
+	for ( ybeam = 1 ; ybeam < video->height ; ybeam++ )
 	{
-		if (video -> scanlines[scanline].data == NULL)
-		{
-			if ( video -> scanlines[scanline-1].data)	// if pre line has some data.
-			{
-				src_ptr = src_mem- intsPerRow;
-				des_ptr = src_mem ;
+		scanlineLast = &video -> scanlines[ybeam-1];
+		scanline = &video -> scanlines[ybeam];
 
-				for (x=0;x<video->width;x++)
+//		copied = FALSE;
+		if (scanlineLast -> screen)
+		{
+			if (scanline -> data[0] == NULL)
+			{
+				if (scanlineLast -> screen -> Memory[1]) 
 				{
-					*des_ptr++=*src_ptr++;
-//					*des_ptr++=(((*src_ptr++) & 0xFCFCFC) >> 1) | 0xFF000000;
+					display_frame = 1 - scanlineLast -> screen -> double_buffer_draw_frame;
+				}
+				else display_frame = 0;
+
+				if ( scanlineLast -> data[ display_frame ] )		// if pre line has some data.
+				{
+					src_ptr = src_mem- intsPerRow;
+					des_ptr = src_mem ;
+
+					for (x=0;x<video->width;x++)
+					{
+						*des_ptr++= *src_ptr++ | 0xFF110011;
+
+//						*des_ptr++=*src_ptr++;
+//						*des_ptr++=(((*src_ptr++) & 0xFCFCFC) >> 1) | 0xFF000000;
+					}
+
 				}
 			}
 		}
+
+
 		src_mem += intsPerRow;	// next line
 	}
 }
