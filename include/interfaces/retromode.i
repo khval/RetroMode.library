@@ -100,6 +100,9 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroGetSprite
 	    FPTR IRetroMode_retroFreeSpriteObject
 	    FPTR IRetroMode_retroScreenToBitmap
+	    FPTR IRetroMode_retroAllocBlock
+	    FPTR IRetroMode_retroFreeBlock
+	    FPTR IRetroMode_retroGetBlock
 	LABEL RetroModeIFace_SIZE
 
 #endif

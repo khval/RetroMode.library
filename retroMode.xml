@@ -587,6 +587,19 @@
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
 		</method>
+		<method name="retroAllocBlock" result="struct retroBlock *">
+			<arg name="width" type="int"/>
+			<arg name="height" type="int"/>
+		</method>
+		<method name="retroFreeBlock" result="void">
+			<arg name="block" type="struct retroBlock *"/>
+		</method>
+		<method name="retroGetBlock" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="block" type="struct retroBlock *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+		</method>
 	</interface>
 </library>
 

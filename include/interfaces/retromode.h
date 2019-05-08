@@ -121,6 +121,9 @@ struct RetroModeIFace
 	void APICALL (*retroGetSprite)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroSprite * sprite, int image, int x0, int y0, int x1, int y1);
 	void APICALL (*retroFreeSpriteObject)(struct RetroModeIFace *Self, struct retroSpriteObject * spriteObject, BOOL onlyData);
 	void APICALL (*retroScreenToBitmap)(struct RetroModeIFace *Self, struct retroScreen * screen, int fromX, int fromY, int width, int height, struct BitMap * bitmap, int toX, int toY);
+	struct retroBlock * APICALL (*retroAllocBlock)(struct RetroModeIFace *Self, int width, int height);
+	void APICALL (*retroFreeBlock)(struct RetroModeIFace *Self, struct retroBlock * block);
+	void APICALL (*retroGetBlock)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroBlock * block, int x, int y);
 };
 
 #ifdef __cplusplus

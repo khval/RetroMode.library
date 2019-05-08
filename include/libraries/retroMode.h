@@ -102,6 +102,17 @@ struct retroVideo
 	int spriteObjectsAllocated;
 };
 
+struct retroBlock
+{
+	int id; 
+	int x;
+	int y;
+	int w;
+	int h;
+	int mask;
+	unsigned char *mem;
+};
+
 struct retroMemFd
 {
 	char *mem;

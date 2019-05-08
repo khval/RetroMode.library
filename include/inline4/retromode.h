@@ -120,5 +120,8 @@
 #define retroGetSprite(screen, sprite, image, x0, y0, x1, y1) IRetroMode->retroGetSprite((screen), (sprite), (image), (x0), (y0), (x1), (y1)) 
 #define retroFreeSpriteObject(spriteObject, onlyData) IRetroMode->retroFreeSpriteObject((spriteObject), (onlyData)) 
 #define retroScreenToBitmap(screen, fromX, fromY, width, height, bitmap, toX, toY) IRetroMode->retroScreenToBitmap((screen), (fromX), (fromY), (width), (height), (bitmap), (toX), (toY)) 
+#define retroAllocBlock(width, height) IRetroMode->retroAllocBlock((width), (height)) 
+#define retroFreeBlock(block) IRetroMode->retroFreeBlock((block)) 
+#define retroGetBlock(screen, block, x, y) IRetroMode->retroGetBlock((screen), (block), (x), (y)) 
 
 #endif /* INLINE4_RETROMODE_H */
