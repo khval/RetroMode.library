@@ -59,58 +59,53 @@
 
 void _retromode_retroBox(struct RetroModeIFace *Self,
        struct retroScreen * screen,
+       int x0,
+       int y0,
        int x1,
        int y1,
-       int x2,
-       int y2,
        unsigned char color)
 {
-	int ox1 = x1;
-	int oy1 = y1;
-	int ox2 = x2;
-	int oy2 = y2;
 	int x,y;
 	unsigned char *sc_memory = screen -> Memory[screen -> double_buffer_draw_frame];
 	unsigned char *memory;
+	int hx0, hx1;
+	int vy0, vy1;
 
-	if (x1<0) x1 = 0;
-	if (x1>screen->realWidth-1) x1 = screen -> realWidth-1;
+	if (x0<x1)	{ hx0 = x0; hx1 = x1; } else { hx0 = x1; hx1 = x0; }
+	if (y0<y1) { vy0 = y0; vy1 = y1; } else { vy0 = y1; vy1 = y0; }
 
-	if (x2<0) x2 = 0;
-	if (x2>screen->realWidth-1) x2 = screen -> realWidth-1;
+	if (hx0<screen -> clip_x0) hx0=screen -> clip_x0;
+	if (hx1>screen -> clip_x1) hx1=screen -> clip_x1;
 
-	if (y1<0) y1 = 0;
-	if (y1>screen->realHeight-1) y1 = screen -> realHeight-1;
-
-	if (y2<0) y2 =0;
-	if (y2>screen->realHeight-1) y2 = screen -> realHeight-1;
+	if (vy0<screen -> clip_y0) vy0=screen -> clip_y0;
+	if (vy1>screen -> clip_y1) vy1=screen -> clip_y1;
 
 	// draw top 
-	if ((oy1>-1) && (oy1<screen->realHeight))
+	if ((y0>=screen -> clip_y0) && (y0<=screen->clip_y1))
 	{
-		memory = sc_memory + (screen -> realWidth * y1) + x1;
-		for ( x=x1; x<=x2; x++) { *memory++ = color; }
-	}
-
-	// draw vertical left
-	if ((ox1>-1)&&(ox1<screen->realWidth))
-	{
-		memory = sc_memory + (screen -> realWidth * y1) + x1;
-		for ( y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
+		memory = sc_memory + (screen -> realWidth * y0) + hx0;
+		for ( x=hx0; x<=hx1; x++) { *memory++ = color; }
 	}
 
 	// draw bottom
-	if ((oy2>-1) && (oy2<screen->realHeight))
+	if ((y1>=screen -> clip_y0) && (y1<=screen->clip_y1))
 	{
-		memory = sc_memory + (screen -> realWidth * y2) + x1;
-		for ( x=x1; x<=x2; x++) { *memory++ = color; }
+		memory = sc_memory + (screen -> realWidth * y1) + hx0;
+		for ( x=hx0; x<=hx1; x++) { *memory++ = color; }
+	}
+
+	// draw vertical left
+	if ((x0>=screen->clip_x0)&&(x0<=screen->clip_x1))
+	{
+		memory = sc_memory + (screen -> realWidth * vy0) + x0;
+		for ( y=vy0; y<=vy1; y++) { *memory = color; memory += screen->realWidth; }
 	}
 
 	// draw vertical right	
-	if ((ox2>-1)&&(ox2<screen->realWidth))
+	if ((x1>=screen->clip_x0)&&(x1<=screen->clip_x1))
 	{
-		memory = sc_memory + (screen -> realWidth * y1) + x2;
-		for ( y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
+		memory = sc_memory + (screen -> realWidth * vy0) + x1;
+		for ( y=vy0; y<=vy1; y++) { *memory = color; memory += screen->realWidth; }
 	}
 }
 
