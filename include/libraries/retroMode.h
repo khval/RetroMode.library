@@ -159,6 +159,11 @@ struct retroScreen
 	int displayWidth;
 	int displayHeight;
 
+	int clip_x0;
+	int clip_y0;
+	int clip_x1;
+	int clip_y1;
+
 	unsigned int videomode;
 	unsigned char *Memory[2];
 
