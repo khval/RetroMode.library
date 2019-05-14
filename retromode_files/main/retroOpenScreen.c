@@ -77,6 +77,12 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		screen -> cloneOfScreen = NULL;
 		screen -> realWidth = width;
 		screen -> realHeight = height;
+
+		screen -> clip_x0 = 0;
+		screen -> clip_y0 = 0;
+		screen -> clip_x1 = width-1;
+		screen -> clip_y1 = height-1;
+
 		screen -> videomode = videomode;
 		screen -> autoback = 2;
 		screen -> fade_speed = 0;
