@@ -59,17 +59,7 @@
 *
 */
 
-
-//	memory = screen -> Memory[ screen -> double_buffer_draw_frame ] +  x1;
-
-static void plot(unsigned char *memory, int x, int y, int w, int h, int bpr, char c )
-{
-	if ((x>-1)&&(x<w)&&(y>-1)&&(y<h))
-	{
-		memory[ y*bpr + x ] = c;
-	}
-
-}
+#define plot(memory,x,y,bpr,c) if (((x)>=cx0)&&((x)<=cx1)&&((y)>=cy0)&&((y)<=cy1)) memory[ (y)*bpr + (x) ] = c;
 
 void _retromode_retroLine(struct RetroModeIFace *Self,
        struct retroScreen * screen,
@@ -86,6 +76,10 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 	int adx,ady;
 	int aa,p;
 	int w,h,bpr;
+	int cx0 = screen -> clip_x0;
+	int cy0 = screen -> clip_y0;
+	int cx1 = screen -> clip_x1;
+	int cy1 = screen -> clip_y1;
 
 	memory = screen -> Memory[ screen -> double_buffer_draw_frame ];
 	w = screen -> realWidth;
@@ -105,7 +99,7 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 			y=p*dy/adx;
 			x=p*dx/adx;
 
-			plot(memory, x+x1, y+y1, w, h, bpr, color );
+			plot(memory, x+x1, y+y1, bpr, color );
 		}
 	}
 	else
@@ -116,7 +110,7 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 		{
 			x=p*dx/ady;
 			y=p*dy/ady;
-			plot(memory, x+x1, y+y1, w, h, bpr, color );
+			plot(memory, x+x1, y+y1, bpr, color );
 			// next
 		}
 	}
