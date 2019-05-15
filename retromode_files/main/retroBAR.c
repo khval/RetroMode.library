@@ -76,10 +76,10 @@ void _retromode_retroBAR(struct RetroModeIFace *Self,
 	unsigned char *ptr;
 	unsigned int bytesPerRow = screen -> realWidth;
 
-	if (x0<0) x0 = 0;
-	if (y0<0) y0 = 0;
-	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
-	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
+	if (x0<screen -> clip_x0) x0 = screen -> clip_x0;
+	if (y0<screen -> clip_y0) y0 = screen -> clip_y0;
+	if (x1>screen -> clip_x1) x1 = screen -> clip_x1;
+	if (y1>screen -> clip_y1) y1 = screen -> clip_y1;
 
 	memory = screen -> Memory[screen -> double_buffer_draw_frame] + ( screen -> realWidth * y0 );
 
