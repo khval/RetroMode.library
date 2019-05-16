@@ -106,3 +106,4 @@ extern void                 VARARGS68K _retromode_retroScreenToBitmap(struct Ret
 extern struct retroBlock *  VARARGS68K _retromode_retroAllocBlock(struct RetroModeIFace *, int width, int height);
 extern void                 VARARGS68K _retromode_retroFreeBlock(struct RetroModeIFace *, struct retroBlock * block);
 extern void                 VARARGS68K _retromode_retroGetBlock(struct RetroModeIFace *, struct retroScreen * screen, struct retroBlock * block, int x, int y);
+extern void                 VARARGS68K _retromode_retroPasteIcon(struct RetroModeIFace *, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);

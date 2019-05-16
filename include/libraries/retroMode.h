@@ -233,7 +233,7 @@ struct retroFrameHeader
 	unsigned short NumberOfPlanes;
 	short	XHotSpot;
 	short	YHotSpot;
-	short 	__alighnment__;			// stupid compiler :-(
+	short 	retroFlag;	
 	union					
 	{						
 		int bytesPerRow;		

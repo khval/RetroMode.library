@@ -1,9 +1,9 @@
 /* :ts=4
- *  $VER: retroPasteSprite.c $Revision$ (02-Nov-2017)
+ *  $VER: retroPasteIcon.c $Revision$ (16-May-2019)
  *
  *  This file is part of retromode.
  *
- *  Copyright (c) 2017 LiveForIt Software.
+ *  Copyright (c) 2019 LiveForIt Software.
  *  MIT License.
  *
  * $Id$
@@ -13,8 +13,7 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
+
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <dos/dos.h>
@@ -22,15 +21,15 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
-#include <libbase.h>
+#include "libBase.h"
 
-/****** retromode/main/retroPasteSprite ******************************************
+/****** retromode/main/retroPasteIcon ******************************************
 *
 *   NAME
-*      retroPasteSprite -- Description
+*      retroPasteIcon -- Description
 *
 *   SYNOPSIS
-*      struct retroSprite * retroPasteSprite(struct retroScreen * screen, 
+*      void retroPasteIcon(struct retroScreen * screen, 
 *          struct retroSprite * sprite, int x, int y, int image);
 *
 *   FUNCTION
@@ -43,7 +42,7 @@
 *       image - 
 *
 *   RESULT
-*       The result ...
+*       This function does not return a result
 *
 *   EXAMPLE
 *
@@ -57,13 +56,15 @@
 *
 */
 
-void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
-	struct retroScreen * screen,
-	struct retroSprite * sprite,
-	int x,
-	int y,
-	int image,
-	int flags)
+#define flag_solid 0
+#define flag_transparent 1
+
+void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
+       struct retroScreen * screen,
+       struct retroSprite * sprite,
+       int x,
+       int y,
+       int image)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int width;
@@ -121,9 +122,29 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow ) + source_x0;
 	source_row_end = source_row_start + width;
 
-	switch (flags)
+	switch (frame -> retroFlag)
 	{
-		case 0x0000:
+		case flag_solid:
+
+			for ( ypos = 0; ypos < height; ypos++ )
+			{
+				destination_row_ptr = destination_row_start;
+
+				// we can unroll this one and write 32bit, insted of 8bits. (OCS chipset has 8 pixel x planes)
+
+				for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
+				{
+					*destination_row_ptr= *source_row_ptr;
+					destination_row_ptr++;
+				}
+
+				destination_row_start += screen -> bytesPerRow;
+				source_row_start += frame -> bytesPerRow;
+				source_row_end += frame -> bytesPerRow;
+			}
+			break;
+
+		case flag_transparent:
 
 			for ( ypos = 0; ypos < height; ypos++ )
 			{
@@ -136,63 +157,6 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 				}
 
 				destination_row_start += screen -> bytesPerRow;
-				source_row_start += frame -> bytesPerRow;
-				source_row_end += frame -> bytesPerRow;
-			}
-			break;
-
-		case 0x4000:
-
-			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * (y + height - 1)) + x;
-
-			for ( ypos = 0; ypos < height; ypos++ )
-			{
-				destination_row_ptr = destination_row_start;
-
-				for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-				{
-					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-					destination_row_ptr++;
-				}
-
-				destination_row_start -= screen -> bytesPerRow;
-				source_row_start += frame -> bytesPerRow;
-				source_row_end += frame -> bytesPerRow;
-			}
-			break;
-
-		case 0x8000:
-			for ( ypos = 0; ypos < height; ypos++ )
-			{
-				destination_row_ptr = destination_row_start;
-
-				for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-				{
-					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-					destination_row_ptr++;
-				}
-
-				destination_row_start += screen -> bytesPerRow;
-				source_row_start += frame -> bytesPerRow;
-				source_row_end += frame -> bytesPerRow;
-			}
-			break;
-
-		case 0xC000:
-
-			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * (y + height - 1)) + x;
-
-			for ( ypos = 0; ypos < height; ypos++ )
-			{
-				destination_row_ptr = destination_row_start;
-
-				for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-				{
-					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-					destination_row_ptr++;
-				}
-
-				destination_row_start -= screen -> bytesPerRow;
 				source_row_start += frame -> bytesPerRow;
 				source_row_end += frame -> bytesPerRow;
 			}

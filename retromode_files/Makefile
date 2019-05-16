@@ -61,7 +61,8 @@ main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
     main/retroCycleOff.c main/retroFadeScreen.c main/retroCircle.c \
     main/retroAllocDoubleBuffer.c main/retroLoadSprite.c main/retroGetSprite.c \
     main/retroAllocEngine.c main/retroFreeEngine.c main/retroScreenToBitmap.c \
-    main/retroAllocBlock.c main/retroFreeBlock.c main/retroGetBlock.c
+    main/retroAllocBlock.c main/retroFreeBlock.c main/retroGetBlock.c \
+    main/retroPasteIcon.c 
 
 # this are never added by ideltool don't know way?
 main_SRCS +=  main/retroPolyLine.c main/retroPolyGon.c 
