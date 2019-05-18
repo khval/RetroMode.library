@@ -107,3 +107,4 @@ extern struct retroBlock *  VARARGS68K _retromode_retroAllocBlock(struct RetroMo
 extern void                 VARARGS68K _retromode_retroFreeBlock(struct RetroModeIFace *, struct retroBlock * block);
 extern void                 VARARGS68K _retromode_retroGetBlock(struct RetroModeIFace *, struct retroScreen * screen, struct retroBlock * block, int x, int y);
 extern void                 VARARGS68K _retromode_retroPasteIcon(struct RetroModeIFace *, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
+extern void                 VARARGS68K _retromode_retroBarPattern(struct RetroModeIFace *, struct retroScreen * screen, int x0, int y0, int x1, int y1, struct retroSprite * sprite, int image, unsigned char ink0, unsigned char ink1);

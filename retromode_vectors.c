@@ -99,6 +99,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroFreeBlock,
     _retromode_retroGetBlock,
     _retromode_retroPasteIcon,
+    _retromode_retroBarPattern,
     (APTR)-1
 };
 

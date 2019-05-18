@@ -125,6 +125,7 @@ struct RetroModeIFace
 	void APICALL (*retroFreeBlock)(struct RetroModeIFace *Self, struct retroBlock * block);
 	void APICALL (*retroGetBlock)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroBlock * block, int x, int y);
 	void APICALL (*retroPasteIcon)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroSprite * sprite, int x, int y, int image);
+	void APICALL (*retroBarPattern)(struct RetroModeIFace *Self, struct retroScreen * screen, int x0, int y0, int x1, int y1, struct retroSprite * sprite, int image, unsigned char ink0, unsigned char ink1);
 };
 
 #ifdef __cplusplus

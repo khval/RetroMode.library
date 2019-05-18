@@ -124,5 +124,6 @@
 #define retroFreeBlock(block) IRetroMode->retroFreeBlock((block)) 
 #define retroGetBlock(screen, block, x, y) IRetroMode->retroGetBlock((screen), (block), (x), (y)) 
 #define retroPasteIcon(screen, sprite, x, y, image) IRetroMode->retroPasteIcon((screen), (sprite), (x), (y), (image)) 
+#define retroBarPattern(screen, x0, y0, x1, y1, sprite, image, ink0, ink1) IRetroMode->retroBarPattern((screen), (x0), (y0), (x1), (y1), (sprite), (image), (ink0), (ink1)) 
 
 #endif /* INLINE4_RETROMODE_H */

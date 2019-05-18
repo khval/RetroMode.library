@@ -607,6 +607,17 @@
 			<arg name="y" type="int"/>
 			<arg name="image" type="int"/>
 		</method>
+		<method name="retroBarPattern" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="sprite" type="struct retroSprite *"/>
+			<arg name="image" type="int"/>
+			<arg name="ink0" type="unsigned char"/>
+			<arg name="ink1" type="unsigned char"/>
+		</method>
 	</interface>
 </library>
 
