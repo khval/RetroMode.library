@@ -93,8 +93,8 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		return;
 	}
 
-	width = frame -> Width;
-	height = frame -> Height;
+	width = frame -> width;
+	height = frame -> height;
 
 	x -= frame -> XHotSpot;
 	y -= frame -> YHotSpot;	

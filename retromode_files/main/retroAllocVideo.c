@@ -78,8 +78,6 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 	RGB000.b = 0;
 
 
-	libBase -> IDOS -> Printf("%s(%ld,%ld)\n",__FUNCTION__,width,height);
-
 	new_video = (struct retroVideo *) libBase -> IExec -> AllocVecTags( sizeof(struct retroVideo),  
 					AVT_Type, MEMF_SHARED, 
 					AVT_ClearWithValue, 0 ,

@@ -219,27 +219,35 @@ struct retroFrame
 
 struct retroFrameHeaderShort
 {
-	unsigned short PlanarXSize;	// (divided by 16)
-	unsigned short Height;
-	unsigned short NumberOfPlanes;
+	unsigned short planarXSize;	// (divided by 16)
+	unsigned short height;
+	unsigned short numberOfPlanes;
 	short	XHotSpot;
 	short	YHotSpot;
 };
 
 struct retroFrameHeader
 {
-	unsigned short PlanarXSize;	// (divided by 16)
-	unsigned short Height;
-	unsigned short NumberOfPlanes;
+	unsigned short planarXSize;	// (divided by 16)
+	unsigned short height;
+	unsigned short numberOfPlanes;
 	short	XHotSpot;
 	short	YHotSpot;
 	short 	retroFlag;	
 	union					
 	{						
 		int bytesPerRow;		
-		int Width;				
+		int width;				
 	};			
 	char *data;	
+};
+
+enum 
+{
+	retro_flag_solid,
+	retro_flag_transparent = 1,
+	retro_flag_multicolor = 2,
+	retro_flag_scaned = 4
 };
 
 struct retroSprite

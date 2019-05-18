@@ -97,9 +97,9 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 		{
 			if (cust_fread( sprite->frames + n, sizeof(struct retroFrameHeaderShort), 1, fd ) == 1 )
 			{
-				sprite->frames[n].bytesPerRow = sprite->frames[n].PlanarXSize * 16 ;
-				sizeOfPlanar = sprite->frames[n].Height * (sprite->frames[n].PlanarXSize * 2 );
-				sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].Height;
+				sprite->frames[n].bytesPerRow = sprite->frames[n].planarXSize * 16 ;
+				sizeOfPlanar = sprite->frames[n].height * (sprite->frames[n].planarXSize * 2 );
+				sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].height;
 	
 				sprite->frames[n].data = libBase -> IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 			}
@@ -123,18 +123,18 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 						}
 					}
 
-					for (Plane = 0; Plane < sprite->frames[n].NumberOfPlanes; Plane++ )	
+					for (Plane = 0; Plane < sprite->frames[n].numberOfPlanes; Plane++ )	
 					{
 						if (cust_fread( planar, sizeOfPlanar, 1, fd ) == 1) 
 						{
 							int y;
-							int source_BytesPerRow = sprite->frames[n].PlanarXSize*2;
+							int source_BytesPerRow = sprite->frames[n].planarXSize*2;
 							char *source = planar;
 							char *source_ptr = planar;
 							char *source_end = planar + source_BytesPerRow;
 							long long int *dest_ptr64;	 // 8bits = 8 pixels, 8 pixels is 8 bytes = 64bit :-)
 
-							for (y=0; y<sprite->frames[n].Height;y++)
+							for (y=0; y<sprite->frames[n].height;y++)
 							{
 								dest_ptr64 = (long long int *) (sprite->frames[n].data + (sprite->frames[n].bytesPerRow * y));		
 
@@ -166,7 +166,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 			if (sizeOfPlanar == 0) break;
 
-			if (colors<(1L<<sprite->frames[n].NumberOfPlanes)) colors = 1L<<sprite->frames[n].NumberOfPlanes;
+			if (colors<(1L<<sprite->frames[n].numberOfPlanes)) colors = 1L<<sprite->frames[n].numberOfPlanes;
 
 		} // Next
 

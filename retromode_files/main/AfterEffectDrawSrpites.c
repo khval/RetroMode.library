@@ -72,8 +72,8 @@ void retroDrawSprite(struct RetroLibrary *libBase,
 	char *source_row_ptr;
 	char *source_row_end ;
 
-	width = frame -> Width;
-	height = frame -> Height;
+	width = frame -> width;
+	height = frame -> height;
 
 	x -= frame -> XHotSpot;
 	y -= frame -> YHotSpot;	
@@ -83,8 +83,8 @@ void retroDrawSprite(struct RetroLibrary *libBase,
 
 	// insanity check
 
-	if ( width > frame -> Width ) return ;
-	if ( height > frame -> Height ) return ;
+	if ( width > frame -> width ) return ;
+	if ( height > frame -> height ) return ;
 
 	// things look ok.
 

@@ -109,18 +109,16 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 		frame = sprite -> frames + image;
 		frame -> XHotSpot = 0;
 		frame -> YHotSpot = 0;	
-		frame -> Width  = x1-x0+1;
-		frame -> Height = y1-y0+1;
-		frame -> bytesPerRow  = frame -> Width;
+		frame -> width  = x1-x0+1;
+		frame -> height = y1-y0+1;
+		frame -> bytesPerRow  = frame -> width;
 
-		libBase -> IDOS -> Printf("Width %ld, Height %ld\n", frame -> Width, frame -> Height);
+		libBase -> IDOS -> Printf("Width %ld, Height %ld\n", frame -> width, frame -> height);
 
-		sizeOfChunky = frame -> bytesPerRow  * frame -> Height;
+		sizeOfChunky = frame -> bytesPerRow  * frame -> height;
 
 		if ( frame -> data ) 
 		{
-			libBase -> IDOS -> Printf("old data freed\n");
-
 			libBase -> IExec -> FreeVec( (void *) frame -> data );
 			frame -> data = NULL;
 		}
@@ -129,7 +127,7 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 
 		if ( ! frame -> data )
 		{
-			libBase -> IDOS -> Printf("retroGetSprite - failed to alloc frame data, size %ld, width %ld, height %ld\n", sizeOfChunky, frame -> Width, frame -> Height);
+			libBase -> IDOS -> Printf("retroGetSprite - failed to alloc frame data, size %ld, width %ld, height %ld\n", sizeOfChunky, frame -> width, frame -> height);
 			return;
 		}
 		else
@@ -142,8 +140,8 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 			unsigned char *destination_row_end ;
 			int destination_x0 = 0;
 			int destination_y0 = 0;
-			int width = frame -> Width;
-			int height = frame -> Height;
+			int width = frame -> width;
+			int height = frame -> height;
 			int ypos;
 
 			if (y0+height>screen->realHeight) height = screen->realHeight - y0;
@@ -154,7 +152,7 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 
 			source_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * y0) + x0;
 
-			if ( (destination_x0 < frame -> Width) && (destination_y0 < frame -> Height))
+			if ( (destination_x0 < frame -> width) && (destination_y0 < frame -> height))
 			{
 				destination_row_start = (unsigned char *) frame -> data + destination_x0 + (destination_y0 * frame -> bytesPerRow );
 				destination_row_end = destination_row_start + width;

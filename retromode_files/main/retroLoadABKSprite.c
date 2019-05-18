@@ -88,9 +88,9 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 
 		if (libBase->IDOS->Read( fd, sprite->frames + n, sizeof(struct retroFrameHeaderShort)) == sizeof(struct retroFrameHeaderShort))
 		{
-			sprite->frames[n].bytesPerRow = sprite->frames[n].PlanarXSize * 16 ;
-			sizeOfPlanar = sprite->frames[n].Height * (sprite->frames[n].PlanarXSize * 2 );
-			sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].Height;
+			sprite->frames[n].bytesPerRow = sprite->frames[n].planarXSize * 16 ;
+			sizeOfPlanar = sprite->frames[n].height * (sprite->frames[n].planarXSize * 2 );
+			sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].height;
 	
 			sprite->frames[n].data = AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 		}
@@ -114,18 +114,18 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 					}
 				}
 
-				for (Plane = 0; Plane < sprite->frames[n].NumberOfPlanes; Plane++ )	
+				for (Plane = 0; Plane < sprite->frames[n].numberOfPlanes; Plane++ )	
 				{
 					if (libBase->IDOS->Read( fd, planar, sizeOfPlanar ) == sizeOfPlanar) 
 					{
 						int y;
-						int source_BytesPerRow = sprite->frames[n].PlanarXSize*2;
+						int source_BytesPerRow = sprite->frames[n].planarXSize*2;
 						char *source = planar;
 						char *source_ptr = planar;
 						char *source_end = planar + source_BytesPerRow;
 						long long int *dest_ptr64;	 // 8bits = 8 pixels, 8 pixels is 8 bytes = 64bit :-)
 
-						for (y=0; y<sprite->frames[n].Height;y++)
+						for (y=0; y<sprite->frames[n].height;y++)
 						{
 							dest_ptr64 = (long long int *) (sprite->frames[n].data + (sprite->frames[n].bytesPerRow * y));
 
