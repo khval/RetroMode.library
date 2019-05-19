@@ -143,6 +143,9 @@ struct retroTextWindow
 	int rows;
 	int border;
 	int set;
+	struct retroBlock *saved;
+	char *title_top;
+	char *title_bottom;
 };
 
 struct retroScreen
