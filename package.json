@@ -1,0 +1,5 @@
+{ "dependencies" :
+  { "AmigaOS SDK" : ">=4.1"},
+  "OS" : ["AmigaOS"],
+  "license": "(MIT)"
+}
