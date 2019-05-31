@@ -13,6 +13,13 @@
  *
  */
 
+#ifdef __win32__
+#include "stdafx.h" 
+#define BOOL bool
+#define TRUE true
+#define FALSE false
+#endif 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <exec/exec.h>
@@ -23,6 +30,10 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 #include <limits.h>
+#include "libBase.h"
+
+
+#define experiment_sort
 
 /****** retromode/main/retroPolyGonArray ******************************************
 *
@@ -55,7 +66,9 @@
 *
 */
 
-#define setvec( line , xa,ya, xb,yb ) line.x0 = xa; line.y0 = ya; line.x1 = xb; line.y1 = yb 
+static struct RetroLibrary *libBase;
+
+#define setvec(line,xa,ya,xb,yb) line.x0 = xa; line.y0 = ya; line.x1 = xb; line.y1 = yb; 
 
 struct _line_
 {
@@ -63,63 +76,44 @@ struct _line_
 	int x1,y1;
 };
 
-
-
-BOOL line_above_and_below_line( int x, int y, int lines,  struct _line_ *ll )
+struct xpoint
 {
-	int n;
-	double fx,fy;
-	double dx,dy;
-	double a;
-	double _y;
-
-	BOOL above = FALSE;
-	BOOL below = FALSE;
-
-	for (n=0;n<lines;n++)
-	{
-		if (((x>=ll->x0)&&(x<=ll->x1)) || ((x>=ll->x1)&&(x<=ll->x0)))
-		{
-			if (ll->x0<ll->x1)
-			{
-				fx = ll -> x0;
-				fy = ll -> y0;
-				dx = ll->x1-ll->x0+1.0f;
-				dy = ll->y1-ll->y0;
-			}
-			else
-			{
-				fx = ll->x1;
-				fy = ll->y1;
-				dx = ll->x0-ll->x1+1.0f;
-				dy = ll->y0-ll->y1;
-			}
-
-			dy+= (dy<0) ? -1.0f : 1.0f;
-
-			a = dy/dx;
-
-			_y = (a * (x-fx))+fy;	
-
-			if (_y<y)	above = TRUE;
-			if (_y>y) 	below = TRUE;
-		}
-		ll++;
-	}
-
-	return (above && !below) || (!above && below);
-}
+	int	is_up;
+	int	x;
+	int	line;
+};
 
 
-int find_x_on_line( int y, struct _line_ l )
+BOOL find_x_on_line( int y, int lineNr, struct _line_ l , struct xpoint *retX )
 {
 	int ox,oy;	// org x,y
 	int _x,_y;
 	double dx,dy;
 	double a;
 
-	if (l.y0 == y) return l.x0;
-	if (l.y1 == y) return l.x1;
+
+	if (l.y0 < l.y1) {
+		if ((y<l.y0) || (y>l.y1)) return FALSE;
+		retX -> is_up = FALSE;
+	} else {
+		if ((y<l.y1) || (y>l.y0)) return FALSE;
+		retX -> is_up = TRUE;
+	}
+
+	retX -> line = lineNr;
+
+	if (l.y0 == y)
+	{
+		retX -> x = l.x0;
+		return TRUE;
+	}
+
+	if (l.y1 == y)
+	{
+		retX -> x = l.x1;
+		return TRUE;
+	}
+
 
 	// sort x and y;
 	if (l.x0 > l.x1) { _x = l.x0;	_y = l.y0;	l.x0 = l.x1;l.y0 = l.y1; l.x1 = _x; l.y1 = _y; }
@@ -143,12 +137,123 @@ int find_x_on_line( int y, struct _line_ l )
 		_x = 0;
 	}
 
-	return _x + ox;
+	retX -> x = _x + ox;
+	return TRUE;
 }
 
 
 void _retromode_retroPixel(struct RetroModeIFace *Self,
        struct retroScreen * screen,  int x, int y, unsigned char color);
+
+
+BOOL createLineArray(int lineCount, int * array, struct _line_ *l , int  *min_y, int *max_y )
+{
+	int lx =0, ly = 0;
+	int n;
+	int x = 0,y = 0;
+
+	if (lineCount>=3)
+	{
+		lx = array[0];
+		ly = array[1];
+		if (ly<*min_y) *min_y =ly;
+		if (ly>*max_y) *max_y =ly;
+
+		for (n=1;n<=lineCount;n++)
+		{
+			x = array[(n<<1)+0];
+			y = array[(n<<1)+1];
+
+			setvec( l[n-1] , lx,ly, x,y );
+
+//			libBase -> IDOS -> Printf("line %ld,%ld to %ld,%ld\n" , lx,ly, x,y );
+
+			if (y<*min_y) *min_y =y;
+			if (y>*max_y) *max_y =y;
+
+			lx = x; ly = y;
+		}
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+void getXPoints(int y, struct _line_ *lines, int linesCount, struct xpoint *pointsX, int *pointsXCount)
+{
+
+	int n;
+	struct xpoint t;
+	struct _line_ *line;
+	struct _line_ *lines_start = lines;
+	struct _line_ *lines_end = lines + linesCount;
+	int sorted_at = -1;
+
+	*pointsXCount = 0;
+
+//	for (line = lines_start; line < lines_end; line++)
+
+	for (n=0;n<linesCount;n++)
+	{
+		if (find_x_on_line(y,n, lines[n], &pointsX[*pointsXCount]) == TRUE) (*pointsXCount)++;
+	}
+
+	if (*pointsXCount == 0) return;
+
+#ifndef experiment_sort
+
+	do
+	{
+		sorted = FALSE;
+
+		for (n=0;n<(*pointsXCount)-1;n++)
+		{
+			if (pointsX[n].x > pointsX[n+1].x)
+			{
+				t= pointsX[n];
+				pointsX[n]=pointsX[n+1];
+				pointsX[n+1]=t;
+				sorted = TRUE;
+			}
+		}	
+	} while (sorted);
+	printf("sorted\n");
+
+#endif
+
+
+#ifdef experiment_sort
+
+	for (n = 0; n<(*pointsXCount) - 1; n++)
+	{
+		if (pointsX[n].x > pointsX[n + 1].x)
+		{
+			t = pointsX[n];
+			pointsX[n] = pointsX[n + 1];
+			pointsX[n + 1] = t;
+			if (n)
+			{
+				n -= 2;
+			}
+			else if (sorted_at > -1)
+			{
+				n = sorted_at;
+				sorted_at = -1;
+			}
+			else sorted_at = n;
+		}
+		else
+		{
+			if (sorted_at > -1) n = sorted_at;
+			sorted_at = -1;
+		}
+	}
+
+
+#endif
+
+}
 
 
 void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
@@ -157,127 +262,57 @@ void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
 	int array_size,
 	int * array)
 {
-//	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
-	int lx =0, ly = 0;
-	int s;
-	int n;
-	int x = 0,y = 0;
-	int x0,x1;
-	int lines;
+	libBase = (struct RetroLibrary *) Self -> Data.LibBase;
+	struct _line_ lines[100];
+	int linesCount;
+	int pointsCount;	// points in array
+	int pointsXCount;	// x array count for that line.
+	struct xpoint pointsX[40];
+	int x,y;
+	int xp;
 	int max_y = INT_MIN;
 	int min_y = INT_MAX;
-	BOOL sorted;
-	BOOL odd_even = FALSE;
-	BOOL error = FALSE;
+	int sum;
+	int draw_pixel;
+	int deltaLine;
 
-	struct _line_ *ll;
-	struct _line_ l[100];
-	struct _line_ *ss;
-	struct _line_ *st[100];
+	pointsCount = (array_size / sizeof(int)) >> 1;
+	linesCount =pointsCount-1;
 
-	if (array_size>=3)
+	libBase -> IDOS -> Printf("linesCount %ld\n",linesCount);
+
+	if (createLineArray(linesCount, array, lines, &min_y, &max_y) == FALSE) return;
+
+	for (y=min_y;y<=max_y;y++)
 	{
-		lx = array[0];
-		ly = array[1];
-		if (ly<min_y) min_y =ly;
-		if (ly>max_y) max_y =ly;
+		getXPoints( y, lines, linesCount, pointsX, &pointsXCount );
 
-		for (n=1;n<(array_size>>1);n++)
+		xp = 1;
+		draw_pixel = 1;
+		
+		if (pointsXCount>0)
 		{
-			x = array[(n<<1)+0];
-			y = array[(n<<1)+1];
-
-			setvec( l[n-1] , lx,ly, x,y );
-
-			if (y<min_y) min_y =y;
-			if (y>max_y) max_y =y;
-
-			lx = x; ly = y;
-		}
-	}
-	else return;
-
-
-
-	lines = (array_size >> 1) -1;
-
-	for ( y=min_y; y<=max_y;y++)
-	{
-		s = 0;
-
-		// find interesting vectors.
-		for (n=0;n<lines;n++)
-		{
-			ll = l + n;
-			if ( ll->y0 > ll->y1 )
+			for (x = pointsX[0].x; x <= pointsX[pointsXCount-1].x ; x++ )
 			{
-				if ((y >= ll->y1) && (y <= ll->y0)) st[s++] = l + n;
-			}
-			else
-			{
-				if ((y >= ll->y0) && (y <= ll->y1)) st[s++] = l + n;
-			}
-		}
-
-		do
-		{
-			sorted = FALSE;
-			// sort intersting vectors
-			for (n=0;n<s-1;n++)
-			{
-				x0 = find_x_on_line( y, *st[n] );
-				x1 = find_x_on_line( y, *st[n+1] );
-
-				if (x0>x1)
+				if (x == pointsX[xp].x)
 				{
-					ss = st[n]; st[n] = st[n+1]; st[n+1] = ss;
-					sorted = TRUE;
-				}
-			}
-		} while (sorted);
-
-		if (s>1)
-		{
-			odd_even = TRUE;
-			n = 0;
-
-			error = FALSE;
-			lx = -1;
-			while (n<s-1)
-			{
-				x0 = find_x_on_line( y, *st[n] );
-				x1 = find_x_on_line( y, *st[n+1] );
-
-				if (error)
-				{
-					int px;
-					error = FALSE;
-					px = (x1 - x0)/2+x0;
-					// make a guess whats correct.
-					odd_even = ! line_above_and_below_line( px, y,  lines,  l );
-				}
-
-				if (x0 != x1) 
-				{
-					if (odd_even)
+					sum = 0;
+					do
 					{
-						for (x=x0;x<=x1;x++)
-						{
-							_retromode_retroPixel( Self, screen, x, y, color ) ;
-						}
+						deltaLine = abs( pointsX[xp-1].line - pointsX[xp].line );
+						if ( ! ((pointsX[xp - 1].is_up == pointsX[xp].is_up) && ((deltaLine == 1)||(deltaLine == linesCount-1))) )  sum += pointsX[xp].is_up ? 1 : -1;
+
+						xp++;
+						if (xp==pointsXCount) break;
 					}
-					odd_even = ! odd_even;
-				}
-				else
-				{
-					 error = TRUE;
+					while (x == pointsX[xp].x );
+
+					if (sum != 0)	draw_pixel ^= 1;
 				}
 
-				n+=1;
-			}						
+				if (draw_pixel) _retromode_retroPixel( Self, screen, x, y, color ) ;
+			}
 		}
-	}
-
+	}	
 }
 
