@@ -102,6 +102,12 @@ struct retroVideo
 	int spriteObjectsAllocated;
 };
 
+enum
+{
+	flag_block_vrev = 1,
+	flag_block_hrev = 2
+};
+
 struct retroBlock
 {
 	int id; 
@@ -111,6 +117,7 @@ struct retroBlock
 	int h;
 	int mask;
 	unsigned char *mem;
+	int flag;
 };
 
 struct retroMemFd
