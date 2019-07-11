@@ -405,7 +405,7 @@ static void color_reset( struct retroVideo * video, struct retroScanline *scanli
 
 void set_scanline(struct retroScanline *scanline,struct retroScreen * screen, struct retroVideo * video, int offset)
 {
-	int videomode = screen -> videomode;
+	int videomode = screen -> videomode & ~retroInterlaced;
 
 	scanline -> beamStart = screen -> scanline_x;
 	scanline -> videoWidth = video -> width;
