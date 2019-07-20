@@ -249,7 +249,7 @@ struct retroFrameHeader
 		int bytesPerRow;		
 		int width;				
 	};			
-	char *data;	
+	char *data;
 };
 
 enum 
@@ -278,12 +278,16 @@ struct retroSpriteClear
 
 struct retroSpriteObject
 {
-	int x; int y;
+	int x;
+	int y;
 	int image;
 	int screen_id;
 	struct retroSpriteClear clear[2];
 	struct retroSprite *sprite;			// optional
 	struct retroFrameHeader *frame;		// optional
+	int background;
+	int planes;
+	int mask;
 };
 
 #define retroLowres 1
