@@ -401,6 +401,7 @@
 			<arg name="y" type="int"/>
 			<arg name="image" type="int"/>
 			<arg name="flags" type="int"/>
+			<arg name="mask" type="int"/>
 		</method>
 		<method name="retroFill" result="void">
 			<arg name="screen" type="struct retroScreen *"/>

@@ -92,7 +92,7 @@
 #define retroBoing(screen, x, y, r0, r1, color0, color1) IRetroMode->retroBoing((screen), (x), (y), (r0), (r1), (color0), (color1)) 
 #define retroLoadABKSprite(filename) IRetroMode->retroLoadABKSprite((filename)) 
 #define retroFreeSprite(sprite) IRetroMode->retroFreeSprite((sprite)) 
-#define retroPasteSprite(screen, sprite, x, y, image, flags) IRetroMode->retroPasteSprite((screen), (sprite), (x), (y), (image), (flags)) 
+#define retroPasteSprite(screen, sprite, x, y, image, flags, mask) IRetroMode->retroPasteSprite((screen), (sprite), (x), (y), (image), (flags), (mask)) 
 #define retroFill(screen, x, y, color) IRetroMode->retroFill((screen), (x), (y), (color)) 
 #define retroOrFill(screen, x, y, and_mask, or_color) IRetroMode->retroOrFill((screen), (x), (y), (and_mask), (or_color)) 
 #define retroBarRounded(screen, x0, y0, x1, y1, r, color) IRetroMode->retroBarRounded((screen), (x0), (y0), (x1), (y1), (r), (color)) 

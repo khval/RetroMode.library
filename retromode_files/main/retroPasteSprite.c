@@ -57,13 +57,110 @@
 *
 */
 
+#define ROW_ARGS (unsigned char *source_row_start, unsigned char *source_row_end, unsigned char *destination_row_start, int mask)
+
+void _left_right ROW_ARGS
+{
+	unsigned char *source_row_ptr;
+	unsigned char *destination_row_ptr = destination_row_start;
+
+	for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
+	{
+		if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
+		destination_row_ptr++;
+	}
+}
+
+void _right_left ROW_ARGS
+{
+	unsigned char *source_row_ptr;
+	unsigned char *destination_row_ptr = destination_row_start;
+
+	for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
+	{
+		if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
+		destination_row_ptr++;
+	}
+}
+
+void _left_right_mask ROW_ARGS
+{
+	unsigned char *source_row_ptr;
+	unsigned char *destination_row_ptr = destination_row_start;
+
+	for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
+	{
+		if (*source_row_ptr) *destination_row_ptr= mask & *source_row_ptr;
+		destination_row_ptr++;
+	}
+}
+
+void _right_left_mask ROW_ARGS
+{
+	unsigned char *source_row_ptr;
+	unsigned char *destination_row_ptr = destination_row_start;
+
+	for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
+	{
+		if (*source_row_ptr) *destination_row_ptr= mask & *source_row_ptr;
+		destination_row_ptr++;
+	}
+}
+
+void _top_down(
+		struct retroFrameHeader *frame, 
+		unsigned char *source_row_start,
+		unsigned char *source_row_end, 
+		unsigned char *destination_row_start, 
+		int height, 
+		int mask,
+		void (*row) ROW_ARGS,
+		struct retroScreen * screen)
+{
+	int ypos;
+
+	for ( ypos = 0; ypos < height; ypos++ )
+	{
+		row( source_row_start, source_row_end, destination_row_start, mask);
+
+		destination_row_start += screen -> bytesPerRow;
+		source_row_start += frame -> bytesPerRow;
+		source_row_end += frame -> bytesPerRow;
+	}
+}
+
+void _bottom_up(
+		struct retroFrameHeader *frame, 
+		unsigned char *source_row_start,
+		unsigned char *source_row_end, 
+		unsigned char *destination_row_start, 
+		int height, 
+		int mask,
+		void (*row) ROW_ARGS,
+		struct retroScreen * screen)
+{
+	int ypos;
+
+	for ( ypos = 0; ypos < height; ypos++ )
+	{
+		row( source_row_start, source_row_end, destination_row_start, mask);
+
+		destination_row_start -= screen -> bytesPerRow;
+		source_row_start += frame -> bytesPerRow;
+		source_row_end += frame -> bytesPerRow;
+	}
+}
+
+
+
 void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	struct retroScreen * screen,
 	struct retroSprite * sprite,
 	int x,
 	int y,
 	int image,
-	int flags)
+	int flags,
+	unsigned int mask)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int width;
@@ -117,85 +214,30 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		 source_x0 = -x; x = 0; width -= source_x0;
 	}
 
-	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
+
 	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow ) + source_x0;
 	source_row_end = source_row_start + width;
 
 	switch (flags)
 	{
 		case 0x0000:
-
-			for ( ypos = 0; ypos < height; ypos++ )
-			{
-				destination_row_ptr = destination_row_start;
-
-				for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-				{
-					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-					destination_row_ptr++;
-				}
-
-				destination_row_start += screen -> bytesPerRow;
-				source_row_start += frame -> bytesPerRow;
-				source_row_end += frame -> bytesPerRow;
-			}
+			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
+			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  mask,(mask ? _right_left_mask : _left_right),  screen  );
 			break;
 
 		case 0x4000:
-
 			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * (y + height - 1)) + x;
-
-			for ( ypos = 0; ypos < height; ypos++ )
-			{
-				destination_row_ptr = destination_row_start;
-
-				for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-				{
-					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-					destination_row_ptr++;
-				}
-
-				destination_row_start -= screen -> bytesPerRow;
-				source_row_start += frame -> bytesPerRow;
-				source_row_end += frame -> bytesPerRow;
-			}
+			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  mask, (mask ? _left_right_mask : _left_right),  screen);
 			break;
 
 		case 0x8000:
-			for ( ypos = 0; ypos < height; ypos++ )
-			{
-				destination_row_ptr = destination_row_start;
-
-				for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-				{
-					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-					destination_row_ptr++;
-				}
-
-				destination_row_start += screen -> bytesPerRow;
-				source_row_start += frame -> bytesPerRow;
-				source_row_end += frame -> bytesPerRow;
-			}
+			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
+			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  mask, (mask ? _right_left_mask : _right_left),  screen);
 			break;
 
 		case 0xC000:
-
 			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * (y + height - 1)) + x;
-
-			for ( ypos = 0; ypos < height; ypos++ )
-			{
-				destination_row_ptr = destination_row_start;
-
-				for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-				{
-					if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-					destination_row_ptr++;
-				}
-
-				destination_row_start -= screen -> bytesPerRow;
-				source_row_start += frame -> bytesPerRow;
-				source_row_end += frame -> bytesPerRow;
-			}
+			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  mask, (mask ? _right_left_mask : _right_left),  screen);
 			break;
 	}
 }
