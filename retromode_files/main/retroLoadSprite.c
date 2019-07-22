@@ -63,7 +63,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 	int n;
 	int num;
 	int bit;
-	int Plane;
+	int Plain;
 	unsigned char *byte;
 	unsigned char convert[ (256<<3)+8];	// 0 to 255 is 256 numbers.
 	unsigned int sizeOfPlanar,sizeOfChunky;
@@ -123,7 +123,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 						}
 					}
 
-					for (Plane = 0; Plane < sprite->frames[n].numberOfPlanes; Plane++ )	
+					for (Plain = 0; Plain < sprite->frames[n].numberOfPlains; Plain++ )	
 					{
 						if (cust_fread( planar, sizeOfPlanar, 1, fd ) == 1) 
 						{
@@ -166,7 +166,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 			if (sizeOfPlanar == 0) break;
 
-			if (colors<(1L<<sprite->frames[n].numberOfPlanes)) colors = 1L<<sprite->frames[n].numberOfPlanes;
+			if (colors<(1L<<sprite->frames[n].numberOfPlains)) colors = 1L<<sprite->frames[n].numberOfPlains;
 
 		} // Next
 

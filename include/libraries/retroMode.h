@@ -231,7 +231,7 @@ struct retroFrameHeaderShort
 {
 	unsigned short planarXSize;	// (divided by 16)
 	unsigned short height;
-	unsigned short numberOfPlanes;
+	unsigned short numberOfPlains;
 	short	XHotSpot;
 	short	YHotSpot;
 };
@@ -240,7 +240,7 @@ struct retroFrameHeader
 {
 	unsigned short planarXSize;	// (divided by 16)
 	unsigned short height;
-	unsigned short numberOfPlanes;
+	unsigned short numberOfPlains;
 	short	XHotSpot;
 	short	YHotSpot;
 	short 	retroFlag;	
@@ -286,7 +286,7 @@ struct retroSpriteObject
 	struct retroSprite *sprite;			// optional
 	struct retroFrameHeader *frame;		// optional
 	int background;
-	int planes;
+	int plains;
 	int mask;
 };
 

@@ -63,7 +63,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 	int n;
 	int num;
 	int bit;
-	int Plane;
+	int Plain;
 	unsigned char *byte;
 	unsigned char convert[ (255<<3)+8];
 	unsigned int sizeOfPlanar,sizeOfChunky;
@@ -114,7 +114,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 					}
 				}
 
-				for (Plane = 0; Plane < sprite->frames[n].numberOfPlanes; Plane++ )	
+				for (Plain = 0; Plain < sprite->frames[n].numberOfPlains; Plain++ )	
 				{
 					if (libBase->IDOS->Read( fd, planar, sizeOfPlanar ) == sizeOfPlanar) 
 					{
