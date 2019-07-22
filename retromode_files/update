@@ -1,0 +1,25 @@
+cd > env:olddir
+
+
+IF NOT EXISTS ram:temp
+makedir ram:temp
+endif
+
+copy /retroMode.xml ram:temp
+
+cd ram:temp
+
+idltool -a retroMode.xml
+
+cd > env:thisdir
+echo $thisdir
+
+cd $olddir
+copy ram:temp/include/#? /include/  all
+copy ram:temp/retromode_vectors.c /
+copy ram:temp/retromode_vectors.h /
+copy ram:temp/retromode_files/retromode_vectors.c ""
+copy ram:temp/retromode_files/retromode_vectors.h ""
+
+delete QUIET ram:temp all 
+
