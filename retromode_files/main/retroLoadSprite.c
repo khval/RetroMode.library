@@ -102,6 +102,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 				sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].height;
 	
 				sprite->frames[n].data = libBase -> IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+				sprite->frames[n].alpha = 1;
 			}
 			else
 			{

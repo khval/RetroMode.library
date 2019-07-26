@@ -93,6 +93,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 			sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].height;
 	
 			sprite->frames[n].data = AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+			sprite->frames[n].alpha = 1;
 		}
 		else
 		{

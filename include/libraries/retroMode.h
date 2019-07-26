@@ -250,6 +250,7 @@ struct retroFrameHeader
 		int width;				
 	};			
 	char *data;
+	int alpha;
 };
 
 enum 
