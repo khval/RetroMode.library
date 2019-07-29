@@ -27,6 +27,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroBAR,
     _retromode_retroOrBAR,
     _retromode_retroXorBAR,
+    _retromode_retroBarPattern,
     _retromode_retroBox,
     _retromode_retroOrBox,
     _retromode_retroXorBox,
@@ -99,7 +100,6 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroFreeBlock,
     _retromode_retroGetBlock,
     _retromode_retroPasteIcon,
-    _retromode_retroBarPattern,
     (APTR)-1
 };
 
