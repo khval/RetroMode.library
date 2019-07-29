@@ -237,7 +237,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 
 	void (*draw_mode) ROW_ARGS = NULL;
 
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
+//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	if ( ! sprite -> frames ) 
 	{
@@ -245,14 +245,10 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		return;
 	}
 
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
-
 	if (image > sprite -> number_of_frames) return;
 	if (image < 0) return;
 
 	struct retroFrameHeader *frame = sprite -> frames + image;
-
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	if ( ! frame -> data)
 	{
@@ -266,8 +262,6 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	x -= frame -> XHotSpot;
 	y -= frame -> YHotSpot;	
 
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
-
 	if (y>0)
 	{
 		if (y+height>screen->realHeight) height = screen->realHeight - y;
@@ -276,8 +270,6 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	{
 		source_y0 = -y; y = 0; height -= source_y0; 
 	}
-
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	if (x>0)
 	{
@@ -288,21 +280,15 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		 source_x0 = -x; x = 0; width -= source_x0;
 	}
 
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
-
 	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow ) + source_x0;
 	source_row_end = source_row_start + width;
-
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	switch (flags)
 	{
 		case 0x0000:
 			pick_mode(left_right);
 			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
-
 			libBase -> IDOS -> Printf("draw_mode %08x\n",draw_mode);
-
 			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen  );
 			break;
 
@@ -328,8 +314,5 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 			libBase -> IDOS -> Printf("%s:%ld unexpcted flag %08lx\n",__FUNCTION__,__LINE__,flags);
 			break;
 	}
-
-	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
-
 }
 

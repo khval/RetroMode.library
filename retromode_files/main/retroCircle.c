@@ -60,49 +60,49 @@
 *
 */
 
-void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color);
+extern void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned char *buffer, int x, int y, unsigned char color);
 
-#define putpixel(x,y) _retromode_retroPixel(Self, screen, x,y, color)
+#define putpixel(x,y) _retromode_retroPixel(Self, screen, memory, x,y, color)
 
 void _retromode_retroCircle(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       int x0,
-       int y0,
-       int radius,
-       unsigned char color)
+	struct retroScreen * screen,
+	int buffer,
+	int x0,
+	int y0,
+	int radius,
+	unsigned char color)
 {
+	int x = radius-1;
+	int y = 0;
+	int dx = 1;
+	int dy = 1;
+	int err = dx - (radius << 1);
+	unsigned char *memory = screen -> Memory[buffer];
 
-   int x = radius-1;
-    int y = 0;
-    int dx = 1;
-    int dy = 1;
-    int err = dx - (radius << 1);
+	while (x >= y)
+	{
+		putpixel(x0 + x, y0 + y);
+		putpixel(x0 + y, y0 + x);
+		putpixel(x0 - y, y0 + x);
+		putpixel(x0 - x, y0 + y);
+		putpixel(x0 - x, y0 - y);
+		putpixel(x0 - y, y0 - x);
+		putpixel(x0 + y, y0 - x);
+		putpixel(x0 + x, y0 - y);
 
-    while (x >= y)
-    {
-        putpixel(x0 + x, y0 + y);
-        putpixel(x0 + y, y0 + x);
-        putpixel(x0 - y, y0 + x);
-        putpixel(x0 - x, y0 + y);
-        putpixel(x0 - x, y0 - y);
-        putpixel(x0 - y, y0 - x);
-        putpixel(x0 + y, y0 - x);
-        putpixel(x0 + x, y0 - y);
-
-        if (err <= 0)
-        {
-            y++;
-            err += dy;
-            dy += 2;
-        }
+		if (err <= 0)
+		{
+			y++;
+			err += dy;
+			dy += 2;
+		}
         
-        if (err > 0)
-        {
-            x--;
-            dx += 2;
-            err += dx - (radius << 1);
-        }
-    }
-
+		if (err > 0)
+		{
+			x--;
+			dx += 2;
+			err += dx - (radius << 1);
+		}
+	}
 }
 

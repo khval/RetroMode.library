@@ -62,6 +62,7 @@
 
 void _retromode_retroBAR(struct RetroModeIFace *Self,
        struct retroScreen * screen,
+	int buffer,
        int x0,
        int y0,
        int x1,
@@ -81,7 +82,7 @@ void _retromode_retroBAR(struct RetroModeIFace *Self,
 	if (x1>screen -> clip_x1) x1 = screen -> clip_x1;
 	if (y1>screen -> clip_y1) y1 = screen -> clip_y1;
 
-	memory = screen -> Memory[screen -> double_buffer_draw_frame] + ( screen -> realWidth * y0 );
+	memory = screen -> Memory[buffer] + ( screen -> realWidth * y0 );
 
 	from = memory + x0;
 	to = memory + x1;

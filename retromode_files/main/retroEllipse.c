@@ -61,6 +61,7 @@
 
 void _retromode_retroEllipse(struct RetroModeIFace *Self,
        struct retroScreen * screen,
+	int buffer,
        int x,
        int y,
        int r1,
@@ -100,7 +101,7 @@ void _retromode_retroEllipse(struct RetroModeIFace *Self,
 		xx = (vxx * tx) + (vyx * ty) + x;
 		yy = (vxy * tx) + (vyy * ty) + y;
 
-		Self->retroLine( screen, lx, ly, xx, yy, color );
+		Self->retroLine( screen, buffer, lx, ly, xx, yy, color );
 
 		lx = xx;
 		ly = yy;

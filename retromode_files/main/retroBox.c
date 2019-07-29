@@ -58,15 +58,16 @@
 */
 
 void _retromode_retroBox(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       int x0,
-       int y0,
-       int x1,
-       int y1,
-       unsigned char color)
+	struct retroScreen * screen,
+	int buffer,
+	int x0,
+	int y0,
+	int x1,
+	int y1,
+	unsigned char color)
 {
 	int x,y;
-	unsigned char *sc_memory = screen -> Memory[screen -> double_buffer_draw_frame];
+	unsigned char *sc_memory = screen -> Memory[ buffer ];
 	unsigned char *memory;
 	int hx0, hx1;
 	int vy0, vy1;

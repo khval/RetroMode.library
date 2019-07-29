@@ -50,6 +50,7 @@
 		</method>
 		<method name="retroPixel" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="memory" type="unsigned char *"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="color" type="unsigned char"/>
@@ -80,6 +81,7 @@
 		</method>
 		<method name="retroBAR" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -88,6 +90,7 @@
 		</method>
 		<method name="retroOrBAR" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -96,14 +99,28 @@
 		</method>
 		<method name="retroXorBAR" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>
 			<arg name="xor_mask" type="unsigned char"/>
 		</method>
+		<method name="retroBarPattern" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="sprite" type="struct retroSprite *"/>
+			<arg name="image" type="int"/>
+			<arg name="ink0" type="unsigned char"/>
+			<arg name="ink1" type="unsigned char"/>
+		</method>
 		<method name="retroBox" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -112,6 +129,7 @@
 		</method>
 		<method name="retroOrBox" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -120,6 +138,7 @@
 		</method>
 		<method name="retroXorBox" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -128,6 +147,7 @@
 		</method>
 		<method name="retroShift" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -136,6 +156,7 @@
 		</method>
 		<method name="retroCircleFilled" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="cx" type="int"/>
 			<arg name="cy" type="int"/>
 			<arg name="r" type="int"/>
@@ -143,6 +164,7 @@
 		</method>
 		<method name="retroEllipse" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="cx" type="int"/>
 			<arg name="cy" type="int"/>
 			<arg name="r1" type="int"/>
@@ -152,6 +174,7 @@
 		</method>
 		<method name="retroOrCircleFilled" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="cx" type="int"/>
 			<arg name="cy" type="int"/>
 			<arg name="r" type="int"/>
@@ -159,6 +182,7 @@
 		</method>
 		<method name="retroXorCircleFilled" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="cx" type="int"/>
 			<arg name="cy" type="int"/>
 			<arg name="r" type="int"/>
@@ -197,6 +221,7 @@
 		</method>
 		<method name="retroXorScreenBlit" result="void">
 			<arg name="SourceScreen" type="struct retroScreen *"/>
+			<arg name="fromMode" type="int"/>
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
@@ -238,6 +263,7 @@
 		</method>
 		<method name="retroAndClear" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -291,6 +317,7 @@
 		</method>
 		<method name="retroLine" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>
 			<arg name="x2" type="int"/>
@@ -299,6 +326,7 @@
 		</method>
 		<method name="retroOrLine" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>
 			<arg name="x2" type="int"/>
@@ -307,6 +335,7 @@
 		</method>
 		<method name="retroXorLine" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>
 			<arg name="x2" type="int"/>
@@ -315,6 +344,7 @@
 		</method>
 		<method name="retroAllocFrame" result="struct retroFrame *">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x1" type="int"/>
 			<arg name="y1" type="int"/>
 			<arg name="x2" type="int"/>
@@ -351,6 +381,7 @@
 		</method>
 		<method name="retroStar" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="n" type="int"/>
@@ -361,6 +392,7 @@
 		</method>
 		<method name="retroOrStar" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="n" type="int"/>
@@ -381,6 +413,7 @@
 		</method>
 		<method name="retroBoing" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="r0" type="int"/>
@@ -405,12 +438,14 @@
 		</method>
 		<method name="retroFill" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="color" type="unsigned char"/>
 		</method>
 		<method name="retroOrFill" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="and_mask" type="int"/>
@@ -418,6 +453,7 @@
 		</method>
 		<method name="retroBarRounded" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -427,6 +463,7 @@
 		</method>
 		<method name="retroOrBarRounded" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -436,6 +473,7 @@
 		</method>
 		<method name="retroXorBarRounded" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -445,6 +483,7 @@
 		</method>
 		<method name="retroThickLine" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="x0" type="int"/>
 			<arg name="y0" type="int"/>
 			<arg name="x1" type="int"/>
@@ -541,6 +580,7 @@
 		</method>
 		<method name="retroPolyGonArray" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="color" type="unsigned char"/>
 			<arg name="count" type="int"/>
 			<arg name="array" type="int *"/>
@@ -553,6 +593,7 @@
 		</method>
 		<method name="retroCircle" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="cx" type="int"/>
 			<arg name="cy" type="int"/>
 			<arg name="r" type="int"/>
@@ -603,21 +644,11 @@
 		</method>
 		<method name="retroPasteIcon" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="sprite" type="struct retroSprite *"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 			<arg name="image" type="int"/>
-		</method>
-		<method name="retroBarPattern" result="void">
-			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="x0" type="int"/>
-			<arg name="y0" type="int"/>
-			<arg name="x1" type="int"/>
-			<arg name="y1" type="int"/>
-			<arg name="sprite" type="struct retroSprite *"/>
-			<arg name="image" type="int"/>
-			<arg name="ink0" type="unsigned char"/>
-			<arg name="ink1" type="unsigned char"/>
 		</method>
 	</interface>
 </library>

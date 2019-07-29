@@ -55,13 +55,13 @@
 *
 */
 
-void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y, unsigned char color)
+void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, char *memory, int x, int y, unsigned char color)
 {
 	if (x<0) return;
 	if (y<0) return;
 	if (x>=screen->realWidth) return;
 	if (y>=screen->realHeight) return;
 
-	screen -> Memory[screen -> double_buffer_draw_frame][ screen -> realWidth * y + x ] = color;
+	 memory[ screen -> realWidth * y + x ] = color;
 }
 

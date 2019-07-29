@@ -63,6 +63,7 @@
 
 void _retromode_retroLine(struct RetroModeIFace *Self,
        struct retroScreen * screen,
+	int buffer,
        int x1,
        int y1,
        int x2,
@@ -81,7 +82,7 @@ void _retromode_retroLine(struct RetroModeIFace *Self,
 	int cx1 = screen -> clip_x1;
 	int cy1 = screen -> clip_y1;
 
-	memory = screen -> Memory[ screen -> double_buffer_draw_frame ];
+	memory = screen -> Memory[ buffer  ];
 	w = screen -> realWidth;
 	h = screen -> realHeight;
 	bpr = screen -> bytesPerRow;

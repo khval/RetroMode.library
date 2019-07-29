@@ -63,6 +63,7 @@
 
 void _retromode_retroAndClear(struct RetroModeIFace *Self,
        struct retroScreen * screen,
+	int buffer,
        int x0,
        int y0,
        int x1,
@@ -80,7 +81,7 @@ void _retromode_retroAndClear(struct RetroModeIFace *Self,
 	if (x1>screen->realWidth-1) x1 = screen->realWidth -1;
 	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
 
-	ymem = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * y0);
+	ymem = screen -> Memory[ buffer ] + (screen -> realWidth * y0);
 	xmem_start = ymem + x0;
 	xmem_end = ymem + x1;
 

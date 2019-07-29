@@ -57,11 +57,12 @@
 */
 
 void _retromode_retroXorCircle(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       int cx,
-       int cy,
-       int r,
-       unsigned char xor_mask)
+	struct retroScreen * screen,
+	int buffer,
+	int cx,
+	int cy,
+	int r,
+	unsigned char xor_mask)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int x0,y0,x1,y1,_y;
@@ -76,7 +77,7 @@ void _retromode_retroXorCircle(struct RetroModeIFace *Self,
 	if (y0<0) y0=0;
 	if (y1>screen->realHeight-1) y1 = screen->realHeight-1;
 
-	memory = screen -> Memory[screen -> double_buffer_draw_frame] + (screen -> realWidth * y0);
+	memory = screen -> Memory[buffer] + (screen -> realWidth * y0);
 
 	for (y=y0;y<=y1;y++)
 	{

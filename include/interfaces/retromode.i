@@ -32,6 +32,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroBAR
 	    FPTR IRetroMode_retroOrBAR
 	    FPTR IRetroMode_retroXorBAR
+	    FPTR IRetroMode_retroBarPattern
 	    FPTR IRetroMode_retroBox
 	    FPTR IRetroMode_retroOrBox
 	    FPTR IRetroMode_retroXorBox
@@ -104,7 +105,6 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroFreeBlock
 	    FPTR IRetroMode_retroGetBlock
 	    FPTR IRetroMode_retroPasteIcon
-	    FPTR IRetroMode_retroBarPattern
 	LABEL RetroModeIFace_SIZE
 
 #endif
