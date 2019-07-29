@@ -23,8 +23,9 @@ const char *scroll_text = "Small scroll text demo..... have fun playing with thi
 	IDCMP_CHANGEWINDOW | IDCMP_MOUSEMOVE | IDCMP_REFRESHWINDOW | IDCMP_RAWKEY | \
 	IDCMP_EXTENDEDMOUSE | IDCMP_CLOSEWINDOW | IDCMP_NEWSIZE | IDCMP_INTUITICKS
 
-struct retroVideo *video = NULL;
 struct Window *My_Window = NULL;
+struct retroVideo *video = NULL;
+struct retroEngine *engine = NULL;
 
 struct Library * IntuitionBase = NULL;
 struct IntuitionIFace *IIntuition = NULL;
@@ -37,6 +38,7 @@ struct RetroModeIFace *IRetroMode = NULL;
 
 struct Library * LayersBase = NULL;
 struct LayersIFace *ILayers = NULL;
+
 
 struct XYSTW_Vertex3D { 
 float x, y; 
@@ -87,11 +89,11 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, struct BackFillMessage *msg) {
 
-	struct Window *the_win = video -> window;	
+	struct Window *the_win = engine -> window;	
 
 #ifdef amigaos4
 
-	draw_comp_bitmap(video->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
+	draw_comp_bitmap(engine->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
 		the_win->BorderLeft ,
 		the_win->BorderTop ,
 		the_win->Width - the_win->BorderLeft - the_win->BorderRight,
@@ -121,8 +123,8 @@ static void set_target_hookData( void )
 
 	hookData.srcWidth = video -> width;
 	hookData.srcHeight = video -> height;
-	hookData.offsetX = video -> window->BorderLeft;
-	hookData.offsetY = video -> window->BorderTop;
+	hookData.offsetX = My_Window->BorderLeft;
+	hookData.offsetY = My_Window->BorderTop;
 	hookData.scaleX = COMP_FLOAT_TO_FIX(scaleX);
 	hookData.scaleY = COMP_FLOAT_TO_FIX(scaleY);
 	hookData.retCode = COMPERR_Success;
@@ -136,7 +138,7 @@ static void BackFill_Func(struct RastPort *ArgRP, struct BackFillArgs *MyArgs)
 	set_target_hookData();
 
 //	LockLayer(0,video -> window -> RPort -> Layer);
-	DoHookClipRects(&hook, video -> window -> RPort, &rect);
+	DoHookClipRects(&hook, My_Window -> RPort, &rect);
 //	UnlockLayer(video -> window -> RPort -> Layer);
 }
 
@@ -195,13 +197,15 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( 640,480 )) == NULL ) return false;
+	if ( (engine = retroAllocEngine(My_Window, video)) == NULL ) return false;
 
 	return TRUE;
 }
 
 void closedown()
 {
+	if (engine) retroFreeEngine(engine); engine = NULL;
 	if (My_Window) CloseWindow(My_Window);
 
 	if (IntuitionBase) CloseLibrary(IntuitionBase); IntuitionBase = 0;
@@ -274,8 +278,8 @@ int main()
 
 			for (x=0;x<10;x++)
 			{
-				retroBAR( screen,10 + (x*100),10,50+ (x*100), 50, 1 );
-				retroBAR( screen,30 + (x*100),20,70+ (x*100), 60, 2 );
+				retroBAR( screen,0, 10 + (x*100),10,50+ (x*100), 50, 1 );
+				retroBAR( screen,0,30 + (x*100),20,70+ (x*100), 60, 2 );
 			}
 		}
 
@@ -293,8 +297,8 @@ int main()
 
 			for (x=0;x<10;x++)
 			{
-				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
-				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
+				retroBAR( screen2,0, 10 +(x*100), 10, 50+(x*100), 50, 1 );
+				retroBAR( screen2,0, 40 +(x*100), 20, 80+(x*100), 60, 2 );
 			}
 		}
 
@@ -304,8 +308,8 @@ int main()
 			retroScreenColor( screen3, 1, 255, 0, 0 );
 			retroScreenColor( screen3, 2, 0, 0, 255 );
 
-			retroBAR( screen3,10,10,50, 50, 1 );
-			retroBAR( screen3,20,20,60, 60, 2 );
+			retroBAR( screen3,0, 10,10,50, 50, 1 );
+			retroBAR( screen3,0, 20,20,60, 60, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0,320,200 );
@@ -314,7 +318,7 @@ int main()
 
 		while (running)
 		{
-			while (msg = (IntuiMessage *) GetMsg( video -> window -> UserPort) )
+			while (msg = (IntuiMessage *) GetMsg( My_Window -> UserPort) )
 			{
 				if (msg -> Class == IDCMP_CLOSEWINDOW) running = false;
 				ReplyMsg( (Message*) msg );
@@ -337,7 +341,7 @@ int main()
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
-			retroAndClear( screen, 0,0,screen->realWidth,screen->realHeight, ~4 );
+			retroAndClear( screen,0, 0,0,screen->realWidth,screen->realHeight, ~4 );
 
 			p = 0;
 
@@ -364,8 +368,9 @@ y= 20;
 			 }
 */
 
-			retroDrawVideo(video);
-			retroDmaVideo(video);
+			retroClearVideo( video );
+			retroDrawVideo( video );
+			retroDmaVideo(video,engine);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
