@@ -66,9 +66,9 @@ struct RetroModeIFace
 	void APICALL (*retroScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromMode, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toMode, int toX, int toY);
 	void APICALL (*retroOrScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromMode, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toMode, int toX, int toY);
 	void APICALL (*retroXorScreenBlit)(struct RetroModeIFace *Self, struct retroScreen * SourceScreen, int fromMode, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toMode, int toX, int toY);
-	void APICALL (*retroBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
-	void APICALL (*retroOrBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
-	void APICALL (*retroXorBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int toX, int toY);
+	void APICALL (*retroBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int buffer, int toX, int toY);
+	void APICALL (*retroOrBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int buffer, int toX, int toY);
+	void APICALL (*retroXorBitmapBlit)(struct RetroModeIFace *Self, struct BitMap * bitmap, int fromX, int fromY, int width, int height, struct retroScreen * screen, int buffer, int toX, int toY);
 	void APICALL (*retroAndClear)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, int x0, int y0, int x1, int y1, unsigned char and_mask);
 	void APICALL (*retroModeBadVideoSync)(struct RetroModeIFace *Self, struct retroVideo * video, double sync_offset, double incRad, double r);
 	void APICALL (*AfterEffectScanline)(struct RetroModeIFace *Self, struct retroVideo * video);

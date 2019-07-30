@@ -62,14 +62,15 @@
 */
 
 void _retromode_retroBitmapBlit(struct RetroModeIFace *Self,
-       struct BitMap * bitmap,
-       int fromX,
-       int fromY,
-       int width,
-       int height,
-       struct retroScreen * screen,
-       int toX,
-       int toY)
+	struct BitMap * bitmap,
+	int fromX,
+	int fromY,
+	int width,
+	int height,
+	struct retroScreen * screen,
+	int buffer,
+	int toX,
+	int toY)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int x,y;
@@ -115,7 +116,7 @@ void _retromode_retroBitmapBlit(struct RetroModeIFace *Self,
 		// we now know the limit, we can now do job, safely.
 
 		src_memory = BitMapMemory + (BitMapBytesPerRow * fromY) + fromX;
-		des_memory = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * toY) + toX;
+		des_memory = screen -> Memory[ buffer ] + (screen -> realWidth * toY) + toX;
 
 		for(y=0;y<height;y++)
 		{
