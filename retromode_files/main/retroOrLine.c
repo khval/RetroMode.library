@@ -58,12 +58,13 @@
 */
 
 void _retromode_retroOrLine(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       int x1,
-       int y1,
-       int x2,
-       int y2,
-       unsigned char color)
+	struct retroScreen * screen,
+	int buffer,
+	int x1,
+	int y1,
+	int x2,
+	int y2,
+	unsigned char color)
 {
 	unsigned char *memory;
 	double dx,dy;
@@ -96,7 +97,7 @@ void _retromode_retroOrLine(struct RetroModeIFace *Self,
 	if (x1+sdx<0) dx = x1;
 	if (x1+sdx>screen->realWidth-1) dx=screen->realWidth-x1-1;
 
-	memory = screen -> Memory[ screen -> double_buffer_draw_frame ] +  x1;
+	memory = screen -> Memory[ buffer ] +  x1;
 
 	y = (double) y1;
 

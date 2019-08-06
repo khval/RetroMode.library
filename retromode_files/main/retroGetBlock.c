@@ -56,10 +56,11 @@
 */
 
 void _retromode_retroGetBlock(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       struct retroBlock * block,
-       int x,
-       int y)
+	struct retroScreen * screen,
+	int buffer,
+	struct retroBlock * block,
+	int x,
+	int y)
 {
 	int _x,_y;
 	int sx,sy;
