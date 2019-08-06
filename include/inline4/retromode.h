@@ -123,7 +123,8 @@
 #define retroScreenToBitmap(screen, fromX, fromY, width, height, bitmap, toX, toY) IRetroMode->retroScreenToBitmap((screen), (fromX), (fromY), (width), (height), (bitmap), (toX), (toY)) 
 #define retroAllocBlock(width, height) IRetroMode->retroAllocBlock((width), (height)) 
 #define retroFreeBlock(block) IRetroMode->retroFreeBlock((block)) 
-#define retroGetBlock(screen, block, x, y) IRetroMode->retroGetBlock((screen), (block), (x), (y)) 
+#define retroGetBlock(screen, buffer, block, x, y) IRetroMode->retroGetBlock((screen), (buffer), (block), (x), (y)) 
+#define retroPutBlock(screen, buffer, block, x, y, bitmask) IRetroMode->retroPutBlock((screen), (buffer), (block), (x), (y), (bitmask)) 
 #define retroPasteIcon(screen, buffer, sprite, x, y, image) IRetroMode->retroPasteIcon((screen), (buffer), (sprite), (x), (y), (image)) 
 
 #endif /* INLINE4_RETROMODE_H */

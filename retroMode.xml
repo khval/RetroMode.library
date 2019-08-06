@@ -641,9 +641,18 @@
 		</method>
 		<method name="retroGetBlock" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="block" type="struct retroBlock *"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
+		</method>
+		<method name="retroPutBlock" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
+			<arg name="block" type="struct retroBlock *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+			<arg name="bitmask" type="unsigned char"/>
 		</method>
 		<method name="retroPasteIcon" result="void">
 			<arg name="screen" type="struct retroScreen *"/>

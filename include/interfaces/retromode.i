@@ -104,6 +104,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroAllocBlock
 	    FPTR IRetroMode_retroFreeBlock
 	    FPTR IRetroMode_retroGetBlock
+	    FPTR IRetroMode_retroPutBlock
 	    FPTR IRetroMode_retroPasteIcon
 	LABEL RetroModeIFace_SIZE
 

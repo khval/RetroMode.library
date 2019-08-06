@@ -124,7 +124,8 @@ struct RetroModeIFace
 	void APICALL (*retroScreenToBitmap)(struct RetroModeIFace *Self, struct retroScreen * screen, int fromX, int fromY, int width, int height, struct BitMap * bitmap, int toX, int toY);
 	struct retroBlock * APICALL (*retroAllocBlock)(struct RetroModeIFace *Self, int width, int height);
 	void APICALL (*retroFreeBlock)(struct RetroModeIFace *Self, struct retroBlock * block);
-	void APICALL (*retroGetBlock)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroBlock * block, int x, int y);
+	void APICALL (*retroGetBlock)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, struct retroBlock * block, int x, int y);
+	void APICALL (*retroPutBlock)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, struct retroBlock * block, int x, int y, unsigned char bitmask);
 	void APICALL (*retroPasteIcon)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, struct retroSprite * sprite, int x, int y, int image);
 };
 
