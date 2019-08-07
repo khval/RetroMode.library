@@ -62,6 +62,6 @@ void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * scr
 	if (x>=screen->realWidth) return;
 	if (y>=screen->realHeight) return;
 
-	 memory[ screen -> realWidth * y + x ] = color;
+	 memory[ screen -> bytesPerRow * y + x ] = color;
 }
 
