@@ -197,13 +197,13 @@
 		</method>
 		<method name="retroScreenBlit" result="void">
 			<arg name="SourceScreen" type="struct retroScreen *"/>
-			<arg name="fromMode" type="int"/>
+			<arg name="fromBuffer" type="int"/>
 			<arg name="fromX" type="int"/>
 			<arg name="fromY" type="int"/>
 			<arg name="width" type="int"/>
 			<arg name="height" type="int"/>
 			<arg name="screen" type="struct retroScreen *"/>
-			<arg name="toMode" type="int"/>
+			<arg name="toBuffer" type="int"/>
 			<arg name="toX" type="int"/>
 			<arg name="toY" type="int"/>
 		</method>

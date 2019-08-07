@@ -54,7 +54,7 @@
 #define retroOrCircleFilled(screen, buffer, cx, cy, r, or_mask) IRetroMode->retroOrCircleFilled((screen), (buffer), (cx), (cy), (r), (or_mask)) 
 #define retroXorCircleFilled(screen, buffer, cx, cy, r, xor_mask) IRetroMode->retroXorCircleFilled((screen), (buffer), (cx), (cy), (r), (xor_mask)) 
 #define retroScreenColor(screen, color, r, g, b) IRetroMode->retroScreenColor((screen), (color), (r), (g), (b)) 
-#define retroScreenBlit(SourceScreen, fromMode, fromX, fromY, width, height, screen, toMode, toX, toY) IRetroMode->retroScreenBlit((SourceScreen), (fromMode), (fromX), (fromY), (width), (height), (screen), (toMode), (toX), (toY)) 
+#define retroScreenBlit(SourceScreen, fromBuffer, fromX, fromY, width, height, screen, toBuffer, toX, toY) IRetroMode->retroScreenBlit((SourceScreen), (fromBuffer), (fromX), (fromY), (width), (height), (screen), (toBuffer), (toX), (toY)) 
 #define retroOrScreenBlit(SourceScreen, fromMode, fromX, fromY, width, height, screen, toMode, toX, toY) IRetroMode->retroOrScreenBlit((SourceScreen), (fromMode), (fromX), (fromY), (width), (height), (screen), (toMode), (toX), (toY)) 
 #define retroXorScreenBlit(SourceScreen, fromMode, fromX, fromY, width, height, screen, toMode, toX, toY) IRetroMode->retroXorScreenBlit((SourceScreen), (fromMode), (fromX), (fromY), (width), (height), (screen), (toMode), (toX), (toY)) 
 #define retroBitmapBlit(bitmap, fromX, fromY, width, height, screen, buffer, toX, toY) IRetroMode->retroBitmapBlit((bitmap), (fromX), (fromY), (width), (height), (screen), (buffer), (toX), (toY)) 

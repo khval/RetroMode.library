@@ -37,13 +37,13 @@
 *
 *   INPUTS
 *       bitmap - 
-*       fromMode - logical or physical screen
+*       fromBuffer - 
 *       fromX - 
 *       fromY - 
 *       realWidth - 
 *       heigh - 
 *       screen - 
-*       toMode - logical or physical screen
+*       toBuffer - 
 *       toX - 
 *       toY - 
 *
@@ -64,13 +64,13 @@
 
 void _retromode_retroXorScreenBlit(struct RetroModeIFace *Self,
 	struct retroScreen *source,
-	int formMode,
+	int fromBuffer,
 	int fromX,
 	int fromY,
 	int width,
 	int height,
 	struct retroScreen *destination,
-	int toMode,
+	int toBuffer,
 	int toX,
 	int toY)
 {
@@ -85,31 +85,8 @@ void _retromode_retroXorScreenBlit(struct RetroModeIFace *Self,
 	unsigned char *src_horizontal_end;
 	unsigned char *destination_memory;
 	unsigned char *destination_end;
-	unsigned int source_double_buffer_draw_frame,destination_double_buffer_draw_frame;
 
-	switch (formMode)
-	{
-		case 1:	// physical
-				source_double_buffer_draw_frame = (source ->Memory[1]) ? 1-source -> double_buffer_draw_frame : source -> double_buffer_draw_frame;
-				break;
-
-		default:	// Logical
-				source_double_buffer_draw_frame = source -> double_buffer_draw_frame;
-				break;
-	}
-
-	switch (toMode)
-	{
-		case 1:	 // physical
-				destination_double_buffer_draw_frame = (destination ->Memory[1]) ? 1-destination -> double_buffer_draw_frame : destination -> double_buffer_draw_frame;
-				break;
-
-		default:	// Logical
-				destination_double_buffer_draw_frame = destination -> double_buffer_draw_frame;
-				break;
-	}
-
-	destination_end = destination -> Memory[destination_double_buffer_draw_frame] + ( destination->realHeight * destination->realHeight );
+	destination_end = destination -> Memory[toBuffer] + ( destination->realHeight * destination->realHeight );
 
 	// limit to 0,0
 
@@ -131,10 +108,10 @@ void _retromode_retroXorScreenBlit(struct RetroModeIFace *Self,
 
 	// we now know the limit, we can now do the job, safely.
 
-	src_vertical_ptr = source -> Memory[source_double_buffer_draw_frame] + (source -> bytesPerRow * fromY) + fromX;
+	src_vertical_ptr = source -> Memory[fromBuffer] + (source -> bytesPerRow * fromY) + fromX;
 	src_vertical_end = src_vertical_ptr + (height * source -> bytesPerRow);
 
-	destination_memory = destination -> Memory[destination_double_buffer_draw_frame] + (destination -> realWidth * toY) + toX;
+	destination_memory = destination -> Memory[toBuffer] + (destination -> realWidth * toY) + toX;
 
 	for(;src_vertical_ptr<src_vertical_end;src_vertical_ptr += source -> realWidth)
 	{
