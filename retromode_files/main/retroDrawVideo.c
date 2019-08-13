@@ -100,15 +100,11 @@ void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned
 	else
 	{
 		// move src on nagative
-		data -= line -> beamStart ;		// - & - is +
-		videoWidth =  line -> videoWidth / 2;	// displayable video width;
+		data -= line -> beamStart ;	
+		videoWidth =  (line -> videoWidth + line -> beamStart) / 2;	// displayable video width;
 	}
 
-	draw_pixels = line -> pixels - abs(line -> beamStart);
-
-	// lowres has only half the number of pixels.
-
-	if ( draw_pixels > videoWidth ) draw_pixels = videoWidth ;
+	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
 
 	for (x=0; x < draw_pixels; x++)
 	{
@@ -154,24 +150,19 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 	{
 		// move des on postive
 		video_buffer_line += line -> beamStart ;
-		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;		// displayable video width;
 	}
 	else
 	{
 		// move src on nagative
 		data -= line -> beamStart ;		// - & - is +
-		videoWidth =  line -> videoWidth / 2;	// displayable video width;
+		videoWidth =  (line -> videoWidth +  line -> beamStart)  / 2;	// displayable video width;
 	}
 
-	draw_pixels = line -> pixels - abs(line -> beamStart);
-
-	// lowres has only half the number of pixels.
-
-	if ( draw_pixels > videoWidth ) draw_pixels = videoWidth ;
+	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
 
 	for (x=0; x < draw_pixels; x++)
 	{
-
 		color = *data++;
 
 		r = ((lr * 5) + (palette[color].r*95)) /100;
@@ -228,14 +219,10 @@ void draw_lowred_ham6(  struct retroScanline *line, int beamY, unsigned int *vid
 	{
 		// move src on nagative
 		data -= line -> beamStart ;		// - & - is +
-		videoWidth =  line -> videoWidth / 2;	// displayable video width;
+		videoWidth =  (line -> videoWidth + line -> beamStart) / 2; 	// displayable video width;
 	}
 
-	draw_pixels = line -> pixels - abs(line -> beamStart);
-
-	// lowres has only half the number of pixels.
-
-	if ( draw_pixels > videoWidth ) draw_pixels = videoWidth ;
+	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
 
 	r=0;
 	g=0;
@@ -302,11 +289,10 @@ void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buf
 	{
 		// move src on nagative
 		data -= line -> beamStart ;		// - & - is +
-		videoWidth =  line -> videoWidth;	// displayable video width;
+		videoWidth =  (line -> videoWidth + line -> beamStart) ;	// displayable video width;
 	}
-	draw_pixels = line -> pixels - abs(line -> beamStart);
 
-	if (draw_pixels  >  videoWidth ) draw_pixels = videoWidth ;
+	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
 
 	for (x=0; x < draw_pixels; x++)
 	{
