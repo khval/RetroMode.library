@@ -39,7 +39,7 @@ struct RetroModeIFace
 	struct retroVideo * APICALL (*retroAllocVideo)(struct RetroModeIFace *Self, int width, int height);
 	void APICALL (*retroFreeVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*retroFreeEngine)(struct RetroModeIFace *Self, struct retroEngine * engine);
-	void APICALL (*retroClearVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
+	void APICALL (*retroClearVideo)(struct RetroModeIFace *Self, struct retroVideo * video, unsigned int color);
 	void APICALL (*retroDrawVideo)(struct RetroModeIFace *Self, struct retroVideo * video);
 	void APICALL (*retroDmaVideo)(struct RetroModeIFace *Self, struct retroVideo * video, struct retroEngine * engine);
 	struct retroScreen * APICALL (*retroOpenScreen)(struct RetroModeIFace *Self, int width, int height, int videomode);

@@ -24,6 +24,7 @@
 		</method>
 		<method name="retroClearVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>
+			<arg name="color" type="unsigned int"/>
 		</method>
 		<method name="retroDrawVideo" result="void">
 			<arg name="video" type="struct retroVideo *"/>

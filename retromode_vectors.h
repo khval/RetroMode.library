@@ -21,7 +21,7 @@ extern struct retroEngine * VARARGS68K _retromode_retroAllocEngine(struct RetroM
 extern struct retroVideo *  VARARGS68K _retromode_retroAllocVideo(struct RetroModeIFace *, int width, int height);
 extern void                 VARARGS68K _retromode_retroFreeVideo(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_retroFreeEngine(struct RetroModeIFace *, struct retroEngine * engine);
-extern void                 VARARGS68K _retromode_retroClearVideo(struct RetroModeIFace *, struct retroVideo * video);
+extern void                 VARARGS68K _retromode_retroClearVideo(struct RetroModeIFace *, struct retroVideo * video, unsigned int color);
 extern void                 VARARGS68K _retromode_retroDrawVideo(struct RetroModeIFace *, struct retroVideo * video);
 extern void                 VARARGS68K _retromode_retroDmaVideo(struct RetroModeIFace *, struct retroVideo * video, struct retroEngine * engine);
 extern struct retroScreen * VARARGS68K _retromode_retroOpenScreen(struct RetroModeIFace *, int width, int height, int videomode);

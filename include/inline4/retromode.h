@@ -30,7 +30,7 @@
 #define retroAllocVideo(width, height) IRetroMode->retroAllocVideo((width), (height)) 
 #define retroFreeVideo(video) IRetroMode->retroFreeVideo((video)) 
 #define retroFreeEngine(engine) IRetroMode->retroFreeEngine((engine)) 
-#define retroClearVideo(video) IRetroMode->retroClearVideo((video)) 
+#define retroClearVideo(video, color) IRetroMode->retroClearVideo((video), (color)) 
 #define retroDrawVideo(video) IRetroMode->retroDrawVideo((video)) 
 #define retroDmaVideo(video, engine) IRetroMode->retroDmaVideo((video), (engine)) 
 #define retroOpenScreen(width, height, videomode) IRetroMode->retroOpenScreen((width), (height), (videomode)) 

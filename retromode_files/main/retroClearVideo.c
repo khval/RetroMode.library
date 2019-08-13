@@ -37,6 +37,7 @@
 *
 *   INPUTS
 *       video - 
+*	color - rgb
 *
 *   RESULT
 *       This function does not return a result
@@ -53,7 +54,7 @@
 *
 */
 
-void _retromode_retroClearVideo(struct RetroModeIFace *Self, struct retroVideo * video)
+void _retromode_retroClearVideo(struct RetroModeIFace *Self, struct retroVideo * video, unsigned int color)
 {
 	int size =  video->BytesPerRow * video -> height ;
 	unsigned int *mem;
@@ -63,12 +64,25 @@ void _retromode_retroClearVideo(struct RetroModeIFace *Self, struct retroVideo *
 
 	mem = video -> Memory;
 
-	while (size-- )
+	if (color)
 	{
-		*mem++=0;
-		*mem++=0;
-		*mem++=0;
-		*mem++=0;
+		while (size-- )
+		{
+			*mem++=color;
+			*mem++=color;
+			*mem++=color;
+			*mem++=color;
+		}
+	}
+	else
+	{
+		while (size-- )
+		{
+			*mem++=0;
+			*mem++=0;
+			*mem++=0;
+			*mem++=0;
+		}
 	}
 }
 

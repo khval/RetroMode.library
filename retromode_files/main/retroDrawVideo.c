@@ -132,7 +132,8 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 	struct retroScreen *screen = line -> screen;
 	struct retroRGB *palette = line -> rowPalette;
 	unsigned char *data ;
-	unsigned char color;
+	struct retroRGB *color;
+//	unsigned char color;
 	int videoWidth;
 	int draw_pixels;
 
@@ -163,20 +164,20 @@ void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, 
 
 	for (x=0; x < draw_pixels; x++)
 	{
-		color = *data++;
+		color = &palette[*data++];
 
-		r = ((lr * 5) + (palette[color].r*95)) /100;
-		g = ((lg * 5) + (palette[color].g*95)) / 100;
-		b = ((lb * 5) + (palette[color].b*95)) /100;
+		r = ((lr * 5) + (color->r*95)) /100;
+		g = ((lg * 5) + (color->g*95)) / 100;
+		b = ((lb * 5) + (color->b*95)) /100;
 
 		// keep last
 		lr = r; lg = g; lb = b;
 
 		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
 
-		r = ((lr * 5) + (palette[color].r*95)) /100;
-		g = ((lg * 5) + (palette[color].g*95)) / 100;
-		b = ((lb * 5) + (palette[color].b*95)) /100;
+		r = ((lr * 5) + (color->r*95)) /100;
+		g = ((lg * 5) + (color->g*95)) / 100;
+		b = ((lb * 5) + (color->b*95)) /100;
 
 		// keep last.
 		lr = r; lg = g; lb = b;
@@ -540,7 +541,6 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 		video -> refreshSomeScanlines = FALSE;
 		update_some_scanlines(libBase, video);
 	}
-
 
 	// only allocated rainbow tables are in the compressed table
 	// allowing me skip validating in main loop.
