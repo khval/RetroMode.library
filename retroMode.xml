@@ -433,6 +433,7 @@
 		</method>
 		<method name="retroPasteSprite" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="sprite" type="struct retroSprite *"/>
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>

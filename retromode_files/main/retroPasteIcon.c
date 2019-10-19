@@ -60,11 +60,12 @@
 #define flag_transparent 1
 
 void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       struct retroSprite * sprite,
-       int x,
-       int y,
-       int image)
+	struct retroScreen * screen,
+	int buffer,
+	struct retroSprite * sprite,
+	int x,
+	int y,
+	int image)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int width;
@@ -118,7 +119,7 @@ void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
 		 source_x0 = -x; x = 0; width -= source_x0;
 	}
 
-	destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
+	destination_row_start = screen -> Memory[ buffer ]  + (screen -> bytesPerRow * y)+ x;
 	source_row_start = (unsigned char *) frame -> data + (source_y0 * frame -> bytesPerRow ) + source_x0;
 	source_row_end = source_row_start + width;
 

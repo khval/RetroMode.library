@@ -220,6 +220,7 @@ void _bottom_up(
 
 void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	struct retroScreen * screen,
+	int buffer,
 	struct retroSprite * sprite,
 	int x,
 	int y,
@@ -287,26 +288,25 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	{
 		case 0x0000:
 			pick_mode(left_right);
-			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
-			libBase -> IDOS -> Printf("draw_mode %08x\n",draw_mode);
+			destination_row_start = screen -> Memory[ buffer ]  + (screen -> bytesPerRow * y)+ x;
 			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen  );
 			break;
 
 		case 0x4000:
 			pick_mode(left_right);
-			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> bytesPerRow * (y + height - 1)) + x;
+			destination_row_start = screen -> Memory[ buffer ] + (screen -> bytesPerRow * (y + height - 1)) + x;
 			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen);
 			break;
 
 		case 0x8000:
 			pick_mode(right_left);
-			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ]  + (screen -> bytesPerRow * y)+ x;
+			destination_row_start = screen -> Memory[ buffer ]  + (screen -> bytesPerRow * y)+ x;
 			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen);
 			break;
 
 		case 0xC000:
 			pick_mode(right_left);
-			destination_row_start = screen -> Memory[ screen -> double_buffer_draw_frame ] + (screen -> realWidth * (y + height - 1)) + x;
+			destination_row_start = screen -> Memory[ buffer ] + (screen -> realWidth * (y + height - 1)) + x;
 			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen);
 			break;
 
