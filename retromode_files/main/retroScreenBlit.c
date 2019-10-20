@@ -64,6 +64,86 @@
 *
 */
 
+void top_down_left_right(
+	struct retroScreen *source,
+	int formBuffer,
+	int fromX,
+	int fromY,
+	int width,
+	int height,
+	struct retroScreen *destination,
+	 int toBuffer,
+	int toX,
+	int toY)
+{
+	// range
+	unsigned char *src_vertical_ptr;
+	unsigned char *src_vertical_end;
+	unsigned char *src_horizontal_ptr;
+	unsigned char *src_horizontal_end;
+
+	unsigned char *destination_memory;
+	unsigned char *destination_horizontal_ptr;
+
+	src_vertical_ptr = source -> Memory[formBuffer] + (source -> bytesPerRow * fromY) + fromX;
+	src_vertical_end = src_vertical_ptr + (height * source -> bytesPerRow);
+
+	destination_memory = destination -> Memory[toBuffer] + (destination -> realWidth * toY) + toX;
+	for(;src_vertical_ptr<src_vertical_end;src_vertical_ptr += source -> bytesPerRow)
+	{
+		destination_horizontal_ptr = destination_memory;
+		src_horizontal_end =src_vertical_ptr+width;
+
+		for(src_horizontal_ptr=src_vertical_ptr;src_horizontal_ptr<src_horizontal_end;src_horizontal_ptr++)
+		{
+			*destination_horizontal_ptr++ = *src_horizontal_ptr;
+		}
+		destination_memory += destination -> realWidth;
+	}
+}
+
+void down_up_left_right(
+	struct retroScreen *source,
+	int formBuffer,
+	int fromX,
+	int fromY,
+	int width,
+	int height,
+	struct retroScreen *destination,
+	 int toBuffer,
+	int toX,
+	int toY)
+{
+	// range
+	unsigned char *src_vertical_start;
+	unsigned char *src_vertical_ptr;
+	unsigned char *src_vertical_end;
+
+	unsigned char *src_horizontal_ptr;
+	unsigned char *src_horizontal_end;
+
+	unsigned char *destination_memory;
+	unsigned char *destination_horizontal_ptr;
+
+	src_vertical_start = source -> Memory[formBuffer] + (source -> bytesPerRow * fromY) + fromX;
+	src_vertical_end = src_vertical_start + (height * source -> bytesPerRow);
+	src_vertical_ptr =  src_vertical_end - source -> bytesPerRow;
+
+	destination_memory = destination -> Memory[toBuffer] + (destination -> realWidth * (toY + height -1) ) + toX;
+
+	for(;src_vertical_ptr>=src_vertical_start;src_vertical_ptr -= source -> bytesPerRow)
+	{
+		destination_horizontal_ptr = destination_memory;
+		src_horizontal_end =src_vertical_ptr+width;
+
+		for(src_horizontal_ptr=src_vertical_ptr;src_horizontal_ptr<src_horizontal_end;src_horizontal_ptr++)
+		{
+			*destination_horizontal_ptr++ = *src_horizontal_ptr;
+		}
+
+		destination_memory -= destination -> realWidth;
+	}
+}
 
 void _retromode_retroScreenBlit(struct RetroModeIFace *Self,
 	struct retroScreen *source,
@@ -79,17 +159,6 @@ void _retromode_retroScreenBlit(struct RetroModeIFace *Self,
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	// pointers
-	unsigned char *destination_horizontal_ptr;
-
-	// range
-	unsigned char *src_vertical_ptr;
-	unsigned char *src_vertical_end;
-	unsigned char *src_horizontal_ptr;
-	unsigned char *src_horizontal_end;
-	unsigned char *destination_memory;
-	unsigned char *destination_end;
-
-	destination_end = destination -> Memory[toBuffer] + ( destination->realHeight * destination->realHeight );
 
 	// limit to 0,0
 
@@ -110,22 +179,15 @@ void _retromode_retroScreenBlit(struct RetroModeIFace *Self,
 	if (toY+height>destination->realHeight) height = destination->realHeight - toY;
 
 	// we now know the limit, we can now do the job, safely.
-
-	src_vertical_ptr = source -> Memory[formBuffer] + (source -> bytesPerRow * fromY) + fromX;
-	src_vertical_end = src_vertical_ptr + (height * source -> bytesPerRow);
-
-	destination_memory = destination -> Memory[toBuffer] + (destination -> realWidth * toY) + toX;
-
-	for(;src_vertical_ptr<src_vertical_end;src_vertical_ptr += source -> bytesPerRow)
+	
+	if (toY<fromY)
 	{
-		destination_horizontal_ptr = destination_memory;
-		src_horizontal_end =src_vertical_ptr+width;
-
-		for(src_horizontal_ptr=src_vertical_ptr;src_horizontal_ptr<src_horizontal_end;src_horizontal_ptr++)
-		{
-			*destination_horizontal_ptr++ = *src_horizontal_ptr;
-		}
-		destination_memory += destination -> realWidth;
+	 	top_down_left_right(source, formBuffer, fromX, fromY, width, height, destination, toBuffer, toX, toY);
 	}
+	else
+	{
+	 	down_up_left_right(source, formBuffer, fromX, fromY, width, height, destination, toBuffer, toX, toY);
+	}
+	
 }
 
