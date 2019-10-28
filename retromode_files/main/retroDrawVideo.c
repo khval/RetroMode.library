@@ -519,8 +519,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 	struct retroScanline *scanline = video -> scanlines;
 	struct retroScreen **screen_item;
 	unsigned int *video_buffer = video -> Memory;
-	unsigned int beamY;
-	unsigned int beamcount;
+	int beamY;
 	int intsPerRow = video -> BytesPerRow / 4;
 	struct retroRainbow *compressed_rainbow_table[3];
 	struct retroRainbow **compressed_rainbow_table_end;
@@ -528,6 +527,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 	int n;
 	BOOL coopered = FALSE;
 	BOOL *coopered_last = NULL;
+	int rainStart, rainEnd;
 
 	if (video -> refreshAllScanlines == TRUE)
 	{
@@ -556,7 +556,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 		}
 	}
 
-	beamcount = 0;
+
 	for (beamY=0; beamY < video-> height; beamY++)
 	{
 		if (scanline->mode != NULL) 
@@ -565,8 +565,13 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 
 			for ( rainbow_ptr = compressed_rainbow_table; rainbow_ptr < compressed_rainbow_table_end; rainbow_ptr++)
 			{
-				if (( beamcount > (*rainbow_ptr) -> verticalOffset) && ( beamcount < (*rainbow_ptr) -> verticalOffset + (*rainbow_ptr) -> height ))
+				rainStart = ((*rainbow_ptr) -> verticalOffset * 2);
+				rainEnd =  rainStart + ((*rainbow_ptr) -> height * 2) ;
+
+				if (( beamY > rainStart) && ( beamY < rainEnd ))
 				{
+//					libBase -> IDOS -> Printf(" (%ld > %ld) && (%ld < %ld) \n ", beamY ,rainStart , beamY, rainEnd );
+
 					copper_to_scanline( *rainbow_ptr,  scanline );
 					coopered = TRUE;
 				}
@@ -582,7 +587,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 				}
 
 				scanline -> mode( scanline,  beamY, video_buffer  );
-				beamcount ++;
+
 				*coopered_last = coopered;
 			}
 		}
