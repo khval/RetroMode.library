@@ -85,7 +85,7 @@ struct retroVideo
 
 	int screensAttached;
 
-	struct retroRainbow	rainbow[3];
+	struct retroRainbow	rainbow[4];	// 0..3 is 4
 	struct retroScanline scanlines[480];
 
 	unsigned int *Memory;

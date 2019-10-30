@@ -521,7 +521,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 	unsigned int *video_buffer = video -> Memory;
 	int beamY;
 	int intsPerRow = video -> BytesPerRow / 4;
-	struct retroRainbow *compressed_rainbow_table[3];
+	struct retroRainbow *compressed_rainbow_table[4];
 	struct retroRainbow **compressed_rainbow_table_end;
 	struct retroRainbow **rainbow_ptr;
 	int n;
@@ -547,7 +547,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 
 	compressed_rainbow_table_end = compressed_rainbow_table;
 
-	for ( n = 0; n < 3; n++)
+	for ( n = 0; n <= 3; n++)
 	{
 		if (video->rainbow[n].table)
 		{
