@@ -374,9 +374,7 @@ static void do_all_screen_color_effects(struct RetroLibrary *libBase, struct ret
 
 static void copper_to_scanline( struct retroRainbow *rainbow, int rainbow_scanline, struct retroScanline *scanline )
 {
-	scanline->rowPalette[rainbow ->color] = rainbow->table[ rainbow_scanline % rainbow->tableSize];
-
-//	rainbow -> drawpos++;
+	scanline->rowPalette[rainbow ->color] = rainbow->table[ (rainbow_scanline + rainbow -> offset) % rainbow->tableSize];
 }
 
 static void color_reset( struct retroVideo * video, struct retroScanline *scanline)
@@ -552,7 +550,6 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 	{
 		if (video->rainbow[n].table)
 		{
-			video->rainbow[n].drawpos =video->rainbow[n].offset;
 			*compressed_rainbow_table_end++ = &video->rainbow[n];
 		}
 	}

@@ -31,7 +31,6 @@ struct retroRainbow
 	int offset;				// rainbow
 	int verticalOffset;		// rainbow (vertical offset)
 	int height;			// height of copper
-	int drawpos;
 };
 
 struct retroScanline
