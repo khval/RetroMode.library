@@ -35,14 +35,19 @@ struct retroRainbow
 
 struct retroScanline
 {
-	int beamStart;
 	int pixels;
 	int videoWidth;
 	unsigned char *data[2];
 	struct retroScreen *screen;
 	struct retroRGB *orgPalette;
 	struct retroRGB *rowPalette;
-	void (*mode) ( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+	void (*mode) (  int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+};
+
+struct retroParallax
+{
+	int beamStart;
+	struct retroScanline scanline[2];
 };
 
 struct retroFlash
@@ -85,7 +90,7 @@ struct retroVideo
 	int screensAttached;
 
 	struct retroRainbow	rainbow[4];	// 0..3 is 4
-	struct retroScanline scanlines[480];
+	struct retroParallax scanlines[480];
 
 	unsigned int *Memory;
 	unsigned int BytesPerRow;
@@ -131,8 +136,8 @@ struct p
 	double x ; double y ;
 };
 
-void draw_lowres_emulate_color_changes( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+void draw_lowres_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
 //void draw_video(struct retroVideo *context, unsigned int *video_buffer );
 
@@ -195,6 +200,7 @@ struct retroScreen
 	int clones;
 	BOOL refreshScanlines;
 	struct retroScreen *cloneOfScreen;
+	struct retroScreen *dualScreen;
 
 	struct retroTextWindow *currentTextWindow;
 	struct retroTextWindow **textWindows;

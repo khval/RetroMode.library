@@ -75,6 +75,7 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 	{
 		screen -> clones = 0;
 		screen -> cloneOfScreen = NULL;
+		screen -> dualScreen = NULL;
 		screen -> realWidth = width;
 		screen -> realHeight = height;
 

@@ -72,6 +72,8 @@ void retroDrawSprite(struct RetroLibrary *libBase,
 	char *source_row_ptr;
 	char *source_row_end ;
 
+	struct retroScanline *scanline;
+
 	width = frame -> width;
 	height = frame -> height;
 
@@ -105,15 +107,17 @@ void retroDrawSprite(struct RetroLibrary *libBase,
 
 		if (scanlinenumber<video -> height-1)
 		{
+			scanline = &video -> scanlines[ scanlinenumber ].scanline[0];
+
 			for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
 			{
-				if (video -> scanlines[ scanlinenumber ].mode)
+				if (scanline  -> mode)
 				{
 					color = *source_row_ptr;
 
 					if (color>0)
 					{
-						rgb = &(video -> scanlines[ scanlinenumber ].orgPalette[ color ]);
+						rgb = &(scanline -> orgPalette[ color ]);
 						color = (rgb->r << 16) | (rgb->g << 8 | rgb -> b) ;
 
 						*destination_row_ptr++ = color;

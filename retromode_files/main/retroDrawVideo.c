@@ -56,256 +56,26 @@
 
 void resetScanlines(struct retroVideo * video)
 {
-	struct retroScanline *scanline = video -> scanlines;
+	struct retroParallax *line = video -> scanlines;
 	int beamY;
 
 	for (beamY=0; beamY < video-> height; beamY++)
 	{
-		scanline->mode = NULL;
-		scanline ++;
+		line -> scanline[0].mode = NULL;
+		line -> scanline[1].mode = NULL;
+		line ++;
 	}
 }
 
-void draw_lowred_pixeled_color(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
-{
-	int x;
-	int display_frame = 0;
-	unsigned short lr,lg,lb;
-	unsigned short r,g,b;
-	unsigned int *video_buffer_line = video_buffer;
-	struct retroScreen *screen = line -> screen;
-	struct retroRGB *palette = line -> rowPalette;
-	unsigned char *data ; 
-	unsigned char color;
-	int videoWidth;
-	unsigned int rgb;
-	int draw_pixels;
+extern void draw_lowred_pixeled_color( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_lowred_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
-	// check if screen is double buffer screen
-	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
-	data = line -> data[ display_frame  ] ;
-
-	lr = 0;
-	lg = 0;
-	lb = 0;
-
-	// beam emulates 8 bits per chunk.
-
-	if (line -> beamStart > 0)
-	{
-		// move des on postive
-		video_buffer_line += line -> beamStart ;
-		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
-	}
-	else
-	{
-		// move src on nagative
-		data -= line -> beamStart ;	
-		videoWidth =  (line -> videoWidth + line -> beamStart) / 2;	// displayable video width;
-	}
-
-	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
-
-	for (x=0; x < draw_pixels; x++)
-	{
-		color = *data++;
-
-		r = palette[color].r;
-		g =palette[color].g;
-		b =palette[color].b;
-
-		rgb = 0xFF000000 | (r << 16) | (g << 8) | b;
-
-		*video_buffer_line ++ = rgb;
-		*video_buffer_line ++ = rgb;
-	}
-}
-
-
-void draw_lowred_emulate_color_changes(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
-{
-	int x;
-	int display_frame = 0;
-	unsigned short lr,lg,lb;
-	unsigned short r,g,b;
-	unsigned int *video_buffer_line = video_buffer;
-	struct retroScreen *screen = line -> screen;
-	struct retroRGB *palette = line -> rowPalette;
-	unsigned char *data ;
-	struct retroRGB *color;
-//	unsigned char color;
-	int videoWidth;
-	int draw_pixels;
-
-	// check if screen is double buffer screen
-	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
-	data = line -> data[ display_frame  ] ;
-
-	lr = 0;
-	lg = 0;
-	lb = 0;
-
-	// beam emulates 8 bits per chunk.
-
-	if (line -> beamStart > 0)
-	{
-		// move des on postive
-		video_buffer_line += line -> beamStart ;
-		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;		// displayable video width;
-	}
-	else
-	{
-		// move src on nagative
-		data -= line -> beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth +  line -> beamStart)  / 2;	// displayable video width;
-	}
-
-	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
-
-	for (x=0; x < draw_pixels; x++)
-	{
-		color = &palette[*data++];
-
-		r = ((lr * 5) + (color->r*95)) /100;
-		g = ((lg * 5) + (color->g*95)) / 100;
-		b = ((lb * 5) + (color->b*95)) /100;
-
-		// keep last
-		lr = r; lg = g; lb = b;
-
-		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
-
-		r = ((lr * 5) + (color->r*95)) /100;
-		g = ((lg * 5) + (color->g*95)) / 100;
-		b = ((lb * 5) + (color->b*95)) /100;
-
-		// keep last.
-		lr = r; lg = g; lb = b;
-
-		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
-	}
-}
-
-void draw_lowred_ham6(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
-{
-	int x;
-	int display_frame = 0;
-	unsigned short lr,lg,lb;
-	unsigned short r,g,b;
-	unsigned int *video_buffer_line = video_buffer;
-	struct retroScreen *screen = line -> screen;
-	struct retroRGB *palette = line -> rowPalette;
-	unsigned char *data ;
-	unsigned char color;
-	int videoWidth;
-	int draw_pixels;
-
-	// check if screen is double buffer screen
-	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
-	data = line -> data[ display_frame  ] ;
-
-	lr = 0;
-	lg = 0;
-	lb = 0;
-
-	// beam emulates 8 bits per chunk.
-
-	if (line -> beamStart > 0)
-	{
-		// move des on postive
-		video_buffer_line += line -> beamStart ;
-		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
-	}
-	else
-	{
-		// move src on nagative
-		data -= line -> beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth + line -> beamStart) / 2; 	// displayable video width;
-	}
-
-	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
-
-	r=0;
-	g=0;
-	b=0;
-
-	for (x=0; x < draw_pixels; x++)
-	{
-		color = *data++;
-
-		switch (color & 0x30)
-		{
-			case 0x00:
-					r = palette[color].r;
-					g = palette[color].g;
-					b = palette[color].b;
-					break;
-			case 0x10:
-					b = (color & 0xF) * 0x11;
-					break;
-			case 0x20:
-					r = (color & 0xF) * 0x11;
-					break;
-			case 0x30:
-					g = (color & 0xF) * 0x11;
-					break;
-		}
-
-		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
-		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
-	}
-}
-
-void draw_hires(  struct retroScanline *line, int beamY, unsigned int *video_buffer  )
-{
-	int x;
-	int display_frame = 0;
-	unsigned short lr,lg,lb;
-	unsigned short r,g,b;
-	unsigned int *video_buffer_line = video_buffer;
-	struct retroScreen *screen = line -> screen;
-	struct retroRGB *palette = line -> rowPalette;
-	unsigned char *data ;
-	unsigned char color;
-	int videoWidth;
-	int draw_pixels;
-
-	// check if screen is double buffer screen
-	if (screen) if (screen -> Memory[1]) display_frame = 1 - screen -> double_buffer_draw_frame;
-	data = line -> data[ display_frame  ] ;
-
-	lr = 0;
-	lg = 0;
-	lb = 0;
-
-	// beam emulates 8 bits per chunk.
-
-	if (line -> beamStart > 0)
-	{
-		// move des on postive
-		video_buffer_line += line -> beamStart ;
-		videoWidth =  (line -> videoWidth - line -> beamStart);		// displayable video width;
-	}
-	else
-	{
-		// move src on nagative
-		data -= line -> beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth + line -> beamStart) ;	// displayable video width;
-	}
-
-	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
-
-	for (x=0; x < draw_pixels; x++)
-	{
-		color = *data++;
-
-		r = palette[color].r;
-		g = palette[color].g;
-		b = palette[color].b;
-
-		*video_buffer_line ++ = 0xFF000000 | (r << 16) | (g << 8) | b;
-	}
-}
+extern void draw_transparent_lowred_pixeled_color( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_lowred_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
 static void do_all_screen_color_effects(struct RetroLibrary *libBase, struct retroScreen *screen)
 {
@@ -389,11 +159,12 @@ static void color_reset( struct retroVideo * video, struct retroScanline *scanli
 	}
 }
 
-void set_scanline(struct retroScanline *scanline,struct retroScreen * screen, struct retroVideo * video, int offset)
+void set_scanline( struct RetroLibrary *libBase, int n, struct retroParallax *line,struct retroScreen * screen, struct retroVideo * video, int offset)
 {
 	int videomode = screen -> videomode & ~retroInterlaced;
 
-	scanline -> beamStart = screen -> scanline_x;
+	struct retroScanline *scanline = &line -> scanline[n];
+
 	scanline -> videoWidth = video -> width;
 	scanline -> screen = screen;
 	scanline -> pixels = screen -> displayWidth;
@@ -413,31 +184,64 @@ void set_scanline(struct retroScanline *scanline,struct retroScreen * screen, st
 	scanline -> rowPalette = screen -> rowPalette;
 	scanline -> orgPalette = screen -> orgPalette;
 
-	switch (videomode) 
+
+	if (screen -> dualScreen)	// has dualScreen, so this need to be transparent.
 	{
-		case retroLowres:
+		switch (videomode) 
+		{
+			case retroLowres:
+				scanline -> mode = draw_transparent_lowred_emulate_color_changes;
+				break;
+
+			case retroLowres|retroHam6:
+				scanline -> mode = draw_transparent_lowred_ham6;
+				break;
+
+			case retroLowres_pixeld:
+				scanline -> mode = draw_transparent_lowred_pixeled_color;
+				break;
+
+			case retroLowres_pixeld|retroHam6:
+				scanline -> mode = draw_transparent_lowred_ham6;
+				break;
+
+			case retroHires:
+				scanline -> mode = draw_transparent_hires;
+				break;
+
+			case retroHires|retroHam6:
+				scanline -> mode = draw_transparent_hires;
+				break;
+		}
+	}
+	else
+	{
+		switch (videomode) 
+		{
+			case retroLowres:
 				scanline -> mode = draw_lowred_emulate_color_changes;
 				break;
 
-		case retroLowres|retroHam6:
+			case retroLowres|retroHam6:
 				scanline -> mode = draw_lowred_ham6;
 				break;
 
-		case retroLowres_pixeld:
+			case retroLowres_pixeld:
 				scanline -> mode = draw_lowred_pixeled_color;
 				break;
 
-		case retroLowres_pixeld|retroHam6:
+			case retroLowres_pixeld|retroHam6:
 				scanline -> mode = draw_lowred_ham6;
 				break;
 
-		case retroHires:
+			case retroHires:
 				scanline -> mode = draw_hires;
 				break;
 
-		case retroHires|retroHam6:
+			case retroHires|retroHam6:
 				scanline -> mode = draw_hires;
 				break;
+		}
 	}
 }
 
@@ -445,45 +249,64 @@ void set_scanline(struct retroScanline *scanline,struct retroScreen * screen, st
 
 void Screen_To_Scanlines( struct RetroLibrary *libBase, struct retroScreen * screen, struct retroVideo * video )
 {
-	int screen_y = 0;
-	int hw_start = 0;
-	int hw_end = 0;
-	int hw_y = 0;
+	int n;
+	int scanline_x,scanline_y,screen_y ;
+	int hw_start ;
+	int hw_end ;
+	int hw_y ;
 	int offset;
-	int displayed = (screen ->videomode & retroInterlaced) ? 0 : 1;
-	int physical_vfacor = (screen ->videomode & retroInterlaced) ? 1 : 2;
+	int displayed ;
+	int physical_vfacor ;
 
-	if (screen -> flags & retroscreen_flag_hide) return;
+	if (screen -> flags & retroscreen_flag_hide) 	return;
 
-	hw_start = screen -> scanline_y ;
-	hw_end = hw_start + (screen -> displayHeight * physical_vfacor );
+	scanline_x = screen -> scanline_x;
+	scanline_y = screen -> scanline_y;
 
-	if (hw_end<0)	return;						// outside of scope.
-	if (hw_start> ((int) video->height))	return;		// outside of scope.
-
-	if (hw_start<0)
+	for (n=0;n<=1;n++)
 	{
-		screen_y = -hw_start / physical_vfacor;
+		screen_y = 0;
 		hw_start = 0;
-	}
+		hw_end = 0;
+		hw_y = 0;
+		displayed = (screen ->videomode & retroInterlaced) ? 0 : 1;
+		physical_vfacor = (screen ->videomode & retroInterlaced) ? 1 : 2;
 
-	if (hw_end>=video->height) hw_end = video->height;
+		hw_start = scanline_y;
+		hw_end = hw_start + (screen -> displayHeight * physical_vfacor );
 
-	screen_y += screen -> offset_y;
+		if (hw_end<0)	return;						// outside of scope.
+		if (hw_start> ((int) video->height))	return;		// outside of scope.
 
-	for (hw_y = hw_start; hw_y<hw_end; hw_y++)
-	{
-		if ((hw_y & displayed) == is_displayed)
+		if (hw_start<0)
 		{
-			if ((screen_y>=0) && (screen_y <= screen -> realHeight))
-			{
-				offset = (screen -> bytesPerRow * screen_y) + screen -> offset_x;
-
-				set_scanline( &video -> scanlines[ hw_y ], screen, video, offset );
-			}
-
-			screen_y ++;
+			screen_y = -hw_start / physical_vfacor;
+			hw_start = 0;
 		}
+
+		if (hw_end>video->height) hw_end = video->height;
+
+		screen_y += screen -> offset_y;
+
+		for (hw_y = hw_start; hw_y<hw_end; hw_y++)
+		{
+			if ((hw_y & displayed) == is_displayed)
+			{
+				if ((screen_y>=0) && (screen_y <= screen -> realHeight))
+				{
+					offset = (screen -> bytesPerRow * screen_y) + screen -> offset_x;
+
+					video -> scanlines[ hw_y ].beamStart = scanline_x;
+					set_scanline( libBase, n, &video -> scanlines[ hw_y ], screen, video, offset );
+				}
+
+				screen_y ++;
+			}
+		}
+
+		if (screen -> dualScreen == NULL) 	break;
+
+		screen = screen -> dualScreen;
 	}
 }
 
@@ -515,9 +338,9 @@ void update_some_scanlines( struct RetroLibrary *libBase, struct retroVideo * vi
 void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * video)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	struct retroScanline *scanline = video -> scanlines;
+	struct retroParallax *line;
 	struct retroScreen **screen_item;
-	unsigned int *video_buffer = video -> Memory;
+	unsigned int *video_buffer;
 	int beamY;
 	int intsPerRow = video -> BytesPerRow / 4;
 	struct retroRainbow *compressed_rainbow_table[4];
@@ -554,44 +377,45 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 		}
 	}
 
-
-	for (beamY=0; beamY < video-> height; beamY++)
+	for ( n=1; n>=0; n-- )
 	{
-		if (scanline->mode != NULL) 
+		line = video -> scanlines;
+		video_buffer = video -> Memory;
+
+		for (beamY=0; beamY < video-> height; beamY++)
 		{
-			coopered = FALSE;
-
-			for ( rainbow_ptr = compressed_rainbow_table; rainbow_ptr < compressed_rainbow_table_end; rainbow_ptr++)
+			if (line -> scanline[n].mode != NULL) 
 			{
-				rainStart = ((*rainbow_ptr) -> verticalOffset * 2);
-				rainEnd =  rainStart + ((*rainbow_ptr) -> height * 2) ;
+				coopered = FALSE;
 
-				if (( beamY > rainStart) && ( beamY < rainEnd ))
+				for ( rainbow_ptr = compressed_rainbow_table; rainbow_ptr < compressed_rainbow_table_end; rainbow_ptr++)
 				{
-//					libBase -> IDOS -> Printf(" (%ld > %ld) && (%ld < %ld) \n ", beamY ,rainStart , beamY, rainEnd );
+					rainStart = ((*rainbow_ptr) -> verticalOffset * 2);
+					rainEnd =  rainStart + ((*rainbow_ptr) -> height * 2) ;
 
-					copper_to_scanline( *rainbow_ptr, (beamY - rainStart) / 2 ,  scanline );
-					coopered = TRUE;
+					if (( beamY > rainStart) && ( beamY < rainEnd ))
+					{
+						copper_to_scanline( *rainbow_ptr, (beamY - rainStart) / 2 ,  &line -> scanline[0] );
+						coopered = TRUE;
+					}
+				}
+
+				coopered_last = line -> scanline[n].screen ? &(line ->scanline[n].screen -> coopered_last) : NULL;
+				if (coopered_last)		// have pointer...
+				{
+					if ((coopered == FALSE)&&( *coopered_last == TRUE))
+					{
+						color_reset( video, &line -> scanline[n] );
+					}
+
+					line -> scanline[n].mode( n , &line -> scanline[n],  beamY, video_buffer  );	
+					*coopered_last = coopered;
 				}
 			}
 
-			coopered_last = scanline -> screen ? &scanline -> screen -> coopered_last : NULL;
-
-			if (coopered_last)		// have pointer...
-			{
-				if ((coopered == FALSE)&&( *coopered_last == TRUE))
-				{
-					color_reset( video, scanline );
-				}
-
-				scanline -> mode( scanline,  beamY, video_buffer  );
-
-				*coopered_last = coopered;
-			}
+			video_buffer += intsPerRow;	// next line
+			line ++;
 		}
-
-		video_buffer += intsPerRow;	// next line
-		scanline ++;
 	}
 
 	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
