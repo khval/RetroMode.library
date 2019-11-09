@@ -61,20 +61,21 @@ void _retromode_AfterEffectScanline(struct RetroModeIFace *Self,
 	unsigned int *des_ptr;
 	unsigned int *src_ptr;
 	int intsPerRow = video -> BytesPerRow / 4;
-	struct retroScanline *scanlineLast;
-	struct retroScanline *scanline;
-//	BOOL copied ;
+	struct retroParallax *lineLast;
+	struct retroParallax *line;
 
 	src_mem += intsPerRow;	// next line
 
 	for ( ybeam = 1 ; ybeam < video->height ; ybeam++ )
 	{
-		scanlineLast = &video -> scanlines[ybeam-1];
-		scanline = &video -> scanlines[ybeam];
+		lineLast = &video -> scanlines[ybeam-1];
+		line = &video -> scanlines[ybeam];
 
-//		copied = FALSE;
-		if (scanlineLast -> screen)
+		if (lineLast -> scanline[0].screen)
 		{
+			struct retroScanline *scanline = &line -> scanline[0];
+			struct retroScanline *scanlineLast = &lineLast -> scanline[0];
+
 			if (scanline -> data[0] == NULL)
 			{
 				if (scanlineLast -> screen -> Memory[1]) 
@@ -83,14 +84,15 @@ void _retromode_AfterEffectScanline(struct RetroModeIFace *Self,
 				}
 				else display_frame = 0;
 
-				if ( scanlineLast -> data[ display_frame ] )		// if pre line has some data.
+//				if ( scanlineLast -> data[ display_frame ] )		// if pre line has some data.
 				{
 					src_ptr = src_mem- intsPerRow;
 					des_ptr = src_mem ;
 
 					for (x=0;x<video->width;x++)
 					{
-						*des_ptr++= *src_ptr++ | 0xFF110011;
+//						*des_ptr++= *src_ptr++ | 0xFFFFFFFF;
+						*des_ptr++= ((*src_ptr++) & 0x00FCFCFC >> 2) | 0xFF000000;
 
 //						*des_ptr++=*src_ptr++;
 //						*des_ptr++=(((*src_ptr++) & 0xFCFCFC) >> 1) | 0xFF000000;
