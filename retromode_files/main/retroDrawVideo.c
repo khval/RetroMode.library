@@ -70,11 +70,15 @@ void resetScanlines(struct retroVideo * video)
 extern void draw_lowred_pixeled_color( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 extern void draw_lowred_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 extern void draw_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_lowred_ham8( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 extern void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_hires_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_hires_ham8( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
 extern void draw_transparent_lowred_pixeled_color( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 extern void draw_transparent_lowred_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 extern void draw_transparent_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_lowred_ham8( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 extern void draw_transparent_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
 static void do_all_screen_color_effects(struct RetroLibrary *libBase, struct retroScreen *screen)
@@ -197,6 +201,10 @@ void set_scanline( struct RetroLibrary *libBase, int n, struct retroParallax *li
 				scanline -> mode = draw_transparent_lowred_ham6;
 				break;
 
+			case retroLowres|retroHam8:
+				scanline -> mode = draw_transparent_lowred_ham8;
+				break;
+
 			case retroLowres_pixeld:
 				scanline -> mode = draw_transparent_lowred_pixeled_color;
 				break;
@@ -205,11 +213,19 @@ void set_scanline( struct RetroLibrary *libBase, int n, struct retroParallax *li
 				scanline -> mode = draw_transparent_lowred_ham6;
 				break;
 
+			case retroLowres_pixeld|retroHam8:
+				scanline -> mode = draw_transparent_lowred_ham8;
+				break;
+
 			case retroHires:
 				scanline -> mode = draw_transparent_hires;
 				break;
 
 			case retroHires|retroHam6:
+				scanline -> mode = draw_transparent_hires;
+				break;
+
+			case retroHires|retroHam8:
 				scanline -> mode = draw_transparent_hires;
 				break;
 		}
@@ -226,6 +242,10 @@ void set_scanline( struct RetroLibrary *libBase, int n, struct retroParallax *li
 				scanline -> mode = draw_lowred_ham6;
 				break;
 
+			case retroLowres|retroHam8:
+				scanline -> mode = draw_lowred_ham8;
+				break;
+
 			case retroLowres_pixeld:
 				scanline -> mode = draw_lowred_pixeled_color;
 				break;
@@ -234,12 +254,20 @@ void set_scanline( struct RetroLibrary *libBase, int n, struct retroParallax *li
 				scanline -> mode = draw_lowred_ham6;
 				break;
 
+			case retroLowres_pixeld|retroHam8:
+				scanline -> mode = draw_lowred_ham8;
+				break;
+
 			case retroHires:
 				scanline -> mode = draw_hires;
 				break;
 
 			case retroHires|retroHam6:
-				scanline -> mode = draw_hires;
+				scanline -> mode = draw_hires_ham6;
+				break;
+
+			case retroHires|retroHam8:
+				scanline -> mode = draw_hires_ham8;
 				break;
 		}
 	}

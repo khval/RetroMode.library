@@ -306,6 +306,7 @@ struct retroSpriteObject
 #define retroHires 4
 #define retroInterlaced 8
 #define retroHam6 16
+#define retroHam8 32
 
 // so for va_list / va_start / va_arg, don't give you a count, so need to tell ... arg this is the end.
 
