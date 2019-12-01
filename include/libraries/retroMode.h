@@ -80,6 +80,11 @@ struct retroEngine
 	struct Window *window;
 	unsigned int width;
 	unsigned int height;
+	BOOL limit_mouse;
+	unsigned int limit_mouse_x0;
+	unsigned int limit_mouse_y0;
+	unsigned int limit_mouse_x1;
+	unsigned int limit_mouse_y1;
 };
 
 struct retroVideo

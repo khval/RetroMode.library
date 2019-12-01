@@ -70,6 +70,7 @@ struct retroEngine * _retromode_retroAllocEngine(struct RetroModeIFace *Self,
 
 		new_engine -> window = window;
 		new_engine -> rp.BitMap = libBase -> IGraphics -> AllocBitMap( video -> width , video -> height, 32, BMF_DISPLAYABLE, new_engine -> window ->RPort -> BitMap);
+		new_engine -> limit_mouse = FALSE;
 	}
 
 	  return new_engine;
