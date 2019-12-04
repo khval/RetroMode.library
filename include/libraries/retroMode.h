@@ -164,6 +164,14 @@ struct retroTextWindow
 	char *title_bottom;
 };
 
+// retro screen event_flags
+
+enum
+{
+	rs_force_swap = 1,
+	rs_bob_moved = 2,
+};
+
 struct retroScreen
 {
 	int scanline_x;
@@ -223,7 +231,7 @@ struct retroScreen
 	int fade_count;		// count up to speed, then change color by one step -0x11 or +0x11
 	int double_buffer_draw_frame;
 	int autoback;
-	BOOL force_swap;
+	unsigned int event_flags;
 };
 
 struct retroFrame
