@@ -126,5 +126,7 @@
 #define retroGetBlock(screen, buffer, block, x, y) IRetroMode->retroGetBlock((screen), (buffer), (block), (x), (y)) 
 #define retroPutBlock(screen, buffer, block, x, y, bitmask) IRetroMode->retroPutBlock((screen), (buffer), (block), (x), (y), (bitmask)) 
 #define retroPasteIcon(screen, buffer, sprite, x, y, image) IRetroMode->retroPasteIcon((screen), (buffer), (sprite), (x), (y), (image)) 
+#define retroMakeMask(frame) IRetroMode->retroMakeMask((frame)) 
+#define retroFreeMask(frame) IRetroMode->retroFreeMask((frame)) 
 
 #endif /* INLINE4_RETROMODE_H */

@@ -234,6 +234,13 @@ struct retroScreen
 	unsigned int event_flags;
 };
 
+struct retroMask
+{
+	unsigned short int16PerRow;
+	unsigned short height;
+	unsigned short *data;
+};
+
 struct retroFrame
 {
 	struct retroScreen *screen;
@@ -268,6 +275,7 @@ struct retroFrameHeader
 		int width;				
 	};			
 	char *data;
+	struct retroMask *mask;
 	int alpha;
 };
 

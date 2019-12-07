@@ -127,6 +127,8 @@ struct RetroModeIFace
 	void APICALL (*retroGetBlock)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, struct retroBlock * block, int x, int y);
 	void APICALL (*retroPutBlock)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, struct retroBlock * block, int x, int y, unsigned char bitmask);
 	void APICALL (*retroPasteIcon)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, struct retroSprite * sprite, int x, int y, int image);
+	void APICALL (*retroMakeMask)(struct RetroModeIFace *Self, struct retroFrameHeader * frame);
+	void APICALL (*retroFreeMask)(struct RetroModeIFace *Self, struct retroFrameHeader * frame);
 };
 
 #ifdef __cplusplus

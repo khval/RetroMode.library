@@ -664,6 +664,12 @@
 			<arg name="y" type="int"/>
 			<arg name="image" type="int"/>
 		</method>
+		<method name="retroMakeMask" result="void">
+			<arg name="frame" type="struct retroFrameHeader *"/>
+		</method>
+		<method name="retroFreeMask" result="void">
+			<arg name="frame" type="struct retroFrameHeader *"/>
+		</method>
 	</interface>
 </library>
 

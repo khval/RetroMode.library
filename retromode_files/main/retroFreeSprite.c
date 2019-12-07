@@ -52,6 +52,8 @@
 *
 */
 
+void _retromode_retroFreeMask(struct RetroModeIFace *Self, struct retroFrameHeader * frame);
+
 void _retromode_retroFreeSprite(struct RetroModeIFace *Self, struct retroSprite * sprite)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
@@ -64,6 +66,11 @@ void _retromode_retroFreeSprite(struct RetroModeIFace *Self, struct retroSprite 
 
 			for (n=0; n<sprite->number_of_frames; n++ )
 			{
+				if (sprite->frames[n].mask)
+				{
+					_retromode_retroFreeMask( Self, &sprite->frames[n] );
+				}
+
 				if (sprite->frames[n].data)
 				{
 					libBase->IExec->FreeVec(sprite->frames[n].data);

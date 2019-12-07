@@ -1,10 +1,10 @@
 /* :ts=4
- *  $VER: retroFreeFrame.c $Revision$ (19-Oct-2017)
+ *  $VER: retroFreeMask.c $Revision$ (07-Dec-2019)
  *
  *  This file is part of retromode.
  *
- *  Copyright (c) 2017 LiveForIt Software.
- *  MIT License.
+ *  Copyright (c) 2019 LiveForIt Software.
+ *  MIT License..
  *
  * $Id$
  *
@@ -13,8 +13,7 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
+
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <dos/dos.h>
@@ -22,15 +21,15 @@
 #include <libraries/retromode.h>
 #include <proto/retromode.h>
 #include <stdarg.h>
-#include "libbase.h"
+#include <libbase.h>
 
-/****** retromode/main/retroFreeFrame ******************************************
+/****** retromode/main/retroFreeMask ******************************************
 *
 *   NAME
-*      retroFreeFrame -- Description
+*      retroFreeMask -- Description
 *
 *   SYNOPSIS
-*      void retroFreeFrame(struct retroFrame * frame);
+*      void retroFreeMask(struct retroFrameHeader * frame);
 *
 *   FUNCTION
 *
@@ -52,14 +51,17 @@
 *
 */
 
-void _retromode_retroFreeFrame(struct RetroModeIFace *Self,
-       struct retroFrame * frame)
+void _retromode_retroFreeMask(struct RetroModeIFace *Self,
+       struct retroFrameHeader * frame)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 
-	if (frame)
+	if (frame -> mask -> data)
 	{
-		libBase -> IExec -> FreeVec( frame );
+		libBase->IExec->FreeVec(frame  -> mask -> data);
+		frame -> mask -> data = NULL;
 	}
+	libBase->IExec->FreeVec( frame -> mask );
+	frame -> mask = NULL;
 }
 
