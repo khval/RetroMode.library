@@ -128,5 +128,7 @@
 #define retroPasteIcon(screen, buffer, sprite, x, y, image) IRetroMode->retroPasteIcon((screen), (buffer), (sprite), (x), (y), (image)) 
 #define retroMakeMask(frame) IRetroMode->retroMakeMask((frame)) 
 #define retroFreeMask(frame) IRetroMode->retroFreeMask((frame)) 
+#define retroDrawShortPlanar(screen, data, x, y) IRetroMode->retroDrawShortPlanar((screen), (data), (x), (y)) 
+#define retroDrawMask(screen, mask, x, y) IRetroMode->retroDrawMask((screen), (mask), (x), (y)) 
 
 #endif /* INLINE4_RETROMODE_H */

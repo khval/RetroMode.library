@@ -670,6 +670,18 @@
 		<method name="retroFreeMask" result="void">
 			<arg name="frame" type="struct retroFrameHeader *"/>
 		</method>
+		<method name="retroDrawShortPlanar" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="data" type="unsigned short"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+		</method>
+		<method name="retroDrawMask" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="mask" type="struct retroMask *"/>
+			<arg name="x" type="int"/>
+			<arg name="y" type="int"/>
+		</method>
 	</interface>
 </library>
 

@@ -108,6 +108,8 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroPasteIcon
 	    FPTR IRetroMode_retroMakeMask
 	    FPTR IRetroMode_retroFreeMask
+	    FPTR IRetroMode_retroDrawShortPlanar
+	    FPTR IRetroMode_retroDrawMask
 	LABEL RetroModeIFace_SIZE
 
 #endif

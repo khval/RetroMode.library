@@ -111,3 +111,5 @@ extern void                 VARARGS68K _retromode_retroPutBlock(struct RetroMode
 extern void                 VARARGS68K _retromode_retroPasteIcon(struct RetroModeIFace *, struct retroScreen * screen, int buffer, struct retroSprite * sprite, int x, int y, int image);
 extern void                 VARARGS68K _retromode_retroMakeMask(struct RetroModeIFace *, struct retroFrameHeader * frame);
 extern void                 VARARGS68K _retromode_retroFreeMask(struct RetroModeIFace *, struct retroFrameHeader * frame);
+extern void                 VARARGS68K _retromode_retroDrawShortPlanar(struct RetroModeIFace *, struct retroScreen * screen, unsigned short data, int x, int y);
+extern void                 VARARGS68K _retromode_retroDrawMask(struct RetroModeIFace *, struct retroScreen * screen, struct retroMask * mask, int x, int y);

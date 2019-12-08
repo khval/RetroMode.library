@@ -68,6 +68,8 @@ struct retroScreen * _retromode_retroScreenClone(struct RetroModeIFace *Self,
 	{
 		sourceScreen -> clones ++;
 
+		screen -> scanline_x = sourceScreen -> scanline_x;
+		screen -> scanline_y = sourceScreen -> scanline_y;
 		screen -> realWidth = sourceScreen -> realWidth;
 		screen -> realHeight = sourceScreen -> realHeight;
 		screen -> displayWidth = sourceScreen -> displayWidth;

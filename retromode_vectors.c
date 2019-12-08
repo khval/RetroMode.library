@@ -103,6 +103,8 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroPasteIcon,
     _retromode_retroMakeMask,
     _retromode_retroFreeMask,
+    _retromode_retroDrawShortPlanar,
+    _retromode_retroDrawMask,
     (APTR)-1
 };
 
