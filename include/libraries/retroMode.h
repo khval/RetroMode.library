@@ -170,6 +170,7 @@ enum
 {
 	rs_force_swap = 1,
 	rs_bob_moved = 2,
+	rs_force_update = 4
 };
 
 struct retroScreen
