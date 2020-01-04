@@ -111,6 +111,8 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 		frame -> YHotSpot = 0;	
 		frame -> width  = x1-x0+1;
 		frame -> height = y1-y0+1;
+
+		frame -> planarXSize = (frame -> width / 16) + ((frame->width & 15 ) ? 1: 0);
 		frame -> bytesPerRow  = frame -> width;
 
 		libBase -> IDOS -> Printf("Width %ld, Height %ld\n", frame -> width, frame -> height);
