@@ -105,6 +105,9 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroFreeMask,
     _retromode_retroDrawShortPlanar,
     _retromode_retroDrawMask,
+    _retromode_retroGetMaxPlains,
+    _retromode_retroRowToPlanar,
+    _retromode_retroSaveSprite,
     (APTR)-1
 };
 

@@ -682,6 +682,21 @@
 			<arg name="x" type="int"/>
 			<arg name="y" type="int"/>
 		</method>
+		<method name="retroGetMaxPlains" result="int">
+			<arg name="colors" type="int"/>
+		</method>
+		<method name="retroRowToPlanar" result="void">
+			<arg name="mask" type="unsigned char"/>
+			<arg name="chunky" type="unsigned char *"/>
+			<arg name="planar16b" type="unsigned short *"/>
+			<arg name="planarXSize" type="int"/>
+			<arg name="width" type="int"/>
+		</method>
+		<method name="retroSaveSprite" result="struct retroSprite *">
+			<arg name="fd" type="void *"/>
+			<arg name="sprite" type="struct retroSprite *"/>
+			<arg name="cust_fwrite" type="cust_fread_t"/>
+		</method>
 	</interface>
 </library>
 

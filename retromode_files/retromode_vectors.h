@@ -113,3 +113,6 @@ extern void                 VARARGS68K _retromode_retroMakeMask(struct RetroMode
 extern void                 VARARGS68K _retromode_retroFreeMask(struct RetroModeIFace *, struct retroFrameHeader * frame);
 extern void                 VARARGS68K _retromode_retroDrawShortPlanar(struct RetroModeIFace *, struct retroScreen * screen, unsigned short data, int x, int y);
 extern void                 VARARGS68K _retromode_retroDrawMask(struct RetroModeIFace *, struct retroScreen * screen, struct retroMask * mask, int x, int y);
+extern int                  VARARGS68K _retromode_retroGetMaxPlains(struct RetroModeIFace *, int colors);
+extern void                 VARARGS68K _retromode_retroRowToPlanar(struct RetroModeIFace *, unsigned char mask, unsigned char * chunky, unsigned short * planar16b, int planarXSize, int width);
+extern struct retroSprite * VARARGS68K _retromode_retroSaveSprite(struct RetroModeIFace *, void * fd, struct retroSprite * sprite, cust_fread_t cust_fwrite);

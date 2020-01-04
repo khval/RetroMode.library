@@ -131,6 +131,9 @@ struct RetroModeIFace
 	void APICALL (*retroFreeMask)(struct RetroModeIFace *Self, struct retroFrameHeader * frame);
 	void APICALL (*retroDrawShortPlanar)(struct RetroModeIFace *Self, struct retroScreen * screen, unsigned short data, int x, int y);
 	void APICALL (*retroDrawMask)(struct RetroModeIFace *Self, struct retroScreen * screen, struct retroMask * mask, int x, int y);
+	int APICALL (*retroGetMaxPlains)(struct RetroModeIFace *Self, int colors);
+	void APICALL (*retroRowToPlanar)(struct RetroModeIFace *Self, unsigned char mask, unsigned char * chunky, unsigned short * planar16b, int planarXSize, int width);
+	struct retroSprite * APICALL (*retroSaveSprite)(struct RetroModeIFace *Self, void * fd, struct retroSprite * sprite, cust_fread_t cust_fwrite);
 };
 
 #ifdef __cplusplus

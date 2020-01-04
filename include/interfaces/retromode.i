@@ -110,6 +110,9 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroFreeMask
 	    FPTR IRetroMode_retroDrawShortPlanar
 	    FPTR IRetroMode_retroDrawMask
+	    FPTR IRetroMode_retroGetMaxPlains
+	    FPTR IRetroMode_retroRowToPlanar
+	    FPTR IRetroMode_retroSaveSprite
 	LABEL RetroModeIFace_SIZE
 
 #endif

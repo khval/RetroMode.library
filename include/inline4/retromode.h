@@ -130,5 +130,8 @@
 #define retroFreeMask(frame) IRetroMode->retroFreeMask((frame)) 
 #define retroDrawShortPlanar(screen, data, x, y) IRetroMode->retroDrawShortPlanar((screen), (data), (x), (y)) 
 #define retroDrawMask(screen, mask, x, y) IRetroMode->retroDrawMask((screen), (mask), (x), (y)) 
+#define retroGetMaxPlains(colors) IRetroMode->retroGetMaxPlains((colors)) 
+#define retroRowToPlanar(mask, chunky, planar16b, planarXSize, width) IRetroMode->retroRowToPlanar((mask), (chunky), (planar16b), (planarXSize), (width)) 
+#define retroSaveSprite(fd, sprite, cust_fwrite) IRetroMode->retroSaveSprite((fd), (sprite), (cust_fwrite)) 
 
 #endif /* INLINE4_RETROMODE_H */
