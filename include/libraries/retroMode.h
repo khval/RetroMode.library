@@ -329,9 +329,14 @@ struct retroSpriteObject
 
 #define retroEnd (~(1<<31))
 
-#define ECSColorToRGB32( ecs, color )			\
-			color.r =( ecs & 0xF00) >> 4;		\
-			color.g =( ecs & 0x0F0);			\
-			color.b =( ecs & 0x00F) << 4;	
+#define ECSColorToRGB32( ecs, color )				\
+			color.r =(( ecs & 0xF00) >> 8)  * 0x11; 	\
+			color.g =(( ecs & 0x0F0) >> 4) * 0x11;	\
+			color.b =( ecs & 0x00F) * 0x11;	
+
+#define RGB32ColorToECS( color, ecs )				\
+			ecs = ( color.r	& 0xF00000) >> 20 ;	\
+			ecs |=( color.g	& 0x00F000) >> 12; 	\
+			ecs |=( color.b	& 0x0000F0) >> 4;	
 
 #endif
