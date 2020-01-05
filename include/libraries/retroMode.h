@@ -316,6 +316,10 @@ struct retroSpriteObject
 	int background;
 	int plains;
 	int mask;
+	int limitXmin;
+	int limitYmin;
+	int limitXmax;
+	int limitYmax;
 };
 
 #define retroLowres 1
