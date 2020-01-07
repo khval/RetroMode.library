@@ -113,6 +113,7 @@ STRUCTURE RetroModeIFace, InterfaceData_SIZE
 	    FPTR IRetroMode_retroGetMaxPlains
 	    FPTR IRetroMode_retroRowToPlanar
 	    FPTR IRetroMode_retroSaveSprite
+	    FPTR IRetroMode_retroPasteSpriteObject
 	LABEL RetroModeIFace_SIZE
 
 #endif

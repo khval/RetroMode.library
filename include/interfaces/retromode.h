@@ -134,6 +134,7 @@ struct RetroModeIFace
 	int APICALL (*retroGetMaxPlains)(struct RetroModeIFace *Self, int colors);
 	void APICALL (*retroRowToPlanar)(struct RetroModeIFace *Self, unsigned char mask, unsigned char * chunky, unsigned short * planar16b, int planarXSize, int width);
 	struct retroSprite * APICALL (*retroSaveSprite)(struct RetroModeIFace *Self, void * fd, struct retroSprite * sprite, cust_fread_t cust_fwrite);
+	void APICALL (*retroPasteSpriteObject)(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, struct retroSpriteObject * spriteObject, struct retroSprite * sprite, int image, int flags);
 };
 
 #ifdef __cplusplus

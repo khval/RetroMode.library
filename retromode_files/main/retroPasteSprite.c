@@ -263,7 +263,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	x -= frame -> XHotSpot;
 	y -= frame -> YHotSpot;	
 
-	if (y>0)
+	if (y > 0)
 	{
 		if (y+height>screen->realHeight) height = screen->realHeight - y;
 	}
@@ -272,7 +272,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		source_y0 = -y; y = 0; height -= source_y0; 
 	}
 
-	if (x>0)
+	if (x > 0)
 	{
 		if (x+width>screen->realWidth) width = screen->realWidth - x;
 	}

@@ -697,6 +697,14 @@
 			<arg name="sprite" type="struct retroSprite *"/>
 			<arg name="cust_fwrite" type="cust_fread_t"/>
 		</method>
+		<method name="retroPasteSpriteObject" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
+			<arg name="spriteObject" type="struct retroSpriteObject *"/>
+			<arg name="sprite" type="struct retroSprite *"/>
+			<arg name="image" type="int"/>
+			<arg name="flags" type="int"/>
+		</method>
 	</interface>
 </library>
 
