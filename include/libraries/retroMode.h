@@ -306,6 +306,7 @@ struct retroSpriteClear
 
 struct retroSpriteObject
 {
+	unsigned int id;
 	int x;
 	int y;
 	int image;
