@@ -60,9 +60,9 @@
 *
 */
 
-void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, int x, int y,  unsigned char color);
+void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, char *memory, int x, int y, unsigned char color);
 
-void retroBoingOutline( struct RetroModeIFace *Self, struct retroScreen *screen, int rx, int ry, int r, int t, unsigned char color )
+void retroBoingOutline( struct RetroModeIFace *Self, struct retroScreen *screen, char *memory, int rx, int ry, int r, int t, unsigned char color )
 {
 	int x0,y0,x1,y1;
 	int xx;
@@ -85,13 +85,13 @@ void retroBoingOutline( struct RetroModeIFace *Self, struct retroScreen *screen,
 
 			if (rr<=r)
 			{
-				_retromode_retroPixel( Self, screen, x + rx, y + ry, rr<r-t ? 2 : color );
+				_retromode_retroPixel( Self, screen, memory, x + rx, y + ry, rr<r-t ? 2 : color );
 			}
 		}
 	}
 }
 
-void retroBoing( struct RetroModeIFace *Self, struct retroScreen *screen, int rx, int ry, int r, unsigned char color )
+void retroBoing( struct RetroModeIFace *Self, struct retroScreen *screen, char *memory,int rx, int ry, int r, unsigned char color )
 {
 	int x0,y0,x1,y1;
 	int xx;
@@ -118,22 +118,23 @@ void retroBoing( struct RetroModeIFace *Self, struct retroScreen *screen, int rx
 		{
 			bx = ((x + xx) * 6 / width) & 1;
 
-			_retromode_retroPixel( Self, screen, x + rx, y + ry, (bx + by) & 1 ? color : 3 );
+			_retromode_retroPixel( Self, screen, memory, x + rx, y + ry, (bx + by) & 1 ? color : 3 );
 		}
 	}
 }
 
 
 void _retromode_retroBoing(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       int x,
-       int y,
-       int r0,
-       int r1,
-       unsigned char color0,
-       unsigned char color1)
+	struct retroScreen * screen,
+	int buffer,
+	int x,
+	int y,
+	int r0,
+	int r1,
+	unsigned char color0,
+	unsigned char color1)
 {
-	retroBoingOutline( Self, screen,  x,  y,  r1, r1-r0-1, color0 );
-	retroBoing( Self, screen, x, y, r0, color0 );
+	retroBoingOutline( Self, screen, screen -> Memory[ buffer],  x,  y,  r1, r1-r0-1, color0 );
+	retroBoing( Self, screen,  screen -> Memory[ buffer], x, y, r0, color0 );
 }
 
