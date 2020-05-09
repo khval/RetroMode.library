@@ -25,6 +25,7 @@ char *scroll_text = "Small scroll text demo..... have fun playing with this thin
 	IDCMP_EXTENDEDMOUSE | IDCMP_CLOSEWINDOW | IDCMP_NEWSIZE | IDCMP_INTUITICKS
 
 struct retroVideo *video = NULL;
+struct retroEngine *engine = NULL;
 struct Window *My_Window = NULL;
 
 struct Library * IntuitionBase = NULL;

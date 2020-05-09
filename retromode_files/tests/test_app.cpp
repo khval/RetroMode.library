@@ -18,6 +18,7 @@
 	IDCMP_EXTENDEDMOUSE | IDCMP_CLOSEWINDOW | IDCMP_NEWSIZE | IDCMP_INTUITICKS
 
 struct retroVideo *video = NULL;
+struct retroEngine *engine = NULL;
 struct Window *My_Window = NULL;
 
 struct Library * IntuitionBase = NULL;
@@ -31,8 +32,6 @@ struct RetroModeIFace *IRetroMode = NULL;
 
 struct Library * LayersBase = NULL;
 struct LayersIFace *ILayers = NULL;
-
-struct retroEngine *engine = NULL;
 
 struct XYSTW_Vertex3D { 
 float x, y; 
@@ -260,7 +259,7 @@ int main()
 	if (init())
 	{
 
-		retroClearVideo(video);
+		retroClearVideo(video, 0x000000 );
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
@@ -339,7 +338,7 @@ int main()
 
 			video -> rainbow[0].offset ++;
 
-			retroClearVideo( video );
+			retroClearVideo( video, 0x000000 );
 			retroDrawVideo( video );
 			retroDmaVideo(video,engine);
 

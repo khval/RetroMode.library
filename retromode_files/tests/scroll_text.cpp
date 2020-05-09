@@ -253,7 +253,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		retroClearVideo(video);
+		retroClearVideo(video, 0x000000 );
 		
 		retroSetRainbow( video, 0, 0, 400 );
 		retroRainbow( video, 0, 0, 120, 150 );
@@ -345,7 +345,7 @@ int main()
 
 			p = 0;
 
-			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,15, screen, 0 , 0);
+			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,15, screen, 0, 0 , 0);
 
 
 /*
@@ -368,7 +368,7 @@ y= 20;
 			 }
 */
 
-			retroClearVideo( video );
+			retroClearVideo( video, 0x000000 );
 			retroDrawVideo( video );
 			retroDmaVideo(video,engine);
 

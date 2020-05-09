@@ -25,6 +25,8 @@ const char *scroll_text = "Small scroll text demo..... have fun playing with thi
 	IDCMP_EXTENDEDMOUSE | IDCMP_CLOSEWINDOW | IDCMP_NEWSIZE | IDCMP_INTUITICKS
 
 struct retroVideo *video = NULL;
+struct retroEngine *engine = NULL;
+
 struct Window *My_Window = NULL;
 
 struct Library * IntuitionBase = NULL;
@@ -87,11 +89,11 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, struct BackFillMessage *msg) {
 
-	struct Window *the_win = video -> window;	
+	struct Window *the_win = engine -> window;	
 
 #ifdef amigaos4
 
-	draw_comp_bitmap(video->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
+	draw_comp_bitmap(engine->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
 		the_win->BorderLeft ,
 		the_win->BorderTop ,
 		the_win->Width - the_win->BorderLeft - the_win->BorderRight,
@@ -107,6 +109,7 @@ static CompositeHookData hookData;
 static struct Rectangle rect;
 static struct Hook hook;
 
+
 static void set_target_hookData( void )
 {
  	rect.MinX = My_Window->BorderLeft;
@@ -121,8 +124,8 @@ static void set_target_hookData( void )
 
 	hookData.srcWidth = video -> width;
 	hookData.srcHeight = video -> height;
-	hookData.offsetX = video -> window->BorderLeft;
-	hookData.offsetY = video -> window->BorderTop;
+	hookData.offsetX = My_Window->BorderLeft;
+	hookData.offsetY = My_Window->BorderTop;
 	hookData.scaleX = COMP_FLOAT_TO_FIX(scaleX);
 	hookData.scaleY = COMP_FLOAT_TO_FIX(scaleY);
 	hookData.retCode = COMPERR_Success;
@@ -131,12 +134,13 @@ static void set_target_hookData( void )
 	hook.h_Data = &hookData;
 }
 
+
 static void BackFill_Func(struct RastPort *ArgRP, struct BackFillArgs *MyArgs)
 {
 	set_target_hookData();
 
 //	LockLayer(0,video -> window -> RPort -> Layer);
-	DoHookClipRects(&hook, video -> window -> RPort, &rect);
+	DoHookClipRects(&hook, engine -> window -> RPort, &rect);
 //	UnlockLayer(video -> window -> RPort -> Layer);
 }
 
@@ -195,7 +199,8 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( 640,480 )) == NULL ) return false;
+	if ( (engine = retroAllocEngine(My_Window, video)) == NULL ) return false;
 
 	return TRUE;
 }
@@ -246,7 +251,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		retroClearVideo(video);
+		retroClearVideo(video, 0x000000 );
 		
 		retroSetRainbow( video, 0, 0, 400 );
 		retroRainbow( video, 0, 0, 100, 300 );
@@ -273,8 +278,8 @@ int main()
 			retroScreenColor( screen, 6, 0, 0, 0 );
 			retroScreenColor( screen, 7, 255, 0, 0 );
 
-			retroBoing( screen, 50, 40, 25, 25+4 , 1, 2 );
-			retroBoing( screen, 295, 35, 10,13, 1, 2 );
+			retroBoing( screen, 0, 50, 40, 25, 25+4 , 1, 2 );
+			retroBoing( screen, 0, 295, 35, 10,13, 1, 2 );
 
 //			retroOrStar( screen, 200,50, 5, 20, 30, 0, 2 );
 		}
@@ -293,9 +298,9 @@ int main()
 
 			for (x=0;x<10;x++)
 			{
-				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
-				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
-				retroOrStar( screen2, 10 +(x*100),40, 8, 20, 30, g, 4 );
+				retroBAR( screen2, 0, 10 +(x*100), 10, 50+(x*100), 50, 1 );
+				retroBAR( screen2, 0, 40 +(x*100), 20, 80+(x*100), 60, 2 );
+				retroOrStar( screen2, 0, 10 +(x*100),40, 8, 20, 30, g, 4 );
 			}
 		}
 
@@ -305,10 +310,10 @@ int main()
 			retroScreenColor( screen3, 1, 255, 0, 0 );
 			retroScreenColor( screen3, 2, 0, 0, 255 );
 
-			retroStar( screen3, 100,100, 5, 50, 80, 0, 1 );
+			retroStar( screen3, 0, 100,100, 5, 50, 80, 0, 1 );
 
-//			retroBAR( screen3,10,10,50, 50, 1 );
-//			retroBAR( screen3,20,20,60, 60, 2 );
+//			retroBAR( screen3,0, 10,10,50, 50, 1 );
+//			retroBAR( screen3,0, 20,20,60, 60, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0,320,200 );
@@ -317,7 +322,7 @@ int main()
 
 		while (running)
 		{
-			while (msg = (IntuiMessage *) GetMsg( video -> window -> UserPort) )
+			while (msg = (IntuiMessage *) GetMsg( engine -> window -> UserPort) )
 			{
 				if (msg -> Class == IDCMP_CLOSEWINDOW) running = false;
 				ReplyMsg( (Message*) msg );
@@ -338,8 +343,8 @@ int main()
 			}
 
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
-			retroAndClear( screen, 0,0,screen2->realWidth,screen2->realHeight, ~(4|16) );
-			retroOrStar(screen, 200, 50, 3, 5, 30, g, 16 );
+			retroAndClear( screen, 0, 0,0,screen2->realWidth,screen2->realHeight, ~(4|16) );
+			retroOrStar(screen, 0, 200, 50, 3, 5, 30, g, 16 );
 
 			g+=0.05;
 
@@ -351,7 +356,7 @@ int main()
 				for (x=0;x<320;x++)
 				{
 					y = sin(p)*10.0f+20.0f;
-					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
+					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, 0, x , y);
 					p+=0.05f;
 				}
 			 }
@@ -366,11 +371,11 @@ int main()
 
 			retroScreenOffset(screen2,xx,0);
 
-			retroClearVideo( video );
+			retroClearVideo( video, 0x000000 );
 			retroDrawVideo( video );
 //			AfterEffectScanline( video );
 //			AfterEffectAdjustRGB( video , 8, 0 , 4);
-			retroDmaVideo(video);
+			retroDmaVideo(video, engine);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
