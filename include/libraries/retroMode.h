@@ -35,13 +35,14 @@ struct retroRainbow
 
 struct retroScanline
 {
+	int beamStart;
 	int pixels;
 	int videoWidth;
 	unsigned char *data[2];
 	struct retroScreen *screen;
 	struct retroRGB *orgPalette;
 	struct retroRGB *rowPalette;
-	void (*mode) (  int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+	void (*mode) (  struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 };
 
 struct retroParallax
@@ -140,12 +141,6 @@ struct p
 { 
 	double x ; double y ;
 };
-
-void draw_lowres_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-
-//void draw_video(struct retroVideo *context, unsigned int *video_buffer );
-
 
 #define retroscreen_flag_hide 1
 
