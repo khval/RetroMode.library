@@ -89,11 +89,11 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, struct BackFillMessage *msg) {
 
-	struct Window *the_win = video -> window;	
+	struct Window *the_win = engine -> window;	
 
 #ifdef amigaos4
 
-	draw_comp_bitmap(video->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
+	draw_comp_bitmap(engine->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
 		the_win->BorderLeft ,
 		the_win->BorderTop ,
 		the_win->Width - the_win->BorderLeft - the_win->BorderRight,
@@ -123,8 +123,8 @@ static void set_target_hookData( void )
 
 	hookData.srcWidth = video -> width;
 	hookData.srcHeight = video -> height;
-	hookData.offsetX = video -> window->BorderLeft;
-	hookData.offsetY = video -> window->BorderTop;
+	hookData.offsetX = engine -> window->BorderLeft;
+	hookData.offsetY = engine -> window->BorderTop;
 	hookData.scaleX = COMP_FLOAT_TO_FIX(scaleX);
 	hookData.scaleY = COMP_FLOAT_TO_FIX(scaleY);
 	hookData.retCode = COMPERR_Success;
@@ -138,7 +138,7 @@ static void BackFill_Func(struct RastPort *ArgRP, struct BackFillArgs *MyArgs)
 	set_target_hookData();
 
 //	LockLayer(0,video -> window -> RPort -> Layer);
-	DoHookClipRects(&hook, video -> window -> RPort, &rect);
+	DoHookClipRects(&hook, engine -> window -> RPort, &rect);
 //	UnlockLayer(video -> window -> RPort -> Layer);
 }
 
@@ -197,7 +197,8 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( 640,480 )) == NULL ) return false;
+	if ( (engine = retroAllocEngine(My_Window, video)) == NULL ) return false;
 
 	return TRUE;
 }
@@ -248,7 +249,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		retroClearVideo(video);
+		retroClearVideo(video, 0x000000 );
 
 		screen = retroOpenScreen(320,200,retroLowres);
 		screen2 = retroOpenScreen(640,200,retroHires);
@@ -267,8 +268,8 @@ int main()
 			retroScreenColor( screen, 6, 0, 0, 0 );
 			retroScreenColor( screen, 7, 255, 0, 0 );
 
-			retroBoing( screen, 50, 40, 25, 30, 1, 2 );
-			retroBoing( screen, 295, 35, 10, 13, 1, 2 );
+			retroBoing( screen, 0, 50, 40, 25, 30, 1, 2 );
+			retroBoing( screen, 0, 295, 35, 10, 13, 1, 2 );
 		}
 
 		if (screen2)
@@ -285,8 +286,8 @@ int main()
 
 			for (x=0;x<10;x++)
 			{
-				retroBAR( screen2, 10 +(x*100), 10, 50+(x*100), 50, 1 );
-				retroBAR( screen2, 40 +(x*100), 20, 80+(x*100), 60, 2 );
+				retroBAR( screen2, 0, 10 +(x*100), 10, 50+(x*100), 50, 1 );
+				retroBAR( screen2, 0, 40 +(x*100), 20, 80+(x*100), 60, 2 );
 			}
 		}
 
@@ -296,7 +297,7 @@ int main()
 		y = 0;
 		while (running)
 		{
-			while (msg = (IntuiMessage *) GetMsg( video -> window -> UserPort) )
+			while (msg = (IntuiMessage *) GetMsg( engine -> window -> UserPort) )
 			{
 				if (msg -> Class == IDCMP_CLOSEWINDOW) running = false;
 				ReplyMsg( (Message*) msg );
@@ -304,7 +305,7 @@ int main()
 
 //			video -> rainbow[0].offset ++;
 
-			if (screen)	retroApplyScreen( screen, video, 0, y, 320, 100 );
+			if (screen) 	retroApplyScreen( screen, video, 0, y, 320, 100 );
 			if (screen2)	retroApplyScreen( screen2, video, 0, 250-y, 640, 100  );
 
 			y +=diry;
@@ -322,11 +323,11 @@ int main()
 
 //			printf("%d\n",y);
 
-			retroClearVideo( video );
+			retroClearVideo( video, 0x000000 );
 			retroDrawVideo( video );
 //			AfterEffectScanline( video );
 //			AfterEffectAdjustRGB( video , 8, 0 , 4);
-			retroDmaVideo(video);
+			retroDmaVideo(video , engine);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
