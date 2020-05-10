@@ -67,19 +67,19 @@ void resetScanlines(struct retroVideo * video)
 	}
 }
 
-extern void draw_lowred_pixeled_color( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_lowred_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_lowred_ham8( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_hires_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_hires_ham8( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_lowred_pixeled_color( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_lowred_emulate_color_changes( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_lowred_ham6( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_lowred_ham8( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_hires_ham6( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_hires_ham8( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
-extern void draw_transparent_lowred_pixeled_color( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_transparent_lowred_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_transparent_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_transparent_lowred_ham8( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
-extern void draw_transparent_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_lowred_pixeled_color( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_lowred_emulate_color_changes( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_lowred_ham6(  struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_lowred_ham8( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
+extern void draw_transparent_hires( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
 static void do_all_screen_color_effects(struct RetroLibrary *libBase, struct retroScreen *screen)
 {
@@ -169,6 +169,7 @@ void set_scanline( struct RetroLibrary *libBase, int n, struct retroParallax *li
 
 	struct retroScanline *scanline = &line -> scanline[n];
 
+	scanline -> beamStart = screen -> scanline_x;
 	scanline -> videoWidth = video -> width;
 	scanline -> screen = screen;
 	scanline -> pixels = screen -> displayWidth;
@@ -436,7 +437,7 @@ void _retromode_retroDrawVideo(struct RetroModeIFace *Self, struct retroVideo * 
 						color_reset( video, &line -> scanline[n] );
 					}
 
-					line -> scanline[n].mode( n , &line -> scanline[n],  beamY, video_buffer  );	
+					line -> scanline[n].mode( &line -> scanline[n],  beamY, video_buffer  );	
 					*coopered_last = coopered;
 				}
 			}

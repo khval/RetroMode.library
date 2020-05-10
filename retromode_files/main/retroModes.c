@@ -11,7 +11,7 @@
 #include <math.h>
 #include "libbase.h"
 
-void draw_lowred_pixeled_color( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+void draw_lowred_pixeled_color( struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
 	int display_frame = 0;
@@ -36,17 +36,17 @@ void draw_lowred_pixeled_color( int beamStart, struct retroScanline *line, int b
 
 	// beam emulates 8 bits per chunk.
 
-	if ( beamStart > 0)
+	if ( line -> beamStart > 0)
 	{
 		// move des on postive
-		video_buffer_line += beamStart ;
-		videoWidth =  (line -> videoWidth - beamStart) / 2;	// displayable video width;
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
 	}
 	else
 	{
 		// move src on nagative
-		data -= beamStart ;	
-		videoWidth =  (line -> videoWidth - beamStart) / 2;	// displayable video width;
+		data -= line -> beamStart ;	
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
 	}
 
 	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
@@ -67,7 +67,7 @@ void draw_lowred_pixeled_color( int beamStart, struct retroScanline *line, int b
 }
 
 
-void draw_lowred_emulate_color_changes( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+void draw_lowred_emulate_color_changes( struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
 	int display_frame = 0;
@@ -91,17 +91,17 @@ void draw_lowred_emulate_color_changes( int beamStart, struct retroScanline *lin
 
 	// beam emulates 8 bits per chunk.
 
-	if (beamStart > 0)
+	if (line -> beamStart > 0)
 	{
 		// move des on postive
-		video_buffer_line += beamStart ;
-		videoWidth =  (line -> videoWidth - beamStart) / 2;		// displayable video width;
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;		// displayable video width;
 	}
 	else
 	{
 		// move src on nagative
-		data -= beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth +  beamStart)  / 2;	// displayable video width;
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  (line -> videoWidth +  line -> beamStart)  / 2;	// displayable video width;
 	}
 
 	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
@@ -130,7 +130,7 @@ void draw_lowred_emulate_color_changes( int beamStart, struct retroScanline *lin
 	}
 }
 
-void draw_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+void draw_lowred_ham6( struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
 	int display_frame = 0;
@@ -154,17 +154,17 @@ void draw_lowred_ham6( int  beamStart, struct retroScanline *line, int beamY, un
 
 	// beam emulates 8 bits per chunk.
 
-	if ( beamStart > 0)
+	if ( line -> beamStart > 0)
 	{
 		// move des on postive
-		video_buffer_line += beamStart ;
-		videoWidth =  (line -> videoWidth - beamStart) / 2;	// displayable video width;
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart) / 2;	// displayable video width;
 	}
 	else
 	{
 		// move src on nagative
-		data -= beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth + beamStart) / 2; 	// displayable video width;
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  (line -> videoWidth + line -> beamStart) / 2; 	// displayable video width;
 	}
 
 	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
@@ -271,7 +271,7 @@ void draw_lowred_ham8( int  beamStart, struct retroScanline *line, int beamY, un
 }
 
 
-void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+void draw_hires( struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
 	int display_frame = 0;
@@ -295,17 +295,17 @@ void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned 
 
 	// beam emulates 8 bits per chunk.
 
-	if ( beamStart > 0)
+	if ( line -> beamStart > 0)
 	{
 		// move des on postive
-		video_buffer_line += beamStart ;
-		videoWidth =  (line -> videoWidth - beamStart);		// displayable video width;
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart);		// displayable video width;
 	}
 	else
 	{
 		// move src on nagative
-		data -= beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth + beamStart) ;	// displayable video width;
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  (line -> videoWidth + line -> beamStart) ;	// displayable video width;
 	}
 
 	draw_pixels = line -> pixels > videoWidth ? videoWidth :  line -> pixels;
@@ -322,7 +322,7 @@ void draw_hires( int beamStart, struct retroScanline *line, int beamY, unsigned 
 	}
 }
 
-void draw_hires_ham6( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+void draw_hires_ham6( struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
 	int display_frame = 0;
@@ -346,17 +346,17 @@ void draw_hires_ham6( int beamStart, struct retroScanline *line, int beamY, unsi
 
 	// beam emulates 8 bits per chunk.
 
-	if ( beamStart > 0)
+	if ( line -> beamStart > 0)
 	{
 		// move des on postive
-		video_buffer_line += beamStart ;
-		videoWidth =  (line -> videoWidth - beamStart);		// displayable video width;
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart);		// displayable video width;
 	}
 	else
 	{
 		// move src on nagative
-		data -= beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth + beamStart) ;	// displayable video width;
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  (line -> videoWidth + line -> beamStart) ;	// displayable video width;
 	}
 
 	r=0;
@@ -392,7 +392,7 @@ void draw_hires_ham6( int beamStart, struct retroScanline *line, int beamY, unsi
 }
 
 
-void draw_hires_ham8( int beamStart, struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+void draw_hires_ham8( struct retroScanline *line, int beamY, unsigned int *video_buffer  )
 {
 	int x;
 	int display_frame = 0;
@@ -416,17 +416,17 @@ void draw_hires_ham8( int beamStart, struct retroScanline *line, int beamY, unsi
 
 	// beam emulates 8 bits per chunk.
 
-	if ( beamStart > 0)
+	if ( line -> beamStart > 0)
 	{
 		// move des on postive
-		video_buffer_line += beamStart ;
-		videoWidth =  (line -> videoWidth - beamStart);		// displayable video width;
+		video_buffer_line += line -> beamStart ;
+		videoWidth =  (line -> videoWidth - line -> beamStart);		// displayable video width;
 	}
 	else
 	{
 		// move src on nagative
-		data -= beamStart ;		// - & - is +
-		videoWidth =  (line -> videoWidth + beamStart) ;	// displayable video width;
+		data -= line -> beamStart ;		// - & - is +
+		videoWidth =  (line -> videoWidth + line -> beamStart) ;	// displayable video width;
 	}
 
 	r=0;
