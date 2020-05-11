@@ -13,6 +13,8 @@
  *
  */
 
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <exec/exec.h>
 #include <proto/exec.h>
@@ -118,8 +120,23 @@ extern void _bottom_up(
 			} else {													\
 				draw_mode = srcMask ? _ ## dir ## _solid_src_mask : _ ## dir ## _solid;		\
 			}														\
-		} 																\
+		} 															\
 
+
+#define show_mode(dir)													\
+		if ( destMask )	{											\
+			if (frame -> alpha) {											\
+				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir , "_alpha_src_dest_mask"); } else { IDOS->Printf("%s%s%s\n", "_" , #dir , "_alpha_dest_mask"); }		\
+			} else {													\
+				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir ,"_solid_src_dest_mask"); } else { IDOS->Printf("%s%s%s\n","_" , #dir , "_solid_dest_mask"); }		\
+			}														\
+		} else { 														\
+			if (frame -> alpha) {											\
+				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir , "_alpha_src_mask"); } else { IDOS->Printf("%s%s%s\n","_" , #dir , "_alpha"); }		\
+			} else {													\
+				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir , "_solid_src_mask"); } else { IDOS->Printf("%s%s%s\n","_" , #dir , "_solid"); }		\
+			}														\
+		} 
 
 void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 	struct retroScreen * screen,
@@ -147,7 +164,6 @@ void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 	srcMask = spriteObject -> plains;
 
 	if (sprite == NULL) return;
-
 
 	if ( ! sprite -> frames ) 
 	{
