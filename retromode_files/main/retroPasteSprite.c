@@ -57,109 +57,27 @@
 *
 */
 
-#define ROW_ARGS (unsigned char *source_row_start, unsigned char *source_row_end, unsigned char *destination_row_start, int mask)
-
-// ----- ALPHA
-
-void _left_right_alpha ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
-
-	for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-	{
-		if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
-
-void _right_left_alpha ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
-
-	for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-	{
-		if (*source_row_ptr) *destination_row_ptr= *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
-
-void _left_right_alpha_mask ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
-
-	for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-	{
-		if (*source_row_ptr) *destination_row_ptr= mask & *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
-
-void _right_left_alpha_mask ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
-
-	for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-	{
-		if (*source_row_ptr) *destination_row_ptr= mask & *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
+#define ROW_ARGS (unsigned char *source_row_start, unsigned char *source_row_end, unsigned char *destination_row_start, int srcMask, int destMask )
 
 
-//---------------
+extern void _left_right_solid_src_dest_mask ROW_ARGS;
+extern void _left_right_solid_dest_mask ROW_ARGS;
+extern void _left_right_solid_src_mask ROW_ARGS;
+extern void _right_left_solid_src_dest_mask ROW_ARGS;
+extern void _right_left_solid_dest_mask ROW_ARGS;
+extern void _right_left_solid_src_mask ROW_ARGS;
 
-void _left_right_solid ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
+extern void _left_right_alpha_src_dest_mask ROW_ARGS;
+extern void _left_right_alpha_dest_mask ROW_ARGS;
+extern void _left_right_alpha_src_mask ROW_ARGS;
+extern void _right_left_alpha_src_dest_mask ROW_ARGS;
+extern void _right_left_alpha_dest_mask ROW_ARGS;
+extern void _right_left_alpha_src_mask ROW_ARGS;
 
-	for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-	{
-		*destination_row_ptr= *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
-
-void _right_left_solid ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
-
-	for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-	{
-		*destination_row_ptr= *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
-
-void _left_right_solid_mask ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
-
-	for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
-	{
-		*destination_row_ptr= mask & *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
-
-void _right_left_solid_mask ROW_ARGS
-{
-	unsigned char *source_row_ptr;
-	unsigned char *destination_row_ptr = destination_row_start;
-
-	for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
-	{
-		*destination_row_ptr= mask & *source_row_ptr;
-		destination_row_ptr++;
-	}
-}
-
+extern void _left_right_alpha ROW_ARGS;
+extern void _left_right_solid ROW_ARGS;
+extern void _right_left_alpha ROW_ARGS;
+extern void _right_left_solid ROW_ARGS;
 
 
 //-------------
@@ -170,7 +88,8 @@ void _top_down(
 		unsigned char *source_row_end, 
 		unsigned char *destination_row_start, 
 		int height, 
-		int mask,
+		int srcMask,
+		int destMask,
 		void (*row) ROW_ARGS,
 		struct retroScreen * screen)
 {
@@ -178,7 +97,7 @@ void _top_down(
 
 	for ( ypos = 0; ypos < height; ypos++ )
 	{
-		row( source_row_start, source_row_end, destination_row_start, mask);
+		row( source_row_start, source_row_end, destination_row_start, srcMask, destMask );
 
 		destination_row_start += screen -> bytesPerRow;
 		source_row_start += frame -> bytesPerRow;
@@ -192,7 +111,8 @@ void _bottom_up(
 		unsigned char *source_row_end, 
 		unsigned char *destination_row_start, 
 		int height, 
-		int mask,
+		int srcMask,
+		int destMask,
 		void (*row) ROW_ARGS,
 		struct retroScreen * screen)
 {
@@ -200,7 +120,7 @@ void _bottom_up(
 
 	for ( ypos = 0; ypos < height; ypos++ )
 	{
-		row( source_row_start, source_row_end, destination_row_start, mask);
+		row( source_row_start, source_row_end, destination_row_start, srcMask, destMask );
 
 		destination_row_start -= screen -> bytesPerRow;
 		source_row_start += frame -> bytesPerRow;
@@ -208,14 +128,20 @@ void _bottom_up(
 	}
 }
 
-#define __pick_mode(dir) draw_mode = mask ? _ ## dir ## _alpha_mask : _ ## dir ## _alpha;	
-
 #define pick_mode(dir)													\
+		if ( destMask )	{											\
 			if (frame -> alpha) {											\
-				draw_mode = mask ? _ ## dir ## _alpha_mask : _ ## dir ## _alpha;		\
+				draw_mode = srcMask ? _ ## dir ## _alpha_src_dest_mask : _ ## dir ## _alpha_dest_mask;		\
 			} else {													\
-				draw_mode = mask ? _ ## dir ## _solid_mask : _ ## dir ## _solid;		\
+				draw_mode = srcMask ? _ ## dir ## _solid_src_dest_mask : _ ## dir ## _solid_dest_mask;		\
 			}														\
+		} else { 														\
+			if (frame -> alpha) {											\
+				draw_mode = srcMask ? _ ## dir ## _alpha_src_mask : _ ## dir ## _alpha;		\
+			} else {													\
+				draw_mode = srcMask ? _ ## dir ## _solid_src_mask : _ ## dir ## _solid;		\
+			}														\
+		} 
 
 
 void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
@@ -226,7 +152,8 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 	int y,
 	int image,
 	int flags,
-	unsigned int mask)
+	unsigned int srcMask ,		// plains
+	unsigned int destMask)
 {
 	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int width;
@@ -242,7 +169,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 
 	if ( ! sprite -> frames ) 
 	{
-		libBase -> IDOS -> Printf("Sprite has no frames!\n");
+		IDOS -> Printf("Sprite has no frames!\n");
 		return;
 	}
 
@@ -253,7 +180,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 
 	if ( ! frame -> data)
 	{
-		libBase -> IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
+		IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
 		return;
 	}
 
@@ -289,29 +216,29 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 		case 0x0000:
 			pick_mode(left_right);
 			destination_row_start = screen -> Memory[ buffer ]  + (screen -> bytesPerRow * y)+ x;
-			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen  );
+			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;
 
 		case 0x4000:
 			pick_mode(left_right);
 			destination_row_start = screen -> Memory[ buffer ] + (screen -> bytesPerRow * (y + height - 1)) + x;
-			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen);
+			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;
 
 		case 0x8000:
 			pick_mode(right_left);
 			destination_row_start = screen -> Memory[ buffer ]  + (screen -> bytesPerRow * y)+ x;
-			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen);
+			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;
 
 		case 0xC000:
 			pick_mode(right_left);
 			destination_row_start = screen -> Memory[ buffer ] + (screen -> realWidth * (y + height - 1)) + x;
-			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  mask, draw_mode,  screen);
+			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;
 
 		default:
-			libBase -> IDOS -> Printf("%s:%ld unexpcted flag %08lx\n",__FUNCTION__,__LINE__,flags);
+			IDOS -> Printf("%s:%ld unexpcted flag %08lx\n",__FUNCTION__,__LINE__,flags);
 			break;
 	}
 }
