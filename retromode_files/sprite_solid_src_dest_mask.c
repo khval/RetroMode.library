@@ -9,7 +9,7 @@ void _left_right_solid_src_dest_mask ROW_ARGS
 
 	for ( source_row_ptr = source_row_start;  source_row_ptr < source_row_end ; source_row_ptr++ )
 	{
-		*destination_row_ptr=  (*destination_row_ptr & destMask) | (srcMask & *source_row_ptr);
+		*destination_row_ptr=  (*destination_row_ptr & ~destMask) | (srcMask & *source_row_ptr);
 		destination_row_ptr++;
 	}
 }
@@ -21,7 +21,7 @@ void _right_left_solid_src_dest_mask ROW_ARGS
 
 	for ( source_row_ptr = source_row_end-1;   source_row_ptr >= source_row_start  ; source_row_ptr-- )
 	{
-		*destination_row_ptr= (*destination_row_ptr & destMask) | (srcMask & *source_row_ptr);
+		*destination_row_ptr= (*destination_row_ptr & ~destMask) | (srcMask & *source_row_ptr);
 		destination_row_ptr++;
 	}
 }
