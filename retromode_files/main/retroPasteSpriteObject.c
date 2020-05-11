@@ -144,7 +144,7 @@ void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 	y = spriteObject -> y;
 
 	destMask = spriteObject -> plains;
-	srcMask = spriteObject -> mask;
+	srcMask = spriteObject -> plains;
 
 	if (sprite == NULL) return;
 
