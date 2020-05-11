@@ -56,7 +56,6 @@ extern void _retromode_retroScreenDetach(struct RetroModeIFace *Self, struct ret
 
 void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen **screen)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroFlashTable * flash;
 	struct retroShiftColors * shift;
 	int idx;

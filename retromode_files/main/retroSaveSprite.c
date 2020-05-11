@@ -81,7 +81,6 @@ void _retromode_retroSaveSprite(struct RetroModeIFace *Self,
 	struct retroSprite *sprite,
 	cust_fread_t cust_fwrite )
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroFrameHeader *frame;
 	unsigned short *planar16bRow = NULL;
 	unsigned char *chunkyRow = NULL;

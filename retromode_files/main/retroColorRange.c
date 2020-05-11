@@ -67,7 +67,6 @@ void _retromode_retroColorRange(struct RetroModeIFace *Self,
        int fromColor, int fromR, int fromG, int fromB,
        int toColor, int toR, int toG, int toB)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int dr,dg,db;
 	int offset;
 	int deltaColor;

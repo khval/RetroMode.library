@@ -65,7 +65,6 @@ void _retromode_retroXorCircleFilled(struct RetroModeIFace *Self,
 	int r,
 	unsigned char xor_mask)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int x0,y0,x1,y1,_y;
 	int xx;
 	int r2 = r * r;

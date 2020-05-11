@@ -56,8 +56,6 @@
 void _retromode_retroDmaVideo(struct RetroModeIFace *Self,
        struct retroVideo * video, struct retroEngine * Engine)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	if (video->Memory)
 	{
 		// move gfx from system mem to video mem.

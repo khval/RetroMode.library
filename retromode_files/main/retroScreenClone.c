@@ -58,7 +58,6 @@ struct retroScreen * _retromode_retroScreenClone(struct RetroModeIFace *Self,
        struct retroScreen * sourceScreen,
        int videomode)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroScreen *screen;
 
 	if (sourceScreen == NULL) return NULL;

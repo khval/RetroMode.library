@@ -65,9 +65,7 @@ void _retromode_retroCycleColorsUp(struct RetroModeIFace *Self,
 	unsigned char to_color,
 	unsigned char flags)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroShiftColors *new_ShiftColors = NULL;
-
 	int idx = 0;
 	int idx_free = -1;
 

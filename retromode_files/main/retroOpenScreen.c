@@ -62,7 +62,6 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 	int height,
 	int videomode)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroScreen *screen;
 
 	screen = (struct retroScreen *) IExec -> AllocVecTags( 

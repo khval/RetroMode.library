@@ -54,7 +54,6 @@
 
 void _retromode_retroCycleOff(struct RetroModeIFace *Self, struct retroScreen * screen)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroShiftColors **shift;
 
 	for (shift = screen -> allocatedShifts ; shift < screen -> allocatedShifts_end; shift ++)

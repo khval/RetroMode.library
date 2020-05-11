@@ -157,8 +157,6 @@ void _retromode_retroScreenBlit(struct RetroModeIFace *Self,
 	int toX,
 	int toY)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	// pointers
 
 	// limit to 0,0
 

@@ -119,9 +119,7 @@ void _retromode_retroFlash(struct RetroModeIFace *Self,
        unsigned char color,
        char * data)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroFlashTable *new_flash = NULL;
-
 	int idx = 0;
 	int count = 0;
 	int idx_free = -1;

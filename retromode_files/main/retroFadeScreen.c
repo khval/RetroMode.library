@@ -55,8 +55,6 @@
 void _retromode_retroFadeScreen(struct RetroModeIFace *Self,
        struct retroScreen * screen)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	if (screen -> fade_speed)
 	{
 		if (screen -> fade_count < screen -> fade_speed)

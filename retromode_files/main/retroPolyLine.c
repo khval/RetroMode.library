@@ -65,8 +65,6 @@ void _retromode_retroPolyLine(struct RetroModeIFace *Self,
         ...)
 {
 	va_list list;
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 
 	int x=0,y=0,lx=0,ly=0;
 	int i = 0, count = 0;

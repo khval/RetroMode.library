@@ -56,8 +56,6 @@ void _retromode_retroFreeMask(struct RetroModeIFace *Self, struct retroFrameHead
 
 void _retromode_retroFreeSprite(struct RetroModeIFace *Self, struct retroSprite * sprite)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	if (sprite)
 	{
 		if (sprite->frames)

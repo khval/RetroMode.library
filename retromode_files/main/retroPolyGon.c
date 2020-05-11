@@ -69,7 +69,6 @@ void _retromode_retroPolyGon(struct RetroModeIFace *Self,
         ...)
 {
 	va_list list;
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int array_size;
 	int array[100*2];
 

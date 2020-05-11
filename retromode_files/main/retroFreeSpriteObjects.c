@@ -58,7 +58,6 @@ void _retromode_retroFreeSpriteObject(struct RetroModeIFace *Self,
 void _retromode_retroFreeSpriteObjects(struct RetroModeIFace *Self,
        struct retroVideo * video)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroSpriteObject *spriteObject;
 
 	if (video -> sprites)

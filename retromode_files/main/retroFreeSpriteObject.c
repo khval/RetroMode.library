@@ -58,7 +58,6 @@ void _retromode_retroFreeSpriteObject(struct RetroModeIFace *Self,
        struct retroSpriteObject * spriteObject,
        BOOL onlyData)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int n;
 
 	if (spriteObject)
