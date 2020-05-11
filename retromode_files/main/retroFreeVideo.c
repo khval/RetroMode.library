@@ -65,17 +65,17 @@ void _retromode_retroFreeVideo(struct RetroModeIFace *Self,
 	{
 		if (video -> rainbow[c].table)
 		{
-			libBase -> IExec ->FreeVec (video -> rainbow[c].table);
+			IExec ->FreeVec (video -> rainbow[c].table);
 			video -> rainbow[c].table = NULL;
 		}
 	}
 
 	if (video->Memory)
 	{
-		libBase -> IExec ->FreeVec (video->Memory);
+		IExec ->FreeVec (video->Memory);
 		video->Memory = NULL;
 	}
 
-	libBase -> IExec ->FreeVec ( (void *) video );
+	IExec ->FreeVec ( (void *) video );
 }
 

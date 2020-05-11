@@ -54,22 +54,21 @@
 struct retroEngine * _retromode_retroAllocEngine(struct RetroModeIFace *Self,
        struct Window * window, struct retroVideo *video)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroEngine *new_engine ;
 
-	if (libBase -> IGraphics == NULL) return NULL;
+	if (IGraphics == NULL) return NULL;
 
-	new_engine = (struct retroEngine *) libBase -> IExec -> AllocVecTags( sizeof(struct retroEngine),  
+	new_engine = (struct retroEngine *) IExec -> AllocVecTags( sizeof(struct retroEngine),  
 					AVT_Type, MEMF_SHARED, 
 					AVT_ClearWithValue, 0 ,
 					TAG_END	);
 
 	if (new_engine)
 	{
-		libBase -> IGraphics -> InitRastPort(&new_engine->rp);
+		IGraphics -> InitRastPort(&new_engine->rp);
 
 		new_engine -> window = window;
-		new_engine -> rp.BitMap = libBase -> IGraphics -> AllocBitMap( video -> width , video -> height, 32, BMF_DISPLAYABLE, new_engine -> window ->RPort -> BitMap);
+		new_engine -> rp.BitMap = IGraphics -> AllocBitMap( video -> width , video -> height, 32, BMF_DISPLAYABLE, new_engine -> window ->RPort -> BitMap);
 		new_engine -> limit_mouse = FALSE;
 	}
 

@@ -67,14 +67,14 @@ void _retromode_retroFreeSpriteObject(struct RetroModeIFace *Self,
 		{
 			if (spriteObject -> clear[n].mem)
 			{
-				libBase -> IExec -> FreeVec(spriteObject -> clear[n].mem);
+				IExec -> FreeVec(spriteObject -> clear[n].mem);
 				spriteObject -> clear[n].mem = NULL;
 			}
 		}
 
 		if (onlyData==FALSE)
 		{
-			libBase -> IExec -> FreeVec(spriteObject);
+			IExec -> FreeVec(spriteObject);
 		}
 	}
 }

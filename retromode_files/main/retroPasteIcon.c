@@ -67,7 +67,6 @@ void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
 	int y,
 	int image)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int width;
 	int height;
 	int ypos;
@@ -80,7 +79,7 @@ void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
 
 	if ( ! sprite -> frames ) 
 	{
-		libBase -> IDOS -> Printf("Sprite has no frames!\n");
+		IDOS -> Printf("Sprite has no frames!\n");
 		return;
 	}
 
@@ -91,7 +90,7 @@ void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
 
 	if ( ! frame -> data)
 	{
-		libBase -> IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
+		IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
 		return;
 	}
 

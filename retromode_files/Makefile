@@ -34,38 +34,46 @@ VERSION = 1
 
 # "main" Interface Source Files
 main_SRCS = main/Obtain.c main/Release.c main/retroAllocVideo.c \
-    main/retroFreeVideo.c main/retroClearVideo.c main/retroDrawVideo.c \
-    main/retroDmaVideo.c main/retroOpenScreen.c main/retroCloseScreen.c \
-    main/retroApplyScreen.c main/retroPixel.c main/retroPoint.c \
-    main/retroFlash.c main/retroCycleColorsUp.c main/retroCycleColorsDown.c \
-    main/retroBAR.c main/retroOrBAR.c main/retroXorBAR.c main/retroBox.c \
-    main/retroOrBox.c main/retroXorBox.c main/retroShift.c main/retroCircleFilled.c \
-    main/retroEllipse.c main/retroOrCircleFilled.c main/retroXorCircleFilled.c \
-    main/retroScreenColor.c main/retroScreenBlit.c main/retroOrScreenBlit.c \
-    main/retroXorScreenBlit.c main/retroBitmapBlit.c main/retroOrBitmapBlit.c \
-    main/retroXorBitmapBlit.c main/retroAndClear.c main/retroModeBadVideoSync.c \
-    main/AfterEffectScanline.c main/AfterEffectAdjustRGB.c main/retroTriangle.c \
-    main/retroOrTriangle.c main/retroXorTriangle.c main/retroLine.c \
-    main/retroOrLine.c main/retroXorLine.c main/retroAllocFrame.c \
-    main/retroFreeFrame.c main/retroDrawFrame.c main/retroDeleteFlash.c \
-    main/retroScreenOffset.c main/retroScreenDetach.c main/retroScreenToFront.c \
-    main/retroScreenToBack.c main/retroStar.c main/retroOrStar.c \
-    main/retroBoing.c main/retroLoadABKSprite.c main/retroFreeSprite.c \
-    main/retroPasteSprite.c main/retroFill.c main/retroOrFill.c \
-    main/retroBarRounded.c main/retroOrBarRounded.c main/retroXorBarRounded.c \
-    main/retroThickLine.c main/retroZoom.c main/retroBobble.c \
-    main/retroRainbowColorRange.c main/retroRain.c main/retroScreenClone.c \
-    main/retroSetRainbow.c main/retroRainbow.c main/retroAllocSpriteObjects.c \
-    main/retroFreeSpriteObjects.c main/retroFreeSpriteObject.c main/AfterEffectDrawSrpites.c \
-    main/retroSprite.c main/retroColorRange.c main/retroPolyGonArray.c \
-    main/retroCycleOff.c main/retroFadeScreen.c main/retroCircle.c \
-    main/retroAllocDoubleBuffer.c main/retroLoadSprite.c main/retroGetSprite.c \
-    main/retroAllocEngine.c main/retroFreeEngine.c main/retroScreenToBitmap.c \
-    main/retroAllocBlock.c main/retroFreeBlock.c main/retroGetBlock.c \
-    main/retroPasteIcon.c main/retroBarPattern.c main/retroPutBlock.c  \
-    main/retroMakeMask.c main/retroFreeMask.c main/retroDrawShortPlanar.c \
-    main/retroDrawMask.c main/retroGetMaxPlains.c main/retroRowToPlanar.c \
-    main/retroSaveSprite.c main/retroPasteSpriteObject.c
+	sprite_solid.c \
+	sprite_alpha.c \
+	sprite_alpha_src_mask.c \
+	sprite_alpha_dest_mask.c \
+	sprite_alpha_src_dest_mask.c \
+	sprite_solid_src_mask.c \
+	sprite_solid_dest_mask.c \
+	sprite_solid_src_dest_mask.c \
+	main/retroFreeVideo.c main/retroClearVideo.c main/retroDrawVideo.c \
+	main/retroDmaVideo.c main/retroOpenScreen.c main/retroCloseScreen.c \
+	main/retroApplyScreen.c main/retroPixel.c main/retroPoint.c \
+	main/retroFlash.c main/retroCycleColorsUp.c main/retroCycleColorsDown.c \
+	main/retroBAR.c main/retroOrBAR.c main/retroXorBAR.c main/retroBox.c \
+	main/retroOrBox.c main/retroXorBox.c main/retroShift.c main/retroCircleFilled.c \
+	main/retroEllipse.c main/retroOrCircleFilled.c main/retroXorCircleFilled.c \
+	main/retroScreenColor.c main/retroScreenBlit.c main/retroOrScreenBlit.c \
+	main/retroXorScreenBlit.c main/retroBitmapBlit.c main/retroOrBitmapBlit.c \
+	main/retroXorBitmapBlit.c main/retroAndClear.c main/retroModeBadVideoSync.c \
+	main/AfterEffectScanline.c main/AfterEffectAdjustRGB.c main/retroTriangle.c \
+	main/retroOrTriangle.c main/retroXorTriangle.c main/retroLine.c \
+	main/retroOrLine.c main/retroXorLine.c main/retroAllocFrame.c \
+	main/retroFreeFrame.c main/retroDrawFrame.c main/retroDeleteFlash.c \
+	main/retroScreenOffset.c main/retroScreenDetach.c main/retroScreenToFront.c \
+	main/retroScreenToBack.c main/retroStar.c main/retroOrStar.c \
+	main/retroBoing.c main/retroLoadABKSprite.c main/retroFreeSprite.c \
+	main/retroPasteSprite.c main/retroFill.c main/retroOrFill.c \
+	main/retroBarRounded.c main/retroOrBarRounded.c main/retroXorBarRounded.c \
+	main/retroThickLine.c main/retroZoom.c main/retroBobble.c \
+	main/retroRainbowColorRange.c main/retroRain.c main/retroScreenClone.c \
+	main/retroSetRainbow.c main/retroRainbow.c main/retroAllocSpriteObjects.c \
+	main/retroFreeSpriteObjects.c main/retroFreeSpriteObject.c main/AfterEffectDrawSrpites.c \
+	main/retroSprite.c main/retroColorRange.c main/retroPolyGonArray.c \
+	main/retroCycleOff.c main/retroFadeScreen.c main/retroCircle.c \
+	main/retroAllocDoubleBuffer.c main/retroLoadSprite.c main/retroGetSprite.c \
+	main/retroAllocEngine.c main/retroFreeEngine.c main/retroScreenToBitmap.c \
+	main/retroAllocBlock.c main/retroFreeBlock.c main/retroGetBlock.c \
+	main/retroPasteIcon.c main/retroBarPattern.c main/retroPutBlock.c  \
+	main/retroMakeMask.c main/retroFreeMask.c main/retroDrawShortPlanar.c \
+	main/retroDrawMask.c main/retroGetMaxPlains.c main/retroRowToPlanar.c \
+	main/retroSaveSprite.c main/retroPasteSpriteObject.c 
 
 # this are never added by ideltool don't know way?
 main_SRCS +=  main/retroPolyLine.c main/retroPolyGon.c 
@@ -84,6 +92,10 @@ $(TARGET): $(OBJS)
 	$(CC) $(LINK) -nostartfiles -o $(TARGET) $(OBJS) $(LIBS)
 
 .PHONY: clean
+
+vo:
+	echo $(OBJS)
+
 clean:
 	$(RM) $(TARGET) $(OBJS)
 

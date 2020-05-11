@@ -55,31 +55,22 @@
 void _retromode_retroMakeMask(struct RetroModeIFace *Self,
        struct retroFrameHeader * frame)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroMask *mask;
 	char *row;
 	unsigned short *rowMask;
 	int xpos,ypos;
 
-//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
-
-	if (frame -> mask) libBase -> IExec -> FreeVec( frame -> mask );
-	frame -> mask = (struct retroMask *)  libBase -> IExec -> AllocVecTags( sizeof(struct retroMask), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	if (frame -> mask) IExec -> FreeVec( frame -> mask );
+	frame -> mask = (struct retroMask *) IExec -> AllocVecTags( sizeof(struct retroMask), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 	if (frame -> mask == NULL) return;
-
-//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	mask = frame -> mask;
 	mask -> int16PerRow = (frame -> width >> 4) + ((frame -> width  & 15) ? 1 : 0);
 	mask -> height = frame -> height;
 
-//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
-
-	if (mask -> data) libBase -> IExec -> FreeVec( mask -> data );
-	mask -> data = (unsigned short *)  libBase -> IExec -> AllocVecTags( sizeof(uint16_t) * mask -> int16PerRow * mask -> height, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	if (mask -> data) IExec -> FreeVec( mask -> data );
+	mask -> data = (unsigned short *) IExec -> AllocVecTags( sizeof(uint16_t) * mask -> int16PerRow * mask -> height, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 	if (mask -> data == NULL) return;
-
-//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	for ( ypos = 0; ypos < frame -> height; ypos++ )
 	{

@@ -69,7 +69,6 @@ void config_scanline(
 struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
        int width, int height)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroVideo *new_video ;
 	struct retroRGB RGB000;
 
@@ -78,7 +77,7 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 	RGB000.b = 0;
 
 
-	new_video = (struct retroVideo *) libBase -> IExec -> AllocVecTags( sizeof(struct retroVideo),  
+	new_video = (struct retroVideo *) IExec -> AllocVecTags( sizeof(struct retroVideo),  
 					AVT_Type, MEMF_SHARED, 
 					AVT_ClearWithValue, 0 ,
 					TAG_END	);
@@ -92,7 +91,7 @@ struct retroVideo * _retromode_retroAllocVideo(struct RetroModeIFace *Self,
 		new_video -> height = height;
 		new_video -> BytesPerRow = width  * 4;		// size of ARGB
 
-		new_video -> Memory = (unsigned int *)  libBase -> IExec -> AllocVecTags( new_video -> BytesPerRow * (new_video -> height  + 1), 
+		new_video -> Memory = (unsigned int *)  IExec -> AllocVecTags( new_video -> BytesPerRow * (new_video -> height  + 1), 
 						AVT_Type, MEMF_SHARED, 
 						AVT_ClearWithValue, 0 ,
 						TAG_END	);

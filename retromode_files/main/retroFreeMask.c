@@ -54,14 +54,12 @@
 void _retromode_retroFreeMask(struct RetroModeIFace *Self,
        struct retroFrameHeader * frame)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	if (frame -> mask -> data)
 	{
-		libBase->IExec->FreeVec(frame  -> mask -> data);
+		IExec->FreeVec(frame  -> mask -> data);
 		frame -> mask -> data = NULL;
 	}
-	libBase->IExec->FreeVec( frame -> mask );
+	IExec->FreeVec( frame -> mask );
 	frame -> mask = NULL;
 }
 

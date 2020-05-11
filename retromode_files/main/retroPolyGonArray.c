@@ -66,8 +66,6 @@
 *
 */
 
-static struct RetroLibrary *libBase;
-
 #define setvec(line,xa,ya,xb,yb) line.x0 = xa; line.y0 = ya; line.x1 = xb; line.y1 = yb; 
 
 struct _line_
@@ -262,7 +260,6 @@ void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
 	int array_size,
 	int * array)
 {
-	libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct _line_ lines[100];
 	int linesCount;
 	int pointsCount;	// points in array
@@ -279,7 +276,7 @@ void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
 	pointsCount = (array_size / sizeof(int)) >> 1;
 	linesCount =pointsCount-1;
 
-	libBase -> IDOS -> Printf("linesCount %ld\n",linesCount);
+	IDOS -> Printf("linesCount %ld\n",linesCount);
 
 	if (createLineArray(linesCount, array, lines, &min_y, &max_y) == FALSE) return;
 

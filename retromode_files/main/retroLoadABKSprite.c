@@ -13,6 +13,8 @@
  *
  */
 
+#define __USE_INLINE__
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <exec/exec.h>
@@ -55,9 +57,6 @@
 *
 */
 
-#define AllocVecTags libBase->IExec->AllocVecTags
-#define FreeVec libBase->IExec->FreeVec
-
 struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd )
 {
 	int n;
@@ -76,7 +75,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 
 	if (!sprite) return NULL;
 
-	if ( libBase->IDOS->Read( fd, &sprite->number_of_frames,sizeof(sprite->number_of_frames)) == sizeof(sprite->number_of_frames) )
+	if ( Read( fd, &sprite->number_of_frames,sizeof(sprite->number_of_frames)) == sizeof(sprite->number_of_frames) )
 	{
 		sprite->frames = AllocVecTags(  
 			sizeof(struct retroFrameHeader) * sprite->number_of_frames ,
@@ -86,7 +85,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 	for (n=0; n<sprite->number_of_frames; n++ )
 	{
 
-		if (libBase->IDOS->Read( fd, sprite->frames + n, sizeof(struct retroFrameHeaderShort)) == sizeof(struct retroFrameHeaderShort))
+		if (Read( fd, sprite->frames + n, sizeof(struct retroFrameHeaderShort)) == sizeof(struct retroFrameHeaderShort))
 		{
 			sprite->frames[n].bytesPerRow = sprite->frames[n].planarXSize * 16 ;
 			sizeOfPlanar = sprite->frames[n].height * (sprite->frames[n].planarXSize * 2 );
@@ -117,7 +116,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 
 				for (Plain = 0; Plain < sprite->frames[n].numberOfPlains; Plain++ )	
 				{
-					if (libBase->IDOS->Read( fd, planar, sizeOfPlanar ) == sizeOfPlanar) 
+					if (Read( fd, planar, sizeOfPlanar ) == sizeOfPlanar) 
 					{
 						int y;
 						int source_BytesPerRow = sprite->frames[n].planarXSize*2;
@@ -163,7 +162,7 @@ struct retroSprite *read_icon_or_sprite( 	struct RetroLibrary *libBase , BPTR fd
 	// in doc it says 32 colors, but we are flexible.
 
 	num = 0;
-	while (libBase->IDOS->Read( fd, &ECSColor, 2 ) == 2)	
+	while (Read( fd, &ECSColor, 2 ) == 2)	
 	{
 		ECSColorToRGB32( ECSColor, sprite -> palette[num] );
 		num++;
@@ -181,13 +180,13 @@ struct retroSprite * _retromode_retroLoadABKSprite(struct RetroModeIFace *Self,
 	BPTR fd;
 	char file_id[5]; // 4 bytes (0 to 3) byte 5 (4)
 
-	fd = libBase->IDOS ->Open( (char *) filename,MODE_OLDFILE);
+	fd = Open( (char *) filename,MODE_OLDFILE);
 
 	if (fd)
 	{
 		file_id[4]= 0;
 
-		if (libBase->IDOS->Read( fd, file_id, 4 ))	// reads 4 bytes but terminates on byte 5.
+		if (Read( fd, file_id, 4 ))	// reads 4 bytes but terminates on byte 5.
 		{
 			if ((strcmp(file_id,"AmSp")==0) || (strcmp(file_id,"AmIc")==0))
 			{
@@ -195,11 +194,11 @@ struct retroSprite * _retromode_retroLoadABKSprite(struct RetroModeIFace *Self,
 			}
 			else
 			{
-				libBase->IDOS->Printf("[%s]\n",file_id);
+				Printf("[%s]\n",file_id);
 			}
 		}
 
-		libBase->IDOS->Close(fd);
+		Close(fd);
 	}
 
 	return sprite;

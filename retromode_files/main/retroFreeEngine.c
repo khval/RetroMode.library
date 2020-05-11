@@ -54,11 +54,9 @@
 void _retromode_retroFreeEngine(struct RetroModeIFace *Self,
        struct retroEngine * engine)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	if (engine->rp.BitMap)
 	{
-		libBase-> IGraphics->FreeBitMap( engine-> rp.BitMap );
+		IGraphics->FreeBitMap( engine-> rp.BitMap );
 		engine -> rp.BitMap = NULL;
 	}
 }

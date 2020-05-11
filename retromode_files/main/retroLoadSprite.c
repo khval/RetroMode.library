@@ -59,7 +59,6 @@
 
 struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FILE *fd, cust_fread_t cust_fread)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int n;
 	int num;
 	int bit;
@@ -73,7 +72,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 	int colors = 0;
 
 
-	sprite = (struct retroSprite *) libBase -> IExec -> AllocVecTags(  sizeof(struct retroSprite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	sprite = (struct retroSprite *) IExec -> AllocVecTags(  sizeof(struct retroSprite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 	if (!sprite) return NULL;
 
@@ -82,9 +81,9 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 	if ( cust_fread( &sprite->number_of_frames,sizeof(sprite->number_of_frames), 1, fd ) == 1 )
 	{
-		libBase -> IDOS -> Printf("Load sprite->number_of_frames %ld\n",  sprite->number_of_frames);
+		IDOS -> Printf("Load sprite->number_of_frames %ld\n",  sprite->number_of_frames);
 
-		sprite->frames = libBase -> IExec -> AllocVecTags(  
+		sprite->frames = IExec -> AllocVecTags(  
 				sizeof(struct retroFrameHeader) * sprite->number_of_frames ,
 				AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
@@ -101,7 +100,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 				sizeOfPlanar = sprite->frames[n].height * (sprite->frames[n].planarXSize * 2 );
 				sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].height;
 	
-				sprite->frames[n].data = libBase -> IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+				sprite->frames[n].data = IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 				sprite->frames[n].alpha = 1;
 			}
 			else
@@ -112,7 +111,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 			if (sizeOfPlanar>0)
 			{
-				planar = libBase -> IExec -> AllocVecTags( sizeOfPlanar, 	AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+				planar = IExec -> AllocVecTags( sizeOfPlanar, 	AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 				if (planar)
 				{
 					// reset convertion table
@@ -159,7 +158,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 					if (planar) 
 					{
-						libBase -> IExec -> FreeVec(planar);
+						IExec -> FreeVec(planar);
 						planar = NULL;
 					}
 				}

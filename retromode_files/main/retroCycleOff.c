@@ -59,7 +59,7 @@ void _retromode_retroCycleOff(struct RetroModeIFace *Self, struct retroScreen * 
 
 	for (shift = screen -> allocatedShifts ; shift < screen -> allocatedShifts_end; shift ++)
 	{
-		if (*shift) libBase -> IExec -> FreeVec(*shift);
+		if (*shift) IExec -> FreeVec(*shift);
 		*shift = NULL;
 	}
 

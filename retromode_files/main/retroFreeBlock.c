@@ -54,12 +54,10 @@
 void _retromode_retroFreeBlock(struct RetroModeIFace *Self,
        struct retroBlock * block)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	if (block)
 	{
-		if (block->mem)  libBase -> IExec -> FreeVec(  block -> mem );
-		libBase -> IExec -> FreeVec(  block );
+		if (block->mem)  IExec -> FreeVec(  block -> mem );
+		IExec -> FreeVec(  block );
 	}
 }
 

@@ -64,7 +64,6 @@
 
 void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,int fromX,int fromY,int width,int height,struct retroScreen * screen,int toX,int toY)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int x,y;
 	APTR lock;
 	unsigned char *BitMapMemory;
@@ -77,8 +76,8 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 	unsigned char	*inner_src_memory;
 	unsigned char	*inner_des_memory;
 
-	BitMapWidth = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
-	BitMapHeight = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_HEIGHT );
+	BitMapWidth = IGraphics ->GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
+	BitMapHeight = IGraphics ->GetBitMapAttr( bitmap, BMA_HEIGHT );
 
 	// adjust to upper limit of bitmap
 
@@ -92,7 +91,7 @@ void _retromode_retroOrBlit(struct RetroModeIFace *Self,struct BitMap *bitmap,in
 
 	if ((width < 0) || (height <0)) return;
 
-	lock = libBase -> IGraphics -> LockBitMapTags( bitmap, 
+	lock = IGraphics -> LockBitMapTags( bitmap, 
 			LBM_BytesPerRow, &BitMapBytesPerRow,
 			LBM_BaseAddress, &BitMapMemory,
 			TAG_END);

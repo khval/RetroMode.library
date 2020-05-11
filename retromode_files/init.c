@@ -27,10 +27,14 @@
 #include "retromode.library_rev.h"
 STATIC CONST UBYTE USED verstag[] = VERSTAG;
 
-#ifdef use_newlib
-struct Library *newlibBase;
-struct Interface *INewlib;
-#endif
+struct Library			*newlibBase = NULL;
+struct Interface			*INewlib = NULL;
+struct ExecIFace		*IExec = NULL;
+struct Library			*DOSBase = NULL;
+struct DOSIFace		*IDOS = NULL;
+struct Library			*GraphicsBase = NULL;
+struct GraphicsIFace		*IGraphics = NULL;
+
 
 #include "libbase.h"
 
@@ -95,6 +99,7 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
 	/* If your library cannot be expunged, return 0 */
 
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
+
 	APTR result = (APTR)0;
 	struct RetroLibrary *libBase = (struct RetroLibrary *)Self->Data.LibBase;
 
@@ -106,23 +111,23 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
         	IExec->Remove((struct Node *)libBase);
 		IExec->DeleteLibrary((struct Library *)libBase);
 
-		if (libBase->IGraphics) IExec->DropInterface( (struct Interface *) libBase->IGraphics);
-		if (libBase->GraphicsBase) IExec->CloseLibrary( libBase->GraphicsBase );
+		if (IGraphics) IExec->DropInterface( (struct Interface *) IGraphics);
+		if (GraphicsBase) IExec->CloseLibrary( GraphicsBase );
 
-		libBase->IGraphics = NULL;
-		libBase->GraphicsBase = NULL;
+		IGraphics = NULL;
+		GraphicsBase = NULL;
 
-		if (libBase->IDOS) IExec->DropInterface( (struct Interface *) libBase->IDOS);
-		if (libBase->DOSBase) IExec->CloseLibrary( libBase->DOSBase );
+		if (IDOS) IExec->DropInterface( (struct Interface *) IDOS);
+		if (DOSBase) IExec->CloseLibrary( DOSBase );
 
-		libBase->IDOS = NULL;
-		libBase->DOSBase = NULL;
+		IDOS = NULL;
+		DOSBase = NULL;
 
-#ifdef use_newlib
 		if (INewlib) IExec->DropInterface( (struct Interface *) INewlib);
 		if (newlibBase) IExec->CloseLibrary( newlibBase );
-#endif
 
+		INewlib = NULL;
+		newlibBase = NULL;
 	}
 	else
 	{
@@ -136,7 +141,7 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
 STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct Interface *exec)
 {
     struct RetroLibrary *libBase = (struct RetroLibrary *)LibraryBase;
-    struct ExecIFace *IExec UNUSED = (struct ExecIFace *)exec;
+    IExec = (struct ExecIFace *)exec;
 
     libBase->libNode.lib_Node.ln_Type = NT_LIBRARY;
     libBase->libNode.lib_Node.ln_Pri  = 0;
@@ -151,31 +156,27 @@ STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct
     /* Add additional init code here if you need it. For example, to open additional
        Libraries:*/
 
-	libBase -> IExec = IExec;
-
-#ifdef use_newlib
 	newlibBase = IExec->OpenLibrary("newlib.library", 53L);
 	if (newlibBase)
 	{
-		INewlib = IExec->GetInterface(libBase->DOSBase,"main", 1, NULL);
+		INewlib = IExec->GetInterface(DOSBase,"main", 1, NULL);
 		if (INewlib) return NULL;
 	} else return NULL; 
-#endif
 
-	libBase->DOSBase = IExec->OpenLibrary("dos.library", 53L);
-	if (libBase->DOSBase)
+	DOSBase = IExec->OpenLibrary("dos.library", 53L);
+	if (DOSBase)
 	{
-		libBase->IDOS = (struct DOSIFace *)IExec->GetInterface(libBase->DOSBase,"main", 1, NULL);
+		IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase,"main", 1, NULL);
 
-		if (!libBase->IDOS) return NULL;
+		if (!IDOS) return NULL;
 	} else return NULL; 
 
-	libBase->GraphicsBase = IExec->OpenLibrary("graphics.library", 54L);
-	if (libBase->GraphicsBase)
+	GraphicsBase = IExec->OpenLibrary("graphics.library", 54L);
+	if (GraphicsBase)
 	{
-		libBase->IGraphics = (struct GraphicsIFace *)IExec->GetInterface(libBase->GraphicsBase,"main", 1, NULL);
+		IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GraphicsBase,"main", 1, NULL);
 
-		if (!libBase->IGraphics) return NULL;
+		if (!IGraphics) return NULL;
 	} else return NULL; 
 
 	return (struct Library *)libBase;

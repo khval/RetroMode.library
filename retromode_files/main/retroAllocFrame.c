@@ -68,10 +68,9 @@ struct retroFrame * _retromode_retroAllocFrame(struct RetroModeIFace *Self,
        int hotspotX,
        int hotspotY)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	struct retroFrame	*ret = NULL;
 
-	ret = (struct retroFrame *)  libBase -> IExec -> AllocVecTags( sizeof(struct retroFrame), 
+	ret = (struct retroFrame *)  IExec -> AllocVecTags( sizeof(struct retroFrame), 
 						AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 	if (ret)

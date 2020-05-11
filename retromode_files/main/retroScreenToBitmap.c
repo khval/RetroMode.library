@@ -70,7 +70,6 @@ void _retromode_retroScreenToBitmap(struct RetroModeIFace *Self,
        int toX,
        int toY)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
 	int x,y;
 	APTR lock;
 	unsigned char *BitMapMemory;
@@ -83,10 +82,10 @@ void _retromode_retroScreenToBitmap(struct RetroModeIFace *Self,
 	unsigned char	*inner_src_memory;
 	unsigned char	*inner_des_memory;
 
-	BitMapWidth = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
-	BitMapHeight = libBase -> IGraphics ->GetBitMapAttr( bitmap, BMA_HEIGHT );
+	BitMapWidth = IGraphics ->GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
+	BitMapHeight = IGraphics ->GetBitMapAttr( bitmap, BMA_HEIGHT );
 
-	lock = libBase -> IGraphics -> LockBitMapTags( bitmap, 
+	lock = IGraphics -> LockBitMapTags( bitmap, 
 			LBM_BytesPerRow, &BitMapBytesPerRow,
 			LBM_BaseAddress, &BitMapMemory,
 			TAG_END);
@@ -129,7 +128,7 @@ void _retromode_retroScreenToBitmap(struct RetroModeIFace *Self,
 			src_memory += screen -> realWidth;
 			des_memory += BitMapBytesPerRow;
 		}
-		libBase -> IGraphics -> UnlockBitMap( lock );
+		IGraphics -> UnlockBitMap( lock );
 	}
 }
 

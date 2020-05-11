@@ -61,12 +61,12 @@ void _retromode_retroDmaVideo(struct RetroModeIFace *Self,
 	if (video->Memory)
 	{
 		// move gfx from system mem to video mem.
-		libBase -> IGraphics -> WritePixelArray( (uint8 * ) video->Memory, 0, 0, video->BytesPerRow, PIXF_A8R8G8B8, 
+		IGraphics -> WritePixelArray( (uint8 * ) video->Memory, 0, 0, video->BytesPerRow, PIXF_A8R8G8B8, 
 			&Engine->rp, 0,0, video->width,video->height);
 	}
 	else
 	{
-		libBase -> IDOS -> Printf("video has no memory\n");
+		IDOS -> Printf("video has no memory\n");
 	}
 }
 

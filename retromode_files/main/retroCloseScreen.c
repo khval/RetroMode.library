@@ -63,19 +63,19 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 
 	if (screen == NULL)
 	{
-		libBase -> IDOS -> Printf("your passing a NULL pointer, you should be passing ref to pointer &screenPointer\n");
+		IDOS -> Printf("your passing a NULL pointer, you should be passing ref to pointer &screenPointer\n");
 		return;
 	}
 
 	if (*screen==NULL)
 	{
-		libBase -> IDOS -> Printf("you have closed this Screen before, maybe your clsong the wrong Screen?\n");
+		IDOS -> Printf("you have closed this Screen before, maybe your clsong the wrong Screen?\n");
 		return;
 	}
 
 	if ((*screen) -> clones > 0)
 	{
-		libBase -> IDOS -> Printf("you are closeing Screen in the wrong order, close clones before original screen?\n");
+		IDOS -> Printf("you are closeing Screen in the wrong order, close clones before original screen?\n");
 		return;
 	}
 
@@ -88,17 +88,17 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 		{
 			if (flash -> table)
 			{
-				libBase -> IExec -> FreeVec(flash -> table);
+				IExec -> FreeVec(flash -> table);
 				flash -> table = NULL;
 			}
-			libBase -> IExec -> FreeVec(flash);
+			IExec -> FreeVec(flash);
 			(*screen)->allocatedFlashs[idx] = NULL;	
 		}
 
 		shift = (*screen)->allocatedShifts[idx];
 		if (shift)
 		{
-			libBase -> IExec -> FreeVec(shift);
+			IExec -> FreeVec(shift);
 			(*screen)->allocatedShifts[idx] = NULL;	
 		}
 	}
@@ -109,14 +109,14 @@ void _retromode_retroCloseScreen(struct RetroModeIFace *Self, struct retroScreen
 	}
 	else
 	{
-		if ((*screen) -> Memory[0]) libBase -> IExec -> FreeVec((*screen) -> Memory[0]);
-		if ((*screen) -> Memory[1]) libBase -> IExec -> FreeVec((*screen) -> Memory[1]);
+		if ((*screen) -> Memory[0]) IExec -> FreeVec((*screen) -> Memory[0]);
+		if ((*screen) -> Memory[1]) IExec -> FreeVec((*screen) -> Memory[1]);
 	}
 
 	(*screen) -> Memory[0] = NULL;
 	(*screen) -> Memory[1] = NULL;
 
-	libBase -> IExec -> FreeVec(*screen);
+	IExec -> FreeVec(*screen);
 	*screen = NULL;
 }
 

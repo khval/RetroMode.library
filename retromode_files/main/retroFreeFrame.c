@@ -55,11 +55,9 @@
 void _retromode_retroFreeFrame(struct RetroModeIFace *Self,
        struct retroFrame * frame)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	if (frame)
 	{
-		libBase -> IExec -> FreeVec( frame );
+		IExec -> FreeVec( frame );
 	}
 }
 

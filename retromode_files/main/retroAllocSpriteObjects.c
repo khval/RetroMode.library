@@ -58,11 +58,9 @@ void _retromode_retroAllocSpriteObjects(struct RetroModeIFace *Self,
        struct retroVideo * video,
        int numberOfSprites)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	Self -> retroFreeSpriteObjects( video );
 
-	video -> sprites = (struct retroSpriteObject *) libBase -> IExec-> AllocVecTags( sizeof(struct retroSpriteObject) * numberOfSprites, 
+	video -> sprites = (struct retroSpriteObject *) IExec-> AllocVecTags( sizeof(struct retroSpriteObject) * numberOfSprites, 
 						AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 , TAG_END );
 
 	if (video -> sprites)

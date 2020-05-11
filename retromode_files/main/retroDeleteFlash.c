@@ -58,8 +58,6 @@ int _retromode_retroDeleteFlash(struct RetroModeIFace *Self,
        struct retroScreen * screen,
        unsigned char color)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-
 	int idx = 0;
 	struct retroFlashTable *flash = NULL;
 
@@ -73,11 +71,11 @@ int _retromode_retroDeleteFlash(struct RetroModeIFace *Self,
 
 				if (flash -> table)
 				{
-					libBase -> IExec -> FreeVec(flash -> table);
+					IExec -> FreeVec(flash -> table);
 					flash -> table = NULL;
 				}
 
-				libBase -> IExec -> FreeVec(screen->allocatedFlashs[idx]);	
+				IExec -> FreeVec(screen->allocatedFlashs[idx]);	
 				for ( ; idx<255;idx++)
 				{
 					screen->allocatedFlashs[idx] = screen->allocatedFlashs[idx+1];

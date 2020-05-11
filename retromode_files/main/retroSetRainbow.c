@@ -62,11 +62,10 @@ void _retromode_retroSetRainbow(struct RetroModeIFace *Self,
        unsigned char color,
        int tableSize)
 {
-	struct RetroLibrary *libBase = (struct RetroLibrary *) Self -> Data.LibBase;
-	if (video -> rainbow[rainbowNumber].table) libBase->IExec->FreeVec(video -> rainbow[rainbowNumber].table);
+	if (video -> rainbow[rainbowNumber].table) IExec->FreeVec(video -> rainbow[rainbowNumber].table);
 
 	video -> rainbow[rainbowNumber].color = color;
 	video -> rainbow[rainbowNumber].tableSize = tableSize;
-	video -> rainbow[rainbowNumber].table = (struct retroRGB *) libBase->IExec->AllocVecTags(sizeof(struct retroRGB)  * video -> rainbow[0].tableSize,  AVT_Type, MEMF_SHARED, TAG_END );
+	video -> rainbow[rainbowNumber].table = (struct retroRGB *) IExec->AllocVecTags(sizeof(struct retroRGB)  * video -> rainbow[0].tableSize,  AVT_Type, MEMF_SHARED, TAG_END );
 }
 
