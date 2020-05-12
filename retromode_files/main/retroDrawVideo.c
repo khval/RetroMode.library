@@ -13,8 +13,11 @@
  *
  */
 
+#define __USE_INLINE__
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <dos/dos.h>
@@ -274,9 +277,104 @@ void set_scanline( int n, struct retroParallax *line,struct retroScreen * screen
 	}
 }
 
+// do not change, its not a option.
 #define is_displayed 0
 
 void Screen_To_Scanlines( struct retroScreen * screen, struct retroVideo * video )
+{
+	int n;
+	int scanline_x,scanline_y,screen_y ;
+	int hw_start ;
+	int hw_end ;
+	int hw_y ;
+	int offset;
+	int displayed ;
+	int physical_vfacor ;
+
+	if (screen -> flags & retroscreen_flag_hide) 	return;
+
+	scanline_x = screen -> scanline_x;
+	scanline_y = screen -> scanline_y;
+
+	for (n=0;n<=1;n++)	// dual screen.
+	{
+		screen_y = 0;
+		hw_start = 0;
+		hw_end = 0;
+		hw_y = 0;
+		displayed = (screen ->videomode & retroInterlaced) ? 0 : 1;
+		physical_vfacor = (screen ->videomode & retroInterlaced) ? 1 : 2;
+
+		hw_start = scanline_y;
+		hw_end = hw_start + (screen -> displayHeight * physical_vfacor );
+
+		if (hw_end<0)	return;						// outside of scope.
+		if (hw_start> ((int) video->height))	return;		// outside of scope.
+
+		if (hw_start<0)
+		{
+			screen_y = -hw_start / physical_vfacor;
+			hw_start = 0;
+		}
+
+		if (hw_end>video->height) hw_end = video->height;
+
+		screen_y += screen -> offset_y;
+
+		for (hw_y = hw_start; hw_y<hw_end; hw_y++)
+		{
+			if ((hw_y & displayed) == is_displayed)
+			{
+				if ((screen_y>=0) && (screen_y <= screen -> realHeight))
+				{
+					offset = (screen -> bytesPerRow * screen_y) + screen -> offset_x;
+
+					video -> scanlines[ hw_y ].beamStart = scanline_x;
+					set_scanline(  n, &video -> scanlines[ hw_y ], screen, video, offset );
+				}
+
+				screen_y ++;
+			}
+		}
+
+		if (screen -> dualScreen == NULL) 	break;
+
+		screen = screen -> dualScreen;
+	}
+}
+
+bool inside_screen(struct retroScreen *screen, int scanline_y)
+{
+	int physical_vfacor = (screen ->videomode & retroInterlaced) ? 1 : 2;
+	int hw_start = screen -> scanline_y;
+	int hw_end = hw_start + (screen -> displayHeight * physical_vfacor );
+
+	if (screen -> flags & retroscreen_flag_hide) 	return false;		// if screen is hidden then we do not need to worry about it..
+	if ((hw_start<=scanline_y) && (hw_end>=scanline_y)) return true;
+
+	return false;
+}
+
+bool inside_screens( struct retroVideo * video, struct retroScreen *this_screen, int scanline_y)
+{
+	bool this_screen_found = false;
+	struct retroScreen **screen_item;
+
+	for (screen_item = video -> attachedScreens; screen_item < video -> attachedScreens_end; screen_item++)
+	{
+		if (this_screen_found == false)
+		{
+			if (*screen_item == this_screen ) this_screen_found = true;	
+		}
+		else	// we only need to check if screen after is inside.. (we are checking if we render on top...)
+		{
+			if (inside_screen(*screen_item, scanline_y)) return true;
+		}
+	}
+	return false;
+}
+
+void refresh_screen_scanlines( struct retroScreen * screen, struct retroVideo * video )
 {
 	int n;
 	int scanline_x,scanline_y,screen_y ;
@@ -321,12 +419,15 @@ void Screen_To_Scanlines( struct retroScreen * screen, struct retroVideo * video
 		{
 			if ((hw_y & displayed) == is_displayed)
 			{
-				if ((screen_y>=0) && (screen_y <= screen -> realHeight))
+				if (inside_screens( video, screen, hw_y ) == false )
 				{
-					offset = (screen -> bytesPerRow * screen_y) + screen -> offset_x;
+					if ((screen_y>=0) && (screen_y <= screen -> realHeight))
+					{
+						offset = (screen -> bytesPerRow * screen_y) + screen -> offset_x;
 
-					video -> scanlines[ hw_y ].beamStart = scanline_x;
-					set_scanline( libBase, n, &video -> scanlines[ hw_y ], screen, video, offset );
+						video -> scanlines[ hw_y ].beamStart = scanline_x;
+						set_scanline( n, &video -> scanlines[ hw_y ], screen, video, offset );
+					}
 				}
 
 				screen_y ++;
