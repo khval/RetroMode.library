@@ -109,6 +109,7 @@ STATIC CONST APTR main_v1_vectors[] =
     _retromode_retroRowToPlanar,
     _retromode_retroSaveSprite,
     _retromode_retroPasteSpriteObject,
+    _retromode_retroScroll,
     (APTR)-1
 };
 

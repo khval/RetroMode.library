@@ -706,6 +706,16 @@
 			<arg name="image" type="int"/>
 			<arg name="flags" type="int"/>
 		</method>
+		<method name="retroScroll" result="void">
+			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
+			<arg name="x0" type="int"/>
+			<arg name="y0" type="int"/>
+			<arg name="x1" type="int"/>
+			<arg name="y1" type="int"/>
+			<arg name="dx" type="int"/>
+			<arg name="dy" type="int"/>
+		</method>
 	</interface>
 </library>
 

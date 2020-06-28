@@ -134,5 +134,6 @@
 #define retroRowToPlanar(mask, chunky, planar16b, planarXSize, width) IRetroMode->retroRowToPlanar((mask), (chunky), (planar16b), (planarXSize), (width)) 
 #define retroSaveSprite(fd, sprite, cust_fwrite) IRetroMode->retroSaveSprite((fd), (sprite), (cust_fwrite)) 
 #define retroPasteSpriteObject(screen, buffer, spriteObject, sprite, image, flags) IRetroMode->retroPasteSpriteObject((screen), (buffer), (spriteObject), (sprite), (image), (flags)) 
+#define retroScroll(screen, buffer, x0, y0, x1, y1, dx, dy) IRetroMode->retroScroll((screen), (buffer), (x0), (y0), (x1), (y1), (dx), (dy)) 
 
 #endif /* INLINE4_RETROMODE_H */

@@ -117,3 +117,4 @@ extern int                  VARARGS68K _retromode_retroGetMaxPlains(struct Retro
 extern void                 VARARGS68K _retromode_retroRowToPlanar(struct RetroModeIFace *, unsigned char mask, unsigned char * chunky, unsigned short * planar16b, int planarXSize, int width);
 extern struct retroSprite * VARARGS68K _retromode_retroSaveSprite(struct RetroModeIFace *, void * fd, struct retroSprite * sprite, cust_fread_t cust_fwrite);
 extern void                 VARARGS68K _retromode_retroPasteSpriteObject(struct RetroModeIFace *, struct retroScreen * screen, int buffer, struct retroSpriteObject * spriteObject, struct retroSprite * sprite, int image, int flags);
+extern void                 VARARGS68K _retromode_retroScroll(struct RetroModeIFace *, struct retroScreen * screen, int buffer, int x0, int y0, int x1, int y1, int dx, int dy);
