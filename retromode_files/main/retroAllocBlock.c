@@ -60,7 +60,7 @@ struct retroBlock * _retromode_retroAllocBlock(struct RetroModeIFace *Self,
 {
 	struct retroBlock *block;
 
-	block = (struct retroBlock *) IExec -> AllocVecTags(  sizeof(struct retroBlock), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	block = (struct retroBlock *) AllocVecTags(  sizeof(struct retroBlock), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 	if (block)
 	{
@@ -75,7 +75,7 @@ struct retroBlock * _retromode_retroAllocBlock(struct RetroModeIFace *Self,
 		{
 			int x,y;
 
-			block -> mem = (unsigned char *) IExec -> AllocVecTags(  _size_ , AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+			block -> mem = (unsigned char *) AllocVecTags(  _size_ , AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 			for (y=0;y<height;y++)
 			{

@@ -56,10 +56,10 @@ void _retromode_retroFreeMask(struct RetroModeIFace *Self,
 {
 	if (frame -> mask -> data)
 	{
-		IExec->FreeVec(frame  -> mask -> data);
+		FreeVec(frame  -> mask -> data);
 		frame -> mask -> data = NULL;
 	}
-	IExec->FreeVec( frame -> mask );
+	FreeVec( frame -> mask );
 	frame -> mask = NULL;
 }
 

@@ -107,8 +107,8 @@ void _retromode_retroSaveSprite(struct RetroModeIFace *Self,
 
 		cust_fwrite( frame, sizeof(struct retroFrameHeaderShort), 1, fd );
 
-		if (planar16bRow) IExec -> FreeVec(planar16bRow);
-		planar16bRow = (unsigned short *) IExec -> AllocVecTags(  frame -> planarXSize * 2, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+		if (planar16bRow) FreeVec(planar16bRow);
+		planar16bRow = (unsigned short *) AllocVecTags(  frame -> planarXSize * 2, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 		for (p=0;p<sprite->frames[ image ].numberOfPlains;p++)
 		{
@@ -134,6 +134,6 @@ void _retromode_retroSaveSprite(struct RetroModeIFace *Self,
 		cust_fwrite( &ECSColor, 2, 1, fd );
 	}
 
-	if (planar16bRow) IExec -> FreeVec(planar16bRow);
+	if (planar16bRow) FreeVec(planar16bRow);
 }
 

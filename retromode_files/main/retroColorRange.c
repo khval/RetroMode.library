@@ -85,7 +85,6 @@ void _retromode_retroColorRange(struct RetroModeIFace *Self,
 	for ( color = fromColor; color <= toColor ; color ++ )
 	{
 		offset = color - fromColor;
-		IDOS -> Printf("color %ld, offset %ld\n", color, offset);
 
 		r = (dr * offset / deltaColor) + fromR;
 		g = (dg * offset / deltaColor) + fromG;

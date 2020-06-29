@@ -71,14 +71,14 @@ void _retromode_retroFreeSprite(struct RetroModeIFace *Self, struct retroSprite 
 
 				if (sprite->frames[n].data)
 				{
-					IExec->FreeVec(sprite->frames[n].data);
+					FreeVec(sprite->frames[n].data);
 					sprite->frames[n].data = NULL;
 				}
 			 }
 
-			IExec->FreeVec(sprite->frames);
+			FreeVec(sprite->frames);
 		}
-		IExec->FreeVec(sprite);
+		FreeVec(sprite);
 	}
 }
 

@@ -57,7 +57,7 @@ void _retromode_retroFreeFrame(struct RetroModeIFace *Self,
 {
 	if (frame)
 	{
-		IExec -> FreeVec( frame );
+		FreeVec( frame );
 	}
 }
 

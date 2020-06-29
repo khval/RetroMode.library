@@ -56,8 +56,8 @@ void _retromode_retroFreeBlock(struct RetroModeIFace *Self,
 {
 	if (block)
 	{
-		if (block->mem)  IExec -> FreeVec(  block -> mem );
-		IExec -> FreeVec(  block );
+		if (block->mem)  FreeVec(  block -> mem );
+		FreeVec(  block );
 	}
 }
 

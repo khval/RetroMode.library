@@ -146,15 +146,15 @@ void _bottom_up(
 #define show_mode(dir)													\
 		if ( destMask )	{											\
 			if (frame -> alpha) {											\
-				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir , "_alpha_src_dest_mask"); } else { IDOS->Printf("%s%s%s\n", "_" , #dir , "_alpha_dest_mask"); }		\
+				if (srcMask) { Printf(  "%s%s%s\n", "_" , #dir , "_alpha_src_dest_mask"); } else { Printf("%s%s%s\n", "_" , #dir , "_alpha_dest_mask"); }		\
 			} else {													\
-				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir ,"_solid_src_dest_mask"); } else { IDOS->Printf("%s%s%s\n","_" , #dir , "_solid_dest_mask"); }		\
+				if (srcMask) { Printf(  "%s%s%s\n", "_" , #dir ,"_solid_src_dest_mask"); } else { Printf("%s%s%s\n","_" , #dir , "_solid_dest_mask"); }		\
 			}														\
 		} else { 														\
 			if (frame -> alpha) {											\
-				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir , "_alpha_src_mask"); } else { IDOS->Printf("%s%s%s\n","_" , #dir , "_alpha"); }		\
+				if (srcMask) { Printf(  "%s%s%s\n", "_" , #dir , "_alpha_src_mask"); } else { Printf("%s%s%s\n","_" , #dir , "_alpha"); }		\
 			} else {													\
-				if (srcMask) { IDOS->Printf(  "%s%s%s\n", "_" , #dir , "_solid_src_mask"); } else { IDOS->Printf("%s%s%s\n","_" , #dir , "_solid"); }		\
+				if (srcMask) { Printf(  "%s%s%s\n", "_" , #dir , "_solid_src_mask"); } else { Printf("%s%s%s\n","_" , #dir , "_solid"); }		\
 			}														\
 		} 
 
@@ -179,11 +179,11 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 
 	void (*draw_mode) ROW_ARGS = NULL;
 
-//	libBase -> IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
+	Printf("%s:%ld\n",__FUNCTION__,__LINE__);
 
 	if ( ! sprite -> frames ) 
 	{
-		IDOS -> Printf("Sprite has no frames!\n");
+		Printf("Sprite has no frames!\n");
 		return;
 	}
 
@@ -194,7 +194,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 
 	if ( ! frame -> data)
 	{
-		IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
+		Printf("Sprite -> frame[%d].data is NULL!\n",image);
 		return;
 	}
 
@@ -252,7 +252,7 @@ void _retromode_retroPasteSprite(struct RetroModeIFace *Self,
 			break;
 
 		default:
-			IDOS -> Printf("%s:%ld unexpcted flag %08lx\n",__FUNCTION__,__LINE__,flags);
+			Printf("%s:%ld unexpcted flag %08lx\n",__FUNCTION__,__LINE__,flags);
 			break;
 	}
 }

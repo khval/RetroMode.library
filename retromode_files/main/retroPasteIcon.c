@@ -79,7 +79,7 @@ void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
 
 	if ( ! sprite -> frames ) 
 	{
-		IDOS -> Printf("Sprite has no frames!\n");
+		Printf("Sprite has no frames!\n");
 		return;
 	}
 
@@ -90,7 +90,7 @@ void _retromode_retroPasteIcon(struct RetroModeIFace *Self,
 
 	if ( ! frame -> data)
 	{
-		IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
+		Printf("Sprite -> frame[%d].data is NULL!\n",image);
 		return;
 	}
 

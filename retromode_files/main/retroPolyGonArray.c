@@ -183,9 +183,6 @@ void getXPoints(int y, struct _line_ *lines, int linesCount, struct xpoint *poin
 
 	int n;
 	struct xpoint t;
-	struct _line_ *line;
-	struct _line_ *lines_start = lines;
-	struct _line_ *lines_end = lines + linesCount;
 	int sorted_at = -1;
 
 	*pointsXCount = 0;
@@ -276,7 +273,7 @@ void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
 	pointsCount = (array_size / sizeof(int)) >> 1;
 	linesCount =pointsCount-1;
 
-	IDOS -> Printf("linesCount %ld\n",linesCount);
+	Printf("linesCount %ld\n",linesCount);
 
 	if (createLineArray(linesCount, array, lines, &min_y, &max_y) == FALSE) return;
 

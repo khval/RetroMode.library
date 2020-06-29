@@ -62,7 +62,7 @@ struct retroScreen * _retromode_retroScreenClone(struct RetroModeIFace *Self,
 
 	if (sourceScreen == NULL) return NULL;
 
-	screen = (struct retroScreen *) IExec -> AllocVecTags( sizeof(struct retroScreen),  AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END	);
+	screen = (struct retroScreen *) AllocVecTags( sizeof(struct retroScreen),  AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END	);
 	if (screen)
 	{
 		sourceScreen -> clones ++;

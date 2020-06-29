@@ -62,7 +62,7 @@ void _retromode_retroAllocDoubleBuffer(struct RetroModeIFace *Self,  struct retr
 		unsigned char *src_ptr,*dest_ptr;
 		unsigned char *mem_end;
 
-		screen -> Memory[1] = (unsigned char *) IExec -> AllocVecTags(  _size_ , AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+		screen -> Memory[1] = (unsigned char *) AllocVecTags(  _size_ , AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 		src_ptr = screen -> Memory[0];
 		dest_ptr=screen -> Memory[1];

@@ -70,8 +70,7 @@ struct retroFrame * _retromode_retroAllocFrame(struct RetroModeIFace *Self,
 {
 	struct retroFrame	*ret = NULL;
 
-	ret = (struct retroFrame *)  IExec -> AllocVecTags( sizeof(struct retroFrame), 
-						AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	ret = (struct retroFrame *)  AllocVecTags( sizeof(struct retroFrame), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 	if (ret)
 	{

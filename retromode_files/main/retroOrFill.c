@@ -81,7 +81,7 @@ void _retromode_retroOrFill(struct RetroModeIFace *Self,
 	struct FillNode *node = NULL;
 	unsigned char *sc_mem = screen -> Memory[screen -> double_buffer_draw_frame];
 
-	IExec-> NewList(&list);
+	NewList(&list);
 
 	and_mask |= or_color;	// prevents it from go in loop forever.
 
@@ -100,8 +100,8 @@ void _retromode_retroOrFill(struct RetroModeIFace *Self,
 		{
 			x = node -> x;
 			y = node -> y;
-			IExec-> Remove( (struct Node *) node);
-			IExec-> FreeSysObject( ASOT_NODE, node );
+			Remove( (struct Node *) node);
+			FreeSysObject( ASOT_NODE, node );
 			node = NULL;
 		}
 
@@ -112,6 +112,6 @@ void _retromode_retroOrFill(struct RetroModeIFace *Self,
 		if (insideScreenAndReplaceColor(screen,sc_mem,x-1,y,replace_color)) AddXY( &list, x-1, y );
 		if (insideScreenAndReplaceColor(screen,sc_mem,x+1,y,replace_color)) AddXY( &list, x+1, y );
 
-	} while (node = (struct FillNode *) IExec-> GetHead( &list));
+	} while (node = (struct FillNode *) GetHead( &list));
 }
 

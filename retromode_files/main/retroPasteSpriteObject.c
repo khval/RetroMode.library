@@ -167,7 +167,7 @@ void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 
 	if ( ! sprite -> frames ) 
 	{
-		IDOS -> Printf("Sprite has no frames!\n");
+		Printf("Sprite has no frames!\n");
 		return;
 	}
 
@@ -178,7 +178,7 @@ void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 
 	if ( ! frame -> data)
 	{
-		IDOS -> Printf("Sprite -> frame[%d].data is NULL!\n",image);
+		Printf("Sprite -> frame[%d].data is NULL!\n",image);
 		return;
 	}
 
@@ -251,7 +251,7 @@ void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 			break;
 
 		default:
-			IDOS -> Printf("%s:%ld unexpcted flag %08lx\n",__FUNCTION__,__LINE__,flags);
+			Printf("%s:%ld unexpcted flag %08lx\n",__FUNCTION__,__LINE__,flags);
 			break;
 	}
 }

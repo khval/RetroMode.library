@@ -60,9 +60,9 @@
 *
 */
 
-void _retromode_retroPixel(struct RetroModeIFace *Self, struct retroScreen * screen, char *memory, int x, int y, unsigned char color);
+#include "retromode_vectors.h"
 
-void retroBoingOutline( struct RetroModeIFace *Self, struct retroScreen *screen, char *memory, int rx, int ry, int r, int t, unsigned char color )
+void retroBoingOutline( struct RetroModeIFace *Self, struct retroScreen *screen, unsigned char *memory, int rx, int ry, int r, int t, unsigned char color )
 {
 	int x0,y0,x1,y1;
 	int xx;
@@ -91,7 +91,7 @@ void retroBoingOutline( struct RetroModeIFace *Self, struct retroScreen *screen,
 	}
 }
 
-void retroBoing( struct RetroModeIFace *Self, struct retroScreen *screen, char *memory,int rx, int ry, int r, unsigned char color )
+void __retroBoing( struct RetroModeIFace *Self, struct retroScreen *screen, unsigned char *memory,int rx, int ry, int r, unsigned char color )
 {
 	int x0,y0,x1,y1;
 	int xx;
@@ -135,6 +135,6 @@ void _retromode_retroBoing(struct RetroModeIFace *Self,
 	unsigned char color1)
 {
 	retroBoingOutline( Self, screen, screen -> Memory[ buffer],  x,  y,  r1, r1-r0-1, color0 );
-	retroBoing( Self, screen,  screen -> Memory[ buffer], x, y, r0, color0 );
+	__retroBoing( Self, screen,  screen -> Memory[ buffer], x, y, r0, color0 );
 }
 

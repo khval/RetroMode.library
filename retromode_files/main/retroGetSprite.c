@@ -86,15 +86,15 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 		int old_frames_count = sprite->number_of_frames;
 		int new_frames_count  = image+1;
 
-		IDOS -> Printf("old frames %ld, new frames %ld\n",old_frames_count, new_frames_count);
+		Printf("old frames %ld, new frames %ld\n",old_frames_count, new_frames_count);
 
-		new_frames = IExec -> AllocVecTags(  sizeof(struct retroFrameHeader) *  new_frames_count,
+		new_frames = AllocVecTags(  sizeof(struct retroFrameHeader) *  new_frames_count,
 							AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 		if (new_frames)
 		{
 			memcpy( new_frames, sprite -> frames, sizeof(struct retroFrameHeader) *  old_frames_count );
-			IExec -> FreeVec( sprite -> frames );
+			FreeVec( sprite -> frames );
 			sprite -> frames = new_frames;
 			sprite -> number_of_frames = new_frames_count;
 		}
@@ -103,7 +103,7 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 
 	if (sprite -> frames)
 	{
-		IDOS -> Printf("sprite has frames\n");
+		Printf("sprite has frames\n");
 
 		frame = sprite -> frames + image;
 		frame -> XHotSpot = 0;
@@ -114,21 +114,21 @@ void _retromode_retroGetSprite(struct RetroModeIFace *Self,
 		frame -> planarXSize = (frame -> width / 16) + ((frame->width & 15 ) ? 1: 0);
 		frame -> bytesPerRow  = frame -> width;
 
-		IDOS -> Printf("Width %ld, Height %ld\n", frame -> width, frame -> height);
+		Printf("Width %ld, Height %ld\n", frame -> width, frame -> height);
 
 		sizeOfChunky = frame -> bytesPerRow  * frame -> height;
 
 		if ( frame -> data ) 
 		{
-			IExec -> FreeVec( (void *) frame -> data );
+			FreeVec( (void *) frame -> data );
 			frame -> data = NULL;
 		}
 
-		frame -> data = (char *) IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+		frame -> data = (char *) AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 		if ( ! frame -> data )
 		{
-			IDOS -> Printf("retroGetSprite - failed to alloc frame data, size %ld, width %ld, height %ld\n", sizeOfChunky, frame -> width, frame -> height);
+			Printf("retroGetSprite - failed to alloc frame data, size %ld, width %ld, height %ld\n", sizeOfChunky, frame -> width, frame -> height);
 			return;
 		}
 		else

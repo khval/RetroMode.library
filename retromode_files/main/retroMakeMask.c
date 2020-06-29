@@ -60,16 +60,16 @@ void _retromode_retroMakeMask(struct RetroModeIFace *Self,
 	unsigned short *rowMask;
 	int xpos,ypos;
 
-	if (frame -> mask) IExec -> FreeVec( frame -> mask );
-	frame -> mask = (struct retroMask *) IExec -> AllocVecTags( sizeof(struct retroMask), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	if (frame -> mask) FreeVec( frame -> mask );
+	frame -> mask = (struct retroMask *) AllocVecTags( sizeof(struct retroMask), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 	if (frame -> mask == NULL) return;
 
 	mask = frame -> mask;
 	mask -> int16PerRow = (frame -> width >> 4) + ((frame -> width  & 15) ? 1 : 0);
 	mask -> height = frame -> height;
 
-	if (mask -> data) IExec -> FreeVec( mask -> data );
-	mask -> data = (unsigned short *) IExec -> AllocVecTags( sizeof(uint16_t) * mask -> int16PerRow * mask -> height, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	if (mask -> data)  FreeVec( mask -> data );
+	mask -> data = (unsigned short *) AllocVecTags( sizeof(uint16_t) * mask -> int16PerRow * mask -> height, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 	if (mask -> data == NULL) return;
 
 	for ( ypos = 0; ypos < frame -> height; ypos++ )

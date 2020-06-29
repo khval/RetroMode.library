@@ -13,8 +13,6 @@
  *
  */
 
-#define __USE_INLINE__
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>

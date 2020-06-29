@@ -71,11 +71,11 @@ int _retromode_retroDeleteFlash(struct RetroModeIFace *Self,
 
 				if (flash -> table)
 				{
-					IExec -> FreeVec(flash -> table);
+					FreeVec(flash -> table);
 					flash -> table = NULL;
 				}
 
-				IExec -> FreeVec(screen->allocatedFlashs[idx]);	
+				FreeVec(screen->allocatedFlashs[idx]);	
 				for ( ; idx<255;idx++)
 				{
 					screen->allocatedFlashs[idx] = screen->allocatedFlashs[idx+1];

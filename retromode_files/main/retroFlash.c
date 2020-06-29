@@ -142,7 +142,7 @@ void _retromode_retroFlash(struct RetroModeIFace *Self,
 	for (c=data; *c!=0; c++) { if (*c=='(') count ++;	}	
 
 	// no table exists 
-	if (!new_flash)	new_flash = (struct retroFlashTable *) IExec -> AllocVecTags( sizeof(struct retroFlashTable), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END	);
+	if (!new_flash)	new_flash = (struct retroFlashTable *) AllocVecTags( sizeof(struct retroFlashTable), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END	);
 
 	if ((new_flash)&&(idx_free>-1))
 	{
@@ -151,7 +151,7 @@ void _retromode_retroFlash(struct RetroModeIFace *Self,
 		new_flash -> color = color;
 		new_flash -> colors = count;
 		new_flash -> index = 0;
-		new_flash -> table = (struct retroFlash *) IExec -> AllocVecTags( sizeof(struct retroFlash) * count, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END );
+		new_flash -> table = (struct retroFlash *) AllocVecTags( sizeof(struct retroFlash) * count, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END );
 
 		sptr = data;
 		for (ptr = new_flash -> table; ptr < new_flash -> table+count; ptr++)

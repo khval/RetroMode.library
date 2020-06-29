@@ -56,7 +56,7 @@ void _retromode_retroFreeEngine(struct RetroModeIFace *Self,
 {
 	if (engine->rp.BitMap)
 	{
-		IGraphics->FreeBitMap( engine-> rp.BitMap );
+		FreeBitMap( engine-> rp.BitMap );
 		engine -> rp.BitMap = NULL;
 	}
 }

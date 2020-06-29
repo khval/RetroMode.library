@@ -82,10 +82,10 @@ void _retromode_retroScreenToBitmap(struct RetroModeIFace *Self,
 	unsigned char	*inner_src_memory;
 	unsigned char	*inner_des_memory;
 
-	BitMapWidth = IGraphics ->GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
-	BitMapHeight = IGraphics ->GetBitMapAttr( bitmap, BMA_HEIGHT );
+	BitMapWidth = GetBitMapAttr( bitmap, BMA_ACTUALWIDTH );
+	BitMapHeight = GetBitMapAttr( bitmap, BMA_HEIGHT );
 
-	lock = IGraphics -> LockBitMapTags( bitmap, 
+	lock = LockBitMapTags( bitmap, 
 			LBM_BytesPerRow, &BitMapBytesPerRow,
 			LBM_BaseAddress, &BitMapMemory,
 			TAG_END);
@@ -128,7 +128,7 @@ void _retromode_retroScreenToBitmap(struct RetroModeIFace *Self,
 			src_memory += screen -> realWidth;
 			des_memory += BitMapBytesPerRow;
 		}
-		IGraphics -> UnlockBitMap( lock );
+		UnlockBitMap( lock );
 	}
 }
 

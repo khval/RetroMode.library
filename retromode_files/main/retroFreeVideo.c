@@ -53,6 +53,8 @@
 *
 */
 
+#undef retroFreeSpriteObjects
+
 void _retromode_retroFreeVideo(struct RetroModeIFace *Self,
        struct retroVideo * video)
 {
@@ -64,17 +66,17 @@ void _retromode_retroFreeVideo(struct RetroModeIFace *Self,
 	{
 		if (video -> rainbow[c].table)
 		{
-			IExec ->FreeVec (video -> rainbow[c].table);
+			FreeVec (video -> rainbow[c].table);
 			video -> rainbow[c].table = NULL;
 		}
 	}
 
 	if (video->Memory)
 	{
-		IExec ->FreeVec (video->Memory);
+		FreeVec (video->Memory);
 		video->Memory = NULL;
 	}
 
-	IExec ->FreeVec ( (void *) video );
+	FreeVec ( (void *) video );
 }
 

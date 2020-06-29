@@ -67,7 +67,7 @@ void _retromode_retroFreeSpriteObjects(struct RetroModeIFace *Self,
 			_retromode_retroFreeSpriteObject(Self,spriteObject, TRUE);
 		}
 
-		IExec->FreeVec(video -> sprites);
+		FreeVec(video -> sprites);
 		video -> sprites = NULL;
 		video -> sprites_end = NULL;
 		video -> spriteObjectsAllocated = 0;

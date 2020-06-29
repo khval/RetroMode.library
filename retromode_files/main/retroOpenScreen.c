@@ -64,7 +64,7 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 {
 	struct retroScreen *screen;
 
-	screen = (struct retroScreen *) IExec -> AllocVecTags( 
+	screen = (struct retroScreen *) AllocVecTags( 
 						sizeof(struct retroScreen),  
 						AVT_Type, MEMF_SHARED,
 						AVT_ClearWithValue, 0 ,
@@ -92,7 +92,7 @@ struct retroScreen * _retromode_retroOpenScreen(struct RetroModeIFace *Self,
 		screen -> allocatedTextWindows = 0;
 		screen -> double_buffer_draw_frame = 0;
 
-		screen -> Memory[0] = (unsigned char *) IExec -> AllocVecTags(  
+		screen -> Memory[0] = (unsigned char *) AllocVecTags(  
 								screen -> bytesPerRow * (screen -> realHeight+1) ,
 								AVT_Type, MEMF_SHARED,
 								AVT_ClearWithValue, 0 ,

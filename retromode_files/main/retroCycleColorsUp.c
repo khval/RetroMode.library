@@ -88,7 +88,7 @@ void _retromode_retroCycleColorsUp(struct RetroModeIFace *Self,
 
 	if (idx_free>-1)
 	{
-		if (!new_ShiftColors) new_ShiftColors = (struct retroShiftColors *) IExec -> AllocVecTags( sizeof(struct retroShiftColors),  
+		if (!new_ShiftColors) new_ShiftColors = (struct retroShiftColors *)  AllocVecTags( sizeof(struct retroShiftColors),  
 					AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 ,TAG_END	);
 
 		if (new_ShiftColors)
