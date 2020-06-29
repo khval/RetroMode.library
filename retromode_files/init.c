@@ -137,6 +137,48 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
 	return result;
 }
 
+#define close_lib(b,i)			\
+	if (b) IExec->CloseLibrary(b);	\
+	if (i) IExec->DropInterface( (struct Interface *) i );	\
+	b = NULL; i = NULL;	
+
+void close_libs()
+{
+	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
+	close_lib( DOSBase, IDOS);
+	close_lib( newlibBase, INewlib);
+	close_lib( GraphicsBase, IGraphics);
+}
+
+BOOL open_lib( const char *name, int ver , const char *iname, int iver, struct Library **base, struct Interface **interface)
+{
+
+	*interface = NULL;
+	*base = IExec->OpenLibrary( name , ver);
+
+	if (*base)
+	{
+		 *interface = IExec->GetInterface( *base,  iname , iver, TAG_END );
+		if (!*interface) if (IDOS) IDOS -> Printf("Unable to getInterface %s for %s %d!\n",iname,name,ver);
+	}
+	else
+	{
+	   	if (IDOS) IDOS -> Printf("Unable to open the %s %ld!\n",name,ver);
+	}
+
+	return (*interface) ? TRUE : FALSE;
+}
+
+BOOL open_libs()
+{
+	if ( ! open_lib( "dos.library", 53L , "main", 1, &DOSBase, (struct Interface **) &IDOS  ) ) return FALSE;
+	if ( ! open_lib( "newlib.library", 53L , "main", 1, &newlibBase, (struct Interface **) &INewlib  ) ) return FALSE;
+	if ( ! open_lib( "graphics.library", 54L , "main", 1, &GraphicsBase, (struct Interface **) &IGraphics  ) ) return FALSE;
+
+	return TRUE;
+}
+
+
 /* The ROMTAG Init Function */
 STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct Interface *exec)
 {
@@ -156,28 +198,11 @@ STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct
     /* Add additional init code here if you need it. For example, to open additional
        Libraries:*/
 
-	newlibBase = IExec->OpenLibrary("newlib.library", 53L);
-	if (newlibBase)
+	if (open_libs() == FALSE)
 	{
-		INewlib = IExec->GetInterface(DOSBase,"main", 1, NULL);
-		if (INewlib) return NULL;
-	} else return NULL; 
-
-	DOSBase = IExec->OpenLibrary("dos.library", 53L);
-	if (DOSBase)
-	{
-		IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase,"main", 1, NULL);
-
-		if (!IDOS) return NULL;
-	} else return NULL; 
-
-	GraphicsBase = IExec->OpenLibrary("graphics.library", 54L);
-	if (GraphicsBase)
-	{
-		IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GraphicsBase,"main", 1, NULL);
-
-		if (!IGraphics) return NULL;
-	} else return NULL; 
+		close_libs();
+		return NULL;
+	}
 
 	return (struct Library *)libBase;
 }
