@@ -61,7 +61,7 @@
 *
 */
 
-#if 0
+#if 1
 	#define set(adr,v) *(adr)=v
 	#define get(adr) *(adr)
 #else
@@ -84,6 +84,7 @@
 		else
 		{
 			Printf("Get out of range, min %08lx value %08lx max %08lx - ypos %ld\n",get_min,mem,get_max, y);
+			return 255;
 		}
 	}
 
@@ -107,22 +108,17 @@ void _retromode_retroScroll(struct RetroModeIFace *Self,
 	unsigned char *des;
 	unsigned char *row_src;
 	unsigned char *row_dst;
-
 	int x,y;
 
-	Printf("************ %0l8x\n", INewlib);
-
-	if (dy>0)
+	if (dy>0)		// move gfx down
 	{
-		y1 -= dy;
+		y0 += dy;
 
 		if (dx>0)
 		{
-			x1 -=dx;
+			x0 += dx;
 
-			printf("%s:%d retro %d,%d to %d,%d\n",__FUNCTION__,__LINE__,x0,y0,x1,y1);
-
-			row_src = mem + x1 + (bytesPerRow * (y1+dy)) ;	
+			row_src = mem + x1 - dx + (bytesPerRow * (y1-dy)) ;	
 			row_dst = mem + x1 + (bytesPerRow * y1) +dx ;
 
 			for (y=y1;y>=y0;y--)
@@ -139,12 +135,10 @@ void _retromode_retroScroll(struct RetroModeIFace *Self,
 		}
 		else
 		{
-			x0 += -dx;
+			x1 += dx;
 
-			printf("%s:%d retro %d,%d to %d,%d\n",__FUNCTION__,__LINE__,x0,y0,x1,y1);
-
-			row_src = mem + x0 + (bytesPerRow * (y1+dy)) ;	
-			row_dst = mem + x0 + (bytesPerRow * y1) +dx ;
+			row_src = mem + x0 - dx + (bytesPerRow * (y1-dy)) ;	
+			row_dst = mem + x0 + (bytesPerRow * y1) ;
 
 			for (y=y1;y>=y0;y--)
 			{
@@ -159,16 +153,16 @@ void _retromode_retroScroll(struct RetroModeIFace *Self,
 			}
 		}
 	}
-	else
+	else		// move gfx up..
 	{
-		y0 += -dy;
+		y1 += dy;
 
 		if (dx>0)
 		{
-			x1 -=dx;
+			x0 +=dx;
 
-			row_src = mem + x1 + (bytesPerRow * (y0-dy)) ;	// dy is negative number... (-  and - is +)
-			row_dst = mem + x1 + (bytesPerRow * y0) +dx ;
+			row_src = mem + x1 - dx + (bytesPerRow * (y0-dy))  ;	// dy is negative number... (-  and - is +)
+			row_dst = mem + x1 + (bytesPerRow * y0) ;
 
 			for (y=y0;y<=y1;y++)
 			{
@@ -184,10 +178,10 @@ void _retromode_retroScroll(struct RetroModeIFace *Self,
 		}
 		else
 		{
-			x0 += -dx;								// dx is negative number... (-  and - is +)
+			x1 += dx;								// dx is negative number... (-  and - is +)
 
-			row_src = mem + x0 + (bytesPerRow * (y0-dy)) ;	// dy is negative number... (-  and - is +)
-			row_dst = mem + x0 + (bytesPerRow * y0) +dx ;
+			row_src = mem + x0 - dx + (bytesPerRow * (y0-dy))  ;	// dy is negative number... (-  and - is +)
+			row_dst = mem + x0 + (bytesPerRow * y0)  ;
 
 			for (y=y0;y<=y1;y++)
 			{
