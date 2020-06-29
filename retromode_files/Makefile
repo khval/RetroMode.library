@@ -18,7 +18,9 @@ RM     = delete
 # Change these as required
 OPTIMIZE = -O3 
 DEBUG    = # -gstabs -DDEBUG
-CFLAGS   = -Wall $(OPTIMIZE) $(DEBUG) -I../include -I./
+CFLAGS   = -Wall $(OPTIMIZE) $(DEBUG) 
+
+INC = -I../include -I./
 
 # Flags passed to gcc during linking
 LINK = 
