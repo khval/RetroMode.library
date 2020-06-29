@@ -72,7 +72,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 	int colors = 0;
 
 
-	sprite = (struct retroSprite *) IExec -> AllocVecTags(  sizeof(struct retroSprite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+	sprite = (struct retroSprite *) AllocVecTags(  sizeof(struct retroSprite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
 	if (!sprite) return NULL;
 
@@ -81,9 +81,9 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 	if ( cust_fread( &sprite->number_of_frames,sizeof(sprite->number_of_frames), 1, fd ) == 1 )
 	{
-		IDOS -> Printf("Load sprite->number_of_frames %ld\n",  sprite->number_of_frames);
+		Printf("Load sprite->number_of_frames %ld\n",  sprite->number_of_frames);
 
-		sprite->frames = IExec -> AllocVecTags(  
+		sprite->frames = AllocVecTags(  
 				sizeof(struct retroFrameHeader) * sprite->number_of_frames ,
 				AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 
@@ -100,7 +100,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 				sizeOfPlanar = sprite->frames[n].height * (sprite->frames[n].planarXSize * 2 );
 				sizeOfChunky = sprite->frames[n].bytesPerRow  * sprite->frames[n].height;
 	
-				sprite->frames[n].data = IExec -> AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+				sprite->frames[n].data = AllocVecTags(  sizeOfChunky, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 				sprite->frames[n].alpha = 1;
 			}
 			else
@@ -111,7 +111,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 			if (sizeOfPlanar>0)
 			{
-				planar = IExec -> AllocVecTags( sizeOfPlanar, 	AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
+				planar = AllocVecTags( sizeOfPlanar,AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );
 				if (planar)
 				{
 					// reset convertion table
@@ -158,7 +158,7 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 					if (planar) 
 					{
-						IExec -> FreeVec(planar);
+						FreeVec(planar);
 						planar = NULL;
 					}
 				}
