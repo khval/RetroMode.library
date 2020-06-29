@@ -91,6 +91,12 @@ OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
 $(TARGET): $(OBJS)
 	$(CC) $(LINK) -nostartfiles -o $(TARGET) $(OBJS) $(LIBS)
 
+%.o:		%.c 
+	gcc  -Wall -O3  $(INC) -c  -D__USE_INLINE__ -D__no_stdlib__ $(@:.o=.c) -o $@
+
+init.o:		init.c 
+	gcc  -Wall -O3  $(INC) -c  $(@:.o=.c) -o $@
+
 .PHONY: clean
 
 vo:
