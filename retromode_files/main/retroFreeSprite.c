@@ -52,7 +52,7 @@
 *
 */
 
-void _retromode_retroFreeMask(struct RetroModeIFace *Self, struct retroFrameHeader * frame);
+#include "retromode_vectors.h"
 
 void _retromode_retroFreeSprite(struct RetroModeIFace *Self, struct retroSprite * sprite)
 {

@@ -23,6 +23,7 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 #include <libbase.h>
+#include "retromode_vectors.h"
 
 /****** retromode/main/retroScreenClone ******************************************
 *
@@ -81,7 +82,7 @@ struct retroScreen * _retromode_retroScreenClone(struct RetroModeIFace *Self,
 		// if fail
 		if (screen -> Memory == NULL)
 		{
-			Self -> retroCloseScreen( &screen );
+			_retromode_retroCloseScreen( Self, &screen );
 			return NULL;
 		}
 	}

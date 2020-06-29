@@ -23,6 +23,8 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 #include <libbase.h>
+#include "retromode_vectors.h"
+
 
 /****** retromode/main/retroAllocSpriteObjects ******************************************
 *
@@ -58,7 +60,7 @@ void _retromode_retroAllocSpriteObjects(struct RetroModeIFace *Self,
        struct retroVideo * video,
        int numberOfSprites)
 {
-	Self -> retroFreeSpriteObjects( video );
+	_retromode_retroFreeSpriteObjects( Self, video );
 
 	video -> sprites = (struct retroSpriteObject *) AllocVecTags( sizeof(struct retroSpriteObject) * numberOfSprites, 
 						AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0 , TAG_END );

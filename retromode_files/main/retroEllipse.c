@@ -59,6 +59,8 @@
 *
 */
 
+#include "retromode_vectors.h"
+
 void _retromode_retroEllipse(struct RetroModeIFace *Self,
        struct retroScreen * screen,
 	int buffer,
@@ -101,7 +103,7 @@ void _retromode_retroEllipse(struct RetroModeIFace *Self,
 		xx = (vxx * tx) + (vyx * ty) + x;
 		yy = (vxy * tx) + (vyy * ty) + y;
 
-		Self->retroLine( screen, buffer, lx, ly, xx, yy, color );
+		_retromode_retroLine( Self, screen, buffer, lx, ly, xx, yy, color );
 
 		lx = xx;
 		ly = yy;
