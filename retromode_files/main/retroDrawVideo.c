@@ -82,6 +82,11 @@ extern void draw_transparent_lowred_ham6(  struct retroScanline *line, int beamY
 extern void draw_transparent_lowred_ham8( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 extern void draw_transparent_hires( struct retroScanline *line, int beamY, unsigned int *video_buffer  );
 
+void draw_none( struct retroScanline *line, int beamY, unsigned int *video_buffer  )
+{
+
+}
+
 static void do_all_screen_color_effects( struct retroScreen *screen)
 {
 	struct retroFlashTable **flash;
@@ -162,6 +167,24 @@ static void color_reset( struct retroVideo * video, struct retroScanline *scanli
 			scanline -> rowPalette[video->rainbow[n].color] = scanline -> orgPalette[video->rainbow[n].color];
 		}
 	}
+}
+
+void set_no_scanline(  int n, struct retroParallax *line,struct retroScreen * screen, struct retroVideo * video )
+{
+	struct retroScanline *scanline = &line -> scanline[n];
+
+	scanline -> beamStart = 0;
+	scanline -> videoWidth = video -> width;
+	scanline -> screen = screen;
+	scanline -> pixels = screen -> displayWidth;
+
+	scanline -> data[0] = NULL;
+	scanline -> data[1] = NULL;
+
+	scanline -> mode = draw_none;
+	scanline -> rowPalette = screen -> rowPalette;
+	scanline -> orgPalette = screen -> orgPalette;
+
 }
 
 void set_scanline( int n, struct retroParallax *line,struct retroScreen * screen, struct retroVideo * video, int offset)
@@ -321,6 +344,8 @@ void Screen_To_Scanlines( struct retroScreen * screen, struct retroVideo * video
 
 		for (hw_y = hw_start; hw_y<hw_end; hw_y++)
 		{
+			// first hw line not displayed, 2en line is displayed
+
 			if ((hw_y & displayed) == is_displayed)
 			{
 				if ((screen_y>=0) && (screen_y <= screen -> realHeight))
@@ -332,6 +357,10 @@ void Screen_To_Scanlines( struct retroScreen * screen, struct retroVideo * video
 				}
 
 				screen_y ++;
+			}
+			else
+			{
+				set_no_scanline(  n, &video -> scanlines[ hw_y ], screen, video );
 			}
 		}
 
