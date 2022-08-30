@@ -89,11 +89,11 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, struct BackFillMessage *msg) {
 
-	struct Window *the_win = video -> window;	
+	struct Window *the_win = engine -> window;	
 
 #ifdef amigaos4
 
-	draw_comp_bitmap(video->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
+	draw_comp_bitmap(engine ->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
 		the_win->BorderLeft ,
 		the_win->BorderTop ,
 		the_win->Width - the_win->BorderLeft - the_win->BorderRight,
@@ -123,8 +123,8 @@ static void set_target_hookData( void )
 
 	hookData.srcWidth = video -> width;
 	hookData.srcHeight = video -> height;
-	hookData.offsetX = video -> window->BorderLeft;
-	hookData.offsetY = video -> window->BorderTop;
+	hookData.offsetX = My_Window -> BorderLeft;
+	hookData.offsetY = My_Window -> BorderTop;
 	hookData.scaleX = COMP_FLOAT_TO_FIX(scaleX);
 	hookData.scaleY = COMP_FLOAT_TO_FIX(scaleY);
 	hookData.retCode = COMPERR_Success;
@@ -138,7 +138,7 @@ static void BackFill_Func(struct RastPort *ArgRP, struct BackFillArgs *MyArgs)
 	set_target_hookData();
 
 //	LockLayer(0,video -> window -> RPort -> Layer);
-	DoHookClipRects(&hook, video -> window -> RPort, &rect);
+	DoHookClipRects(&hook, engine -> window -> RPort, &rect);
 //	UnlockLayer(video -> window -> RPort -> Layer);
 }
 
@@ -197,8 +197,9 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
-
+	if ( (video = retroAllocVideo( 640,480 )) == NULL ) return false;
+	if ( (engine = retroAllocEngine(My_Window, video)) == NULL ) return false;
+	
 	return TRUE;
 }
 
@@ -264,7 +265,7 @@ void retroThickCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1
 	int sideBx,sideBy;
 
 
-	retroCircle( screen, x0, y0, 4, color);
+	retroCircle( screen, 0, x0, y0, 4, color);
 
 	dx0 = (double) x1 - (double) x0;
 	dy0 = (double) y1 - (double) y0;
@@ -290,8 +291,8 @@ void retroThickCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1
 		if (n>0) 
 		{
 			getSides( screen, lx, ly, x, y, 10, sideAx, sideAy, sideBx, sideBy );
-			retroThickLine( screen, lx, ly ,x ,y, 10, color);
-			retroCircle( screen, x, y, 4, color);
+			retroThickLine( screen, 0, lx, ly ,x ,y, 10, color);
+			retroCircle( screen, 0, x, y, 4, color);
 
 		}
 		else n = 1;
@@ -306,7 +307,7 @@ void retroThickCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1
 
 	getSides(  screen, x, y, x2, y2, 10, sideAx, sideAy, sideBx, sideBy );
 
-	retroLine( screen, x, y ,x2 ,y2, color);
+	retroLine( screen, 0, x, y ,x2 ,y2, color);
 
 //	retroThickLine( screen, x, y ,x2 ,y2, 10, color);
 //	retroCircle( screen, x2, y2, 4, color);
@@ -349,7 +350,7 @@ void retroCurve( struct retroScreen *screen, int x0, int y0, int x1, int y1, int
 		x = x0 + xa + (dx * a);
 		y = y0 + ya + (dy * a);
 
-		if (n>0) retroLine( screen, lx, ly ,x ,y, color);
+		if (n>0) retroLine( screen, 0, lx, ly ,x ,y, color);
 		n=1;
 		lx = x;
 		ly = y;
@@ -387,7 +388,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		retroClearVideo(video);
+		retroClearVideo(video,0);
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
@@ -449,8 +450,8 @@ int main()
 
 			for (x=0;x<5;x++)
 			{
-				retroBAR(screen, 150+(x*10),10,160+(x*10),20,8+x );
-				retroBAR(screen, 150+(x*10),22,160+(x*10),32,13+x );
+				retroBAR(screen, 0, 150+(x*10),10,160+(x*10),20,8+x );
+				retroBAR(screen, 0, 150+(x*10),22,160+(x*10),32,13+x );
 			}
 		}
 
@@ -458,7 +459,7 @@ int main()
 
 		while (running)
 		{
-			while (msg = (IntuiMessage *) GetMsg( video -> window -> UserPort) )
+			while (msg = (IntuiMessage *) GetMsg( My_Window -> UserPort) )
 			{
 				if (msg -> Class == IDCMP_CLOSEWINDOW) running = false;
 				ReplyMsg( (Message*) msg );
@@ -489,7 +490,7 @@ int main()
 			retroCurve( screen, 200,50+n,  250-n,50+n,  250-n, 100 , 1 );
 
 
-			retroAndClear( screen, 50,50,150,150, ~(1|2) );
+			retroAndClear( screen, 0, 50,50,150,150, ~(1|2) );
 
 			dx = (cos(g)*40);
 			dy =- (sin(g)*40);
@@ -508,11 +509,11 @@ int main()
 //			retroThickCurve( screen, 50, 50, 100, 25, 120, 100, 1 );
 //			retroThickCurve( screen, 120, 100, 150,160, 200,50, 1 );
 
-			retroClearVideo( video );
+			retroClearVideo( video, 0 );
 			retroDrawVideo( video );
 			AfterEffectScanline( video );
 //			AfterEffectAdjustRGB( video , 8, 0 , 4);
-			retroDmaVideo(video);
+			retroDmaVideo( video, engine );
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );

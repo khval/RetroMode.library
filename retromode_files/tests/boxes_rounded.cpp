@@ -25,6 +25,7 @@ const char *scroll_text = "Small scroll text demo..... have fun playing with thi
 	IDCMP_EXTENDEDMOUSE | IDCMP_CLOSEWINDOW | IDCMP_NEWSIZE | IDCMP_INTUITICKS
 
 struct retroVideo *video = NULL;
+struct retroEngine *engine = NULL;
 struct Window *My_Window = NULL;
 
 struct Library * IntuitionBase = NULL;
@@ -88,11 +89,11 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, struct BackFillMessage *msg) {
 
-	struct Window *the_win = video -> window;	
+	struct Window *the_win = engine -> window;	
 
 #ifdef amigaos4
 
-	draw_comp_bitmap(video->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
+	draw_comp_bitmap(engine->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
 		the_win->BorderLeft ,
 		the_win->BorderTop ,
 		the_win->Width - the_win->BorderLeft - the_win->BorderRight,
@@ -122,8 +123,8 @@ static void set_target_hookData( void )
 
 	hookData.srcWidth = video -> width;
 	hookData.srcHeight = video -> height;
-	hookData.offsetX = video -> window->BorderLeft;
-	hookData.offsetY = video -> window->BorderTop;
+	hookData.offsetX = My_Window->BorderLeft;
+	hookData.offsetY = My_Window->BorderTop;
 	hookData.scaleX = COMP_FLOAT_TO_FIX(scaleX);
 	hookData.scaleY = COMP_FLOAT_TO_FIX(scaleY);
 	hookData.retCode = COMPERR_Success;
@@ -137,7 +138,7 @@ static void BackFill_Func(struct RastPort *ArgRP, struct BackFillArgs *MyArgs)
 	set_target_hookData();
 
 //	LockLayer(0,video -> window -> RPort -> Layer);
-	DoHookClipRects(&hook, video -> window -> RPort, &rect);
+	DoHookClipRects(&hook, My_Window-> RPort, &rect);
 //	UnlockLayer(video -> window -> RPort -> Layer);
 }
 
@@ -196,7 +197,8 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( 640,480 )) == NULL ) return false;
+	if ( (engine = retroAllocEngine(My_Window, video)) == NULL ) return false;
 
 	return TRUE;
 }
@@ -219,7 +221,7 @@ void closedown()
 }
 
 
-void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned char color )
+void _box(struct retroScreen *screen, int buf, int x1,int y1, int x2, int y2, unsigned char color )
 {
 	int ox1 = x1;
 	int oy1 = y1;
@@ -235,28 +237,28 @@ void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned ch
 	// draw top 
 	if (oy1>-1)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
+		memory = screen -> Memory[buf] + (screen -> realWidth * y1) + x1;
 		for (int x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical left
 	if (ox1>-1)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
+		memory = screen -> Memory[buf] + (screen -> realWidth * y1) + x1;
 		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
 	}
 
 	// draw bottom
 	if (oy2<screen->realHeight)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y2) + x1;
+		memory = screen -> Memory[buf] + (screen -> realWidth * y2) + x1;
 		for (int x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical right	
 	if (ox2<screen->realWidth)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y1) + x2;
+		memory = screen -> Memory[buf] + (screen -> realWidth * y1) + x2;
 		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
 	}
 }
@@ -296,7 +298,7 @@ void translateInnerPos(int circleX, int circleY, int circleOX, int circleOY, int
 	outY = endY - (deltaHeight * z / r);
 }
 
-void circelCopy( struct retroScreen *screen, int cx, int cy, int r, int startX, int startY, int endX, int endY)
+void circelCopy( struct retroScreen *screen, int buf, int cx, int cy, int r, int startX, int startY, int endX, int endY)
 {
 	int x0,y0,x1,y1,_y;
 	int xx;
@@ -327,7 +329,7 @@ void circelCopy( struct retroScreen *screen, int cx, int cy, int r, int startX, 
 		{
 			translateInnerPos( cx, cy, x , y,  r,  startX,  startY,  endX,  endY, outX, outY );
 			color = retroPoint( screen, outX, outY );
-			retroPixel( screen, cx -(x-cx), y, color );
+			retroPixel( screen, screen -> Memory[buf], cx -(x-cx), y, color );
 		}
 	}
 }
@@ -362,7 +364,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		retroClearVideo(video);
+		retroClearVideo(video, 0);
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
@@ -417,7 +419,7 @@ int main()
 
 		while (running)
 		{
-			while (msg = (IntuiMessage *) GetMsg( video -> window -> UserPort) )
+			while (msg = (IntuiMessage *) GetMsg( engine -> window -> UserPort) )
 			{
 				if (msg -> Class == IDCMP_CLOSEWINDOW) running = false;
 				ReplyMsg( (Message*) msg );
@@ -450,10 +452,10 @@ int main()
 				scrolled_x = 0;
 			}
 
-			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(1));
+			retroAndClear(screen,0, 0,0,screen->realWidth,screen->realHeight, ~(1));
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
-//			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,30, screen, 0 , 0);
+//			retroOrBitmapBlit( scroll_rp.BitMap, 0,0,320,30, screen, 0, 0 , 0);
 
 
 			p = 0;
@@ -464,26 +466,26 @@ int main()
 				for (x=0;x<320;x++)
 				{
 					y = sin(p)*2.0f+5.0f;
-					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
+					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, 0, x , y);
 					p+=0.1f;
 				}
 			 }
 
 
-			circelCopy( screen, 100, 120 + (sin(dd)*35), 60, 0, 0, 320, 40 );
+			circelCopy( screen, 0, 100, 120 + (sin(dd)*35), 60, 0, 0, 320, 40 );
 			dd+= 0.1f;
 
-			retroOrBarRounded(screen, 20,120,100,180,10,4);
-			retroOrBarRounded(screen, 50,100,130,160,10,8);
-			retroXorBarRounded(screen, 50+10,100+10,130-10,160-10,6,8);
+			retroOrBarRounded(screen, 0, 20,120,100,180,10,4);
+			retroOrBarRounded(screen, 0, 50,100,130,160,10,8);
+			retroXorBarRounded(screen, 0, 50+10,100+10,130-10,160-10,6,8);
 
 
-			retroClearVideo( video );
+			retroClearVideo( video,0 );
 			retroDrawVideo( video );
 
 			AfterEffectScanline( video);
 
-			retroDmaVideo(video);
+			retroDmaVideo(video, engine);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
@@ -494,6 +496,14 @@ int main()
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
 		retroFreeVideo(video);
+
+		retroFreeVideo(video);
+
+		if (engine)
+		{
+			retroFreeEngine( engine );
+			engine = NULL;
+		}
 	}
 
 

@@ -81,8 +81,6 @@ struct retroSprite * _retromode_retroLoadSprite(struct RetroModeIFace *Self, FIL
 
 	if ( cust_fread( &sprite->number_of_frames,sizeof(sprite->number_of_frames), 1, fd ) == 1 )
 	{
-		Printf("Load sprite->number_of_frames %ld\n",  sprite->number_of_frames);
-
 		sprite->frames = AllocVecTags(  
 				sizeof(struct retroFrameHeader) * sprite->number_of_frames ,
 				AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END );

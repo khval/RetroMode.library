@@ -157,6 +157,8 @@ void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 
 	void (*draw_mode) ROW_ARGS = NULL;
 
+//	IDOS -> Printf("%s:%ld\n",__FUNCTION__,__LINE__);
+
 	x = spriteObject -> x;
 	y = spriteObject -> y;
 
@@ -228,24 +230,28 @@ void _retromode_retroPasteSpriteObject(struct RetroModeIFace *Self,
 	{
 		case 0x0000:
 			pick_mode(left_right);
+//			show_mode(left_right);
 			destination_row_start = screen -> Memory[ buffer ]  + (screen -> bytesPerRow * y)+ x;
 			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;
 
 		case 0x4000:
 			pick_mode(left_right);
+//			show_mode(left_right);
 			destination_row_start = screen -> Memory[ buffer ] + (screen -> bytesPerRow * (y + height - 1)) + x;
 			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;
 
 		case 0x8000:
 			pick_mode(right_left);
+//			show_mode(right_left);
 			destination_row_start = screen -> Memory[ buffer ]  + (screen -> bytesPerRow * y)+ x;
 			_top_down(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;
 
 		case 0xC000:
 			pick_mode(right_left);
+//			show_mode(right_left);
 			destination_row_start = screen -> Memory[ buffer ] + (screen -> realWidth * (y + height - 1)) + x;
 			_bottom_up(frame, source_row_start,source_row_end, destination_row_start, height,  srcMask, destMask, draw_mode,  screen  );
 			break;

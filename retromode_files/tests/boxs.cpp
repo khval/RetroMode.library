@@ -18,6 +18,8 @@ int scrolled_x;
 int scroll_speed = 2;
 int scroll_char = 0;
 
+struct RastPort scroll_rp;
+
 char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
 
 #define IDCMP_COMMON IDCMP_MOUSEBUTTONS | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW  | \
@@ -89,11 +91,11 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, struct BackFillMessage *msg) {
 
-	struct Window *the_win = video -> window;	
+	struct Window *the_win = My_Window;	
 
 #ifdef amigaos4
 
-	draw_comp_bitmap(video->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
+	draw_comp_bitmap( engine -> rp.BitMap, engine -> window->RPort->BitMap, video -> width, video -> height,
 		the_win->BorderLeft ,
 		the_win->BorderTop ,
 		the_win->Width - the_win->BorderLeft - the_win->BorderRight,
@@ -123,8 +125,8 @@ static void set_target_hookData( void )
 
 	hookData.srcWidth = video -> width;
 	hookData.srcHeight = video -> height;
-	hookData.offsetX = video -> window->BorderLeft;
-	hookData.offsetY = video -> window->BorderTop;
+	hookData.offsetX = My_Window->BorderLeft;
+	hookData.offsetY = My_Window->BorderTop;
 	hookData.scaleX = COMP_FLOAT_TO_FIX(scaleX);
 	hookData.scaleY = COMP_FLOAT_TO_FIX(scaleY);
 	hookData.retCode = COMPERR_Success;
@@ -138,7 +140,7 @@ static void BackFill_Func(struct RastPort *ArgRP, struct BackFillArgs *MyArgs)
 	set_target_hookData();
 
 //	LockLayer(0,video -> window -> RPort -> Layer);
-	DoHookClipRects(&hook, video -> window -> RPort, &rect);
+	DoHookClipRects(&hook, engine -> window -> RPort, &rect);
 //	UnlockLayer(video -> window -> RPort -> Layer);
 }
 
@@ -258,28 +260,28 @@ void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned ch
 	// draw top 
 	if (oy1>-1)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
+		memory = screen -> Memory[0] + (screen -> realWidth * y1) + x1;
 		for (int x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical left
 	if (ox1>-1)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y1) + x1;
+		memory = screen -> Memory[0] + (screen -> realWidth * y1) + x1;
 		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
 	}
 
 	// draw bottom
 	if (oy2<screen->realHeight)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y2) + x1;
+		memory = screen -> Memory[0] + (screen -> realWidth * y2) + x1;
 		for (int x=x1; x<=x2; x++) { *memory++ = color; }
 	}
 
 	// draw vertical right	
 	if (ox2<screen->realWidth)
 	{
-		memory = screen -> Memory + (screen -> realWidth * y1) + x2;
+		memory = screen -> Memory[0] + (screen -> realWidth * y1) + x2;
 		for (int y=y1; y<=y2; y++) { *memory = color; memory += screen->realWidth; }
 	}
 }
@@ -287,8 +289,6 @@ void _box(struct retroScreen *screen, int x1,int y1, int x2, int y2, unsigned ch
 int main()
 {
 	struct retroScreen *screen = NULL;
-	struct RastPort scroll_rp;
-
 	struct IntuiMessage *msg;
 	bool running = true;
 
@@ -321,7 +321,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		retroClearVideo(video);
+		retroClearVideo(video, 0 );
 		
 		// start set rainbow
 		video -> rainbow[0].color = 0;
@@ -377,15 +377,15 @@ int main()
 			retroScreenColor( screen, 32, 0, 0, 255 );
 			retroScreenColor( screen, 8 | 16 | 32, 255, 255, 255 );
 
-			retroBoing( screen, 50, 40, 25, 30, 1, 2 );
-			retroBoing( screen, 295, 35, 10, 13, 1, 2 );
+			retroBoing( screen, 0 , 50, 40, 25, 30, 1, 2 );
+			retroBoing( screen, 0 , 295, 35, 10, 13, 1, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0, 320,200 );
 
 		while (running)
 		{
-			while (msg = (IntuiMessage *) GetMsg( video -> window -> UserPort) )
+			while (msg = (IntuiMessage *) GetMsg( My_Window -> UserPort) )
 			{
 				if (msg -> Class == IDCMP_CLOSEWINDOW) running = false;
 				ReplyMsg( (Message*) msg );
@@ -406,7 +406,7 @@ int main()
 				scrolled_x = 0;
 			}
 
-			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
+			retroAndClear(screen, 0, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
 			p = 0;
@@ -417,37 +417,37 @@ int main()
 				for (x=0;x<320;x++)
 				{
 					y = sin(p)*10.0f+20.0f;
-					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
+					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, 0, x , y);
 					p+=0.05f;
 				}
 			 }
 
-			retroXorBox(screen, 10,10,20,20,4);
+			retroXorBox(screen, 0, 10,10,20,20,4);
 
 			for (int n = 0; n< 10 ; n++)
-				retroXorBox(screen, 60+n,60+n,60+50-n,60+50-n,4);
+				retroXorBox(screen, 0, 60+n,60+n,60+50-n,60+50-n,4);
 
 			for (int n = 0; n< 10 ; n++)
-				retroXorBox(screen, 75+n,75+n,75+50-n,75+50-n,4);
+				retroXorBox(screen, 0, 75+n,75+n,75+50-n,75+50-n,4);
 
-			retroXorCircle( screen, 75+50,75+50, 25,4);
+			retroXorCircleFilled( screen, 0, 75+50,75+50, 25,4);
 
-			retroFill(screen, 19,19, 2);
+			retroFill(screen, 0, 19,19, 2);
 
-			retroAndClear(screen, 150,0,250,150, ~2);
-			retroEllipse( screen, 200, 70, 20, 50,  aa , 2 );
-			retroEllipse( screen, 200, 70, 20, 50,  aa + (M_PI/2) , 2 );
+			retroAndClear(screen, 0, 150,0,250,150, ~2);
+			retroEllipse( screen, 0, 200, 70, 20, 50,  aa , 2 );
+			retroEllipse( screen, 0, 200, 70, 20, 50,  aa + (M_PI/2) , 2 );
 
-			retroCircle( screen, 200, 70, 10, 2 );
+			retroCircle( screen, 0, 200, 70, 10, 2 );
 
 			aa += 0.01f;
 
-			retroClearVideo( video );
+			retroClearVideo( video, 0 );
 			retroDrawVideo( video );
 
 			AfterEffectScanline( video);
 
-			retroDmaVideo(video);
+			retroDmaVideo(video, engine);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
@@ -458,6 +458,12 @@ int main()
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
 		retroFreeVideo(video);
+
+		if (engine)
+		{
+			retroFreeEngine( engine );
+			engine = NULL;
+		}
 	}
 
 
