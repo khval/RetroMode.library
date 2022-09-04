@@ -31,13 +31,14 @@
 *      retroLine -- Description
 *
 *   SYNOPSIS
-*      void retroLine(struct retroScreen * screen, int x1, int y1, int x2, 
+*      void retroLine(struct retroScreen * screen, int buffer, int x1, int y1, int x2, 
 *          int y2, unsigned char color);
 *
 *   FUNCTION
 *
 *   INPUTS
 *       screen - 
+*	buffer -
 *       x1 - 
 *       y1 - 
 *       x2 - 
@@ -62,13 +63,13 @@
 #define plot(memory,x,y,bpr,c) if (((x)>=cx0)&&((x)<=cx1)&&((y)>=cy0)&&((y)<=cy1)) memory[ (y)*bpr + (x) ] = c;
 
 void _retromode_retroLine(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
+	struct retroScreen * screen,
 	int buffer,
-       int x1,
-       int y1,
-       int x2,
-       int y2,
-       unsigned char color)
+	int x1,
+	int y1,
+	int x2,
+	int y2,
+	unsigned char color)
 {
 	unsigned char *memory;
 	int x,y;

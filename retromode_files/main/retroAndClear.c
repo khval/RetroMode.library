@@ -62,13 +62,13 @@
 */
 
 void _retromode_retroAndClear(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
+	struct retroScreen * screen,
 	int buffer,
-       int x0,
-       int y0,
-       int x1,
-       int y1,
-       unsigned char and_mask)
+	int x0,
+	int y0,
+	int x1,
+	int y1,
+	unsigned char and_mask)
 {
 	int y;
 	unsigned char *xmem,
