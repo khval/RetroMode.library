@@ -31,12 +31,13 @@
 *      retroPolyLine -- Description
 *
 *   SYNOPSIS
-*      void retroPolyLine(struct retroScreen * screen, unsigned char color, ... );
+*      void retroPolyLine(struct retroScreen * screen, int buffer, unsigned char color, ... );
 *
 *   FUNCTION
 *
 *   INPUTS
 *       screen - screen to draw to.
+*		buffer - select buffer 0 or 1
 *       color - the color to use
 *       ... - list of (x,y) points, last item should be "retroEnd"
 *
@@ -57,11 +58,12 @@
 *
 */
 
-void _retromode_retroLine(struct RetroModeIFace *Self, struct retroScreen * screen, int x1, int y1, int x2, int y2, unsigned char color);
+void _retromode_retroLine(struct RetroModeIFace *Self, struct retroScreen * screen, int buffer, int x1, int y1, int x2, int y2, unsigned char color);
 
 void _retromode_retroPolyLine(struct RetroModeIFace *Self,
-       struct retroScreen * screen,
-       unsigned char color,
+	struct retroScreen * screen,
+	int buffer,
+	unsigned char color,
         ...)
 {
 	va_list list;
@@ -69,19 +71,17 @@ void _retromode_retroPolyLine(struct RetroModeIFace *Self,
 	int x=0,y=0,lx=0,ly=0;
 	int i = 0, count = 0;
 
-	va_start(list,color);
+	va_start(list,color);	// should start at color, but its not working correct!!!!
 
 	// --- START BUG fix
 
-	x = va_arg(list,int);
-	for (i=0;i<2;i++)
-	{
-		x = va_arg(list,int);
-		x = va_arg(list,int);
-	}
+	x = va_arg(list,int); // bug fix.. (screen)
+	x = va_arg(list,int); // bug fix.. (buffer)
+	x = va_arg(list,int); // bug fix.. (color)
 
 	// --- END BUG fix
 
+	x = va_arg(list,int); // bug fix..
 
 	i = 0;
 	do
@@ -94,12 +94,12 @@ void _retromode_retroPolyLine(struct RetroModeIFace *Self,
 		else
 		{
 			ly = y;
-			y = va_arg(list,int);	
+			y = va_arg(list,int);
 			count ++;
 
 			if (count > 1 )
 			{
-				_retromode_retroLine(Self,  screen, lx, ly, x, y, color);
+				_retromode_retroLine(Self,  screen, buffer, lx, ly, x, y, color);
 			}
 		}
 		i++;
