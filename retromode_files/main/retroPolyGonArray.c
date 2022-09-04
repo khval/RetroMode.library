@@ -30,7 +30,7 @@
 #include <proto/retromode.h>
 #include <stdarg.h>
 #include <limits.h>
-#include "libBase.h"
+//#include "libBase.h"
 
 
 #define experiment_sort
@@ -141,7 +141,7 @@ BOOL find_x_on_line( int y, int lineNr, struct _line_ l , struct xpoint *retX )
 
 
 void _retromode_retroPixel(struct RetroModeIFace *Self,
-       struct retroScreen * screen,  int x, int y, unsigned char color);
+       struct retroScreen * screen, unsigned char *mem, int x, int y, unsigned char color);
 
 
 BOOL createLineArray(int lineCount, int * array, struct _line_ *l , int  *min_y, int *max_y )
@@ -253,6 +253,7 @@ void getXPoints(int y, struct _line_ *lines, int linesCount, struct xpoint *poin
 
 void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
 	struct retroScreen * screen,
+	int buffer,
 	unsigned char color, 
 	int array_size,
 	int * array)
@@ -269,11 +270,12 @@ void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
 	int sum;
 	int draw_pixel;
 	int deltaLine;
+	unsigned char *mem = screen -> Memory[ buffer ];
 
 	pointsCount = (array_size / sizeof(int)) >> 1;
 	linesCount =pointsCount-1;
 
-	Printf("linesCount %ld\n",linesCount);
+//	Printf("linesCount %ld\n",linesCount);
 
 	if (createLineArray(linesCount, array, lines, &min_y, &max_y) == FALSE) return;
 
@@ -304,7 +306,7 @@ void _retromode_retroPolyGonArray(struct RetroModeIFace *Self,
 					if (sum != 0)	draw_pixel ^= 1;
 				}
 
-				if (draw_pixel) _retromode_retroPixel( Self, screen, x, y, color ) ;
+				if (draw_pixel) _retromode_retroPixel( Self, screen, mem, x, y, color ) ;
 			}
 		}
 	}	
