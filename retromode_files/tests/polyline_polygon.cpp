@@ -19,9 +19,9 @@ int scrolled_x;
 int scroll_speed = 2;
 int scroll_char = 0;
 
-#include "../main/retroPixel.c"
-#include "../main/retroPolyGon.c"
-#include "../main/retroPolyGonArray.c"
+//#include "../main/retroPixel.c"
+//#include "../main/retroPolyGon.c"
+//#include "../main/retroPolyGonArray.c"
 
 const char *scroll_text = "Small scroll text demo..... have fun playing with this thing..... ";
 
@@ -104,11 +104,11 @@ void draw_comp_bitmap(struct BitMap *the_bitmap,struct BitMap *the_bitmap_dest, 
 
 static ULONG compositeHookFunc(struct Hook *hook, struct RastPort *rastPort, struct BackFillMessage *msg) {
 
-	struct Window *the_win = video -> window;	
+	struct Window *the_win = engine -> window;	
 
 #ifdef amigaos4
 
-	draw_comp_bitmap(video->rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
+	draw_comp_bitmap(engine -> rp.BitMap, the_win->RPort -> BitMap, video -> width, video -> height,
 		the_win->BorderLeft ,
 		the_win->BorderTop ,
 		the_win->Width - the_win->BorderLeft - the_win->BorderRight,
@@ -138,8 +138,8 @@ static void set_target_hookData( void )
 
 	hookData.srcWidth = video -> width;
 	hookData.srcHeight = video -> height;
-	hookData.offsetX = video -> window->BorderLeft;
-	hookData.offsetY = video -> window->BorderTop;
+	hookData.offsetX = My_Window->BorderLeft;
+	hookData.offsetY = My_Window->BorderTop;
 	hookData.scaleX = COMP_FLOAT_TO_FIX(scaleX);
 	hookData.scaleY = COMP_FLOAT_TO_FIX(scaleY);
 	hookData.retCode = COMPERR_Success;
@@ -153,7 +153,7 @@ static void BackFill_Func(struct RastPort *ArgRP, struct BackFillArgs *MyArgs)
 	set_target_hookData();
 
 //	LockLayer(0,video -> window -> RPort -> Layer);
-	DoHookClipRects(&hook, video -> window -> RPort, &rect);
+	DoHookClipRects(&hook, engine -> window -> RPort, &rect);
 //	UnlockLayer(video -> window -> RPort -> Layer);
 }
 
@@ -212,7 +212,8 @@ bool init()
 
 	if ( ! open_window(640,480) ) return false;
 
-	if ( (video = retroAllocVideo( My_Window )) == NULL ) return false;
+	if ( (video = retroAllocVideo( 640,480 )) == NULL ) return false;
+	if ( (engine = retroAllocEngine(My_Window, video)) == NULL ) return false;
 
 	return TRUE;
 }
@@ -267,7 +268,7 @@ int main()
 		scroll_rp.Font =  My_Window -> RPort -> Font;
 		SetBPen( &scroll_rp, 0 );
 
-		retroClearVideo(video);
+		retroClearVideo(video, 0 );
 		
 		// start set rainbow
 		video -> rainbow[0].color = 5;
@@ -313,15 +314,15 @@ int main()
 			retroScreenColor( screen, 10, 255, 0, 0 );
 			retroScreenColor( screen, 11, 255, 255, 255 );
 
-			retroBoing( screen, 50, 40, 25, 30, 1, 2 );
-			retroBoing( screen, 295, 35, 10, 13, 1, 2 );
+			retroBoing( screen, 0, 50, 40, 25, 30, 1, 2 );
+			retroBoing( screen, 0, 295, 35, 10, 13, 1, 2 );
 		}
 
 		if (screen)	retroApplyScreen( screen, video, 0, 0, 320,200 );
 
 		while (running)
 		{
-			while (msg = (IntuiMessage *) GetMsg( video -> window -> UserPort) )
+			while (msg = (IntuiMessage *) GetMsg( My_Window -> UserPort) )
 			{
 				if (msg -> Class == IDCMP_CLOSEWINDOW) running = false;
 				ReplyMsg( (Message*) msg );
@@ -342,7 +343,7 @@ int main()
 				scrolled_x = 0;
 			}
 
-			retroAndClear(screen, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
+			retroAndClear(screen, 0, 0,0,screen->realWidth,screen->realHeight, ~(4+8+16+32));
 			ScrollRaster( &scroll_rp, scroll_speed, 0, 0, 0, 320, 200);
 
 //			sc = screen;
@@ -355,12 +356,12 @@ int main()
 				for (x=0;x<320;x++)
 				{
 					y = sin(p)*10.0f+20.0f;
-					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, x , y);
+					retroOrBitmapBlit( scroll_rp.BitMap, x,0,1,30, screen, 0, x , y);
 					p+=0.05f;
 				}
 			 }
 
-			retroPolyLine(screen, 3,   10,110,    100,50,   80,150,   10,110,  retroEnd );
+			retroPolyLine(screen, 0, 3,   10,110,    100,50,   80,150,   10,110,  retroEnd );
 
 			debugy = -1;
 
@@ -377,29 +378,29 @@ int main()
 
 				printf("count %d\n", sizeof(array)  / sizeof(int) );
 
-				retroPolyGonArray( screen,  6, sizeof(array)  / sizeof(int), array );
+				retroPolyGonArray( screen,  0, 6, sizeof(array)  / sizeof(int), array );
 			}
 
 
 
-//			retroPolyGon( screen,  6,   150,150,   140,180,   100,180,   50,100,   retroEnd ); // crash from Amos Kittens.
+//			retroPolyGon( screen,  0, 6,   150,150,   140,180,   100,180,   50,100,   retroEnd ); // crash from Amos Kittens.
 
-//			retroPolyGon( screen,  6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
-//	 		retroPolyGon(  screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
+//			retroPolyGon( screen,  0, 6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
+//	 		retroPolyGon(  screen,  0, 5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
 
-//			_retromode_retroPolyGon( IRetroMode, screen,  6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
-//			_retromode_retroPolyGon( IRetroMode, screen,  5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
+//			_retromode_retroPolyGon( IRetroMode, screen,  0, 6,   50,25,   150,50,   140,100,   80,80,    50,25,  retroEnd );
+//			_retromode_retroPolyGon( IRetroMode, screen,  0, 5,  50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
 
 //												p1		p2		p3		p4		p5		p6             p7           p8              p9
 //			IRetroMode->retroPolyLine( screen,   10,   50,150,   100,120,   190,110,   180,190,   160,185 , 160,160 , 100,165,   100,185,   50,150,  retroEnd );
 
 
-			retroClearVideo( video );
+			retroClearVideo( video, 0 );
 			retroDrawVideo( video );
 
 			AfterEffectScanline( video);
 
-			retroDmaVideo(video);
+			retroDmaVideo(video, engine);
 
 			WaitTOF();
 			BackFill_Func(NULL, NULL );
@@ -410,6 +411,12 @@ int main()
 		if (scroll_rp.BitMap) FreeBitMap(scroll_rp.BitMap);
 
 		retroFreeVideo(video);
+
+		if (engine)
+		{
+			retroFreeEngine( engine );
+			engine = NULL;
+		}
 	}
 
 
