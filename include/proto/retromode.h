@@ -20,11 +20,11 @@
 /****************************************************************************/
 
 #ifndef __NOLIBBASE__
- #ifndef __USE_BASETYPE__
-  extern struct Library * RetroModeBase;
+ #if defined(__cplusplus) && defined(__USE_AMIGAOS_NAMESPACE__)
+  extern struct AmigaOS::Library * RetroModeBase;
  #else
   extern struct Library * RetroModeBase;
- #endif /* __USE_BASETYPE__ */
+ #endif
 #endif /* __NOLIBBASE__ */
 
 /****************************************************************************/
@@ -38,7 +38,11 @@
   #define CLIB_RETROMODE_PROTOS_H 1
  #endif /* CLIB_RETROMODE_PROTOS_H */
  #ifndef __NOGLOBALIFACE__
-  extern struct RetroModeIFace *IRetroMode;
+  #if defined(__cplusplus) && defined(__USE_AMIGAOS_NAMESPACE__)
+   extern struct AmigaOS::RetroModeIFace * IRetroMode;
+  #else
+   extern struct RetroModeIFace * IRetroMode;
+  #endif
  #endif /* __NOGLOBALIFACE__ */
 #else /* __amigaos4__ */
  #ifndef CLIB_RETROMODE_PROTOS_H

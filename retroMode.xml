@@ -407,11 +407,13 @@
 		</method>
 		<method name="retroPolyLine" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="color" type="unsigned char"/>
 			<vararg name="arg1" type="int"/>
 		</method>
 		<method name="retroPolyGon" result="void">
 			<arg name="screen" type="struct retroScreen *"/>
+			<arg name="buffer" type="int"/>
 			<arg name="color" type="unsigned char"/>
 			<vararg name="arg1" type="int"/>
 		</method>
